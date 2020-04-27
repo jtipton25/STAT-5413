@@ -71,7 +71,7 @@ where $\boldsymbol{\Sigma}$ is the covariance matrix for the covariance function
 - Instead, for spatial GLMs we add latent Gaussian random effects to the generalized linear model
 
 
-### Generalized linear models (GLMs) for non-spatial data
+## Generalized linear models (GLMs) for non-spatial data
 
 - Primary idea: model
 
@@ -503,7 +503,7 @@ for (i in 2:4) {
 - many, many others
 
 
-### Generalized linear models (GLMs) for spatial data
+## Generalized linear models (GLMs) for spatial data
 
 - Define $\boldsymbol{\eta} \sim GP$ with mean 0 and covariance $\tau^2 C(h)$
 
@@ -659,7 +659,7 @@ if (file.exists("./results/spatial-logistic-regression.RData")) {
 
 ```{r, cache = TRUE}
 ## only plot the regression parameters
-print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))
+print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))  
 
 ## trace plots
 mcmc_trace(fit, regex_pars = c("beta", "tau2", "phi", "lp__"))
@@ -674,10 +674,10 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 
 
 ```{r, cache = TRUE}
-p1 <- ppc_intervals(y, y_rep, x = X[, 2])  
+p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)
-p1 / p2 / p3
+p1 / p2 / p3 
 ```    
 
 #### What if we fit a non-spatial regression?
@@ -718,8 +718,8 @@ Poor coverage when not accounting for the spatial process
 Evidence of model mis-fit
 
 ```{r, cache = TRUE}
-p1 <- ppc_intervals(y, y_rep, x = X[, 2])
-p2 <- ppc_dens_overlay(y, y_rep)
+p1 <- ppc_intervals(y, y_rep, x = X[, 2])  
+p2 <- ppc_dens_overlay(y, y_rep)  
 p3 <- ppc_ecdf_overlay(y, y_rep)  
 p1 / p2 / p3
 ```    
@@ -931,7 +931,7 @@ D <- fields::rdist(locs_full)
 tau2 <- 3.25
 phi <- 1
 Sigma <- tau2 * exp( - D / phi)
-eta_full <- rmvn(1, rep(0, N), Sigma)
+eta_full <- as.vector(mvnfast::rmvn(1, rep(0, N), Sigma))
 
 ## GLM link function
 ## log(lambda) <- X %*% beta
@@ -1066,10 +1066,10 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 ```{r, cache = TRUE}
-p1 <- ppc_intervals(y, y_rep, x = X[, 2])  
+p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)  
-p1 / p2 / p3
+p1 / p2 / p3  
 ```    
 
 #### What if we fit a non-spatial regression?
@@ -1089,7 +1089,7 @@ fit <- stan(
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
-## trace plots
+## trace plots  
 mcmc_trace(fit, regex_pars = c("beta", "lp__"))
 ```
 
@@ -1107,8 +1107,8 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```{r, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
-p3 <- ppc_ecdf_overlay(y, y_rep)
-p1 / p2 / p3
+p3 <- ppc_ecdf_overlay(y, y_rep)   
+p1 / p2 / p3   
 ```    
 
 
@@ -1220,10 +1220,9 @@ for (i in 2:4) {
 }
 ```
 
-## plot the estimated vs. fitted values of eta
+- plot the estimated vs. fitted values of eta
 
 ```{r}
-layout(1)
 eta_idx <- grepl("^eta", colnames(samples[[1]]))
 plot(apply(samples[[1]][, eta_idx], 2, mean), eta)
 for (i in 2:4) {
@@ -1232,7 +1231,7 @@ for (i in 2:4) {
 abline(0, 1, col = "red")
 ```
 
-## plot the estimated vs. fitted values of lambda
+- plot the estimated vs. fitted values of lambda
 
 ```{r}
 lambda_idx <- grepl("lambda", colnames(samples[[1]]))
@@ -1243,7 +1242,7 @@ for (i in 2:4) {
 abline(0, 1, col = "red")
 ```
 
-#### Configure and change the mcmc samplers
+#### Configure and change the mcmc samplers (NIMBLE)
 
 - the default sampler for $\boldsymbol{\eta}$ is a block-Metropolis algorithm which is inefficient for high-dimensional parameters.
 
@@ -1302,7 +1301,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_mcmc)
 if (file.exists("./results/spatial-poisson-nimble-config.RData")) {
   load("./results/spatial-poisson-nimble-config.RData")
 } else {
-  samples <- runMCMC(poisson_mcmc_c, niter = 2000, nchains = 4)
+  samples <- runMCMC(poisson_mcmc_c, niter = 5000, nchains = 4)
   save(samples, file = "./results/spatial-poisson-nimble-config.RData")
 }
 ```
@@ -1335,9 +1334,12 @@ layout(matrix(1:2, 2, 1))
 lambda_idx <- grepl("lambda", colnames(samples[[1]]))
 
 matplot(samples[[1]][, lambda_idx], type = 'l')
-
 plot(apply(samples[[1]][, lambda_idx], 2, mean), lambda)
 abline(0, 1, col = "red")
+for (i in 2:4) {
+  points(apply(samples[[i]][, lambda_idx], 2, mean), lambda, col = i)
+}
+  abline(0, 1, col = "red")  
 ```
 
 
@@ -1349,6 +1351,9 @@ matplot(samples[[1]][, eta_idx], type = 'l')
 
 plot(apply(samples[[1]][, eta_idx], 2, mean), eta)
 abline(0, 1, col = "red")
+for (i in 2:4) {
+  points(apply(samples[[i]][, eta_idx], 2, mean), eta, col = i)
+}
 ```
 
 
