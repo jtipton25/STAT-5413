@@ -651,7 +651,15 @@ p4 <- dat %>%
 ```
 
 
+## Continuous space, continuous time models
 
+- observations in time but not observed at regularly spaced intervals
 
+- $y(\mathbf{s}, t)$ is a GP with mean $\mathbf{X}(\mathbf{s}, t)$ and $Cov(y(\mathbf{s}, t), y(\mathbf{s}', t')) = C(\mathbf{s}, \mathbf{s}', t, t')$
 
+- Often seperability is assumed: $C(\mathbf{s}, \mathbf{s}', t, t') = C_S(\mathbf{s}, \mathbf{s}') C_T(t, t')$
+
+- If the spectral density is seperable then the covariance is seperable
+
+- $Cov(\mathbf{s}, \mathbf{s}', t, t') = \tau^2 \int \int e^{i\omega |\mathbf{s} - \mathbf{s}'|}e^{i\theta |t - t'|} g_S(\omega) g_T(\theta) d\omega d\theta = \tau^2 \int  e^{i\omega |\mathbf{s} - \mathbf{s}'|} g_S(\omega) d\omega \int e^{i\theta |t - t'|}  g_T(\theta)  d\theta = \tau^2 C_S(\mathbf{s}, \mathbf{s}') C_T(t, t')$
 

@@ -507,9 +507,9 @@ for (i in 2:4) {
 
 - Define $\boldsymbol{\eta} \sim GP$ with mean 0 and covariance $\tau^2 C(h)$
 
-- Given $\eta(\mathbf{s})$, the $y(\mathbf{s})$ are independent with g \left( E \left( y(\mathbf{s}) \right) \right) & = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s})
+- Given $\eta(\mathbf{s})$, the $y(\mathbf{s})$ are independent with $g \left( E \left( y(\mathbf{s}) \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s})$
 
-- Marginally over the random effect $\boldymbol{\eta}$ (integrating $\boldsymbol{\eta}$ out of the model), the $\mathbf{y}$ are dependent.
+- Marginally over the random effect $\boldsymbol{\eta}$ (integrating $\boldsymbol{\eta}$ out of the model), the $\mathbf{y}$ are dependent.
 
 - However, the analytic form of the marginal distribution is typically hard to derive.
 
@@ -519,10 +519,8 @@ for (i in 2:4) {
 
 - $E \left( y(\mathbf{s}) \right) = p(\mathbf{s})$
 
-- the link function is $p(\mathbf{s}) = logit \left( E \left( y(\mathbf{s}) \right) \right) = logit \left( \operatorname{Prob} \left( y(\mathbf{s}) = 1 \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + $
+- the link function is $p(\mathbf{s}) = logit \left( E \left( y(\mathbf{s}) \right) \right) = logit \left( \operatorname{Prob} \left( y(\mathbf{s}) = 1 \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s})$
 
-- sometimes a probit link function is used $p(\mathbf{s}) probit \left( E \left( y(\mathbf{s}) \right) \right) = probit \left( \operatorname{Prob} \left( y(\mathbf{s}) = 1 \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta}$    
-- the probit function is $probit(z) = \Phi(z)$ where $\Phi()$ is the standard normal CDF
 
 ```{r}
 N <- 30^2
@@ -1126,6 +1124,9 @@ poisson_code <- nimbleCode({
   }
   tau ~ dgamma(1, 1)
   phi ~ dgamma(1, 1)
+  
+  ## note that you have to be explicit about the variable
+  ## dimensions for each statement
   Sigma[1:n, 1:n] <- tau^2 * exp( - D[1:n, 1:n] / phi)
   # Sigma_chol[1:n, 1:n] <- chol(Sigma[1:n, 1:n])
   
@@ -1135,7 +1136,7 @@ poisson_code <- nimbleCode({
   for (i in 1:n) {
     ## note that you have to be explicit about the variable
     ## dimensions for each statement
-    log(lambda[i]) <- inprod(X[i, 1:q], beta[1:q] + eta[i])
+    log(lambda[i]) <- inprod(X[i, 1:q], beta[1:q]) + eta[i]
     y[i] ~ dpois(lambda[i])
   }
 })
@@ -1222,8 +1223,12 @@ for (i in 2:4) {
 ## plot the estimated vs. fitted values of eta
 
 ```{r}
+layout(1)
 eta_idx <- grepl("^eta", colnames(samples[[1]]))
 plot(apply(samples[[1]][, eta_idx], 2, mean), eta)
+for (i in 2:4) {
+  points(apply(samples[[i]][, eta_idx], 2, mean), eta, col = i)
+}
 abline(0, 1, col = "red")
 ```
 
@@ -1232,10 +1237,13 @@ abline(0, 1, col = "red")
 ```{r}
 lambda_idx <- grepl("lambda", colnames(samples[[1]]))
 plot(apply(samples[[1]][, lambda_idx], 2, mean), lambda)
+for (i in 2:4) {
+  points(apply(samples[[i]][, lambda_idx], 2, mean), lambda, col = i)
+}
 abline(0, 1, col = "red")
 ```
 
-#### Configure the mcmc samplers
+#### Configure and change the mcmc samplers
 
 - the default sampler for $\boldsymbol{\eta}$ is a block-Metropolis algorithm which is inefficient for high-dimensional parameters.
 
@@ -1244,24 +1252,39 @@ poisson_model_config <- configureMCMC(poisson_model)
 poisson_model_config$printSamplers()
 ```
 
-Change the sampler for the latent random effect $\boldsymbol{\eta}$
+Change the sampler for the latent random effect $\boldsymbol{\eta}$ to an elliptical slice sampler
 
 ```{r}
 ## We can block the parameters into small groups
 poisson_model_config$removeSamplers("eta")
-sampling_idx <- cbind(
-  seq(1, n, by = 5),
-  seq(5, n, by = 5)
-)
-head(sampling_idx)
-for (i in 1:nrow(sampling_idx)) {
-  poisson_model_config$addSampler(target = paste0("eta[", sampling_idx[i, 1], ":", sampling_idx[i, 2], "]"), type = "RW_block")
-}
+## Note: the ess algorithm can produce lots of warning outputs. 
+## The settings below limit these outputs
+poisson_model_config$addSampler(target = paste0("eta[1:", n, "]"), type = "ess", control = list(maxContractions = 5000, maxContractionsWarning = FALSE))
 
 poisson_model_config$printSamplers()
 ## monitor the chain for eta and lambda
 poisson_model_config$addMonitors("eta", "lambda")
 ```
+
+<!-- Change the sampler for the latent random effect $\boldsymbol{\eta}$ -->
+
+
+<!-- ```{r} -->
+<!-- ## We can block the parameters into small groups -->
+<!-- poisson_model_config$removeSamplers("eta") -->
+<!-- sampling_idx <- cbind( -->
+<!--   seq(1, n, by = 5), -->
+<!--   seq(5, n, by = 5) -->
+<!-- ) -->
+<!-- head(sampling_idx) -->
+<!-- for (i in 1:nrow(sampling_idx)) { -->
+<!--   poisson_model_config$addSampler(target = paste0("eta[", sampling_idx[i, 1], ":", sampling_idx[i, 2], "]"), type = "RW_block") -->
+<!-- } -->
+
+<!-- poisson_model_config$printSamplers() -->
+<!-- ## monitor the chain for eta and lambda -->
+<!-- poisson_model_config$addMonitors("eta", "lambda") -->
+<!-- ``` -->
 
 Now we can try fitting the MCMC with the new sampler
 
@@ -1279,7 +1302,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_mcmc)
 if (file.exists("./results/spatial-poisson-nimble-config.RData")) {
   load("./results/spatial-poisson-nimble-config.RData")
 } else {
-  samples <- runMCMC(poisson_mcmc_c, niter = 1000, nchains = 4)
+  samples <- runMCMC(poisson_mcmc_c, niter = 2000, nchains = 4)
   save(samples, file = "./results/spatial-poisson-nimble-config.RData")
 }
 ```
@@ -1325,6 +1348,7 @@ eta_idx <- grepl("^eta", colnames(samples[[1]]))
 matplot(samples[[1]][, eta_idx], type = 'l')
 
 plot(apply(samples[[1]][, eta_idx], 2, mean), eta)
+abline(0, 1, col = "red")
 ```
 
 
