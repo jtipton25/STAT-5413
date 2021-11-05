@@ -16,6 +16,8 @@ library(bayesplot)
 
 ## Intro to stan
 
+- See [example here](https://avehtari.github.io/casestudies/Motorcycle/motorcycle_gpcourse.html)
+
 - Needs a c++ compiler toolchain. [See here](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started) for instructions on how to install the `rstan` library
     - instructions for your OS (Windows, MacOC, Linux, and support for different languages, etc. on the bar to the right)
     
@@ -56,7 +58,7 @@ cat(read_lines(here::here("stan_models", "linear-regression.stan")), sep = "\n")
 
 - Fitting the model
 
-```{r, cache = TRUE, message = FALSE}
+```{r linear-model-stan, cache = TRUE, message = FALSE}
 fit <- stan(
     file = here::here("stan_models", "linear-regression.stan"),
     data = list(y = y, n = n, X = X, p = ncol(X)),
@@ -71,7 +73,7 @@ cat(read_lines(here::here("stan_models", "linear-regression-priors.stan")), sep 
 ```
 
 
-```{r, cache = TRUE, message = FALSE}
+```{r linear-model-stan-priors, cache = TRUE, message = FALSE}
 fit_prior <- stan(
     file = here::here("stan_models", "linear-regression-priors.stan"),
     data = list(y = y, n = n, X = X, p = ncol(X)),
@@ -128,23 +130,23 @@ plot_idx <- sample(1:n, 25)
 ppc_data(y, y_rep)
 ```
 
-```{r, cache = TRUE}
+```{r ppc_hist, cache = TRUE}
 ppc_hist(y, y_rep[1:5, ]) ## only use a subset of rows
 ```
 
-```{r, cache = TRUE}
+```{r ppc_intervals, cache = TRUE}
 ppc_intervals(y[plot_idx], y_rep[, plot_idx], x = X[, 2][plot_idx])
 ```
 
-```{r, cache = TRUE}
+```{r ppc_ribbon, cache = TRUE}
 ppc_ribbon(y[plot_idx], y_rep[, plot_idx], x = X[, 2][plot_idx])
 ```
 
-```{r, cache = TRUE}
+```{r ppc_dens, cache = TRUE}
 ppc_dens_overlay(y, y_rep)
 ```
 
-```{r, cache = TRUE}
+```{r ppc_edcf, cache = TRUE}
 ppc_ecdf_overlay(y, y_rep)
 ```
 
@@ -154,11 +156,13 @@ ppc_ecdf_overlay(y, y_rep)
     - max posterior mode, also known as max a posteriori (*MAP*).
     - max penalized likelihood (*MLE*).
 
-```{r}
-model <- stan_model(
-    file = here::here("stan_models", "linear-regression.stan")
-)
+```{r linear-regrssion-opt, cache = TRUE, eval = FALSE}
 
+model <- stan_model(
+    file = here::here("stan_models", "linear-regression-priors.stan")
+)
+# currently this is crashing
+# not sure why
 mle <- optimizing(model, data = list(y = y, n = n, X = X, p = ncol(X)))
 
 print(mle$par[1:3], digits = 4)
@@ -196,7 +200,7 @@ y <- rnorm(n, X %*% beta + eta, sqrt(sigma2))
     - often can get by with much shorter MCMC chains (500-1000 samples -- monitor the effective sample size)
     
 
-```{r, cache = TRUE, message = FALSE}
+```{r stan-spatial, cache = TRUE, message = FALSE}
 fit <- stan(
     file = here::here("stan_models", "spatial-regression.stan"),
     data = list(y = y, n = n, X = X, p = ncol(X), coords = coords),
@@ -242,7 +246,7 @@ knots <- expand.grid(
 )
 ```
 
-```{r, cache = TRUE, message = FALSE}
+```{r stan-spatial-pp, cache = TRUE, message = FALSE}
 fit <- stan(
     file = here::here("stan_models", "predictive-process-regression.stan"),
     data = list(y = y, n = n, X = X, p = ncol(X), 

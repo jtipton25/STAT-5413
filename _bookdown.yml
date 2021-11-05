@@ -2,5 +2,4 @@ book_filename: "STAT-5413"
 delete_merged_file: true
 language:
   ui:
-    chapter_name: ""
-output_dir: "_book"    
+    chapter_name: "Chapter"

@@ -1,5 +1,7 @@
 bookdown::gitbook:
   css: style.css
+  include:
+    after_body: fold.html
   config:
     toc:
       before: |
@@ -8,9 +10,10 @@ bookdown::gitbook:
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
     download: ["pdf", "epub"]
 bookdown::pdf_book:
-  includes:
-    in_header: preamble.tex
   latex_engine: xelatex
+  includes:
+    in_header: 
+      - preamble.tex
   citation_package: natbib
   keep_tex: yes
 bookdown::epub_book: default
