@@ -111,7 +111,7 @@ where $|\rho| < 1$ and $\boldsymbol{\varepsilon}_t = (\varepsilon_t(\mathbf{s}_1
         
         - There are [formal tests](https://www.sciencedirect.com/science/article/abs/pii/S0378375804003210) for separability
     
-```{r}
+```{r spatio-temporal-ar, cache = TRUE}
 set.seed(99)
 n <- 40^2
 T <- 20
@@ -166,6 +166,10 @@ if (!file.exists(here::here("images", "spatio-temporal-ar.gif"))) {
         height = 640, width = 640, units = "px"
     )
 }
+```
+
+
+```{r}
 knitr::include_graphics(here::here("images", "spatio-temporal-ar.gif"))
 
 ```
@@ -252,7 +256,7 @@ knitr::include_graphics(here::here("images", "spatio-temporal-ar.gif"))
     - can use dimension reduction methods to reduce computational cost
     - spatio-temporal Kriging uses conditional multivariate normal distributions
     
-```{r}
+```{r seperable}
 set.seed(99)
 n <- 40^2
 T <- 20
@@ -302,8 +306,11 @@ if (!file.exists(here::here("images", "seperable.gif"))) {
         height = 640, width = 640, units = "px"
     )
 }
-knitr::include_graphics(here::here("images", "seperable.gif"))
 
+```
+
+```{r}
+knitr::include_graphics(here::here("images", "seperable.gif"))
 ```
 
 ### More flexible models
@@ -324,7 +331,7 @@ knitr::include_graphics(here::here("images", "seperable.gif"))
 
         - Let the autocorrelation parameter $\rho{s}$ change over space
         
-```{r}
+```{r spatially-varying-autocorrelation}
 set.seed(99)
 n <- 40^2
 T <- 20
@@ -385,9 +392,13 @@ if (!file.exists(here::here("images", "spatially-varying-rho.gif"))) {
         height = 640, width = 640, units = "px"
     )
 }
-knitr::include_graphics(here::here("images", "spatially-varying-rho.gif"))
+
 ```
 
+
+```{r}
+knitr::include_graphics(here::here("images", "spatially-varying-rho.gif"))
+```
     
 - Nonstationary in time, stationary in space
 
@@ -402,7 +413,7 @@ knitr::include_graphics(here::here("images", "spatially-varying-rho.gif"))
         
         - $logit(\boldsymbol{\delta}) \sim GP$
         
-```{r}
+```{r nonstationary-time}
 set.seed(99)
 n <- 40^2
 T <- 20
@@ -473,6 +484,7 @@ if (!file.exists(here::here("images", "time-varying-rho-delta.gif"))) {
         height = 640, width = 640, units = "px"
     )
 }
+```
 knitr::include_graphics(here::here("images", "time-varying-rho-delta.gif"))
 ```
 

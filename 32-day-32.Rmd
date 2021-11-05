@@ -144,7 +144,7 @@ cat(read_lines("./stan_models/logistic-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r, message = FALSE}
+```{r stan-logistic, message = FALSE}
 if (file.exists("./results/logistic-regression.RData")) {
   load("./results/logistic-regression.RData")
 } else {
@@ -157,7 +157,7 @@ if (file.exists("./results/logistic-regression.RData")) {
 }
 ```
 
-```{r, cache = TRUE}
+```{r stan-logistic-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -309,13 +309,13 @@ logistic_mcmc_c  <- compileNimble(logistic_mcmc, project = logistic_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r}
-if (file.exists("./results/logistic-regression-nimble.RData")) {
-  load("./results/logistic-regression-nimble.RData")
-} else {
+```{r nimble-logistic, cache = TRUE, dependson=-1}
+# if (file.exists("./results/logistic-regression-nimble.RData")) {
+#   load("./results/logistic-regression-nimble.RData")
+# } else {
   samples <- runMCMC(logistic_mcmc_c, niter = 1000, nchains = 4)
-  save(samples, file = "./results/logistic-regression-nimble.RData")
-}
+  # save(samples, file = "./results/logistic-regression-nimble.RData")
+# }
 ```
 
 and examine the traceplots with 
@@ -389,7 +389,7 @@ cat(read_lines("./stan_models/poisson-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r, message = FALSE}
+```{r stan-poisson, message = FALSE}
 if (file.exists("./results/poisson-regression.RData")) {
   load("./results/poisson-regression.RData")
 } else {
@@ -403,7 +403,7 @@ if (file.exists("./results/poisson-regression.RData")) {
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-poisson-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -471,13 +471,13 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r}
-if (file.exists("./results/poisson-regression-nimble.RData")) {
-  load("./results/poisson-regression-nimble.RData")
-} else {
+```{r nimble-poisson, cahce = TRUE, dependson=-1}
+# if (file.exists("./results/poisson-regression-nimble.RData")) {
+#   load("./results/poisson-regression-nimble.RData")
+# } else {
   samples <- runMCMC(poisson_mcmc_c, niter = 1000, nchains = 4)
-  save(samples, file = "./results/poisson-regression-nimble.RData")
-}
+  # save(samples, file = "./results/poisson-regression-nimble.RData")
+# }
 ```
 
 and examine the traceplots with 
@@ -643,21 +643,20 @@ cat(read_lines("./stan_models/spatial-logistic-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r, message = FALSE}
-if (file.exists("./results/spatial-logistic-regression.RData")) {
-  load("./results/spatial-logistic-regression.RData")
-} else {
+```{r stan-spatial-logistic, message = FALSE}
+# if (file.exists("./results/spatial-logistic-regression.RData")) {
+#   load("./results/spatial-logistic-regression.RData")
+# } else {
   fit <- stan(
     file = "./stan_models/spatial-logistic-regression.stan",
     data = list(y = y, n = n, X = X, p = ncol(X), locs = locs),
-    iter = 2000
-  )
-  save(fit, file = "./results/spatial-logistic-regression.RData")
-}
+    iter = 2000)
+  # save(fit, file = "./results/spatial-logistic-regression.RData")
+# }
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-spatial-logistic-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))  
 
@@ -673,7 +672,7 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-spatial-logistic-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)
@@ -684,21 +683,20 @@ p1 / p2 / p3
 
 Fit a non-spatial regression to the spatially correlated data
 
-```{r, message = FALSE}
-if (file.exists("./results/logistic-nonspatial-regression.RData")) {
-  load("./results/logistic-nonspatial-regression.RData")
-} else {
+```{r stan-nonspatial-fit, cache = TRUE, message = FALSE}
+# if (file.exists("./results/logistic-nonspatial-regression.RData")) {
+#   load("./results/logistic-nonspatial-regression.RData")
+# } else {
   fit <- stan(
     file = "./stan_models/logistic-regression.stan",
     data = list(y = y, n = n, X = X, p = ncol(X)),
-    iter = 2000
-  )
-  save(fit, file = "./results/logistic-nonspatial-regression.RData")
-}
+    iter = 2000)
+#   save(fit, file = "./results/logistic-nonspatial-regression.RData")
+# }
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-nonspatial-fit-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -717,7 +715,7 @@ Poor coverage when not accounting for the spatial process
 
 Evidence of model mis-fit
 
-```{r, cache = TRUE}
+```{r stan-nonspatial-fit-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])  
 p2 <- ppc_dens_overlay(y, y_rep)  
 p3 <- ppc_ecdf_overlay(y, y_rep)  
@@ -1035,22 +1033,21 @@ cat(read_lines("./stan_models/spatial-poisson-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r, message = FALSE}
+```{r stan-poisson-spatial, message = FALSE}
 ## for some reason nimble is causing problems with here
-if (file.exists("./results/spatial-poisson-regression.RData")) {
-  load("./results/spatial-poisson-regression.RData")
-} else {
+# if (file.exists("./results/spatial-poisson-regression.RData")) {
+#   load("./results/spatial-poisson-regression.RData")
+# } else {
   fit <- stan(
     file = "./stan_models/spatial-poisson-regression.stan",
     data = list(y = y, n = n, X = X, p = ncol(X), locs = locs),
-    iter = 2000
-  )
-  save(fit, file = "./results/spatial-poisson-regression.RData")
-}
+    iter = 2000)
+#   save(fit, file = "./results/spatial-poisson-regression.RData")
+# }
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-poisson-spatial-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))
 
@@ -1065,7 +1062,7 @@ Posterior predictive checks
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
-```{r, cache = TRUE}
+```{r stan-poisson-spatial-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)  
@@ -1076,16 +1073,15 @@ p1 / p2 / p3
 
 Fit a non-spatial regression to the spatially correlated data
 
-```{r, cache = TRUE, message = FALSE}
+```{r stan-poisson-nospatial, cache = TRUE, message = FALSE}
 fit <- stan(
   file = here::here("stan_models", "poisson-regression.stan"),
   data = list(y = y, n = n, X = X, p = ncol(X)),
-  iter = 2000
-)
+  iter = 2000)
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-poisson-nospatial-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -1104,7 +1100,7 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 
 - Evidence of model mis-fit
 
-```{r, cache = TRUE}
+```{r stan-poisson-nospatial-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)   
@@ -1188,14 +1184,14 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r}
-## note: nimble was causing issues with the here function
-if (file.exists("./results/spatial-poisson-nimble.RData")) {
-  load("./results/spatial-poisson-nimble.RData")
-} else {
+```{r spatial-poisson-nimble, cache = TRUE}
+# ## note: nimble was causing issues with the here function
+# if (file.exists("./results/spatial-poisson-nimble.RData")) {
+#   load("./results/spatial-poisson-nimble.RData")
+# } else {
   samples <- runMCMC(poisson_mcmc_c, niter = 10000, nchains = 4)
-  save(samples, file = "./results/spatial-poisson-nimble.RData")
-}
+#   save(samples, file = "./results/spatial-poisson-nimble.RData")
+# }
 ```
 
 and examine the traceplots with 
@@ -1297,13 +1293,13 @@ poisson_model_c <- compileNimble(poisson_mcmc)
 poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_mcmc)
 ```
 
-```{r}
-if (file.exists("./results/spatial-poisson-nimble-config.RData")) {
-  load("./results/spatial-poisson-nimble-config.RData")
-} else {
+```{r spatial-poisson-nimble-config, cache = TRUE}
+# if (file.exists("./results/spatial-poisson-nimble-config.RData")) {
+#   load("./results/spatial-poisson-nimble-config.RData")
+# } else {
   samples <- runMCMC(poisson_mcmc_c, niter = 5000, nchains = 4)
-  save(samples, file = "./results/spatial-poisson-nimble-config.RData")
-}
+#   save(samples, file = "./results/spatial-poisson-nimble-config.RData")
+# }
 ```
 
 and examine the traceplots with

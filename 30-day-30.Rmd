@@ -233,7 +233,7 @@ the CAR and SAR models](https://www.sciencedirect.com/science/article/abs/pii/S0
 
 - if $\phi = 0$, then the observations are spatially independent
 
-```{r, cache = TRUE}
+```{r car-correlation, cache = TRUE}
 n <- 10^2
 phi <- 0.4
 ## construct a sparse matrix adjacency matrix for a 2-d lattice
@@ -271,7 +271,7 @@ data.frame(phi = phi, rho = rho) %>%
 
 - Plot how the $\phi$ parameter determines the correlation
 
-```{r, cache = TRUE}
+```{r sim_car, cache = TRUE}
 ## simulate some data
 
 simulate_data <- function(n, phi) {
@@ -367,7 +367,7 @@ cat(read_lines(here::here("stan_models", "spatial-car.stan")), sep = "\n")
 
     - note: this is very slow for even moderate sized data
     
-```{r, cache = TRUE, message = FALSE}
+```{r stan-car, cache = TRUE, message = FALSE}
 fit <- stan(
     file = here::here("stan_models", "spatial-car.stan"),
     ## note: convert from a sparse matrix format to regular matrix
@@ -450,7 +450,7 @@ the CAR and SAR models](https://www.sciencedirect.com/science/article/abs/pii/S0
 
 - if $\phi = 0$, then the observations are spatially independent
 
-```{r, cache = TRUE}
+```{r sar-vs-car, cache = TRUE}
 n <- 10^2
 phi <- 0.4
 ## construct a sparse matrix adjacency matrix for a 2-d lattice
@@ -483,7 +483,7 @@ data.frame(phi = phi, rho = rho) %>%
 
 - Plot how the $\phi$ parameter determines the correlation
 
-```{r, cache = TRUE}
+```{r sim-sar, cache = TRUE}
 ## simulate some data
 
 simulate_data <- function(n, phi) {
@@ -578,7 +578,7 @@ cat(read_lines(here::here("stan_models", "spatial-sar.stan")), sep = "\n")
 
     - note: this is very slow for even moderate sized data
     
-```{r, cache = TRUE, message = FALSE}
+```{r stan-sar, cache = TRUE, message = FALSE}
 fit <- stan(
     file = here::here("stan_models", "spatial-sar.stan"),
     ## note: convert from a sparse matrix format to regular matrix
