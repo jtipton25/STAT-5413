@@ -38,9 +38,7 @@ states <- map_data("state")
 states <- states %>%
     subset(!(region %in% c(
         "washington", "oregon", "california", "nevada", "idaho", "utah", 
-        "arizona","montana", "wyoming", "colorado", "new mexico"
-    )
-    )) 
+        "arizona","montana", "wyoming", "colorado", "new mexico"))) 
 
 ## generate map
 NOAA_df_1990 %>%

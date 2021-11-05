@@ -27,8 +27,7 @@ font_add("myfont", here::here("fonts", "Gerry.otf"))
 plot(cars, family = "myfont")
 title(
     main = "This Font is made of \n Gerrymandered Political Districts", 
-    family = "myfont", cex.main = 1.5
-)
+    family = "myfont", cex.main = 1.5)
 ```
 
 ## Files for spatial data
