@@ -1,7 +1,9 @@
-.Rproj.user
 .Rhistory
 .RData
-.Ruserdata
-_bookdown_files/STAT-5413_cache/
-results/*
-stan_models/*.rds
+.Rproj.user
+
+_book/
+_bookdown_files/
+
+STAT-5413_cache/
+STAT-5413_files/
