@@ -634,7 +634,9 @@ gam.check(fit)
 ```
 
 
-```{r}
+```{r, eval = FALSE}
+# not sure why this isn't working on the website
+
 ## generate model predictions
 pred_coords <- as.data.frame(
     expand.grid(
