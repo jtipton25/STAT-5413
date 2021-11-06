@@ -199,7 +199,7 @@ colnames(pred_coords) <- c("lon", "lat")
 
 ## predict using the tuned Matern fit
 preds <- spPredict(
-    fit_m, 
+    fit_e, 
     start = burn.in, 
     thin = 10, 
     pred.coords = cbind(pred_coords$lon, pred_coords$lat), 
@@ -207,15 +207,19 @@ preds <- spPredict(
 )
 
 ## Calculate the prediction means and variances
-pred_coords$pred_mean <- apply(preds$p.y.predictive.samples, 1, mean)
-pred_coords$pred_var <- apply(preds$p.y.predictive.samples, 1, var)
+pred_coords$pred_e_mean <- apply(preds$p.y.predictive.samples, 1, mean)
+pred_coords$pred_e_var <- apply(preds$p.y.predictive.samples, 1, var)
 
 ## calculate 95% credible intervals for the predictions
 pred.summary <- apply(preds$p.y.predictive.samples, 1, function(x) {
     quantile(x, prob = c(0.025, 0.5, 0.975))
 })
+```
 
-ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_mean)) +
+
+```{r spBayes-prediction-exponential-plots, eval = FALSE}
+# not sure why this plot keeps failing...
+ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_e_ean)) +
     geom_raster() +
     geom_polygon(data = states, aes(x = long, y = lat, group = group), 
                  colour = "black", fill = NA) +
@@ -224,7 +228,62 @@ ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_mean)) +
   coord_fixed(xlim = range(dat$lon), ylim = range(dat$lat), ratio = 1.3)
 
 
-ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_var)) +
+ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_e_var)) +
+    geom_raster() +
+    geom_polygon(data = states, aes(x = long, y = lat, group = group), 
+                 colour = "black", fill = NA) +
+    scale_fill_viridis_c(option = "plasma") +
+  ggtitle("Average July max Temperature prediction variance in 1990")  +
+  coord_fixed(xlim = range(dat$lon), ylim = range(dat$lat), ratio = 1.3)
+```
+
+Then we can genereate predictions for the exponential model
+
+```{r spBayes-prediction-matern, cache = TRUE}
+set.seed(2022)
+
+states <- map_data("state")
+
+pred_coords <- as.data.frame(
+    expand.grid(
+        seq(min(dat$lon), max(dat$lon), length = 100), 
+        seq(min(dat$lat), max(dat$lat), length = 100)
+    )
+)
+colnames(pred_coords) <- c("lon", "lat")
+
+## predict using the tuned Matern fit
+preds <- spPredict(
+    fit_m, 
+    start = burn.in, 
+    thin = 10, 
+    pred.coords = cbind(pred_coords$lon, pred_coords$lat), 
+    pred.covars = cbind(1, pred_coords$lon, pred_coords$lat)
+)
+
+## Calculate the prediction means and variances
+pred_coords$pred_m_mean <- apply(preds$p.y.predictive.samples, 1, mean)
+pred_coords$pred_m_var <- apply(preds$p.y.predictive.samples, 1, var)
+
+## calculate 95% credible intervals for the predictions
+pred.summary <- apply(preds$p.y.predictive.samples, 1, function(x) {
+    quantile(x, prob = c(0.025, 0.5, 0.975))
+})
+```
+
+
+```{r spBayes-prediction-exponential-plots, eval = FALSE}
+# not sure why this plot keeps failing...
+ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_m_mean)) +
+    geom_raster() +
+    geom_polygon(data = states, aes(x = long, y = lat, group = group), 
+                 colour = "black", fill = NA) +
+    scale_fill_viridis_c(option = "plasma") +
+  ggtitle("Predicted Average July max Temperature in 1990")  +
+  coord_fixed(xlim = range(dat$lon), ylim = range(dat$lat), ratio = 1.3)
+
+
+ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_m_var)) +
     geom_raster() +
     geom_polygon(data = states, aes(x = long, y = lat, group = group), 
                  colour = "black", fill = NA) +
