@@ -276,7 +276,7 @@ confint(fit)
 
 We can also plot the posterior distribution
 
-```{r}
+```{r, cache = TRUE}
 n_pred <- 1000
 x_pred <- seq(min(iris$Petal.Length), max(iris$Petal.Length), length.out = n_pred)
 y_hat <- t(sapply(1:n_pred, function(i) { samples[, "mu"] + x_pred[i] * samples[, "beta"] }))
