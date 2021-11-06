@@ -409,7 +409,7 @@ mean(X_fourier == 0)
 
     - More degrees of freedom -- more "wiggly" fit -- potential for overfitting
     
-```{r}
+```{r, eval = FALSE}
 ## B-splines
 X_bs <- bs(x, intercept = TRUE, df = 6)
 dat <- data.frame(
@@ -433,7 +433,7 @@ ggplot(data = dat, aes(x = x, y = y)) +
 fit <- lm(y ~ X_bs - 1)
 ```
 
-```{r}
+```{r, eval = FALSE}
 ## plot the basis with fitted coefficients
 dat$fitted_basis <- c(
     sapply(1:ncol(X_bs), function(i) X_bs[, i] * fit$coefficients[i])
@@ -446,7 +446,7 @@ ggplot(data = dat, aes(x = x, y = y)) +
 ```
 
 
-```{r}
+```{r, eval = FALSE}
 ## calculate the fitted function -- the sum of the bases
 dat$mu_hat <- apply(sapply(1:ncol(X_bs), function(i) X_bs[, i] * fit$coefficients[i]), 1, sum)
 
@@ -532,7 +532,7 @@ glimpse(EOFs[, 1:6, ])
 
 Plot the EOFs
 
-```{r}
+```{r, eval = FALSE}
 ggplot(data = EOFs, aes(x = lon, y = lat, fill = EOF1)) +
     geom_raster() +
     scale_fill_viridis_c(option = "magma") +
@@ -543,7 +543,7 @@ ggplot(data = EOFs, aes(x = lon, y = lat, fill = EOF1)) +
     ggtitle("First EOF")
 ```
 
-```{r}
+```{r, eval = FALSE}
 ggplot(data = EOFs, aes(x = lon, y = lat, fill = EOF2)) +
     geom_raster() +
     scale_fill_viridis_c(option = "magma") +
@@ -726,7 +726,9 @@ make_kernel_basis <- function(coords, knots, kernel = "gaussian", bandwith = 1, 
 
 We can plot the kernels over the domain of interest using the code below. Note that it is useful to change the bandwith parameter so that the kernel covers multiple other knots
 
-```{r kenrels, cache = TRUE}
+```{r kenrels, cache = TRUE, eval = FALSE}
+# not sure why this isn't working on the website
+
 coords <- cbind(dat$lon, dat$lat)
 coords_plot <- expand.grid(
     seq(min(dat$lon), max(dat$lon), length = 100), 
@@ -794,7 +796,7 @@ X <- data.frame(X)
 fit <- lm(dat$z ~ ., data = X)
 ```
 
-```{r}
+```{r, eval = FALSE}
 ## generate model predictions
 pred_coords <- as.data.frame(
     expand.grid(
@@ -868,7 +870,7 @@ X_pred <- data.frame(X_pred)
 preds <- predict(fit, newx = as.matrix(X_pred))
 ```
 
-```{r}
+```{r, eval = FALSE}
 dat_pred <- data.frame(
   lon       = pred_coords$lon,
   lat       = pred_coords$lat,
@@ -913,7 +915,7 @@ X_pred <- data.frame(X_pred)
 preds <- predict(fit, newx = as.matrix(X_pred))
 ```
 
-```{r}
+```{r, eval = FALSE}
 dat_pred <- data.frame(
   lon       = pred_coords$lon,
   lat       = pred_coords$lat,
