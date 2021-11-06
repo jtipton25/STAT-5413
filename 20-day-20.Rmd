@@ -39,6 +39,8 @@ dat <- NOAA_df_1990 %>%
 
 
 ```{r spBayes-fit, cache = TRUE}
+set.seed(2022)
+
 n.samples <- 5000
 
 starting <- list(phi = 3/100, sigma.sq = 2, tau.sq = 2)
@@ -69,6 +71,8 @@ fit_e <- spLM(
 The above fits the model. However, sometimes it is hard to "tune" the model to get the desired Metropolis acceptance rate. `spLM` has an option for adaptive MCMC tuning. To enable this option, we add an `amcmc` option. We are also going to change to a Matern covarince function in the next code as well.
 
 ```{r spBayes-adaptive, cache = TRUE}
+set.seed(2022)
+
 n.samples    <- 5000
 batch.length <- 50
 n.batch      <- n.samples / batch.length
@@ -107,6 +111,8 @@ fit_m <- spLM(
 ```
 
 ```{r spBayes-adaptive-tuned, cache = TRUE}
+set.seed(2022)
+
 tuning <- list(phi = 0.5, sigma.sq = 0.38, tau.sq = 0.6, nu = 0.3)
 fit_m <- spLM(
     dat$z ~ dat$lon + dat$lat,
@@ -130,6 +136,8 @@ fit_m <- spLM(
 To get the fitted parameters, we can recover these with composition sampling.
 
 ```{r spBayes-recover, cache = TRUE}
+set.seed(2022)
+
 ## discard the first half of the samples as burn-in
 burn.in <- 0.5 * n.samples
 ## trace plots for the exponential model
@@ -141,6 +149,8 @@ plot(beta.samps, density = FALSE)
 ```
 
 ```{r spBayes-recover-matern, cache = TRUE}
+set.seed(2022)
+
 ## trace plots for the matern model
 fit_m <- spRecover(fit_m, start = burn.in, thin = 2, verbose = FALSE)
 theta.samps <- mcmc.list(fit_m$p.theta.samples, fit_m$p.theta.samples)
@@ -165,6 +175,8 @@ w.summary <- apply(w.samps, 1, function(x) {
 Next we can genereate predictions for the exponential model
 
 ```{r spBayes-prediction-exponential, cache = TRUE}
+set.seed(2022)
+
 states <- map_data("state")
 
 pred_coords <- as.data.frame(
