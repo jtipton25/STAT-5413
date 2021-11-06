@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter1 Day 1 | Notes for STAT 5413 - Spatial Statistics</title>
+  <title>Chapter10 Day 10 | Notes for STAT 5413 - Spatial Statistics</title>
   <meta name="description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
   <meta name="generator" content="bookdown 0.24.3 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter1 Day 1 | Notes for STAT 5413 - Spatial Statistics" />
+  <meta property="og:title" content="Chapter10 Day 10 | Notes for STAT 5413 - Spatial Statistics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter1 Day 1 | Notes for STAT 5413 - Spatial Statistics" />
+  <meta name="twitter:title" content="Chapter10 Day 10 | Notes for STAT 5413 - Spatial Statistics" />
   
   <meta name="twitter:description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="day-2.html"/>
+<link rel="prev" href="day-9.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -247,192 +247,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="day-1" class="section level1">
-<h1><span class="header-section-number">Chapter1</span> Day 1</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="day-1.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<div id="notation" class="section level2">
-<h2><span class="header-section-number">1.1</span> Notation</h2>
-<p>The dimensions of different mathematical objects are very important for the study of spatial statistics. To communicate this, we use the following notation. A scalar random variable is represented by a lowercase alphanumeric letter (<span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span>, etc.), a vector random variable is respresented by a bold lowercase alphanumeric letter (<span class="math inline">\(\mathbf{x}\)</span>, <span class="math inline">\(\mathbf{y}\)</span>, <span class="math inline">\(\mathbf{z}\)</span>, etc.), and a matrix random variable is respresented by a bold uppercase alphanumeric letter (<span class="math inline">\(\mathbf{X}\)</span>, <span class="math inline">\(\mathbf{Y}\)</span>, <span class="math inline">\(\mathbf{Z}\)</span>, etc.). We use a similar notation for parameters as well where scalar parameters are represented by a lowercase Greek letter (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, etc.), a vector parameter is respresented by a bold lowercase Greek letter (<span class="math inline">\(\boldsymbol{\mu}\)</span>, <span class="math inline">\(\boldsymbol{\alpha}\)</span>, <span class="math inline">\(\boldsymbol{\beta}\)</span>, etc.), and a matrix random variable is respresented by a bold uppercase Greek letter (<span class="math inline">\(\boldsymbol{\Sigma}\)</span>, <span class="math inline">\(\boldsymbol{\Psi}\)</span>, <span class="math inline">\(\boldsymbol{\Gamma}\)</span>, etc.).</p>
+<div id="day-10" class="section level1">
+<h1><span class="header-section-number">Chapter10</span> Day 10</h1>
+<div id="announcements-5" class="section level2">
+<h2><span class="header-section-number">10.1</span> Announcements</h2>
 </div>
-<div id="probability-distributions" class="section level2">
-<h2><span class="header-section-number">1.2</span> Probability Distributions</h2>
-<p>We also need notation to explain probability distributions. We use the notation <span class="math inline">\([y]\)</span> to denote the probability density function <span class="math inline">\(p(y)\)</span> of the random variable <span class="math inline">\(y\)</span> and <span class="math inline">\([y|x]\)</span> to denote the probability density function <span class="math inline">\(p(y|x)\)</span> of <span class="math inline">\(y\)</span> given <span class="math inline">\(x\)</span>. For example, if <span class="math inline">\(y\)</span> is a Gaussian random variable with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> we write</p>
-<p><span class="math display">\[\begin{align*}
-[y | \mu, \sigma] &amp; = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left\{-\frac{1}{2 \sigma^2} (y - \mu)^2 \right\}.
-\end{align*}\]</span></p>
-<p>We can also denote that <span class="math inline">\(y\)</span> has a Gaussian (normal) distribution given mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> using the <span class="math inline">\(\sim\)</span> notation</p>
-<p><span class="math display">\[\begin{align*}
-y | \mu, \sigma &amp; \sim \operatorname{N}(\mu, \sigma^2).
-\end{align*}\]</span></p>
-<div id="example-linear-regression" class="section level3">
-<h3><span class="header-section-number">1.2.1</span> Example: linear regression</h3>
-<p><span class="math display">\[\begin{align*}
-\left[y_i | \boldsymbol{\theta} \right] &amp; \sim \operatorname{N}(X_i \beta, \sigma^2) \\
-\boldsymbol{\theta} &amp; = (\beta, \sigma^2)
-\end{align*}\]</span></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="day-1.html#cb2-1"></a><span class="co">## Sample data</span></span>
-<span id="cb2-2"><a href="day-1.html#cb2-2"></a><span class="kw">set.seed</span>(<span class="dv">404</span>)</span>
-<span id="cb2-3"><a href="day-1.html#cb2-3"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span>(<span class="dt">x=</span><span class="kw">runif</span>(<span class="dv">200</span>, <span class="dv">0</span>, <span class="dv">50</span>)),</span>
-<span id="cb2-4"><a href="day-1.html#cb2-4"></a>                  <span class="dt">y=</span><span class="kw">rnorm</span>(<span class="dv">200</span>, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span>x, <span class="dv">100</span>))</span>
-<span id="cb2-5"><a href="day-1.html#cb2-5"></a></span>
-<span id="cb2-6"><a href="day-1.html#cb2-6"></a><span class="co">## breaks: where you want to compute densities</span></span>
-<span id="cb2-7"><a href="day-1.html#cb2-7"></a>breaks &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(dat<span class="op">$</span>x), <span class="dt">len=</span><span class="dv">7</span>)[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">7</span>)]</span>
-<span id="cb2-8"><a href="day-1.html#cb2-8"></a>dat<span class="op">$</span>section &lt;-<span class="st"> </span><span class="kw">cut</span>(dat<span class="op">$</span>x, breaks)</span>
-<span id="cb2-9"><a href="day-1.html#cb2-9"></a></span>
-<span id="cb2-10"><a href="day-1.html#cb2-10"></a><span class="co">## Get the residuals</span></span>
-<span id="cb2-11"><a href="day-1.html#cb2-11"></a>dat<span class="op">$</span>res &lt;-<span class="st"> </span><span class="kw">residuals</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data=</span>dat))</span>
-<span id="cb2-12"><a href="day-1.html#cb2-12"></a></span>
-<span id="cb2-13"><a href="day-1.html#cb2-13"></a><span class="co">## Compute densities for each section, and flip the axes, and add means of sections</span></span>
-<span id="cb2-14"><a href="day-1.html#cb2-14"></a><span class="co">## Note: the densities need to be scaled in relation to the section size (2000 here)</span></span>
-<span id="cb2-15"><a href="day-1.html#cb2-15"></a>ys &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">300</span>, <span class="dv">300</span>, <span class="dt">length =</span> <span class="dv">50</span>)</span>
-<span id="cb2-16"><a href="day-1.html#cb2-16"></a>xs &lt;-<span class="st"> </span><span class="kw">rep</span>(breaks, <span class="dt">each =</span> <span class="dv">50</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1000</span> <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(ys, <span class="dv">0</span>, <span class="dv">100</span>)</span>
-<span id="cb2-17"><a href="day-1.html#cb2-17"></a>res &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">5</span>)</span>
-<span id="cb2-18"><a href="day-1.html#cb2-18"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>) {</span>
-<span id="cb2-19"><a href="day-1.html#cb2-19"></a>  res[, i] &lt;-<span class="st"> </span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>breaks[i] <span class="op">+</span><span class="st"> </span>ys </span>
-<span id="cb2-20"><a href="day-1.html#cb2-20"></a>}</span>
-<span id="cb2-21"><a href="day-1.html#cb2-21"></a>dens &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> xs, <span class="dt">y=</span><span class="kw">c</span>(res), </span>
-<span id="cb2-22"><a href="day-1.html#cb2-22"></a>                   <span class="dt">grouping =</span> <span class="kw">cut</span>(xs, breaks))</span>
-<span id="cb2-23"><a href="day-1.html#cb2-23"></a><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(x, y)) <span class="op">+</span></span>
-<span id="cb2-24"><a href="day-1.html#cb2-24"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb2-25"><a href="day-1.html#cb2-25"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">fill=</span><span class="ot">NA</span>, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb2-26"><a href="day-1.html#cb2-26"></a><span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">data=</span>dens, <span class="kw">aes</span>(x, y, <span class="dt">group =</span> grouping), </span>
-<span id="cb2-27"><a href="day-1.html#cb2-27"></a>            <span class="dt">color=</span><span class="st">&quot;salmon&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb2-28"><a href="day-1.html#cb2-28"></a><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
-<span id="cb2-29"><a href="day-1.html#cb2-29"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span>breaks, <span class="dt">lty=</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="STAT-5413_files/figure-html/unnamed-chunk-2-1.png" width="80%" /></p>
-</div>
-</div>
-<div id="hierarchical-modeling" class="section level2">
-<h2><span class="header-section-number">1.3</span> Hierarchical modeling</h2>
-<ul>
-<li><p>Follow <span class="citation">Berliner (<a href="#ref-berliner1996hierarchical" role="doc-biblioref">1996</a>)</span> framework for hierarchical probability models</p></li>
-<li><p>Model encodes our understanding of the scientific process of interest</p></li>
-<li><p>Model accounts for as much uncertainty as possible</p></li>
-<li><p>Model results in a probability distribution</p>
-<ul>
-<li>Note: nature may be deterministic – often probabilistic models outperform physical models.</li>
-<li>Example: model individual rain drops vs. probability/intensity of rain</li>
-</ul></li>
-<li><p>Update model with data</p></li>
-<li><p>Use the model to generate parameter estimates given data</p></li>
-</ul>
-<div id="bayesian-hierarchical-models-bhms" class="section level3">
-<h3><span class="header-section-number">1.3.1</span> Bayesian Hierarchical models (BHMs)</h3>
-<ul>
-<li><p>Break the model into components:</p>
-<ul>
-<li><p><span style="color: #ff0000"> Data Model. </span></p></li>
-<li><p><span style="color: #0000ff"> Process Model. </span></p></li>
-<li><p><span style="color: #ff7f00"> Parameter Model. </span></p></li>
-</ul></li>
-<li><p>Combined, the <span style="color: #ff0000"> data model, </span> the <span style="color: #0000ff"> process model, </span> and the <span style="color: #ff7f00"> parameter model </span> define a <span style="color: #00ffff"> posterior distribution. </span></p></li>
-</ul>
-<p><span class="math display">\[\begin{align*}
-\color{cyan}{[\mathbf{z}, \boldsymbol{\theta}_D, \boldsymbol{\theta}_P | \mathbf{y}]} &amp; \propto
-\color{red}{[\mathbf{y} | \boldsymbol{\theta}_D, \mathbf{z}]}  \color{blue}{[\mathbf{z} | \boldsymbol{\theta}_P]} \color{orange}{[\boldsymbol{\theta}_D] [\boldsymbol{\theta}_P]}
-\end{align*}\]</span></p>
-</div>
-<div id="empirical-hierarchical-models-ehms" class="section level3">
-<h3><span class="header-section-number">1.3.2</span> Empirical Hierarchical models (EHMs)</h3>
-<ul>
-<li><p>Break the model into components:</p>
-<ul>
-<li><p><span style="color: #ff0000"> Data Model. </span></p></li>
-<li><p><span style="color: #0000ff"> Process Model. </span></p></li>
-<li><p><span style="color: #ff7f00"> Parameter estimates </span> (fixed values) are substituted before fitting the model</p></li>
-</ul></li>
-<li><p>Combined, the <span style="color: #ff0000"> data model and </span> the <span style="color: #0000ff"> process model </span> define a <span style="color: #DDA0DD"> predictive distribution. </span> Thus, numerical evaluation of the <span style="color: #DDA0DD"> predictive distribution </span> is typically required to estimate unceratinty (bootstrap, MLE asymptotics)</p>
-<ul>
-<li>Note: the predictive distribution is not a <span style="color: #00ffff">posterior distribution</span> because the normalizing constant is not known</li>
-</ul></li>
-</ul>
-<p><span class="math display">\[\begin{align*}
-\color{plum}{[\mathbf{z} | \mathbf{y}]} &amp; \propto
-\color{red}{[\mathbf{y} | \boldsymbol{\theta}_D, \mathbf{z}]}  \color{blue}{[\mathbf{z} | \boldsymbol{\theta}_P]}
-\end{align*}\]</span></p>
-</div>
-<div id="data-model" class="section level3">
-<h3><span class="header-section-number">1.3.3</span> Data Model</h3>
-<p><span class="math display">\[\begin{align*}
-\color{red}{[\mathbf{y} | \boldsymbol{\theta}_D, \mathbf{z}]}
-\end{align*}\]</span></p>
-<ul>
-<li><p>Describes how the data are collected and observed.</p></li>
-<li><p>Account for measurement process and uncertainty.</p></li>
-<li><p>Model the data in the manner in which they were collected.</p></li>
-<li><p>Data <span class="math inline">\(\mathbf{y}\)</span>.</p>
-<ul>
-<li><p>Noisy.</p></li>
-<li><p>Expensive.</p></li>
-<li><p>Not what you want to make inference on.</p></li>
-</ul></li>
-<li><p>Latent variables <span class="math inline">\(\mathbf{z}\)</span>.</p>
-<ul>
-<li><p>Think of <span class="math inline">\(\mathbf{z}\)</span> as the ideal data.</p></li>
-<li><p>No measurement error - the exact quantity you want to observe but can’t.</p></li>
-</ul></li>
-<li><p>Data model parameters <span class="math inline">\(\boldsymbol{\theta}_D\)</span>.</p></li>
-</ul>
-</div>
-<div id="process-model" class="section level3">
-<h3><span class="header-section-number">1.3.4</span> Process Model</h3>
-<p><span class="math display">\[\begin{align*}
-\color{blue}{[\mathbf{z} | \boldsymbol{\theta}_P]} 
-\end{align*}\]</span></p>
-<ul>
-<li><p><strong>Where the science happens!</strong></p></li>
-<li><p>Latent process <span class="math inline">\(\mathbf{z}\)</span> is modeled.</p></li>
-<li><p>Can be dynamic in space and/or time</p></li>
-<li><p>Process parameters <span class="math inline">\(\boldsymbol{\theta}_P\)</span>.</p></li>
-<li><p>Virtually all interesting scientific questions can be made with inference about <span class="math inline">\(\mathbf{z}\)</span></p></li>
-</ul>
-</div>
-<div id="parameter-prior-model-bmhs-only" class="section level3">
-<h3><span class="header-section-number">1.3.5</span> Parameter (Prior) Model (BMHs only)</h3>
-<p><span class="math display">\[\begin{align*}
-\color{orange}{[\boldsymbol{\theta}_D] [\boldsymbol{\theta}_P]}
-\end{align*}\]</span></p>
-<ul>
-<li><p>Probability distributions define “reasonable” ranges for parameters.</p></li>
-<li><p>Parameter models are useful for a variety of problems:</p>
-<ul>
-<li><p>Choosing important variables.</p></li>
-<li><p>Preventing over-fitting (regularization).</p></li>
-<li><p>“Pooling” estimates across categories.</p></li>
-</ul></li>
-</ul>
-</div>
-<div id="posterior-distribution" class="section level3">
-<h3><span class="header-section-number">1.3.6</span> Posterior Distribution</h3>
-<p><span class="math display">\[\begin{align*}
-\color{cyan}{[\mathbf{z}, \boldsymbol{\theta}_D, \boldsymbol{\theta}_P | \mathbf{y}]} &amp; \propto
-[\mathbf{y} | \boldsymbol{\theta}_D, \mathbf{z}] [\mathbf{z} | \boldsymbol{\theta}_P] [\boldsymbol{\theta}_D] [\boldsymbol{\theta}_P]
-\end{align*}\]</span></p>
-<ul>
-<li><p>Probability distribution over all unknowns in the model.</p></li>
-<li><p>Inference is made using the posterior distribution.</p></li>
-<li><p>Because the posterior distribution is a probability distribution (BHMs), uncertainty is easy to calculate. This is not true for EHMs.</p></li>
-</ul>
-</div>
-<div id="scientifically-motivated-statistical-modeling" class="section level3">
-<h3><span class="header-section-number">1.3.7</span> Scientifically Motivated Statistical Modeling</h3>
-<ul>
-<li><p>Criticize the model</p></li>
-<li><p>Does the model fit the data well?</p></li>
-<li><p>Do the predictions make sense?</p></li>
-<li><p>Are there subsets of the data that don’t fit the model well?</p></li>
-<li><p>Make inference using the model.</p></li>
-<li><p>If the model fits the data, use the model fit for prediction or inference.</p></li>
-</ul>
+<div id="asymptotic-properties-of-the-mle-1" class="section level2">
+<h2><span class="header-section-number">10.2</span> Asymptotic properties of the MLE</h2>
 
-</div>
-</div>
-</div>
-<h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-berliner1996hierarchical">
+<div>
 <p>Berliner, L Mark. 1996. “Hierarchical Bayesian Time Series Models.” In <em>Maximum Entropy and Bayesian Methods</em>, 15–22. Springer.</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -470,8 +297,8 @@ $(document).ready(function() {
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="day-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="day-9.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
