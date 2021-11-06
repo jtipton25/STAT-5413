@@ -554,7 +554,7 @@ Lets animate the _NOAA_df_1990_ dataset
 data("NOAA_df_1990", package = "STRbook")
 ```
 
-```{r}
+```{r, cache = TRUE}
 ## 48 unique months and years
 month_year <- NOAA_df_1990 %>%
     subset(day == 1 & id == 3804 & proc == "Tmax") %>%
@@ -618,7 +618,7 @@ knitr::include_graphics(here::here("images", "NOAA_df_1990-animation.gif"))
 
 ### Interactive plotting using _plotly_
 
-```{r, message = FALSE}
+```{r, cache = TRUE, message = FALSE}
 library(plotly)
 ## Plot Tmax for June 1991
 p <- NOAA_df_1990 %>%
