@@ -38,7 +38,7 @@ dat <- NOAA_df_1990 %>%
 ```
 
 
-```{r, cache = TRUE}
+```{r spBayes-fit, cache = TRUE}
 n.samples <- 5000
 
 starting <- list(phi = 3/100, sigma.sq = 2, tau.sq = 2)
@@ -68,7 +68,7 @@ fit_e <- spLM(
 
 The above fits the model. However, sometimes it is hard to "tune" the model to get the desired Metropolis acceptance rate. `spLM` has an option for adaptive MCMC tuning. To enable this option, we add an `amcmc` option. We are also going to change to a Matern covarince function in the next code as well.
 
-```{r, cache = TRUE}
+```{r spBayes-adaptive, cache = TRUE}
 n.samples    <- 5000
 batch.length <- 50
 n.batch      <- n.samples / batch.length
@@ -106,7 +106,7 @@ fit_m <- spLM(
 ## can update the initial tuning parameters given the adapted values
 ```
 
-```{r, cache = TRUE}
+```{r spBayes-adaptive-tuned, cache = TRUE}
 tuning <- list(phi = 0.5, sigma.sq = 0.38, tau.sq = 0.6, nu = 0.3)
 fit_m <- spLM(
     dat$z ~ dat$lon + dat$lat,
@@ -129,7 +129,7 @@ fit_m <- spLM(
 
 To get the fitted parameters, we can recover these with composition sampling.
 
-```{r, cache = TRUE}
+```{r spBayes-recover, cache = TRUE}
 ## discard the first half of the samples as burn-in
 burn.in <- 0.5 * n.samples
 ## trace plots for the exponential model
@@ -140,7 +140,7 @@ beta.samps <- mcmc.list(fit_e$p.beta.recover.samples, fit_e$p.beta.recover.sampl
 plot(beta.samps, density = FALSE)
 ```
 
-```{r, cache = TRUE}
+```{r spBayes-recover-matern, cache = TRUE}
 ## trace plots for the matern model
 fit_m <- spRecover(fit_m, start = burn.in, thin = 2, verbose = FALSE)
 theta.samps <- mcmc.list(fit_m$p.theta.samples, fit_m$p.theta.samples)
@@ -164,7 +164,7 @@ w.summary <- apply(w.samps, 1, function(x) {
 
 Next we can genereate predictions for the exponential model
 
-```{r, cache = TRUE}
+```{r spBayes-prediction-exponential, cache = TRUE}
 states <- map_data("state")
 
 pred_coords <- as.data.frame(
@@ -642,7 +642,7 @@ make_kernel_basis <- function(coords, knots, kernel = "gaussian", bandwith = 1, 
 
 We can plot the kernels over the domain of interest using the code below. Note that it is useful to change the bandwith parameter so that the kernel covers multiple other knots
 
-```{r, cache = TRUE}
+```{r kenrels, cache = TRUE}
 coords <- cbind(dat$lon, dat$lat)
 coords_plot <- expand.grid(
     seq(min(dat$lon), max(dat$lon), length = 100), 
@@ -891,7 +891,7 @@ curve(wendland_basis(abs(x - 0.75), radius = 0.5), n = 1000)
 
 - compute time of $\mathbf{X}' \mathbf{X}$ for dense vs. sparse matrices
 
-```{r, cache = TRUE}
+```{r sparse-kernels, cache = TRUE}
 coords <- as.data.frame(
     expand.grid(
         seq(min(dat$lon), max(dat$lon), length = 50), 

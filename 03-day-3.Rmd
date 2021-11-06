@@ -18,12 +18,11 @@ library(sp)
 
 [https://uglygerry.com/](https://uglygerry.com/)
 
-```{r}
+```{r gerrymander, fig.showtext=TRUE, fig.width=7, fig.height=7, cache = TRUE}
 library(showtext)
 font_add("myfont", here::here("fonts", "Gerry.otf"))
-```
+showtext_auto()
 
-```{r gerrymander, fig.showtext=TRUE, fig.width=7, fig.height=7, cache = TRUE}
 plot(cars, family = "myfont")
 title(
     main = "This Font is made of \n Gerrymandered Political Districts", 

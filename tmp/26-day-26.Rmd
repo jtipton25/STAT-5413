@@ -145,7 +145,7 @@ to greatly reduce computation time.
 
 - This is commonly called "tensor products" or "tensor multiplication" -- Google's Tensorflow
 
-```{r, cache = TRUE}
+```{r kronecker-benchmark, cache = TRUE}
 all.equal(
     kronecker(chol(Sigma_p), chol(R_n)),
     chol(kronecker(Sigma_p, R_n))
@@ -162,7 +162,7 @@ bm
 plot(bm)
 ```
 
-```{r, cache = TRUE, dependson = -2}
+```{r kronecker-vector, cache = TRUE}
 ## Note: this is slow
 # w <- c(mvnfast::rmvn(1, rep(0, n*p), kronecker(Sigma_p, R_n))) 
  
@@ -322,7 +322,7 @@ ggcorr(data = NULL, cor_matrix = cov2cor(A %*% t(A)), label = TRUE) +
 ```
 
 
-```{r, cache = TRUE, dependson = -2}
+```{r generate-correlation-seperable, cache = TRUE}
 y <- rep(0, n*p)
 for (j in 1:p) {
     idx <- 1:n + (j-1) * n
@@ -462,7 +462,7 @@ g500 <- ggcorr(data = NULL, cor_matrix = cov2cor(A[, , 500] %*% t(A[, , 500])), 
 ```
 
 
-```{r, cache = TRUE, dependson = -2}
+```{r generate-spatially-varying-correlation, cache = TRUE}
 y <- rep(0, n*p)
 for (j in 1:p) {
     idx <- (j-1) * n

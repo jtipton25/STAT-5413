@@ -4,7 +4,7 @@
 
 ## Introduction to MCMC
 
-```{r, include = FALSE, cache = FALSE}
+```{r, include = FALSE}
 library(knitr)
 options(replace.assign=TRUE,width=60)
 options(digits=4)
@@ -276,7 +276,7 @@ confint(fit)
 
 We can also plot the posterior distribution
 
-```{r, cache = TRUE}
+```{r posterior-linear-regression, cache = TRUE}
 n_pred <- 1000
 x_pred <- seq(min(iris$Petal.Length), max(iris$Petal.Length), length.out = n_pred)
 y_hat <- t(sapply(1:n_pred, function(i) { samples[, "mu"] + x_pred[i] * samples[, "beta"] }))

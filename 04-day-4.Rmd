@@ -3,6 +3,7 @@
 ```{r, message = FALSE}
 library(tidyverse)
 library(mapproj)
+library(plotly)
 ```
 
 ## Announcements
@@ -552,18 +553,23 @@ Lets animate the _NOAA_df_1990_ dataset
 
 ```{r}
 data("NOAA_df_1990", package = "STRbook")
+glimpse(NOAA_df_1990)
 ```
 
-```{r NOAA_df_1990_animation, cache=TRUE}
+```{r NOAA_df_1990_animation, cache=TRUE, eval = TRUE}
+# not sure why this is throwing an error...
+
+# see if this is a namespace issue
+
 ## 48 unique months and years
 month_year <- NOAA_df_1990 %>%
-    subset(day == 1 & id == 3804 & proc == "Tmax") %>%
-    select(month, year)
+    filter(day == 1 & id == 3804 & proc == "Tmax") %>%
+    dplyr::select(month, year)
 
 ## limits of the temperature range
 zlim <- NOAA_df_1990 %>%
-    subset(proc == "Tmax") %>%
-    select(z) %>%
+    filter(proc == "Tmax") %>%
+    dplyr::select(z) %>%
     range()
 
 ## Only plot the states with data
@@ -610,17 +616,24 @@ if (!file.exists(here::here("images", "NOAA_df_1990-animation.gif"))) {
 }
 ```
 
-```{r}
+```{r, eval = FALSE}
 knitr::include_graphics(here::here("images", "NOAA_df_1990-animation.gif"))
 ```
 
 ### Interactive plotting using _plotly_
 
 ```{r NOAA_df_1990_plotly, cache = TRUE, message = FALSE}
-library(plotly)
+# use the plotly library
+
+## limits of the temperature range
+zlim <- NOAA_df_1990 %>%
+    filter(proc == "Tmax") %>%
+    dplyr::select(z) %>%
+    range()
+
 ## Plot Tmax for June 1991
 p <- NOAA_df_1990 %>%
-    subset(
+    filter(
         day == 1 & proc == "Tmax" & 
             month == "6" & 
             year == "1991"

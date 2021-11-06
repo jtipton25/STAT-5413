@@ -173,7 +173,7 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-logistic-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep) 
 p3 <- ppc_ecdf_overlay(y, y_rep)   
@@ -419,7 +419,7 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 
-```{r, cache = TRUE}
+```{r stan-poisson-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)  
 p3 <- ppc_ecdf_overlay(y, y_rep)  

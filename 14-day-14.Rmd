@@ -6,7 +6,7 @@
 
 
 <!-- Set some knitr options -->
-```{r, include = FALSE, cache = FALSE}
+```{r, include = FALSE}
 library(knitr)
 options(replace.assign=TRUE,width=60)
 opts_chunk$set(tidy=FALSE)
