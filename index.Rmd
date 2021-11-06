@@ -13,6 +13,12 @@ site: bookdown::bookdown_site
 biblio-style: apalike
 ---
 
+```{r, echo = FALSE}
+# try and resolve weird build issue
+hrbrthemes::import_roboto_condensed()
+extrafont::font_import(prompt = FALSE)
+```
+
 # Preface {-}
 
 These are the lecture notes for STAT 5413 Fall 2020.
