@@ -47,6 +47,7 @@ dat <- NOAA_df_1990 %>%
     left_join(dat, by = "id_factor") 
 ```
 
+First we fit the `spBayes` model using an exponential covariance function.
 
 ```{r spBayes-fit, cache = TRUE}
 set.seed(2022)
@@ -272,7 +273,7 @@ pred.summary <- apply(preds$p.y.predictive.samples, 1, function(x) {
 ```
 
 
-```{r spBayes-prediction-exponential-plots, eval = FALSE}
+```{r spBayes-prediction-matern-plots, eval = FALSE}
 # not sure why this plot keeps failing...
 ggplot(data = pred_coords, aes(x = lon, y = lat, fill = pred_m_mean)) +
     geom_raster() +
