@@ -409,7 +409,7 @@ mean(X_fourier == 0)
 
     - More degrees of freedom -- more "wiggly" fit -- potential for overfitting
     
-```{r, eval = FALSE}
+```{r}
 ## B-splines
 X_bs <- bs(x, intercept = TRUE, df = 6)
 dat <- data.frame(
@@ -419,7 +419,9 @@ dat <- data.frame(
     X_bs  = c(X_bs),
     basis = factor(rep(1:ncol(X_bs), each = n))
 )
+```
 
+```{r, eval = FALSE}
 ggplot(data = dat, aes(x = x, y = y)) +
     # geom_point() +
     geom_line(aes(x = x, y = X_bs, group = basis, color = basis)) +
