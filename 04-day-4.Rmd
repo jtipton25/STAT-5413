@@ -554,11 +554,10 @@ Lets animate the _NOAA_df_1990_ dataset
 data("NOAA_df_1990", package = "STRbook")
 ```
 
-```{r, cache = TRUE}
+```{r NOAA_df_1990_animation, cache=TRUE}
 ## 48 unique months and years
 month_year <- NOAA_df_1990 %>%
     subset(day == 1 & id == 3804 & proc == "Tmax") %>%
-    # group_by(year, month) %>%
     select(month, year)
 
 ## limits of the temperature range
@@ -572,8 +571,7 @@ states <- map_data("state")
 states <- states %>%
     subset(!(region %in% c(
         "washington", "oregon", "california", "nevada", "idaho", "utah", 
-        "arizona","montana", "wyoming", "colorado", "new mexico"
-    ))) 
+        "arizona","montana", "wyoming", "colorado", "new mexico"))) 
 
 ## generate a plotting function
 make_plot <- function() {
@@ -618,7 +616,7 @@ knitr::include_graphics(here::here("images", "NOAA_df_1990-animation.gif"))
 
 ### Interactive plotting using _plotly_
 
-```{r, cache = TRUE, message = FALSE}
+```{r NOAA_df_1990_plotly, cache = TRUE, message = FALSE}
 library(plotly)
 ## Plot Tmax for June 1991
 p <- NOAA_df_1990 %>%

@@ -235,7 +235,7 @@ Note this equation is now just a function of $\boldsymbol{\theta}$.
 
 * Computational complexity -- both the log-likelihood and the profile log-likelihood requre the determinant and inverse of the $n \times n$ covariance matrix $\boldsymbol{\Sigma}(\boldsymbol{\theta})$ which require $O(n^3)$ time
 
-```{r, cache = TRUE}
+```{r computational-complexity, cache = TRUE}
 if (!file.exists(here::here("results", "matrix-inverse-timings.RData"))) {
     n <- c(10, 20, 50, 100, 200, 250, 350, 500, 600, 700, 800, 900, 1000, 1250, 1500)
     timings <- rep(0, length(n))
