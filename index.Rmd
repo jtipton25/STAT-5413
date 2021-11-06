@@ -15,8 +15,8 @@ biblio-style: apalike
 
 ```{r, echo = FALSE}
 # try and resolve weird build issue
-hrbrthemes::import_roboto_condensed()
-extrafont::font_import(prompt = FALSE)
+# hrbrthemes::import_roboto_condensed()
+# extrafont::font_import(prompt = FALSE)
 ```
 
 # Preface {-}
