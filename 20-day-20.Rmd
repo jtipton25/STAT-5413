@@ -13,6 +13,16 @@ library(glmnet)
 library(microbenchmark)
 ```
 
+```{r, echo = FALSE, cache = TRUE}
+# trying to resolve strange plotting issue on gitHub Actions
+# Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+#   polygon edge not found
+# Calls: local ... <Anonymous> -> heightDetails -> heightDetails.text -> grid.Call
+
+library(extrafont)
+extrafont::font_import(prompt = FALSE)
+```
+
 ## Announcements
 
 
