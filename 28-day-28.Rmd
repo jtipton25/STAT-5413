@@ -83,7 +83,7 @@ fit_prior <- stan(
 
 - examine the output from the MCMC fit
 
-```{r}
+```{r linear-model-plots, cache=TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "sigma", "lp__"))
 

@@ -309,7 +309,7 @@ logistic_mcmc_c  <- compileNimble(logistic_mcmc, project = logistic_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r nimble-logistic, cache = TRUE, dependson=-1}
+```{r nimble-logistic, cache = TRUE}
 # if (file.exists("./results/logistic-regression-nimble.RData")) {
 #   load("./results/logistic-regression-nimble.RData")
 # } else {
@@ -356,7 +356,7 @@ for (i in 2:4) {
 
 - $Cov(y(\mathbf{s}), y(\mathbf{s}'))$ is more complicated
 
-```{r}
+```{r, eval = FALSE}
 n <- 500
 X <- cbind(1, rnorm(n))
 beta <- c(-2, 1.5)
@@ -389,7 +389,7 @@ cat(read_lines("./stan_models/poisson-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r stan-poisson, message = FALSE}
+```{r stan-poisson, message = FALSE, eval = FALSE}
 if (file.exists("./results/poisson-regression.RData")) {
   load("./results/poisson-regression.RData")
 } else {
@@ -403,7 +403,7 @@ if (file.exists("./results/poisson-regression.RData")) {
 ```
 
 
-```{r stan-poisson-results, cache = TRUE}
+```{r stan-poisson-results, cache = TRUE, eval = FALSE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -413,13 +413,13 @@ mcmc_trace(fit, regex_pars = c("beta", "lp__"))
 
 Posterior predictive checks
 
-```{r}
+```{r, eval = FALSE}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 
-```{r stan-poisson-ppc, cache = TRUE}
+```{r stan-poisson-ppc, cache = TRUE, eval=FALSE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)  
 p3 <- ppc_ecdf_overlay(y, y_rep)  
@@ -430,7 +430,7 @@ p1 / p2 / p3
 
 - we need to define a nimble model
 
-```{r}
+```{r, eval=FALSE}
 poisson_code <- nimbleCode({
   ## prior for regression parameters beta
   for (j in 1:q) {
@@ -471,7 +471,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r nimble-poisson, cahce = TRUE, dependson=-1}
+```{r nimble-poisson, cache = TRUE, eval=FALSE}
 # if (file.exists("./results/poisson-regression-nimble.RData")) {
 #   load("./results/poisson-regression-nimble.RData")
 # } else {
@@ -482,7 +482,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 and examine the traceplots with 
 
-```{r}
+```{r, eval=FALSE}
 layout(matrix(1:2, 2, 1))
 plot(samples[[1]][, "beta[1]"], col = 1, type = 'l', main = "beta_0")
 for (i in 2:4) {
@@ -522,7 +522,7 @@ for (i in 2:4) {
 - the link function is $p(\mathbf{s}) = logit \left( E \left( y(\mathbf{s}) \right) \right) = logit \left( \operatorname{Prob} \left( y(\mathbf{s}) = 1 \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s})$
 
 
-```{r}
+```{r, eval=FALSE}
 N <- 30^2
 locs_full <- expand.grid(
   seq(0, 1, length.out = sqrt(N)),
@@ -578,7 +578,7 @@ p4 <- ggplot(dat, aes(x = x, y = y, fill = eta)) +
 
 subset the data to represent an observation process
 
-```{r}
+```{r, eval=FALSE}
 ## using 
 n <- 200
 idx <- sample(N, n)
@@ -596,14 +596,14 @@ ggplot(dat_obs, aes(x = x, y = y, fill = z)) +
   ggtitle("Observed presence/absence")
 ```
 
-```{r}
+```{r, eval=FALSE}
 dat_fit <- data.frame(y = y, covariate = X[, 2], lon = locs$lon, lat = locs$lat)
 ## fit logistic regression using mgcv
 mod <- gam(y ~ covariate + s(lon, lat), family = binomial(link = "logit"), data = dat_fit)
 summary(mod)
 ```
 
-```{r}
+```{r, eval=FALSE}
 preds <- predict(mod, newdata = data.frame(covariate = X_full[, 2], lon = locs_full$lon, lat = locs_full$lat), se.fit = TRUE, type = "response")
 dat_plot <- data.frame(
   lon     = locs_full$lon, 
@@ -643,7 +643,7 @@ cat(read_lines("./stan_models/spatial-logistic-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r stan-spatial-logistic, message = FALSE}
+```{r stan-spatial-logistic, message = FALSE, eval=FALSE}
 # if (file.exists("./results/spatial-logistic-regression.RData")) {
 #   load("./results/spatial-logistic-regression.RData")
 # } else {
@@ -656,7 +656,7 @@ cat(read_lines("./stan_models/spatial-logistic-regression.stan"), sep = "\n")
 ```
 
 
-```{r stan-spatial-logistic-results, cache = TRUE}
+```{r stan-spatial-logistic-results, cache = TRUE, eval=FALSE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))  
 
@@ -666,13 +666,13 @@ mcmc_trace(fit, regex_pars = c("beta", "tau2", "phi", "lp__"))
 
 Posterior predictive checks
 
-```{r}
+```{r, eval=FALSE}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 
-```{r stan-spatial-logistic-ppc, cache = TRUE}
+```{r stan-spatial-logistic-ppc, cache = TRUE, eval=FALSE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)
@@ -683,7 +683,7 @@ p1 / p2 / p3
 
 Fit a non-spatial regression to the spatially correlated data
 
-```{r stan-nonspatial-fit, cache = TRUE, message = FALSE}
+```{r stan-nonspatial-fit, cache = TRUE, message = FALSE, eval=FALSE}
 # if (file.exists("./results/logistic-nonspatial-regression.RData")) {
 #   load("./results/logistic-nonspatial-regression.RData")
 # } else {
@@ -696,7 +696,7 @@ Fit a non-spatial regression to the spatially correlated data
 ```
 
 
-```{r stan-nonspatial-fit-results, cache = TRUE}
+```{r stan-nonspatial-fit-results, cache = TRUE, eval=FALSE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -706,7 +706,7 @@ mcmc_trace(fit, regex_pars = c("beta", "lp__"))
 
 Posterior predictive checks
 
-```{r}
+```{r, eval=FALSE}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
@@ -715,7 +715,7 @@ Poor coverage when not accounting for the spatial process
 
 Evidence of model mis-fit
 
-```{r stan-nonspatial-fit-ppc, cache = TRUE}
+```{r stan-nonspatial-fit-ppc, cache = TRUE, eval=FALSE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])  
 p2 <- ppc_dens_overlay(y, y_rep)  
 p3 <- ppc_ecdf_overlay(y, y_rep)  
@@ -911,13 +911,12 @@ p1 / p2 / p3
 - the link function is $\log( \lambda_i) = log \left( E \left( y_i \right) \right) = \mathbf{X}_i \boldsymbol{\beta}$
 
 
-```{r}
+```{r, eval=FALSE}
 set.seed(100)
 N <- 30^2
 locs_full <- expand.grid(
   seq(0, 1, length.out = sqrt(N)),
-  seq(0, 1, length.out = sqrt(N))
-)
+  seq(0, 1, length.out = sqrt(N)))
 colnames(locs_full) <- c("lon", "lat")
 
 ## fixed effects
@@ -941,8 +940,7 @@ dat <- data.frame(
   z      = y_full, 
   lambda = lambda_full, 
   Xbeta  = Xbeta, 
-  eta    = eta_full
-)
+  eta    = eta_full)
 ## using patchwork plots
 p1 <- ggplot(dat, aes(x = x, y = y, fill = z)) + 
   geom_raster() +
@@ -966,7 +964,7 @@ p4 <- ggplot(dat, aes(x = x, y = y, fill = eta)) +
 
 subset the data to represent an observation process
 
-```{r}
+```{r, eval=FALSE}
 ## using 
 n <- 200
 idx <- sample(N, n)
@@ -978,22 +976,21 @@ eta <- eta_full[idx]
 dat_obs <- data.frame(
   x      = locs[, 1], 
   y      = locs[, 2], 
-  z      = y
-)
+  z      = y)
 
 ggplot(dat_obs, aes(x = x, y = y, fill = z)) +
   geom_tile() +
   ggtitle("Observed counts")
 ```
 
-```{r}
+```{r, eval=FALSE}
 dat_fit <- data.frame(y = y, covariate = X[, 2], lon = locs$lon, lat = locs$lat)
 ## fit spatial poisson regression using mgcv
 mod <- gam(y ~ covariate + s(lon, lat), family = poisson(link = "log"), data = dat_fit)
 summary(mod)
 ```
 
-```{r}
+```{r, eval=FALSE}
 preds <- predict(mod, newdata = data.frame(covariate = X_full[, 2], lon = locs_full$lon, lat = locs_full$lat), se.fit = TRUE, type = "response")
 dat_plot <- data.frame(
   lon     = locs_full$lon, 
@@ -1001,8 +998,7 @@ dat_plot <- data.frame(
   lambda  = c(lambda_full),
   y       = y_full,
   y_pred  = preds$fit,
-  sd_pred = preds$se.fit
-)
+  sd_pred = preds$se.fit)
 zlims <- range(range(lambda), range(preds$fit))
 p1 <- ggplot(data = dat_plot, aes(x = lon, y = lat, fill = lambda)) +
   geom_raster() +
@@ -1033,7 +1029,7 @@ cat(read_lines("./stan_models/spatial-poisson-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r stan-poisson-spatial, message = FALSE}
+```{r stan-poisson-spatial, message = FALSE, eval=FALSE}
 ## for some reason nimble is causing problems with here
 # if (file.exists("./results/spatial-poisson-regression.RData")) {
 #   load("./results/spatial-poisson-regression.RData")
@@ -1047,7 +1043,7 @@ cat(read_lines("./stan_models/spatial-poisson-regression.stan"), sep = "\n")
 ```
 
 
-```{r stan-poisson-spatial-results, cache = TRUE}
+```{r stan-poisson-spatial-results, cache = TRUE, eval=FALSE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))
 
@@ -1057,12 +1053,12 @@ mcmc_trace(fit, regex_pars = c("beta", "tau2", "phi", "lp__"))
 
 Posterior predictive checks
 
-```{r}
+```{r, eval=FALSE}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
-```{r stan-poisson-spatial-ppc, cache = TRUE}
+```{r stan-poisson-spatial-ppc, cache = TRUE, eval=FALSE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)  
@@ -1073,7 +1069,7 @@ p1 / p2 / p3
 
 Fit a non-spatial regression to the spatially correlated data
 
-```{r stan-poisson-nospatial, cache = TRUE, message = FALSE}
+```{r stan-poisson-nospatial, cache = TRUE, message = FALSE, eval=FALSE}
 fit <- stan(
   file = here::here("stan_models", "poisson-regression.stan"),
   data = list(y = y, n = n, X = X, p = ncol(X)),
@@ -1081,7 +1077,7 @@ fit <- stan(
 ```
 
 
-```{r stan-poisson-nospatial-results, cache = TRUE}
+```{r stan-poisson-nospatial-results, cache = TRUE, eval=FALSE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -1091,7 +1087,7 @@ mcmc_trace(fit, regex_pars = c("beta", "lp__"))
 
 Posterior predictive checks
 
-```{r}
+```{r, eval=FALSE}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
@@ -1100,7 +1096,7 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 
 - Evidence of model mis-fit
 
-```{r stan-poisson-nospatial-ppc, cache = TRUE}
+```{r stan-poisson-nospatial-ppc, cache = TRUE, eval=FALSE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)   
@@ -1112,7 +1108,7 @@ p1 / p2 / p3
 
 - we need to define a nimble model
 
-```{r}
+```{r, eval=FALSE}
 poisson_code <- nimbleCode({
   ## prior for regression parameters beta
   for (j in 1:q) {
@@ -1166,7 +1162,7 @@ Sys.unsetenv("PKG_CXXFLAGS")
 
 Next, we make sure the model is configured 
 
-```{r}
+```{r, eval=FALSE}
 poisson_model_config <- configureMCMC(poisson_model)
 poisson_model_config$getMonitors()
 ## we are not getting samples of eta by default, add those in as well as the random effect lambda
@@ -1184,7 +1180,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r spatial-poisson-nimble, cache = TRUE}
+```{r spatial-poisson-nimble, cache = TRUE, eval=FALSE}
 # ## note: nimble was causing issues with the here function
 # if (file.exists("./results/spatial-poisson-nimble.RData")) {
 #   load("./results/spatial-poisson-nimble.RData")
@@ -1196,7 +1192,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 and examine the traceplots with 
 
-```{r}
+```{r, eval=FALSE}
 layout(matrix(1:4, 2, 2))
 plot(samples[[1]][, "beta[1]"], col = 1, type = 'l', main = "beta_0")
 for (i in 2:4) {
@@ -1218,7 +1214,7 @@ for (i in 2:4) {
 
 - plot the estimated vs. fitted values of eta
 
-```{r}
+```{r, eval=FALSE}
 eta_idx <- grepl("^eta", colnames(samples[[1]]))
 plot(apply(samples[[1]][, eta_idx], 2, mean), eta)
 for (i in 2:4) {
@@ -1229,7 +1225,7 @@ abline(0, 1, col = "red")
 
 - plot the estimated vs. fitted values of lambda
 
-```{r}
+```{r, eval=FALSE}
 lambda_idx <- grepl("lambda", colnames(samples[[1]]))
 plot(apply(samples[[1]][, lambda_idx], 2, mean), lambda)
 for (i in 2:4) {
@@ -1242,14 +1238,14 @@ abline(0, 1, col = "red")
 
 - the default sampler for $\boldsymbol{\eta}$ is a block-Metropolis algorithm which is inefficient for high-dimensional parameters.
 
-```{r}
+```{r, eval=FALSE}
 poisson_model_config <- configureMCMC(poisson_model)
 poisson_model_config$printSamplers()
 ```
 
 Change the sampler for the latent random effect $\boldsymbol{\eta}$ to an elliptical slice sampler
 
-```{r}
+```{r, eval=FALSE}
 ## We can block the parameters into small groups
 poisson_model_config$removeSamplers("eta")
 ## Note: the ess algorithm can produce lots of warning outputs. 
@@ -1283,7 +1279,7 @@ poisson_model_config$addMonitors("eta", "lambda")
 
 Now we can try fitting the MCMC with the new sampler
 
-```{r}
+```{r, eval=FALSE}
 ## I need the additional option to change my c++ compiler flags when both stan and nimble are loaded
 Sys.unsetenv("PKG_CXXFLAGS")
 poisson_mcmc    <- buildMCMC(poisson_model_config)
@@ -1293,7 +1289,7 @@ poisson_model_c <- compileNimble(poisson_mcmc)
 poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_mcmc)
 ```
 
-```{r spatial-poisson-nimble-config, cache = TRUE}
+```{r spatial-poisson-nimble-config, cache = TRUE, eval=FALSE}
 # if (file.exists("./results/spatial-poisson-nimble-config.RData")) {
 #   load("./results/spatial-poisson-nimble-config.RData")
 # } else {
@@ -1304,7 +1300,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_mcmc)
 
 and examine the traceplots with
 
-```{r}
+```{r, eval=FALSE}
 layout(matrix(1:4, 2, 2))
 plot(samples[[1]][, "beta[1]"], col = 1, type = 'l', main = "beta_0")
 for (i in 2:4) {
@@ -1325,7 +1321,7 @@ for (i in 2:4) {
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 layout(matrix(1:2, 2, 1))
 lambda_idx <- grepl("lambda", colnames(samples[[1]]))
 
@@ -1339,7 +1335,7 @@ for (i in 2:4) {
 ```
 
 
-```{r}
+```{r,eval=FALSE}
 layout(matrix(1:2, 2, 1))
 eta_idx <- grepl("^eta", colnames(samples[[1]]))
 
