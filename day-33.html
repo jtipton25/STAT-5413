@@ -419,11 +419,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="day-33" class="section level1">
 <h1><span class="header-section-number">Chapter33</span> Day 33</h1>
-<div class="sourceCode" id="cb1074"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1074-1"><a href="day-33.html#cb1074-1"></a><span class="kw">library</span>(mvnfast)</span>
-<span id="cb1074-2"><a href="day-33.html#cb1074-2"></a><span class="kw">library</span>(fields)</span>
-<span id="cb1074-3"><a href="day-33.html#cb1074-3"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1074-4"><a href="day-33.html#cb1074-4"></a><span class="kw">library</span>(viridis)</span>
-<span id="cb1074-5"><a href="day-33.html#cb1074-5"></a><span class="kw">library</span>(patchwork)</span></code></pre></div>
+<div class="sourceCode" id="cb1093"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1093-1"><a href="day-33.html#cb1093-1"></a><span class="kw">library</span>(mvnfast)</span>
+<span id="cb1093-2"><a href="day-33.html#cb1093-2"></a><span class="kw">library</span>(fields)</span>
+<span id="cb1093-3"><a href="day-33.html#cb1093-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1093-4"><a href="day-33.html#cb1093-4"></a><span class="kw">library</span>(viridis)</span>
+<span id="cb1093-5"><a href="day-33.html#cb1093-5"></a><span class="kw">library</span>(patchwork)</span></code></pre></div>
 <div id="announcements-28" class="section level2">
 <h2><span class="header-section-number">33.1</span> Announcements</h2>
 </div>
@@ -526,61 +526,61 @@ y_t(\mathbf{s}) | y_{t-1}\mathbf{s} &amp; = \mathbf{X}_t(\mathbf{s}) \boldsymbol
 </ul></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb1075"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1075-1"><a href="day-33.html#cb1075-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb1075-2"><a href="day-33.html#cb1075-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb1075-3"><a href="day-33.html#cb1075-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
-<span id="cb1075-4"><a href="day-33.html#cb1075-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
-<span id="cb1075-5"><a href="day-33.html#cb1075-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
-<span id="cb1075-6"><a href="day-33.html#cb1075-6"></a>    <span class="kw">expand.grid</span>(</span>
-<span id="cb1075-7"><a href="day-33.html#cb1075-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb1075-8"><a href="day-33.html#cb1075-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb1075-9"><a href="day-33.html#cb1075-9"></a>    )</span>
-<span id="cb1075-10"><a href="day-33.html#cb1075-10"></a>)</span>
-<span id="cb1075-11"><a href="day-33.html#cb1075-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
-<span id="cb1075-12"><a href="day-33.html#cb1075-12"></a>tau2  &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
-<span id="cb1075-13"><a href="day-33.html#cb1075-13"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb1075-14"><a href="day-33.html#cb1075-14"></a>rho &lt;-<span class="st"> </span><span class="fl">0.9</span></span>
-<span id="cb1075-15"><a href="day-33.html#cb1075-15"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
-<span id="cb1075-16"><a href="day-33.html#cb1075-16"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
-<span id="cb1075-17"><a href="day-33.html#cb1075-17"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1075-18"><a href="day-33.html#cb1075-18"></a><span class="co">## initialize the distribution</span></span>
-<span id="cb1075-19"><a href="day-33.html#cb1075-19"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
-<span id="cb1075-20"><a href="day-33.html#cb1075-20"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1075-21"><a href="day-33.html#cb1075-21"></a>}</span>
-<span id="cb1075-22"><a href="day-33.html#cb1075-22"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
-<span id="cb1075-23"><a href="day-33.html#cb1075-23"></a>    y[, k] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, k<span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1075-24"><a href="day-33.html#cb1075-24"></a>}</span>
-<span id="cb1075-25"><a href="day-33.html#cb1075-25"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb1075-26"><a href="day-33.html#cb1075-26"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
-<span id="cb1075-27"><a href="day-33.html#cb1075-27"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
-<span id="cb1075-28"><a href="day-33.html#cb1075-28"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
-<span id="cb1075-29"><a href="day-33.html#cb1075-29"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
-<span id="cb1075-30"><a href="day-33.html#cb1075-30"></a>)</span>
-<span id="cb1075-31"><a href="day-33.html#cb1075-31"></a></span>
-<span id="cb1075-32"><a href="day-33.html#cb1075-32"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb1075-33"><a href="day-33.html#cb1075-33"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
-<span id="cb1075-34"><a href="day-33.html#cb1075-34"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
-<span id="cb1075-35"><a href="day-33.html#cb1075-35"></a>        <span class="kw">print</span>(</span>
-<span id="cb1075-36"><a href="day-33.html#cb1075-36"></a>            dat <span class="op">%&gt;%</span></span>
-<span id="cb1075-37"><a href="day-33.html#cb1075-37"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
-<span id="cb1075-38"><a href="day-33.html#cb1075-38"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
-<span id="cb1075-39"><a href="day-33.html#cb1075-39"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1075-40"><a href="day-33.html#cb1075-40"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
-<span id="cb1075-41"><a href="day-33.html#cb1075-41"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
-<span id="cb1075-42"><a href="day-33.html#cb1075-42"></a>        )</span>
-<span id="cb1075-43"><a href="day-33.html#cb1075-43"></a>    }</span>
-<span id="cb1075-44"><a href="day-33.html#cb1075-44"></a>}  </span>
-<span id="cb1075-45"><a href="day-33.html#cb1075-45"></a></span>
-<span id="cb1075-46"><a href="day-33.html#cb1075-46"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>))) {</span>
-<span id="cb1075-47"><a href="day-33.html#cb1075-47"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
-<span id="cb1075-48"><a href="day-33.html#cb1075-48"></a>        <span class="kw">make_plot</span>(), </span>
-<span id="cb1075-49"><a href="day-33.html#cb1075-49"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>),</span>
-<span id="cb1075-50"><a href="day-33.html#cb1075-50"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb1075-51"><a href="day-33.html#cb1075-51"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
-<span id="cb1075-52"><a href="day-33.html#cb1075-52"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
-<span id="cb1075-53"><a href="day-33.html#cb1075-53"></a>    )</span>
-<span id="cb1075-54"><a href="day-33.html#cb1075-54"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb1076"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1076-1"><a href="day-33.html#cb1076-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1094"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1094-1"><a href="day-33.html#cb1094-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1094-2"><a href="day-33.html#cb1094-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1094-3"><a href="day-33.html#cb1094-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1094-4"><a href="day-33.html#cb1094-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1094-5"><a href="day-33.html#cb1094-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1094-6"><a href="day-33.html#cb1094-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1094-7"><a href="day-33.html#cb1094-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1094-8"><a href="day-33.html#cb1094-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1094-9"><a href="day-33.html#cb1094-9"></a>    )</span>
+<span id="cb1094-10"><a href="day-33.html#cb1094-10"></a>)</span>
+<span id="cb1094-11"><a href="day-33.html#cb1094-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1094-12"><a href="day-33.html#cb1094-12"></a>tau2  &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1094-13"><a href="day-33.html#cb1094-13"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1094-14"><a href="day-33.html#cb1094-14"></a>rho &lt;-<span class="st"> </span><span class="fl">0.9</span></span>
+<span id="cb1094-15"><a href="day-33.html#cb1094-15"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1094-16"><a href="day-33.html#cb1094-16"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1094-17"><a href="day-33.html#cb1094-17"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1094-18"><a href="day-33.html#cb1094-18"></a><span class="co">## initialize the distribution</span></span>
+<span id="cb1094-19"><a href="day-33.html#cb1094-19"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
+<span id="cb1094-20"><a href="day-33.html#cb1094-20"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1094-21"><a href="day-33.html#cb1094-21"></a>}</span>
+<span id="cb1094-22"><a href="day-33.html#cb1094-22"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1094-23"><a href="day-33.html#cb1094-23"></a>    y[, k] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, k<span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1094-24"><a href="day-33.html#cb1094-24"></a>}</span>
+<span id="cb1094-25"><a href="day-33.html#cb1094-25"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1094-26"><a href="day-33.html#cb1094-26"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1094-27"><a href="day-33.html#cb1094-27"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1094-28"><a href="day-33.html#cb1094-28"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1094-29"><a href="day-33.html#cb1094-29"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1094-30"><a href="day-33.html#cb1094-30"></a>)</span>
+<span id="cb1094-31"><a href="day-33.html#cb1094-31"></a></span>
+<span id="cb1094-32"><a href="day-33.html#cb1094-32"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1094-33"><a href="day-33.html#cb1094-33"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1094-34"><a href="day-33.html#cb1094-34"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1094-35"><a href="day-33.html#cb1094-35"></a>        <span class="kw">print</span>(</span>
+<span id="cb1094-36"><a href="day-33.html#cb1094-36"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1094-37"><a href="day-33.html#cb1094-37"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1094-38"><a href="day-33.html#cb1094-38"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1094-39"><a href="day-33.html#cb1094-39"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1094-40"><a href="day-33.html#cb1094-40"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1094-41"><a href="day-33.html#cb1094-41"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1094-42"><a href="day-33.html#cb1094-42"></a>        )</span>
+<span id="cb1094-43"><a href="day-33.html#cb1094-43"></a>    }</span>
+<span id="cb1094-44"><a href="day-33.html#cb1094-44"></a>}  </span>
+<span id="cb1094-45"><a href="day-33.html#cb1094-45"></a></span>
+<span id="cb1094-46"><a href="day-33.html#cb1094-46"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>))) {</span>
+<span id="cb1094-47"><a href="day-33.html#cb1094-47"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1094-48"><a href="day-33.html#cb1094-48"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1094-49"><a href="day-33.html#cb1094-49"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>),</span>
+<span id="cb1094-50"><a href="day-33.html#cb1094-50"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1094-51"><a href="day-33.html#cb1094-51"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1094-52"><a href="day-33.html#cb1094-52"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1094-53"><a href="day-33.html#cb1094-53"></a>    )</span>
+<span id="cb1094-54"><a href="day-33.html#cb1094-54"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1095"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1095-1"><a href="day-33.html#cb1095-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>))</span></code></pre></div>
 <p><img src="images/spatio-temporal-ar.gif" /><!-- --></p>
 </div>
 </div>
@@ -646,56 +646,56 @@ y_t(\mathbf{s}) | y_{t-1}\mathbf{s} &amp; = \mathbf{X}_t(\mathbf{s}) \boldsymbol
 <li>spatio-temporal Kriging uses conditional multivariate normal distributions</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb1077"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1077-1"><a href="day-33.html#cb1077-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb1077-2"><a href="day-33.html#cb1077-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb1077-3"><a href="day-33.html#cb1077-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
-<span id="cb1077-4"><a href="day-33.html#cb1077-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
-<span id="cb1077-5"><a href="day-33.html#cb1077-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
-<span id="cb1077-6"><a href="day-33.html#cb1077-6"></a>    <span class="kw">expand.grid</span>(</span>
-<span id="cb1077-7"><a href="day-33.html#cb1077-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb1077-8"><a href="day-33.html#cb1077-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb1077-9"><a href="day-33.html#cb1077-9"></a>    )</span>
-<span id="cb1077-10"><a href="day-33.html#cb1077-10"></a>)</span>
-<span id="cb1077-11"><a href="day-33.html#cb1077-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
-<span id="cb1077-12"><a href="day-33.html#cb1077-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
-<span id="cb1077-13"><a href="day-33.html#cb1077-13"></a>tau2  &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
-<span id="cb1077-14"><a href="day-33.html#cb1077-14"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb1077-15"><a href="day-33.html#cb1077-15"></a>phi_t &lt;-<span class="st"> </span><span class="dv">7</span></span>
-<span id="cb1077-16"><a href="day-33.html#cb1077-16"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
-<span id="cb1077-17"><a href="day-33.html#cb1077-17"></a>R_t &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t)</span>
-<span id="cb1077-18"><a href="day-33.html#cb1077-18"></a>z &lt;-<span class="st"> </span><span class="kw">sqrt</span>(tau2) <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(n <span class="op">*</span><span class="st"> </span>T), n, T)</span>
-<span id="cb1077-19"><a href="day-33.html#cb1077-19"></a>y &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">chol</span>(R_s)) <span class="op">%*%</span><span class="st"> </span>z <span class="op">%*%</span><span class="st"> </span><span class="kw">chol</span>(R_t)</span>
-<span id="cb1077-20"><a href="day-33.html#cb1077-20"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb1077-21"><a href="day-33.html#cb1077-21"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
-<span id="cb1077-22"><a href="day-33.html#cb1077-22"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
-<span id="cb1077-23"><a href="day-33.html#cb1077-23"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
-<span id="cb1077-24"><a href="day-33.html#cb1077-24"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
-<span id="cb1077-25"><a href="day-33.html#cb1077-25"></a>)</span>
-<span id="cb1077-26"><a href="day-33.html#cb1077-26"></a></span>
-<span id="cb1077-27"><a href="day-33.html#cb1077-27"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb1077-28"><a href="day-33.html#cb1077-28"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
-<span id="cb1077-29"><a href="day-33.html#cb1077-29"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
-<span id="cb1077-30"><a href="day-33.html#cb1077-30"></a>        <span class="kw">print</span>(</span>
-<span id="cb1077-31"><a href="day-33.html#cb1077-31"></a>            dat <span class="op">%&gt;%</span></span>
-<span id="cb1077-32"><a href="day-33.html#cb1077-32"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
-<span id="cb1077-33"><a href="day-33.html#cb1077-33"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
-<span id="cb1077-34"><a href="day-33.html#cb1077-34"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1077-35"><a href="day-33.html#cb1077-35"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
-<span id="cb1077-36"><a href="day-33.html#cb1077-36"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
-<span id="cb1077-37"><a href="day-33.html#cb1077-37"></a>        )</span>
-<span id="cb1077-38"><a href="day-33.html#cb1077-38"></a>    }</span>
-<span id="cb1077-39"><a href="day-33.html#cb1077-39"></a>}  </span>
-<span id="cb1077-40"><a href="day-33.html#cb1077-40"></a></span>
-<span id="cb1077-41"><a href="day-33.html#cb1077-41"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>))) {</span>
-<span id="cb1077-42"><a href="day-33.html#cb1077-42"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
-<span id="cb1077-43"><a href="day-33.html#cb1077-43"></a>        <span class="kw">make_plot</span>(), </span>
-<span id="cb1077-44"><a href="day-33.html#cb1077-44"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>),</span>
-<span id="cb1077-45"><a href="day-33.html#cb1077-45"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb1077-46"><a href="day-33.html#cb1077-46"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
-<span id="cb1077-47"><a href="day-33.html#cb1077-47"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
-<span id="cb1077-48"><a href="day-33.html#cb1077-48"></a>    )</span>
-<span id="cb1077-49"><a href="day-33.html#cb1077-49"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb1078"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1078-1"><a href="day-33.html#cb1078-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1096"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1096-1"><a href="day-33.html#cb1096-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1096-2"><a href="day-33.html#cb1096-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1096-3"><a href="day-33.html#cb1096-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1096-4"><a href="day-33.html#cb1096-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1096-5"><a href="day-33.html#cb1096-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1096-6"><a href="day-33.html#cb1096-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1096-7"><a href="day-33.html#cb1096-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1096-8"><a href="day-33.html#cb1096-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1096-9"><a href="day-33.html#cb1096-9"></a>    )</span>
+<span id="cb1096-10"><a href="day-33.html#cb1096-10"></a>)</span>
+<span id="cb1096-11"><a href="day-33.html#cb1096-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1096-12"><a href="day-33.html#cb1096-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
+<span id="cb1096-13"><a href="day-33.html#cb1096-13"></a>tau2  &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1096-14"><a href="day-33.html#cb1096-14"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1096-15"><a href="day-33.html#cb1096-15"></a>phi_t &lt;-<span class="st"> </span><span class="dv">7</span></span>
+<span id="cb1096-16"><a href="day-33.html#cb1096-16"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1096-17"><a href="day-33.html#cb1096-17"></a>R_t &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t)</span>
+<span id="cb1096-18"><a href="day-33.html#cb1096-18"></a>z &lt;-<span class="st"> </span><span class="kw">sqrt</span>(tau2) <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(n <span class="op">*</span><span class="st"> </span>T), n, T)</span>
+<span id="cb1096-19"><a href="day-33.html#cb1096-19"></a>y &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">chol</span>(R_s)) <span class="op">%*%</span><span class="st"> </span>z <span class="op">%*%</span><span class="st"> </span><span class="kw">chol</span>(R_t)</span>
+<span id="cb1096-20"><a href="day-33.html#cb1096-20"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1096-21"><a href="day-33.html#cb1096-21"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1096-22"><a href="day-33.html#cb1096-22"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1096-23"><a href="day-33.html#cb1096-23"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1096-24"><a href="day-33.html#cb1096-24"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1096-25"><a href="day-33.html#cb1096-25"></a>)</span>
+<span id="cb1096-26"><a href="day-33.html#cb1096-26"></a></span>
+<span id="cb1096-27"><a href="day-33.html#cb1096-27"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1096-28"><a href="day-33.html#cb1096-28"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1096-29"><a href="day-33.html#cb1096-29"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1096-30"><a href="day-33.html#cb1096-30"></a>        <span class="kw">print</span>(</span>
+<span id="cb1096-31"><a href="day-33.html#cb1096-31"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1096-32"><a href="day-33.html#cb1096-32"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1096-33"><a href="day-33.html#cb1096-33"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1096-34"><a href="day-33.html#cb1096-34"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1096-35"><a href="day-33.html#cb1096-35"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1096-36"><a href="day-33.html#cb1096-36"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1096-37"><a href="day-33.html#cb1096-37"></a>        )</span>
+<span id="cb1096-38"><a href="day-33.html#cb1096-38"></a>    }</span>
+<span id="cb1096-39"><a href="day-33.html#cb1096-39"></a>}  </span>
+<span id="cb1096-40"><a href="day-33.html#cb1096-40"></a></span>
+<span id="cb1096-41"><a href="day-33.html#cb1096-41"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>))) {</span>
+<span id="cb1096-42"><a href="day-33.html#cb1096-42"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1096-43"><a href="day-33.html#cb1096-43"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1096-44"><a href="day-33.html#cb1096-44"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>),</span>
+<span id="cb1096-45"><a href="day-33.html#cb1096-45"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1096-46"><a href="day-33.html#cb1096-46"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1096-47"><a href="day-33.html#cb1096-47"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1096-48"><a href="day-33.html#cb1096-48"></a>    )</span>
+<span id="cb1096-49"><a href="day-33.html#cb1096-49"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1097"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1097-1"><a href="day-33.html#cb1097-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>))</span></code></pre></div>
 <p><img src="images/seperable.gif" /><!-- --></p>
 <div id="more-flexible-models" class="section level3">
 <h3><span class="header-section-number">33.3.1</span> More flexible models</h3>
@@ -719,67 +719,67 @@ y_t(\mathbf{s}) | y_{t-1}\mathbf{s} &amp; = \mathbf{X}_t(\mathbf{s}) \boldsymbol
 </ul></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb1079"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1079-1"><a href="day-33.html#cb1079-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb1079-2"><a href="day-33.html#cb1079-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb1079-3"><a href="day-33.html#cb1079-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
-<span id="cb1079-4"><a href="day-33.html#cb1079-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
-<span id="cb1079-5"><a href="day-33.html#cb1079-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
-<span id="cb1079-6"><a href="day-33.html#cb1079-6"></a>    <span class="kw">expand.grid</span>(</span>
-<span id="cb1079-7"><a href="day-33.html#cb1079-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb1079-8"><a href="day-33.html#cb1079-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb1079-9"><a href="day-33.html#cb1079-9"></a>    )</span>
-<span id="cb1079-10"><a href="day-33.html#cb1079-10"></a>)</span>
-<span id="cb1079-11"><a href="day-33.html#cb1079-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
-<span id="cb1079-12"><a href="day-33.html#cb1079-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
-<span id="cb1079-13"><a href="day-33.html#cb1079-13"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
-<span id="cb1079-14"><a href="day-33.html#cb1079-14"></a>rho &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span><span class="dv">3</span>))))</span>
-<span id="cb1079-15"><a href="day-33.html#cb1079-15"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
-<span id="cb1079-16"><a href="day-33.html#cb1079-16"></a>phi_s &lt;-<span class="st"> </span><span class="fl">0.2</span></span>
-<span id="cb1079-17"><a href="day-33.html#cb1079-17"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
-<span id="cb1079-18"><a href="day-33.html#cb1079-18"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
-<span id="cb1079-19"><a href="day-33.html#cb1079-19"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1079-20"><a href="day-33.html#cb1079-20"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
-<span id="cb1079-21"><a href="day-33.html#cb1079-21"></a>    y[, k] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, k<span class="dv">-1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1079-22"><a href="day-33.html#cb1079-22"></a>}</span>
-<span id="cb1079-23"><a href="day-33.html#cb1079-23"></a></span>
-<span id="cb1079-24"><a href="day-33.html#cb1079-24"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb1079-25"><a href="day-33.html#cb1079-25"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
-<span id="cb1079-26"><a href="day-33.html#cb1079-26"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
-<span id="cb1079-27"><a href="day-33.html#cb1079-27"></a>    <span class="dt">rho =</span> rho,</span>
-<span id="cb1079-28"><a href="day-33.html#cb1079-28"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
-<span id="cb1079-29"><a href="day-33.html#cb1079-29"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
-<span id="cb1079-30"><a href="day-33.html#cb1079-30"></a>)</span>
-<span id="cb1079-31"><a href="day-33.html#cb1079-31"></a></span>
-<span id="cb1079-32"><a href="day-33.html#cb1079-32"></a>dat <span class="op">%&gt;%</span></span>
-<span id="cb1079-33"><a href="day-33.html#cb1079-33"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> rho)) <span class="op">+</span></span>
-<span id="cb1079-34"><a href="day-33.html#cb1079-34"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1079-35"><a href="day-33.html#cb1079-35"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb1079-36"><a href="day-33.html#cb1079-36"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying autocorrelation&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1098"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1098-1"><a href="day-33.html#cb1098-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1098-2"><a href="day-33.html#cb1098-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1098-3"><a href="day-33.html#cb1098-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1098-4"><a href="day-33.html#cb1098-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1098-5"><a href="day-33.html#cb1098-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1098-6"><a href="day-33.html#cb1098-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1098-7"><a href="day-33.html#cb1098-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1098-8"><a href="day-33.html#cb1098-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1098-9"><a href="day-33.html#cb1098-9"></a>    )</span>
+<span id="cb1098-10"><a href="day-33.html#cb1098-10"></a>)</span>
+<span id="cb1098-11"><a href="day-33.html#cb1098-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1098-12"><a href="day-33.html#cb1098-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
+<span id="cb1098-13"><a href="day-33.html#cb1098-13"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
+<span id="cb1098-14"><a href="day-33.html#cb1098-14"></a>rho &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span><span class="dv">3</span>))))</span>
+<span id="cb1098-15"><a href="day-33.html#cb1098-15"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1098-16"><a href="day-33.html#cb1098-16"></a>phi_s &lt;-<span class="st"> </span><span class="fl">0.2</span></span>
+<span id="cb1098-17"><a href="day-33.html#cb1098-17"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1098-18"><a href="day-33.html#cb1098-18"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1098-19"><a href="day-33.html#cb1098-19"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1098-20"><a href="day-33.html#cb1098-20"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1098-21"><a href="day-33.html#cb1098-21"></a>    y[, k] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, k<span class="dv">-1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1098-22"><a href="day-33.html#cb1098-22"></a>}</span>
+<span id="cb1098-23"><a href="day-33.html#cb1098-23"></a></span>
+<span id="cb1098-24"><a href="day-33.html#cb1098-24"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1098-25"><a href="day-33.html#cb1098-25"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1098-26"><a href="day-33.html#cb1098-26"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1098-27"><a href="day-33.html#cb1098-27"></a>    <span class="dt">rho =</span> rho,</span>
+<span id="cb1098-28"><a href="day-33.html#cb1098-28"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1098-29"><a href="day-33.html#cb1098-29"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1098-30"><a href="day-33.html#cb1098-30"></a>)</span>
+<span id="cb1098-31"><a href="day-33.html#cb1098-31"></a></span>
+<span id="cb1098-32"><a href="day-33.html#cb1098-32"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb1098-33"><a href="day-33.html#cb1098-33"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> rho)) <span class="op">+</span></span>
+<span id="cb1098-34"><a href="day-33.html#cb1098-34"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1098-35"><a href="day-33.html#cb1098-35"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1098-36"><a href="day-33.html#cb1098-36"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying autocorrelation&quot;</span>)</span></code></pre></div>
 <p><img src="33-day-33_files/figure-html/spatially-varying-autocorrelation-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1080"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1080-1"><a href="day-33.html#cb1080-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb1080-2"><a href="day-33.html#cb1080-2"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
-<span id="cb1080-3"><a href="day-33.html#cb1080-3"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
-<span id="cb1080-4"><a href="day-33.html#cb1080-4"></a>        <span class="kw">print</span>(</span>
-<span id="cb1080-5"><a href="day-33.html#cb1080-5"></a>            dat <span class="op">%&gt;%</span></span>
-<span id="cb1080-6"><a href="day-33.html#cb1080-6"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
-<span id="cb1080-7"><a href="day-33.html#cb1080-7"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
-<span id="cb1080-8"><a href="day-33.html#cb1080-8"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1080-9"><a href="day-33.html#cb1080-9"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
-<span id="cb1080-10"><a href="day-33.html#cb1080-10"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
-<span id="cb1080-11"><a href="day-33.html#cb1080-11"></a>        )</span>
-<span id="cb1080-12"><a href="day-33.html#cb1080-12"></a>    }</span>
-<span id="cb1080-13"><a href="day-33.html#cb1080-13"></a>}  </span>
-<span id="cb1080-14"><a href="day-33.html#cb1080-14"></a></span>
-<span id="cb1080-15"><a href="day-33.html#cb1080-15"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>))) {</span>
-<span id="cb1080-16"><a href="day-33.html#cb1080-16"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
-<span id="cb1080-17"><a href="day-33.html#cb1080-17"></a>        <span class="kw">make_plot</span>(), </span>
-<span id="cb1080-18"><a href="day-33.html#cb1080-18"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>),</span>
-<span id="cb1080-19"><a href="day-33.html#cb1080-19"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb1080-20"><a href="day-33.html#cb1080-20"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
-<span id="cb1080-21"><a href="day-33.html#cb1080-21"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
-<span id="cb1080-22"><a href="day-33.html#cb1080-22"></a>    )</span>
-<span id="cb1080-23"><a href="day-33.html#cb1080-23"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb1081"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1081-1"><a href="day-33.html#cb1081-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1099"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1099-1"><a href="day-33.html#cb1099-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1099-2"><a href="day-33.html#cb1099-2"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1099-3"><a href="day-33.html#cb1099-3"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1099-4"><a href="day-33.html#cb1099-4"></a>        <span class="kw">print</span>(</span>
+<span id="cb1099-5"><a href="day-33.html#cb1099-5"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1099-6"><a href="day-33.html#cb1099-6"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1099-7"><a href="day-33.html#cb1099-7"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1099-8"><a href="day-33.html#cb1099-8"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1099-9"><a href="day-33.html#cb1099-9"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1099-10"><a href="day-33.html#cb1099-10"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1099-11"><a href="day-33.html#cb1099-11"></a>        )</span>
+<span id="cb1099-12"><a href="day-33.html#cb1099-12"></a>    }</span>
+<span id="cb1099-13"><a href="day-33.html#cb1099-13"></a>}  </span>
+<span id="cb1099-14"><a href="day-33.html#cb1099-14"></a></span>
+<span id="cb1099-15"><a href="day-33.html#cb1099-15"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>))) {</span>
+<span id="cb1099-16"><a href="day-33.html#cb1099-16"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1099-17"><a href="day-33.html#cb1099-17"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1099-18"><a href="day-33.html#cb1099-18"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>),</span>
+<span id="cb1099-19"><a href="day-33.html#cb1099-19"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1099-20"><a href="day-33.html#cb1099-20"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1099-21"><a href="day-33.html#cb1099-21"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1099-22"><a href="day-33.html#cb1099-22"></a>    )</span>
+<span id="cb1099-23"><a href="day-33.html#cb1099-23"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1100-1"><a href="day-33.html#cb1100-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>))</span></code></pre></div>
 <p><img src="images/spatially-varying-rho.gif" /><!-- --></p>
 <ul>
 <li><p>Nonstationary in time, stationary in space</p>
@@ -794,76 +794,76 @@ y_t(\mathbf{s}) | y_{t-1}\mathbf{s} &amp; = \mathbf{X}_t(\mathbf{s}) \boldsymbol
 </ul></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb1082"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1082-1"><a href="day-33.html#cb1082-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb1082-2"><a href="day-33.html#cb1082-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb1082-3"><a href="day-33.html#cb1082-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
-<span id="cb1082-4"><a href="day-33.html#cb1082-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
-<span id="cb1082-5"><a href="day-33.html#cb1082-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
-<span id="cb1082-6"><a href="day-33.html#cb1082-6"></a>    <span class="kw">expand.grid</span>(</span>
-<span id="cb1082-7"><a href="day-33.html#cb1082-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb1082-8"><a href="day-33.html#cb1082-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb1082-9"><a href="day-33.html#cb1082-9"></a>    )</span>
-<span id="cb1082-10"><a href="day-33.html#cb1082-10"></a>)</span>
-<span id="cb1082-11"><a href="day-33.html#cb1082-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
-<span id="cb1082-12"><a href="day-33.html#cb1082-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
-<span id="cb1082-13"><a href="day-33.html#cb1082-13"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
-<span id="cb1082-14"><a href="day-33.html#cb1082-14"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb1082-15"><a href="day-33.html#cb1082-15"></a>phi_t &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)</span>
-<span id="cb1082-16"><a href="day-33.html#cb1082-16"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
-<span id="cb1082-17"><a href="day-33.html#cb1082-17"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
-<span id="cb1082-18"><a href="day-33.html#cb1082-18"></a>rho  &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, T), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t[<span class="dv">1</span>]))))</span>
-<span id="cb1082-19"><a href="day-33.html#cb1082-19"></a>delta &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, T), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t[<span class="dv">2</span>]))))</span>
-<span id="cb1082-20"><a href="day-33.html#cb1082-20"></a></span>
-<span id="cb1082-21"><a href="day-33.html#cb1082-21"></a></span>
-<span id="cb1082-22"><a href="day-33.html#cb1082-22"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
-<span id="cb1082-23"><a href="day-33.html#cb1082-23"></a><span class="co">## initialize this to a steady state</span></span>
-<span id="cb1082-24"><a href="day-33.html#cb1082-24"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>delta[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1082-25"><a href="day-33.html#cb1082-25"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
-<span id="cb1082-26"><a href="day-33.html#cb1082-26"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>rho[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>y[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>delta[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1082-27"><a href="day-33.html#cb1082-27"></a>}</span>
-<span id="cb1082-28"><a href="day-33.html#cb1082-28"></a></span>
-<span id="cb1082-29"><a href="day-33.html#cb1082-29"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
-<span id="cb1082-30"><a href="day-33.html#cb1082-30"></a>    y[, k] &lt;-<span class="st"> </span>rho[t] <span class="op">*</span><span class="st"> </span>y[, k<span class="dv">-1</span>] <span class="op">+</span><span class="st"> </span>delta[t] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
-<span id="cb1082-31"><a href="day-33.html#cb1082-31"></a>}</span>
-<span id="cb1082-32"><a href="day-33.html#cb1082-32"></a></span>
-<span id="cb1082-33"><a href="day-33.html#cb1082-33"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb1082-34"><a href="day-33.html#cb1082-34"></a>    <span class="dt">x     =</span> locs[, <span class="dv">1</span>],</span>
-<span id="cb1082-35"><a href="day-33.html#cb1082-35"></a>    <span class="dt">y     =</span> locs[, <span class="dv">2</span>],</span>
-<span id="cb1082-36"><a href="day-33.html#cb1082-36"></a>    <span class="dt">rho   =</span> <span class="kw">rep</span>(rho, <span class="dt">each =</span> n),</span>
-<span id="cb1082-37"><a href="day-33.html#cb1082-37"></a>    <span class="dt">delta =</span> <span class="kw">rep</span>(delta, <span class="dt">each =</span> n),</span>
-<span id="cb1082-38"><a href="day-33.html#cb1082-38"></a>    <span class="dt">obs   =</span> <span class="kw">c</span>(y),</span>
-<span id="cb1082-39"><a href="day-33.html#cb1082-39"></a>    <span class="dt">time  =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
-<span id="cb1082-40"><a href="day-33.html#cb1082-40"></a>)</span>
-<span id="cb1082-41"><a href="day-33.html#cb1082-41"></a></span>
-<span id="cb1082-42"><a href="day-33.html#cb1082-42"></a>dat <span class="op">%&gt;%</span></span>
-<span id="cb1082-43"><a href="day-33.html#cb1082-43"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> rho)) <span class="op">+</span></span>
-<span id="cb1082-44"><a href="day-33.html#cb1082-44"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb1082-45"><a href="day-33.html#cb1082-45"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> delta), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
-<span id="cb1082-46"><a href="day-33.html#cb1082-46"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;time-varying autocorrelation&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1101-1"><a href="day-33.html#cb1101-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1101-2"><a href="day-33.html#cb1101-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1101-3"><a href="day-33.html#cb1101-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1101-4"><a href="day-33.html#cb1101-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1101-5"><a href="day-33.html#cb1101-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1101-6"><a href="day-33.html#cb1101-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1101-7"><a href="day-33.html#cb1101-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1101-8"><a href="day-33.html#cb1101-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1101-9"><a href="day-33.html#cb1101-9"></a>    )</span>
+<span id="cb1101-10"><a href="day-33.html#cb1101-10"></a>)</span>
+<span id="cb1101-11"><a href="day-33.html#cb1101-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1101-12"><a href="day-33.html#cb1101-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
+<span id="cb1101-13"><a href="day-33.html#cb1101-13"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1101-14"><a href="day-33.html#cb1101-14"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1101-15"><a href="day-33.html#cb1101-15"></a>phi_t &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb1101-16"><a href="day-33.html#cb1101-16"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1101-17"><a href="day-33.html#cb1101-17"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
+<span id="cb1101-18"><a href="day-33.html#cb1101-18"></a>rho  &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, T), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t[<span class="dv">1</span>]))))</span>
+<span id="cb1101-19"><a href="day-33.html#cb1101-19"></a>delta &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, T), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t[<span class="dv">2</span>]))))</span>
+<span id="cb1101-20"><a href="day-33.html#cb1101-20"></a></span>
+<span id="cb1101-21"><a href="day-33.html#cb1101-21"></a></span>
+<span id="cb1101-22"><a href="day-33.html#cb1101-22"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1101-23"><a href="day-33.html#cb1101-23"></a><span class="co">## initialize this to a steady state</span></span>
+<span id="cb1101-24"><a href="day-33.html#cb1101-24"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>delta[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1101-25"><a href="day-33.html#cb1101-25"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
+<span id="cb1101-26"><a href="day-33.html#cb1101-26"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>rho[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>y[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>delta[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1101-27"><a href="day-33.html#cb1101-27"></a>}</span>
+<span id="cb1101-28"><a href="day-33.html#cb1101-28"></a></span>
+<span id="cb1101-29"><a href="day-33.html#cb1101-29"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1101-30"><a href="day-33.html#cb1101-30"></a>    y[, k] &lt;-<span class="st"> </span>rho[t] <span class="op">*</span><span class="st"> </span>y[, k<span class="dv">-1</span>] <span class="op">+</span><span class="st"> </span>delta[t] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1101-31"><a href="day-33.html#cb1101-31"></a>}</span>
+<span id="cb1101-32"><a href="day-33.html#cb1101-32"></a></span>
+<span id="cb1101-33"><a href="day-33.html#cb1101-33"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1101-34"><a href="day-33.html#cb1101-34"></a>    <span class="dt">x     =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1101-35"><a href="day-33.html#cb1101-35"></a>    <span class="dt">y     =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1101-36"><a href="day-33.html#cb1101-36"></a>    <span class="dt">rho   =</span> <span class="kw">rep</span>(rho, <span class="dt">each =</span> n),</span>
+<span id="cb1101-37"><a href="day-33.html#cb1101-37"></a>    <span class="dt">delta =</span> <span class="kw">rep</span>(delta, <span class="dt">each =</span> n),</span>
+<span id="cb1101-38"><a href="day-33.html#cb1101-38"></a>    <span class="dt">obs   =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1101-39"><a href="day-33.html#cb1101-39"></a>    <span class="dt">time  =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1101-40"><a href="day-33.html#cb1101-40"></a>)</span>
+<span id="cb1101-41"><a href="day-33.html#cb1101-41"></a></span>
+<span id="cb1101-42"><a href="day-33.html#cb1101-42"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb1101-43"><a href="day-33.html#cb1101-43"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> rho)) <span class="op">+</span></span>
+<span id="cb1101-44"><a href="day-33.html#cb1101-44"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb1101-45"><a href="day-33.html#cb1101-45"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> delta), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb1101-46"><a href="day-33.html#cb1101-46"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;time-varying autocorrelation&quot;</span>)</span></code></pre></div>
 <p><img src="33-day-33_files/figure-html/nonstationary-time-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1083"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1083-1"><a href="day-33.html#cb1083-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb1083-2"><a href="day-33.html#cb1083-2"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
-<span id="cb1083-3"><a href="day-33.html#cb1083-3"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
-<span id="cb1083-4"><a href="day-33.html#cb1083-4"></a>        <span class="kw">print</span>(</span>
-<span id="cb1083-5"><a href="day-33.html#cb1083-5"></a>            dat <span class="op">%&gt;%</span></span>
-<span id="cb1083-6"><a href="day-33.html#cb1083-6"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
-<span id="cb1083-7"><a href="day-33.html#cb1083-7"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
-<span id="cb1083-8"><a href="day-33.html#cb1083-8"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1083-9"><a href="day-33.html#cb1083-9"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
-<span id="cb1083-10"><a href="day-33.html#cb1083-10"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
-<span id="cb1083-11"><a href="day-33.html#cb1083-11"></a>        )</span>
-<span id="cb1083-12"><a href="day-33.html#cb1083-12"></a>    }</span>
-<span id="cb1083-13"><a href="day-33.html#cb1083-13"></a>}  </span>
-<span id="cb1083-14"><a href="day-33.html#cb1083-14"></a></span>
-<span id="cb1083-15"><a href="day-33.html#cb1083-15"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;time-varying-rho-delta.gif&quot;</span>))) {</span>
-<span id="cb1083-16"><a href="day-33.html#cb1083-16"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
-<span id="cb1083-17"><a href="day-33.html#cb1083-17"></a>        <span class="kw">make_plot</span>(), </span>
-<span id="cb1083-18"><a href="day-33.html#cb1083-18"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;time-varying-rho-delta.gif&quot;</span>),</span>
-<span id="cb1083-19"><a href="day-33.html#cb1083-19"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb1083-20"><a href="day-33.html#cb1083-20"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
-<span id="cb1083-21"><a href="day-33.html#cb1083-21"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
-<span id="cb1083-22"><a href="day-33.html#cb1083-22"></a>    )</span>
-<span id="cb1083-23"><a href="day-33.html#cb1083-23"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1102-1"><a href="day-33.html#cb1102-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1102-2"><a href="day-33.html#cb1102-2"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1102-3"><a href="day-33.html#cb1102-3"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1102-4"><a href="day-33.html#cb1102-4"></a>        <span class="kw">print</span>(</span>
+<span id="cb1102-5"><a href="day-33.html#cb1102-5"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1102-6"><a href="day-33.html#cb1102-6"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1102-7"><a href="day-33.html#cb1102-7"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1102-8"><a href="day-33.html#cb1102-8"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1102-9"><a href="day-33.html#cb1102-9"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1102-10"><a href="day-33.html#cb1102-10"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1102-11"><a href="day-33.html#cb1102-11"></a>        )</span>
+<span id="cb1102-12"><a href="day-33.html#cb1102-12"></a>    }</span>
+<span id="cb1102-13"><a href="day-33.html#cb1102-13"></a>}  </span>
+<span id="cb1102-14"><a href="day-33.html#cb1102-14"></a></span>
+<span id="cb1102-15"><a href="day-33.html#cb1102-15"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;time-varying-rho-delta.gif&quot;</span>))) {</span>
+<span id="cb1102-16"><a href="day-33.html#cb1102-16"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1102-17"><a href="day-33.html#cb1102-17"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1102-18"><a href="day-33.html#cb1102-18"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;time-varying-rho-delta.gif&quot;</span>),</span>
+<span id="cb1102-19"><a href="day-33.html#cb1102-19"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1102-20"><a href="day-33.html#cb1102-20"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1102-21"><a href="day-33.html#cb1102-21"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1102-22"><a href="day-33.html#cb1102-22"></a>    )</span>
+<span id="cb1102-23"><a href="day-33.html#cb1102-23"></a>}</span></code></pre></div>
 <p>knitr::include_graphics(here::here(“images”, “time-varying-rho-delta.gif”))</p>
 <pre><code>
 - Dynamic linear models (DLMs)
@@ -898,147 +898,147 @@ X &lt;- cbind(1, t(mvnfast::rmvn(1, rep(0, n), exp( - D_s / 3))))
 A &lt;- matrix(c(0.5, 0.5, 0.3, 0.4), 2, 2)
 eigen(A)$values</code></pre>
 <pre><code>## [1] 0.84051248 0.05948752</code></pre>
-<div class="sourceCode" id="cb1086"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1086-1"><a href="day-33.html#cb1086-1"></a>Sigma_beta &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>))</span>
-<span id="cb1086-2"><a href="day-33.html#cb1086-2"></a>beta &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, T)</span>
-<span id="cb1086-3"><a href="day-33.html#cb1086-3"></a><span class="co">## initialize beta</span></span>
-<span id="cb1086-4"><a href="day-33.html#cb1086-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>) {</span>
-<span id="cb1086-5"><a href="day-33.html#cb1086-5"></a>    beta[, <span class="dv">1</span>] &lt;-<span class="st"> </span>mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, A <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>], Sigma_beta)</span>
-<span id="cb1086-6"><a href="day-33.html#cb1086-6"></a>}</span>
-<span id="cb1086-7"><a href="day-33.html#cb1086-7"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
-<span id="cb1086-8"><a href="day-33.html#cb1086-8"></a>    beta[, k] &lt;-<span class="st"> </span>mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, A <span class="op">%*%</span><span class="st"> </span>beta[, k<span class="dv">-1</span>], Sigma_beta)</span>
-<span id="cb1086-9"><a href="day-33.html#cb1086-9"></a>}</span>
-<span id="cb1086-10"><a href="day-33.html#cb1086-10"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
-<span id="cb1086-11"><a href="day-33.html#cb1086-11"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb1086-12"><a href="day-33.html#cb1086-12"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
-<span id="cb1086-13"><a href="day-33.html#cb1086-13"></a>rho &lt;-<span class="st"> </span><span class="fl">0.8</span></span>
-<span id="cb1086-14"><a href="day-33.html#cb1086-14"></a></span>
-<span id="cb1086-15"><a href="day-33.html#cb1086-15"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
-<span id="cb1086-16"><a href="day-33.html#cb1086-16"></a><span class="co">## initialize this to a steady state</span></span>
-<span id="cb1086-17"><a href="day-33.html#cb1086-17"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
-<span id="cb1086-18"><a href="day-33.html#cb1086-18"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
-<span id="cb1086-19"><a href="day-33.html#cb1086-19"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>(y[, <span class="dv">1</span>] <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
-<span id="cb1086-20"><a href="day-33.html#cb1086-20"></a>}</span>
-<span id="cb1086-21"><a href="day-33.html#cb1086-21"></a></span>
-<span id="cb1086-22"><a href="day-33.html#cb1086-22"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
-<span id="cb1086-23"><a href="day-33.html#cb1086-23"></a>    y[, k] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, k] <span class="op">+</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>(y[, k<span class="dv">-1</span>] <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, k<span class="dv">-1</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))}</span>
-<span id="cb1086-24"><a href="day-33.html#cb1086-24"></a></span>
-<span id="cb1086-25"><a href="day-33.html#cb1086-25"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb1086-26"><a href="day-33.html#cb1086-26"></a>    <span class="dt">x         =</span> locs[, <span class="dv">1</span>],</span>
-<span id="cb1086-27"><a href="day-33.html#cb1086-27"></a>    <span class="dt">y         =</span> locs[, <span class="dv">2</span>],</span>
-<span id="cb1086-28"><a href="day-33.html#cb1086-28"></a>    <span class="dt">covariate =</span> X[, <span class="dv">2</span>], </span>
-<span id="cb1086-29"><a href="day-33.html#cb1086-29"></a>    <span class="dt">fixed     =</span> <span class="kw">c</span>(X <span class="op">%*%</span><span class="st"> </span>beta),</span>
-<span id="cb1086-30"><a href="day-33.html#cb1086-30"></a>    <span class="dt">obs       =</span> <span class="kw">c</span>(y),</span>
-<span id="cb1086-31"><a href="day-33.html#cb1086-31"></a>    <span class="dt">time      =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
-<span id="cb1086-32"><a href="day-33.html#cb1086-32"></a>)</span>
-<span id="cb1086-33"><a href="day-33.html#cb1086-33"></a></span>
-<span id="cb1086-34"><a href="day-33.html#cb1086-34"></a>dat <span class="op">%&gt;%</span></span>
-<span id="cb1086-35"><a href="day-33.html#cb1086-35"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> covariate)) <span class="op">+</span></span>
-<span id="cb1086-36"><a href="day-33.html#cb1086-36"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1086-37"><a href="day-33.html#cb1086-37"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb1086-38"><a href="day-33.html#cb1086-38"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;coefficients&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1105-1"><a href="day-33.html#cb1105-1"></a>Sigma_beta &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>))</span>
+<span id="cb1105-2"><a href="day-33.html#cb1105-2"></a>beta &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, T)</span>
+<span id="cb1105-3"><a href="day-33.html#cb1105-3"></a><span class="co">## initialize beta</span></span>
+<span id="cb1105-4"><a href="day-33.html#cb1105-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>) {</span>
+<span id="cb1105-5"><a href="day-33.html#cb1105-5"></a>    beta[, <span class="dv">1</span>] &lt;-<span class="st"> </span>mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, A <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>], Sigma_beta)</span>
+<span id="cb1105-6"><a href="day-33.html#cb1105-6"></a>}</span>
+<span id="cb1105-7"><a href="day-33.html#cb1105-7"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1105-8"><a href="day-33.html#cb1105-8"></a>    beta[, k] &lt;-<span class="st"> </span>mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, A <span class="op">%*%</span><span class="st"> </span>beta[, k<span class="dv">-1</span>], Sigma_beta)</span>
+<span id="cb1105-9"><a href="day-33.html#cb1105-9"></a>}</span>
+<span id="cb1105-10"><a href="day-33.html#cb1105-10"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1105-11"><a href="day-33.html#cb1105-11"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1105-12"><a href="day-33.html#cb1105-12"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1105-13"><a href="day-33.html#cb1105-13"></a>rho &lt;-<span class="st"> </span><span class="fl">0.8</span></span>
+<span id="cb1105-14"><a href="day-33.html#cb1105-14"></a></span>
+<span id="cb1105-15"><a href="day-33.html#cb1105-15"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1105-16"><a href="day-33.html#cb1105-16"></a><span class="co">## initialize this to a steady state</span></span>
+<span id="cb1105-17"><a href="day-33.html#cb1105-17"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
+<span id="cb1105-18"><a href="day-33.html#cb1105-18"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
+<span id="cb1105-19"><a href="day-33.html#cb1105-19"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>(y[, <span class="dv">1</span>] <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
+<span id="cb1105-20"><a href="day-33.html#cb1105-20"></a>}</span>
+<span id="cb1105-21"><a href="day-33.html#cb1105-21"></a></span>
+<span id="cb1105-22"><a href="day-33.html#cb1105-22"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1105-23"><a href="day-33.html#cb1105-23"></a>    y[, k] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, k] <span class="op">+</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>(y[, k<span class="dv">-1</span>] <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, k<span class="dv">-1</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))}</span>
+<span id="cb1105-24"><a href="day-33.html#cb1105-24"></a></span>
+<span id="cb1105-25"><a href="day-33.html#cb1105-25"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1105-26"><a href="day-33.html#cb1105-26"></a>    <span class="dt">x         =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1105-27"><a href="day-33.html#cb1105-27"></a>    <span class="dt">y         =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1105-28"><a href="day-33.html#cb1105-28"></a>    <span class="dt">covariate =</span> X[, <span class="dv">2</span>], </span>
+<span id="cb1105-29"><a href="day-33.html#cb1105-29"></a>    <span class="dt">fixed     =</span> <span class="kw">c</span>(X <span class="op">%*%</span><span class="st"> </span>beta),</span>
+<span id="cb1105-30"><a href="day-33.html#cb1105-30"></a>    <span class="dt">obs       =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1105-31"><a href="day-33.html#cb1105-31"></a>    <span class="dt">time      =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1105-32"><a href="day-33.html#cb1105-32"></a>)</span>
+<span id="cb1105-33"><a href="day-33.html#cb1105-33"></a></span>
+<span id="cb1105-34"><a href="day-33.html#cb1105-34"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb1105-35"><a href="day-33.html#cb1105-35"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> covariate)) <span class="op">+</span></span>
+<span id="cb1105-36"><a href="day-33.html#cb1105-36"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1105-37"><a href="day-33.html#cb1105-37"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1105-38"><a href="day-33.html#cb1105-38"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;coefficients&quot;</span>)</span></code></pre></div>
 <p><img src="33-day-33_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1087"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1087-1"><a href="day-33.html#cb1087-1"></a>dat_beta &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb1087-2"><a href="day-33.html#cb1087-2"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> <span class="dv">2</span>), </span>
-<span id="cb1087-3"><a href="day-33.html#cb1087-3"></a>    <span class="dt">beta =</span> <span class="kw">c</span>(beta),</span>
-<span id="cb1087-4"><a href="day-33.html#cb1087-4"></a>    <span class="dt">var  =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;beta_0&quot;</span>, <span class="st">&quot;beta_1&quot;</span>), T)</span>
-<span id="cb1087-5"><a href="day-33.html#cb1087-5"></a>)</span>
-<span id="cb1087-6"><a href="day-33.html#cb1087-6"></a></span>
-<span id="cb1087-7"><a href="day-33.html#cb1087-7"></a>dat_beta <span class="op">%&gt;%</span></span>
-<span id="cb1087-8"><a href="day-33.html#cb1087-8"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> beta, <span class="dt">group =</span> var, <span class="dt">color =</span> var)) <span class="op">+</span></span>
-<span id="cb1087-9"><a href="day-33.html#cb1087-9"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb1087-10"><a href="day-33.html#cb1087-10"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;time varying coefficients&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1106-1"><a href="day-33.html#cb1106-1"></a>dat_beta &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1106-2"><a href="day-33.html#cb1106-2"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> <span class="dv">2</span>), </span>
+<span id="cb1106-3"><a href="day-33.html#cb1106-3"></a>    <span class="dt">beta =</span> <span class="kw">c</span>(beta),</span>
+<span id="cb1106-4"><a href="day-33.html#cb1106-4"></a>    <span class="dt">var  =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;beta_0&quot;</span>, <span class="st">&quot;beta_1&quot;</span>), T)</span>
+<span id="cb1106-5"><a href="day-33.html#cb1106-5"></a>)</span>
+<span id="cb1106-6"><a href="day-33.html#cb1106-6"></a></span>
+<span id="cb1106-7"><a href="day-33.html#cb1106-7"></a>dat_beta <span class="op">%&gt;%</span></span>
+<span id="cb1106-8"><a href="day-33.html#cb1106-8"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> beta, <span class="dt">group =</span> var, <span class="dt">color =</span> var)) <span class="op">+</span></span>
+<span id="cb1106-9"><a href="day-33.html#cb1106-9"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb1106-10"><a href="day-33.html#cb1106-10"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;time varying coefficients&quot;</span>)</span></code></pre></div>
 <p><img src="33-day-33_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
-<div class="sourceCode" id="cb1088"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1088-1"><a href="day-33.html#cb1088-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb1088-2"><a href="day-33.html#cb1088-2"></a>    zlims_fixed &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>fixed)</span>
-<span id="cb1088-3"><a href="day-33.html#cb1088-3"></a>    zlims_obs &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
-<span id="cb1088-4"><a href="day-33.html#cb1088-4"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
-<span id="cb1088-5"><a href="day-33.html#cb1088-5"></a>        p1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
-<span id="cb1088-6"><a href="day-33.html#cb1088-6"></a><span class="st">            </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
-<span id="cb1088-7"><a href="day-33.html#cb1088-7"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> fixed)) <span class="op">+</span></span>
-<span id="cb1088-8"><a href="day-33.html#cb1088-8"></a><span class="st">            </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1088-9"><a href="day-33.html#cb1088-9"></a><span class="st">            </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims_fixed) <span class="op">+</span></span>
-<span id="cb1088-10"><a href="day-33.html#cb1088-10"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;fixed effects; time&quot;</span>, i))</span>
-<span id="cb1088-11"><a href="day-33.html#cb1088-11"></a>        p2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
-<span id="cb1088-12"><a href="day-33.html#cb1088-12"></a><span class="st">            </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
-<span id="cb1088-13"><a href="day-33.html#cb1088-13"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
-<span id="cb1088-14"><a href="day-33.html#cb1088-14"></a><span class="st">            </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1088-15"><a href="day-33.html#cb1088-15"></a><span class="st">            </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims_obs) <span class="op">+</span></span>
-<span id="cb1088-16"><a href="day-33.html#cb1088-16"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
-<span id="cb1088-17"><a href="day-33.html#cb1088-17"></a>        <span class="kw">print</span>(p1 <span class="op">+</span><span class="st"> </span>p2)</span>
-<span id="cb1088-18"><a href="day-33.html#cb1088-18"></a>    }</span>
-<span id="cb1088-19"><a href="day-33.html#cb1088-19"></a>}  </span>
-<span id="cb1088-20"><a href="day-33.html#cb1088-20"></a></span>
-<span id="cb1088-21"><a href="day-33.html#cb1088-21"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>))) {</span>
-<span id="cb1088-22"><a href="day-33.html#cb1088-22"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
-<span id="cb1088-23"><a href="day-33.html#cb1088-23"></a>        <span class="kw">make_plot</span>(), </span>
-<span id="cb1088-24"><a href="day-33.html#cb1088-24"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>),</span>
-<span id="cb1088-25"><a href="day-33.html#cb1088-25"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb1088-26"><a href="day-33.html#cb1088-26"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
-<span id="cb1088-27"><a href="day-33.html#cb1088-27"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
-<span id="cb1088-28"><a href="day-33.html#cb1088-28"></a>    )</span>
-<span id="cb1088-29"><a href="day-33.html#cb1088-29"></a>}</span>
-<span id="cb1088-30"><a href="day-33.html#cb1088-30"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1107-1"><a href="day-33.html#cb1107-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1107-2"><a href="day-33.html#cb1107-2"></a>    zlims_fixed &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>fixed)</span>
+<span id="cb1107-3"><a href="day-33.html#cb1107-3"></a>    zlims_obs &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1107-4"><a href="day-33.html#cb1107-4"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1107-5"><a href="day-33.html#cb1107-5"></a>        p1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1107-6"><a href="day-33.html#cb1107-6"></a><span class="st">            </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1107-7"><a href="day-33.html#cb1107-7"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> fixed)) <span class="op">+</span></span>
+<span id="cb1107-8"><a href="day-33.html#cb1107-8"></a><span class="st">            </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1107-9"><a href="day-33.html#cb1107-9"></a><span class="st">            </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims_fixed) <span class="op">+</span></span>
+<span id="cb1107-10"><a href="day-33.html#cb1107-10"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;fixed effects; time&quot;</span>, i))</span>
+<span id="cb1107-11"><a href="day-33.html#cb1107-11"></a>        p2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1107-12"><a href="day-33.html#cb1107-12"></a><span class="st">            </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1107-13"><a href="day-33.html#cb1107-13"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1107-14"><a href="day-33.html#cb1107-14"></a><span class="st">            </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1107-15"><a href="day-33.html#cb1107-15"></a><span class="st">            </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims_obs) <span class="op">+</span></span>
+<span id="cb1107-16"><a href="day-33.html#cb1107-16"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1107-17"><a href="day-33.html#cb1107-17"></a>        <span class="kw">print</span>(p1 <span class="op">+</span><span class="st"> </span>p2)</span>
+<span id="cb1107-18"><a href="day-33.html#cb1107-18"></a>    }</span>
+<span id="cb1107-19"><a href="day-33.html#cb1107-19"></a>}  </span>
+<span id="cb1107-20"><a href="day-33.html#cb1107-20"></a></span>
+<span id="cb1107-21"><a href="day-33.html#cb1107-21"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>))) {</span>
+<span id="cb1107-22"><a href="day-33.html#cb1107-22"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1107-23"><a href="day-33.html#cb1107-23"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1107-24"><a href="day-33.html#cb1107-24"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>),</span>
+<span id="cb1107-25"><a href="day-33.html#cb1107-25"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1107-26"><a href="day-33.html#cb1107-26"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1107-27"><a href="day-33.html#cb1107-27"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1107-28"><a href="day-33.html#cb1107-28"></a>    )</span>
+<span id="cb1107-29"><a href="day-33.html#cb1107-29"></a>}</span>
+<span id="cb1107-30"><a href="day-33.html#cb1107-30"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>))</span></code></pre></div>
 <p><img src="images/dlm.gif" /><!-- --></p>
 <ul>
 <li>Spatially varying coefficient models (spatial only)</li>
 </ul>
-<div class="sourceCode" id="cb1089"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1089-1"><a href="day-33.html#cb1089-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb1089-2"><a href="day-33.html#cb1089-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb1089-3"><a href="day-33.html#cb1089-3"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
-<span id="cb1089-4"><a href="day-33.html#cb1089-4"></a>    <span class="kw">expand.grid</span>(</span>
-<span id="cb1089-5"><a href="day-33.html#cb1089-5"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb1089-6"><a href="day-33.html#cb1089-6"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb1089-7"><a href="day-33.html#cb1089-7"></a>    )</span>
-<span id="cb1089-8"><a href="day-33.html#cb1089-8"></a>)</span>
-<span id="cb1089-9"><a href="day-33.html#cb1089-9"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
-<span id="cb1089-10"><a href="day-33.html#cb1089-10"></a></span>
-<span id="cb1089-11"><a href="day-33.html#cb1089-11"></a><span class="co">## use fixed coefficients in time</span></span>
-<span id="cb1089-12"><a href="day-33.html#cb1089-12"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">t</span>(mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span><span class="dv">3</span>))))</span>
-<span id="cb1089-13"><a href="day-33.html#cb1089-13"></a></span>
-<span id="cb1089-14"><a href="day-33.html#cb1089-14"></a><span class="co">## parameters for the dynamic process</span></span>
-<span id="cb1089-15"><a href="day-33.html#cb1089-15"></a></span>
-<span id="cb1089-16"><a href="day-33.html#cb1089-16"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
-<span id="cb1089-17"><a href="day-33.html#cb1089-17"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb1089-18"><a href="day-33.html#cb1089-18"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
-<span id="cb1089-19"><a href="day-33.html#cb1089-19"></a>beta &lt;-<span class="st"> </span><span class="kw">t</span>(mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">2</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
-<span id="cb1089-20"><a href="day-33.html#cb1089-20"></a></span>
-<span id="cb1089-21"><a href="day-33.html#cb1089-21"></a>y &lt;-<span class="st"> </span><span class="kw">rowSums</span>(X <span class="op">*</span><span class="st"> </span>beta)</span>
-<span id="cb1089-22"><a href="day-33.html#cb1089-22"></a><span class="co">## initialize this to a steady state</span></span>
-<span id="cb1089-23"><a href="day-33.html#cb1089-23"></a></span>
-<span id="cb1089-24"><a href="day-33.html#cb1089-24"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb1089-25"><a href="day-33.html#cb1089-25"></a>    <span class="dt">x         =</span> locs[, <span class="dv">1</span>],</span>
-<span id="cb1089-26"><a href="day-33.html#cb1089-26"></a>    <span class="dt">y         =</span> locs[, <span class="dv">2</span>],</span>
-<span id="cb1089-27"><a href="day-33.html#cb1089-27"></a>    <span class="dt">covariate =</span> X[, <span class="dv">2</span>], </span>
-<span id="cb1089-28"><a href="day-33.html#cb1089-28"></a>    <span class="dt">intercept =</span> beta[, <span class="dv">1</span>],</span>
-<span id="cb1089-29"><a href="day-33.html#cb1089-29"></a>    <span class="dt">slope     =</span> beta[, <span class="dv">2</span>],</span>
-<span id="cb1089-30"><a href="day-33.html#cb1089-30"></a>    <span class="dt">obs       =</span> y</span>
-<span id="cb1089-31"><a href="day-33.html#cb1089-31"></a>)</span>
-<span id="cb1089-32"><a href="day-33.html#cb1089-32"></a></span>
-<span id="cb1089-33"><a href="day-33.html#cb1089-33"></a>p1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
-<span id="cb1089-34"><a href="day-33.html#cb1089-34"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> covariate)) <span class="op">+</span></span>
-<span id="cb1089-35"><a href="day-33.html#cb1089-35"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1089-36"><a href="day-33.html#cb1089-36"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb1089-37"><a href="day-33.html#cb1089-37"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;coefficients&quot;</span>)</span>
-<span id="cb1089-38"><a href="day-33.html#cb1089-38"></a></span>
-<span id="cb1089-39"><a href="day-33.html#cb1089-39"></a>p2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
-<span id="cb1089-40"><a href="day-33.html#cb1089-40"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
-<span id="cb1089-41"><a href="day-33.html#cb1089-41"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1089-42"><a href="day-33.html#cb1089-42"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb1089-43"><a href="day-33.html#cb1089-43"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;observations&quot;</span>)</span>
-<span id="cb1089-44"><a href="day-33.html#cb1089-44"></a></span>
-<span id="cb1089-45"><a href="day-33.html#cb1089-45"></a>p3 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
-<span id="cb1089-46"><a href="day-33.html#cb1089-46"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> intercept)) <span class="op">+</span></span>
-<span id="cb1089-47"><a href="day-33.html#cb1089-47"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1089-48"><a href="day-33.html#cb1089-48"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb1089-49"><a href="day-33.html#cb1089-49"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying intercept&quot;</span>)</span>
-<span id="cb1089-50"><a href="day-33.html#cb1089-50"></a></span>
-<span id="cb1089-51"><a href="day-33.html#cb1089-51"></a>p4 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
-<span id="cb1089-52"><a href="day-33.html#cb1089-52"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> slope)) <span class="op">+</span></span>
-<span id="cb1089-53"><a href="day-33.html#cb1089-53"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb1089-54"><a href="day-33.html#cb1089-54"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb1089-55"><a href="day-33.html#cb1089-55"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying slope&quot;</span>)</span>
-<span id="cb1089-56"><a href="day-33.html#cb1089-56"></a></span>
-<span id="cb1089-57"><a href="day-33.html#cb1089-57"></a>(p1 <span class="op">+</span><span class="st"> </span>p2) <span class="op">/</span><span class="st"> </span>(p3 <span class="op">+</span><span class="st"> </span>p4)</span></code></pre></div>
+<div class="sourceCode" id="cb1108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1108-1"><a href="day-33.html#cb1108-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1108-2"><a href="day-33.html#cb1108-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1108-3"><a href="day-33.html#cb1108-3"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1108-4"><a href="day-33.html#cb1108-4"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1108-5"><a href="day-33.html#cb1108-5"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1108-6"><a href="day-33.html#cb1108-6"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1108-7"><a href="day-33.html#cb1108-7"></a>    )</span>
+<span id="cb1108-8"><a href="day-33.html#cb1108-8"></a>)</span>
+<span id="cb1108-9"><a href="day-33.html#cb1108-9"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1108-10"><a href="day-33.html#cb1108-10"></a></span>
+<span id="cb1108-11"><a href="day-33.html#cb1108-11"></a><span class="co">## use fixed coefficients in time</span></span>
+<span id="cb1108-12"><a href="day-33.html#cb1108-12"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">t</span>(mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span><span class="dv">3</span>))))</span>
+<span id="cb1108-13"><a href="day-33.html#cb1108-13"></a></span>
+<span id="cb1108-14"><a href="day-33.html#cb1108-14"></a><span class="co">## parameters for the dynamic process</span></span>
+<span id="cb1108-15"><a href="day-33.html#cb1108-15"></a></span>
+<span id="cb1108-16"><a href="day-33.html#cb1108-16"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1108-17"><a href="day-33.html#cb1108-17"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1108-18"><a href="day-33.html#cb1108-18"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1108-19"><a href="day-33.html#cb1108-19"></a>beta &lt;-<span class="st"> </span><span class="kw">t</span>(mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">2</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
+<span id="cb1108-20"><a href="day-33.html#cb1108-20"></a></span>
+<span id="cb1108-21"><a href="day-33.html#cb1108-21"></a>y &lt;-<span class="st"> </span><span class="kw">rowSums</span>(X <span class="op">*</span><span class="st"> </span>beta)</span>
+<span id="cb1108-22"><a href="day-33.html#cb1108-22"></a><span class="co">## initialize this to a steady state</span></span>
+<span id="cb1108-23"><a href="day-33.html#cb1108-23"></a></span>
+<span id="cb1108-24"><a href="day-33.html#cb1108-24"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1108-25"><a href="day-33.html#cb1108-25"></a>    <span class="dt">x         =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1108-26"><a href="day-33.html#cb1108-26"></a>    <span class="dt">y         =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1108-27"><a href="day-33.html#cb1108-27"></a>    <span class="dt">covariate =</span> X[, <span class="dv">2</span>], </span>
+<span id="cb1108-28"><a href="day-33.html#cb1108-28"></a>    <span class="dt">intercept =</span> beta[, <span class="dv">1</span>],</span>
+<span id="cb1108-29"><a href="day-33.html#cb1108-29"></a>    <span class="dt">slope     =</span> beta[, <span class="dv">2</span>],</span>
+<span id="cb1108-30"><a href="day-33.html#cb1108-30"></a>    <span class="dt">obs       =</span> y</span>
+<span id="cb1108-31"><a href="day-33.html#cb1108-31"></a>)</span>
+<span id="cb1108-32"><a href="day-33.html#cb1108-32"></a></span>
+<span id="cb1108-33"><a href="day-33.html#cb1108-33"></a>p1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1108-34"><a href="day-33.html#cb1108-34"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> covariate)) <span class="op">+</span></span>
+<span id="cb1108-35"><a href="day-33.html#cb1108-35"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1108-36"><a href="day-33.html#cb1108-36"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1108-37"><a href="day-33.html#cb1108-37"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;coefficients&quot;</span>)</span>
+<span id="cb1108-38"><a href="day-33.html#cb1108-38"></a></span>
+<span id="cb1108-39"><a href="day-33.html#cb1108-39"></a>p2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1108-40"><a href="day-33.html#cb1108-40"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1108-41"><a href="day-33.html#cb1108-41"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1108-42"><a href="day-33.html#cb1108-42"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1108-43"><a href="day-33.html#cb1108-43"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;observations&quot;</span>)</span>
+<span id="cb1108-44"><a href="day-33.html#cb1108-44"></a></span>
+<span id="cb1108-45"><a href="day-33.html#cb1108-45"></a>p3 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1108-46"><a href="day-33.html#cb1108-46"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> intercept)) <span class="op">+</span></span>
+<span id="cb1108-47"><a href="day-33.html#cb1108-47"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1108-48"><a href="day-33.html#cb1108-48"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1108-49"><a href="day-33.html#cb1108-49"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying intercept&quot;</span>)</span>
+<span id="cb1108-50"><a href="day-33.html#cb1108-50"></a></span>
+<span id="cb1108-51"><a href="day-33.html#cb1108-51"></a>p4 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1108-52"><a href="day-33.html#cb1108-52"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> slope)) <span class="op">+</span></span>
+<span id="cb1108-53"><a href="day-33.html#cb1108-53"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1108-54"><a href="day-33.html#cb1108-54"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1108-55"><a href="day-33.html#cb1108-55"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying slope&quot;</span>)</span>
+<span id="cb1108-56"><a href="day-33.html#cb1108-56"></a></span>
+<span id="cb1108-57"><a href="day-33.html#cb1108-57"></a>(p1 <span class="op">+</span><span class="st"> </span>p2) <span class="op">/</span><span class="st"> </span>(p3 <span class="op">+</span><span class="st"> </span>p4)</span></code></pre></div>
 <p><img src="33-day-33_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 </div>

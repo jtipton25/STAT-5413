@@ -424,57 +424,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="example-spatial-analysis" class="section level2">
 <h2><span class="header-section-number">11.2</span> Example spatial analysis</h2>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="day-11.html#cb146-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb146-2"><a href="day-11.html#cb146-2"></a><span class="kw">library</span>(fields)</span>
-<span id="cb146-3"><a href="day-11.html#cb146-3"></a><span class="kw">library</span>(geoR)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="day-11.html#cb145-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb145-2"><a href="day-11.html#cb145-2"></a><span class="kw">library</span>(fields)</span>
+<span id="cb145-3"><a href="day-11.html#cb145-3"></a><span class="kw">library</span>(geoR)</span></code></pre></div>
 <pre><code>## Warning in fun(libname, pkgname): no display name and no $DISPLAY environment
 ## variable</code></pre>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="day-11.html#cb148-1"></a><span class="kw">library</span>(STRbook)</span>
-<span id="cb148-2"><a href="day-11.html#cb148-2"></a><span class="kw">library</span>(maps)</span>
-<span id="cb148-3"><a href="day-11.html#cb148-3"></a><span class="kw">library</span>(nlme)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="day-11.html#cb147-1"></a><span class="kw">library</span>(STRbook)</span>
+<span id="cb147-2"><a href="day-11.html#cb147-2"></a><span class="kw">library</span>(maps)</span>
+<span id="cb147-3"><a href="day-11.html#cb147-3"></a><span class="kw">library</span>(nlme)</span></code></pre></div>
 </div>
 <div id="spatial-model-fitting" class="section level2">
 <h2><span class="header-section-number">11.3</span> Spatial model fitting</h2>
 <p>We will use the <em>NOAA_df_1990</em> <em>data.frame</em> from the <em>STRbook</em> package. We will</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="day-11.html#cb149-1"></a><span class="kw">data</span>(<span class="st">&quot;NOAA_df_1990&quot;</span>)</span>
-<span id="cb149-2"><a href="day-11.html#cb149-2"></a><span class="co">## add a factor variable for left_join</span></span>
-<span id="cb149-3"><a href="day-11.html#cb149-3"></a>NOAA_df_<span class="dv">1990</span><span class="op">$</span>id_factor &lt;-<span class="st"> </span><span class="kw">factor</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>id)</span>
-<span id="cb149-4"><a href="day-11.html#cb149-4"></a>dat &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
-<span id="cb149-5"><a href="day-11.html#cb149-5"></a><span class="st">    </span><span class="kw">subset</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">1990</span> <span class="op">&amp;</span><span class="st"> </span>month <span class="op">==</span><span class="st"> </span><span class="dv">7</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb149-6"><a href="day-11.html#cb149-6"></a><span class="st">    </span><span class="kw">group_by</span>(id_factor) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb149-7"><a href="day-11.html#cb149-7"></a><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">mean_Tmax =</span> <span class="kw">mean</span>(z)) <span class="co">#</span></span>
-<span id="cb149-8"><a href="day-11.html#cb149-8"></a></span>
-<span id="cb149-9"><a href="day-11.html#cb149-9"></a><span class="co">## add back in the lat/lon variables</span></span>
-<span id="cb149-10"><a href="day-11.html#cb149-10"></a>dat &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
-<span id="cb149-11"><a href="day-11.html#cb149-11"></a><span class="st">    </span><span class="kw">subset</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">1990</span> <span class="op">&amp;</span><span class="st"> </span>month <span class="op">==</span><span class="st"> </span><span class="dv">7</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span> <span class="op">&amp;</span><span class="st"> </span>day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></span>
-<span id="cb149-12"><a href="day-11.html#cb149-12"></a><span class="st">    </span><span class="kw">left_join</span>(dat, <span class="dt">by =</span> <span class="st">&quot;id_factor&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="day-11.html#cb148-1"></a><span class="kw">data</span>(<span class="st">&quot;NOAA_df_1990&quot;</span>)</span>
+<span id="cb148-2"><a href="day-11.html#cb148-2"></a><span class="co">## add a factor variable for left_join</span></span>
+<span id="cb148-3"><a href="day-11.html#cb148-3"></a>NOAA_df_<span class="dv">1990</span><span class="op">$</span>id_factor &lt;-<span class="st"> </span><span class="kw">factor</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>id)</span>
+<span id="cb148-4"><a href="day-11.html#cb148-4"></a>dat &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
+<span id="cb148-5"><a href="day-11.html#cb148-5"></a><span class="st">    </span><span class="kw">subset</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">1990</span> <span class="op">&amp;</span><span class="st"> </span>month <span class="op">==</span><span class="st"> </span><span class="dv">7</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb148-6"><a href="day-11.html#cb148-6"></a><span class="st">    </span><span class="kw">group_by</span>(id_factor) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb148-7"><a href="day-11.html#cb148-7"></a><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">mean_Tmax =</span> <span class="kw">mean</span>(z)) <span class="co">#</span></span>
+<span id="cb148-8"><a href="day-11.html#cb148-8"></a></span>
+<span id="cb148-9"><a href="day-11.html#cb148-9"></a><span class="co">## add back in the lat/lon variables</span></span>
+<span id="cb148-10"><a href="day-11.html#cb148-10"></a>dat &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
+<span id="cb148-11"><a href="day-11.html#cb148-11"></a><span class="st">    </span><span class="kw">subset</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">1990</span> <span class="op">&amp;</span><span class="st"> </span>month <span class="op">==</span><span class="st"> </span><span class="dv">7</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span> <span class="op">&amp;</span><span class="st"> </span>day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></span>
+<span id="cb148-12"><a href="day-11.html#cb148-12"></a><span class="st">    </span><span class="kw">left_join</span>(dat, <span class="dt">by =</span> <span class="st">&quot;id_factor&quot;</span>) </span></code></pre></div>
 <p>We can plot the data</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="day-11.html#cb149-1"></a>states &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)</span>
+<span id="cb149-2"><a href="day-11.html#cb149-2"></a></span>
+<span id="cb149-3"><a href="day-11.html#cb149-3"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb149-4"><a href="day-11.html#cb149-4"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">color =</span> mean_Tmax)) <span class="op">+</span></span>
+<span id="cb149-5"><a href="day-11.html#cb149-5"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb149-6"><a href="day-11.html#cb149-6"></a><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb149-7"><a href="day-11.html#cb149-7"></a>                          <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb149-8"><a href="day-11.html#cb149-8"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb149-9"><a href="day-11.html#cb149-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature in 1990&quot;</span>)</span></code></pre></div>
+<p><img src="11-day-11_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Subset to just the region of interest</p>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="day-11.html#cb150-1"></a>states &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)</span>
 <span id="cb150-2"><a href="day-11.html#cb150-2"></a></span>
 <span id="cb150-3"><a href="day-11.html#cb150-3"></a>dat <span class="op">%&gt;%</span></span>
 <span id="cb150-4"><a href="day-11.html#cb150-4"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">color =</span> mean_Tmax)) <span class="op">+</span></span>
 <span id="cb150-5"><a href="day-11.html#cb150-5"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb150-6"><a href="day-11.html#cb150-6"></a><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb150-7"><a href="day-11.html#cb150-7"></a>                          <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb150-8"><a href="day-11.html#cb150-8"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb150-9"><a href="day-11.html#cb150-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature in 1990&quot;</span>)</span></code></pre></div>
-<p><img src="11-day-11_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Subset to just the region of interest</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="day-11.html#cb151-1"></a>states &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)</span>
-<span id="cb151-2"><a href="day-11.html#cb151-2"></a></span>
-<span id="cb151-3"><a href="day-11.html#cb151-3"></a>dat <span class="op">%&gt;%</span></span>
-<span id="cb151-4"><a href="day-11.html#cb151-4"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">color =</span> mean_Tmax)) <span class="op">+</span></span>
-<span id="cb151-5"><a href="day-11.html#cb151-5"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb151-6"><a href="day-11.html#cb151-6"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb151-7"><a href="day-11.html#cb151-7"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
-<span id="cb151-8"><a href="day-11.html#cb151-8"></a><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb151-9"><a href="day-11.html#cb151-9"></a>                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb151-10"><a href="day-11.html#cb151-10"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<span id="cb150-6"><a href="day-11.html#cb150-6"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb150-7"><a href="day-11.html#cb150-7"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
+<span id="cb150-8"><a href="day-11.html#cb150-8"></a><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb150-9"><a href="day-11.html#cb150-9"></a>                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb150-10"><a href="day-11.html#cb150-10"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="day-11.html#cb152-1"></a>dat <span class="op">%&gt;%</span></span>
-<span id="cb152-2"><a href="day-11.html#cb152-2"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mean_Tmax)) <span class="op">+</span></span>
-<span id="cb152-3"><a href="day-11.html#cb152-3"></a><span class="st">    </span><span class="kw">geom_histogram</span>() <span class="op">+</span></span>
-<span id="cb152-4"><a href="day-11.html#cb152-4"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature in 1990&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="day-11.html#cb151-1"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb151-2"><a href="day-11.html#cb151-2"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mean_Tmax)) <span class="op">+</span></span>
+<span id="cb151-3"><a href="day-11.html#cb151-3"></a><span class="st">    </span><span class="kw">geom_histogram</span>() <span class="op">+</span></span>
+<span id="cb151-4"><a href="day-11.html#cb151-4"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature in 1990&quot;</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <ul>
@@ -483,7 +483,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>No. What matters are the residuals</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="day-11.html#cb154-1"></a><span class="kw">hist</span>(<span class="kw">resid</span>(<span class="kw">lm</span>(dat<span class="op">$</span>mean_Tmax <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>lat)))</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="day-11.html#cb153-1"></a><span class="kw">hist</span>(<span class="kw">resid</span>(<span class="kw">lm</span>(dat<span class="op">$</span>mean_Tmax <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>lat)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <div id="fit-the-maximum-likelihood-estimate-using-the-geor-package" class="section level3">
 <h3><span class="header-section-number">11.3.1</span> Fit the maximum likelihood estimate using the <em>geoR</em> package</h3>
@@ -491,12 +491,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Fit the maximum likelihood estimate using an intercept only model
 ) using the <em>geoR</em> package</li>
 </ul>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="day-11.html#cb155-1"></a>fit &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
-<span id="cb155-2"><a href="day-11.html#cb155-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
-<span id="cb155-3"><a href="day-11.html#cb155-3"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
-<span id="cb155-4"><a href="day-11.html#cb155-4"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
-<span id="cb155-5"><a href="day-11.html#cb155-5"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
-<span id="cb155-6"><a href="day-11.html#cb155-6"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="day-11.html#cb154-1"></a>fit &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
+<span id="cb154-2"><a href="day-11.html#cb154-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
+<span id="cb154-3"><a href="day-11.html#cb154-3"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
+<span id="cb154-4"><a href="day-11.html#cb154-4"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
+<span id="cb154-5"><a href="day-11.html#cb154-5"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
+<span id="cb154-6"><a href="day-11.html#cb154-6"></a>)</span></code></pre></div>
 <pre><code>## kappa not used for the exponential correlation function
 ## ---------------------------------------------------------------
 ## likfit: likelihood maximisation using the function optim.
@@ -508,7 +508,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## likfit: WARNING: This step can be time demanding!
 ## ---------------------------------------------------------------
 ## likfit: end of numerical maximisation.</code></pre>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="day-11.html#cb157-1"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="day-11.html#cb156-1"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
 <pre><code>## Summary of the parameter estimation
 ## -----------------------------------
 ## Estimation method: maximum likelihood 
@@ -544,54 +544,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Call:
 ## geoR::likfit(coords = cbind(dat$lat, dat$lon), data = dat$mean_Tmax, 
 ##     ini.cov.pars = c(var(dat$mean_Tmax), 1), cov.model = &quot;exponential&quot;)</code></pre>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="day-11.html#cb159-1"></a><span class="kw">AIC</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="day-11.html#cb158-1"></a><span class="kw">AIC</span>(fit)</span></code></pre></div>
 <pre><code>## [1] 582.5471</code></pre>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="day-11.html#cb161-1"></a>fit<span class="op">$</span>BIC</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="day-11.html#cb160-1"></a>fit<span class="op">$</span>BIC</span></code></pre></div>
 <pre><code>## [1] 594.1977</code></pre>
 <ul>
 <li>Plot the estimated spatial correlation function</li>
 </ul>
 <p>Model: <span class="math inline">\(\mathbf{y} \sim N(\mu \mathbf{1}, \sigma^2 \mathbf{I} + \tau^2 \mathbf{R}(\phi))\)</span></p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="day-11.html#cb163-1"></a>sigma2 &lt;-<span class="st"> </span>fit<span class="op">$</span>nugget</span>
-<span id="cb163-2"><a href="day-11.html#cb163-2"></a>tau2   &lt;-<span class="st"> </span>fit<span class="op">$</span>sigmasq</span>
-<span id="cb163-3"><a href="day-11.html#cb163-3"></a>phi    &lt;-<span class="st"> </span>fit<span class="op">$</span>phi</span>
-<span id="cb163-4"><a href="day-11.html#cb163-4"></a></span>
-<span id="cb163-5"><a href="day-11.html#cb163-5"></a></span>
-<span id="cb163-6"><a href="day-11.html#cb163-6"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb163-7"><a href="day-11.html#cb163-7"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb163-8"><a href="day-11.html#cb163-8"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
-<span id="cb163-9"><a href="day-11.html#cb163-9"></a><span class="kw">data.frame</span>(</span>
-<span id="cb163-10"><a href="day-11.html#cb163-10"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb163-11"><a href="day-11.html#cb163-11"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb163-12"><a href="day-11.html#cb163-12"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb163-13"><a href="day-11.html#cb163-13"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
-<span id="cb163-14"><a href="day-11.html#cb163-14"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb163-15"><a href="day-11.html#cb163-15"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
-<span id="cb163-16"><a href="day-11.html#cb163-16"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb163-17"><a href="day-11.html#cb163-17"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
-<span id="cb163-18"><a href="day-11.html#cb163-18"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="day-11.html#cb162-1"></a>sigma2 &lt;-<span class="st"> </span>fit<span class="op">$</span>nugget</span>
+<span id="cb162-2"><a href="day-11.html#cb162-2"></a>tau2   &lt;-<span class="st"> </span>fit<span class="op">$</span>sigmasq</span>
+<span id="cb162-3"><a href="day-11.html#cb162-3"></a>phi    &lt;-<span class="st"> </span>fit<span class="op">$</span>phi</span>
+<span id="cb162-4"><a href="day-11.html#cb162-4"></a></span>
+<span id="cb162-5"><a href="day-11.html#cb162-5"></a></span>
+<span id="cb162-6"><a href="day-11.html#cb162-6"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb162-7"><a href="day-11.html#cb162-7"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb162-8"><a href="day-11.html#cb162-8"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
+<span id="cb162-9"><a href="day-11.html#cb162-9"></a><span class="kw">data.frame</span>(</span>
+<span id="cb162-10"><a href="day-11.html#cb162-10"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb162-11"><a href="day-11.html#cb162-11"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb162-12"><a href="day-11.html#cb162-12"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb162-13"><a href="day-11.html#cb162-13"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
+<span id="cb162-14"><a href="day-11.html#cb162-14"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb162-15"><a href="day-11.html#cb162-15"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
+<span id="cb162-16"><a href="day-11.html#cb162-16"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb162-17"><a href="day-11.html#cb162-17"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
+<span id="cb162-18"><a href="day-11.html#cb162-18"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="day-11.html#cb164-1"></a><span class="kw">data.frame</span>(</span>
-<span id="cb164-2"><a href="day-11.html#cb164-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb164-3"><a href="day-11.html#cb164-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb164-4"><a href="day-11.html#cb164-4"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb164-5"><a href="day-11.html#cb164-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
-<span id="cb164-6"><a href="day-11.html#cb164-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb164-7"><a href="day-11.html#cb164-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
-<span id="cb164-8"><a href="day-11.html#cb164-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb164-9"><a href="day-11.html#cb164-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb164-10"><a href="day-11.html#cb164-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="day-11.html#cb163-1"></a><span class="kw">data.frame</span>(</span>
+<span id="cb163-2"><a href="day-11.html#cb163-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb163-3"><a href="day-11.html#cb163-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb163-4"><a href="day-11.html#cb163-4"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb163-5"><a href="day-11.html#cb163-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
+<span id="cb163-6"><a href="day-11.html#cb163-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb163-7"><a href="day-11.html#cb163-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
+<span id="cb163-8"><a href="day-11.html#cb163-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb163-9"><a href="day-11.html#cb163-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb163-10"><a href="day-11.html#cb163-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <ul>
 <li>Fit the model with coefficients</li>
 </ul>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="day-11.html#cb165-1"></a>fit_coef &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
-<span id="cb165-2"><a href="day-11.html#cb165-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
-<span id="cb165-3"><a href="day-11.html#cb165-3"></a>    <span class="dt">trend        =</span> <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>lat <span class="op">+</span><span class="st"> </span>dat<span class="op">$</span>lon,</span>
-<span id="cb165-4"><a href="day-11.html#cb165-4"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
-<span id="cb165-5"><a href="day-11.html#cb165-5"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
-<span id="cb165-6"><a href="day-11.html#cb165-6"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
-<span id="cb165-7"><a href="day-11.html#cb165-7"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="day-11.html#cb164-1"></a>fit_coef &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
+<span id="cb164-2"><a href="day-11.html#cb164-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
+<span id="cb164-3"><a href="day-11.html#cb164-3"></a>    <span class="dt">trend        =</span> <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>lat <span class="op">+</span><span class="st"> </span>dat<span class="op">$</span>lon,</span>
+<span id="cb164-4"><a href="day-11.html#cb164-4"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
+<span id="cb164-5"><a href="day-11.html#cb164-5"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
+<span id="cb164-6"><a href="day-11.html#cb164-6"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
+<span id="cb164-7"><a href="day-11.html#cb164-7"></a>)</span></code></pre></div>
 <pre><code>## kappa not used for the exponential correlation function
 ## ---------------------------------------------------------------
 ## likfit: likelihood maximisation using the function optim.
@@ -603,7 +603,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## likfit: WARNING: This step can be time demanding!
 ## ---------------------------------------------------------------
 ## likfit: end of numerical maximisation.</code></pre>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="day-11.html#cb167-1"></a><span class="kw">summary</span>(fit_coef)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="day-11.html#cb166-1"></a><span class="kw">summary</span>(fit_coef)</span></code></pre></div>
 <pre><code>## Summary of the parameter estimation
 ## -----------------------------------
 ## Estimation method: maximum likelihood 
@@ -640,121 +640,121 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## geoR::likfit(coords = cbind(dat$lat, dat$lon), data = dat$mean_Tmax, 
 ##     trend = ~dat$lat + dat$lon, ini.cov.pars = c(var(dat$mean_Tmax), 
 ##         1), cov.model = &quot;exponential&quot;)</code></pre>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="day-11.html#cb169-1"></a><span class="co">## look at the AIC</span></span>
-<span id="cb169-2"><a href="day-11.html#cb169-2"></a><span class="kw">AIC</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="day-11.html#cb168-1"></a><span class="co">## look at the AIC</span></span>
+<span id="cb168-2"><a href="day-11.html#cb168-2"></a><span class="kw">AIC</span>(fit)</span></code></pre></div>
 <pre><code>## [1] 582.5471</code></pre>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="day-11.html#cb171-1"></a><span class="kw">AIC</span>(fit_coef)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="day-11.html#cb170-1"></a><span class="kw">AIC</span>(fit_coef)</span></code></pre></div>
 <pre><code>## [1] 568.7446</code></pre>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="day-11.html#cb173-1"></a><span class="co">## look at the BIC</span></span>
-<span id="cb173-2"><a href="day-11.html#cb173-2"></a>fit<span class="op">$</span>BIC</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="day-11.html#cb172-1"></a><span class="co">## look at the BIC</span></span>
+<span id="cb172-2"><a href="day-11.html#cb172-2"></a>fit<span class="op">$</span>BIC</span></code></pre></div>
 <pre><code>## [1] 594.1977</code></pre>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="day-11.html#cb175-1"></a>fit_coef<span class="op">$</span>BIC</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="day-11.html#cb174-1"></a>fit_coef<span class="op">$</span>BIC</span></code></pre></div>
 <pre><code>## [1] 586.2206</code></pre>
 <ul>
 <li><p>Which model is better fitting the data?</p></li>
 <li><p>Plot the estimated spatial correlation function</p></li>
 </ul>
 <p>Model: <span class="math inline">\(\mathbf{y} \sim N(\mu \mathbf{1}, \sigma^2 \mathbf{I} + \tau^2 \mathbf{R}(\phi))\)</span></p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="day-11.html#cb177-1"></a>sigma2 &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>nugget</span>
-<span id="cb177-2"><a href="day-11.html#cb177-2"></a>tau2   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigmasq</span>
-<span id="cb177-3"><a href="day-11.html#cb177-3"></a>phi    &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>phi</span>
-<span id="cb177-4"><a href="day-11.html#cb177-4"></a></span>
-<span id="cb177-5"><a href="day-11.html#cb177-5"></a></span>
-<span id="cb177-6"><a href="day-11.html#cb177-6"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb177-7"><a href="day-11.html#cb177-7"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb177-8"><a href="day-11.html#cb177-8"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
-<span id="cb177-9"><a href="day-11.html#cb177-9"></a><span class="kw">data.frame</span>(</span>
-<span id="cb177-10"><a href="day-11.html#cb177-10"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb177-11"><a href="day-11.html#cb177-11"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb177-12"><a href="day-11.html#cb177-12"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb177-13"><a href="day-11.html#cb177-13"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
-<span id="cb177-14"><a href="day-11.html#cb177-14"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb177-15"><a href="day-11.html#cb177-15"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
-<span id="cb177-16"><a href="day-11.html#cb177-16"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb177-17"><a href="day-11.html#cb177-17"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
-<span id="cb177-18"><a href="day-11.html#cb177-18"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="day-11.html#cb176-1"></a>sigma2 &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>nugget</span>
+<span id="cb176-2"><a href="day-11.html#cb176-2"></a>tau2   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigmasq</span>
+<span id="cb176-3"><a href="day-11.html#cb176-3"></a>phi    &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>phi</span>
+<span id="cb176-4"><a href="day-11.html#cb176-4"></a></span>
+<span id="cb176-5"><a href="day-11.html#cb176-5"></a></span>
+<span id="cb176-6"><a href="day-11.html#cb176-6"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb176-7"><a href="day-11.html#cb176-7"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb176-8"><a href="day-11.html#cb176-8"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
+<span id="cb176-9"><a href="day-11.html#cb176-9"></a><span class="kw">data.frame</span>(</span>
+<span id="cb176-10"><a href="day-11.html#cb176-10"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb176-11"><a href="day-11.html#cb176-11"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb176-12"><a href="day-11.html#cb176-12"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb176-13"><a href="day-11.html#cb176-13"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
+<span id="cb176-14"><a href="day-11.html#cb176-14"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb176-15"><a href="day-11.html#cb176-15"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
+<span id="cb176-16"><a href="day-11.html#cb176-16"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb176-17"><a href="day-11.html#cb176-17"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
+<span id="cb176-18"><a href="day-11.html#cb176-18"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="day-11.html#cb178-1"></a><span class="kw">data.frame</span>(</span>
-<span id="cb178-2"><a href="day-11.html#cb178-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb178-3"><a href="day-11.html#cb178-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb178-4"><a href="day-11.html#cb178-4"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb178-5"><a href="day-11.html#cb178-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
-<span id="cb178-6"><a href="day-11.html#cb178-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb178-7"><a href="day-11.html#cb178-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
-<span id="cb178-8"><a href="day-11.html#cb178-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb178-9"><a href="day-11.html#cb178-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb178-10"><a href="day-11.html#cb178-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="day-11.html#cb177-1"></a><span class="kw">data.frame</span>(</span>
+<span id="cb177-2"><a href="day-11.html#cb177-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb177-3"><a href="day-11.html#cb177-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb177-4"><a href="day-11.html#cb177-4"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb177-5"><a href="day-11.html#cb177-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
+<span id="cb177-6"><a href="day-11.html#cb177-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb177-7"><a href="day-11.html#cb177-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
+<span id="cb177-8"><a href="day-11.html#cb177-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb177-9"><a href="day-11.html#cb177-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb177-10"><a href="day-11.html#cb177-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 <ul>
 <li>Other models are available – see <em>?cov.model</em> for details</li>
 </ul>
 <div id="spatial-predictions-using-geor" class="section level4">
 <h4><span class="header-section-number">11.3.1.1</span> Spatial predictions using <em>geoR</em></h4>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="day-11.html#cb179-1"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
-<span id="cb179-2"><a href="day-11.html#cb179-2"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb179-3"><a href="day-11.html#cb179-3"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb179-4"><a href="day-11.html#cb179-4"></a>)</span>
-<span id="cb179-5"><a href="day-11.html#cb179-5"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span>
-<span id="cb179-6"><a href="day-11.html#cb179-6"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">data.frame</span>(pred_locations)</span>
-<span id="cb179-7"><a href="day-11.html#cb179-7"></a>preds &lt;-<span class="st"> </span><span class="kw">krige.conv</span>(</span>
-<span id="cb179-8"><a href="day-11.html#cb179-8"></a>  <span class="dt">data =</span> dat<span class="op">$</span>mean_Tmax,</span>
-<span id="cb179-9"><a href="day-11.html#cb179-9"></a>  <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
-<span id="cb179-10"><a href="day-11.html#cb179-10"></a>  <span class="dt">locations    =</span> <span class="kw">cbind</span>(pred_locations<span class="op">$</span>lat, pred_locations<span class="op">$</span>lon),</span>
-<span id="cb179-11"><a href="day-11.html#cb179-11"></a>  <span class="dt">krige =</span> <span class="kw">krige.control</span>(</span>
-<span id="cb179-12"><a href="day-11.html#cb179-12"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
-<span id="cb179-13"><a href="day-11.html#cb179-13"></a>    <span class="dt">beta         =</span> fit_coef<span class="op">$</span>beta,</span>
-<span id="cb179-14"><a href="day-11.html#cb179-14"></a>    <span class="dt">cov.pars     =</span> fit_coef<span class="op">$</span>cov.pars,</span>
-<span id="cb179-15"><a href="day-11.html#cb179-15"></a>    <span class="dt">nugget       =</span> fit_coef<span class="op">$</span>nugget</span>
-<span id="cb179-16"><a href="day-11.html#cb179-16"></a>  )</span>
-<span id="cb179-17"><a href="day-11.html#cb179-17"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="day-11.html#cb178-1"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
+<span id="cb178-2"><a href="day-11.html#cb178-2"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb178-3"><a href="day-11.html#cb178-3"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb178-4"><a href="day-11.html#cb178-4"></a>)</span>
+<span id="cb178-5"><a href="day-11.html#cb178-5"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span>
+<span id="cb178-6"><a href="day-11.html#cb178-6"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">data.frame</span>(pred_locations)</span>
+<span id="cb178-7"><a href="day-11.html#cb178-7"></a>preds &lt;-<span class="st"> </span><span class="kw">krige.conv</span>(</span>
+<span id="cb178-8"><a href="day-11.html#cb178-8"></a>  <span class="dt">data =</span> dat<span class="op">$</span>mean_Tmax,</span>
+<span id="cb178-9"><a href="day-11.html#cb178-9"></a>  <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
+<span id="cb178-10"><a href="day-11.html#cb178-10"></a>  <span class="dt">locations    =</span> <span class="kw">cbind</span>(pred_locations<span class="op">$</span>lat, pred_locations<span class="op">$</span>lon),</span>
+<span id="cb178-11"><a href="day-11.html#cb178-11"></a>  <span class="dt">krige =</span> <span class="kw">krige.control</span>(</span>
+<span id="cb178-12"><a href="day-11.html#cb178-12"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
+<span id="cb178-13"><a href="day-11.html#cb178-13"></a>    <span class="dt">beta         =</span> fit_coef<span class="op">$</span>beta,</span>
+<span id="cb178-14"><a href="day-11.html#cb178-14"></a>    <span class="dt">cov.pars     =</span> fit_coef<span class="op">$</span>cov.pars,</span>
+<span id="cb178-15"><a href="day-11.html#cb178-15"></a>    <span class="dt">nugget       =</span> fit_coef<span class="op">$</span>nugget</span>
+<span id="cb178-16"><a href="day-11.html#cb178-16"></a>  )</span>
+<span id="cb178-17"><a href="day-11.html#cb178-17"></a>)</span></code></pre></div>
 <pre><code>## krige.conv: model with constant mean
 ## krige.conv: Kriging performed using global neighbourhood</code></pre>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="day-11.html#cb181-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb181-2"><a href="day-11.html#cb181-2"></a>  <span class="dt">preds =</span> preds<span class="op">$</span>predict,</span>
-<span id="cb181-3"><a href="day-11.html#cb181-3"></a>  <span class="dt">var   =</span> preds<span class="op">$</span>krige.var,</span>
-<span id="cb181-4"><a href="day-11.html#cb181-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
-<span id="cb181-5"><a href="day-11.html#cb181-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
-<span id="cb181-6"><a href="day-11.html#cb181-6"></a>) </span></code></pre></div>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="day-11.html#cb182-1"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
-<span id="cb182-2"><a href="day-11.html#cb182-2"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb182-3"><a href="day-11.html#cb182-3"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb182-4"><a href="day-11.html#cb182-4"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb182-5"><a href="day-11.html#cb182-5"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb182-6"><a href="day-11.html#cb182-6"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
-<span id="cb182-7"><a href="day-11.html#cb182-7"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
-<span id="cb182-8"><a href="day-11.html#cb182-8"></a></span>
-<span id="cb182-9"><a href="day-11.html#cb182-9"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
-<span id="cb182-10"><a href="day-11.html#cb182-10"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb182-11"><a href="day-11.html#cb182-11"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb182-12"><a href="day-11.html#cb182-12"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb182-13"><a href="day-11.html#cb182-13"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb182-14"><a href="day-11.html#cb182-14"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction Variance in 1990&quot;</span>)  <span class="op">+</span></span>
-<span id="cb182-15"><a href="day-11.html#cb182-15"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="day-11.html#cb180-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb180-2"><a href="day-11.html#cb180-2"></a>  <span class="dt">preds =</span> preds<span class="op">$</span>predict,</span>
+<span id="cb180-3"><a href="day-11.html#cb180-3"></a>  <span class="dt">var   =</span> preds<span class="op">$</span>krige.var,</span>
+<span id="cb180-4"><a href="day-11.html#cb180-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
+<span id="cb180-5"><a href="day-11.html#cb180-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
+<span id="cb180-6"><a href="day-11.html#cb180-6"></a>) </span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="day-11.html#cb181-1"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
+<span id="cb181-2"><a href="day-11.html#cb181-2"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb181-3"><a href="day-11.html#cb181-3"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb181-4"><a href="day-11.html#cb181-4"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb181-5"><a href="day-11.html#cb181-5"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb181-6"><a href="day-11.html#cb181-6"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
+<span id="cb181-7"><a href="day-11.html#cb181-7"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
+<span id="cb181-8"><a href="day-11.html#cb181-8"></a></span>
+<span id="cb181-9"><a href="day-11.html#cb181-9"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
+<span id="cb181-10"><a href="day-11.html#cb181-10"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb181-11"><a href="day-11.html#cb181-11"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb181-12"><a href="day-11.html#cb181-12"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb181-13"><a href="day-11.html#cb181-13"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb181-14"><a href="day-11.html#cb181-14"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction Variance in 1990&quot;</span>)  <span class="op">+</span></span>
+<span id="cb181-15"><a href="day-11.html#cb181-15"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-12-1.png" width="49%" /><img src="11-day-11_files/figure-html/unnamed-chunk-12-2.png" width="49%" /></p>
 <ul>
 <li>What explains the “patchiness” of the variance estimates?</li>
 </ul>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="day-11.html#cb183-1"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
-<span id="cb183-2"><a href="day-11.html#cb183-2"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb183-3"><a href="day-11.html#cb183-3"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb183-4"><a href="day-11.html#cb183-4"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb183-5"><a href="day-11.html#cb183-5"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb183-6"><a href="day-11.html#cb183-6"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction Variance in 1990&quot;</span>) <span class="op">+</span></span>
-<span id="cb183-7"><a href="day-11.html#cb183-7"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> dat, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb183-8"><a href="day-11.html#cb183-8"></a>             <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="fl">0.6</span>) <span class="op">+</span></span>
-<span id="cb183-9"><a href="day-11.html#cb183-9"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="day-11.html#cb182-1"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
+<span id="cb182-2"><a href="day-11.html#cb182-2"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb182-3"><a href="day-11.html#cb182-3"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb182-4"><a href="day-11.html#cb182-4"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb182-5"><a href="day-11.html#cb182-5"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb182-6"><a href="day-11.html#cb182-6"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction Variance in 1990&quot;</span>) <span class="op">+</span></span>
+<span id="cb182-7"><a href="day-11.html#cb182-7"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> dat, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb182-8"><a href="day-11.html#cb182-8"></a>             <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="fl">0.6</span>) <span class="op">+</span></span>
+<span id="cb182-9"><a href="day-11.html#cb182-9"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 </div>
 <div id="fitting-a-spatial-model-using-the-nlme-package" class="section level3">
 <h3><span class="header-section-number">11.3.2</span> Fitting a spatial model using the <em>nlme</em> package</h3>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="day-11.html#cb184-1"></a>fit &lt;-<span class="st"> </span><span class="kw">gls</span>(</span>
-<span id="cb184-2"><a href="day-11.html#cb184-2"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
-<span id="cb184-3"><a href="day-11.html#cb184-3"></a>  <span class="dt">data =</span> dat, </span>
-<span id="cb184-4"><a href="day-11.html#cb184-4"></a>  <span class="dt">correlation =</span> <span class="kw">corExp</span>(<span class="dt">form =</span> <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon, <span class="dt">nugget =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb184-5"><a href="day-11.html#cb184-5"></a>  <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span></span>
-<span id="cb184-6"><a href="day-11.html#cb184-6"></a>)</span>
-<span id="cb184-7"><a href="day-11.html#cb184-7"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="day-11.html#cb183-1"></a>fit &lt;-<span class="st"> </span><span class="kw">gls</span>(</span>
+<span id="cb183-2"><a href="day-11.html#cb183-2"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
+<span id="cb183-3"><a href="day-11.html#cb183-3"></a>  <span class="dt">data =</span> dat, </span>
+<span id="cb183-4"><a href="day-11.html#cb183-4"></a>  <span class="dt">correlation =</span> <span class="kw">corExp</span>(<span class="dt">form =</span> <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon, <span class="dt">nugget =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb183-5"><a href="day-11.html#cb183-5"></a>  <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span></span>
+<span id="cb183-6"><a href="day-11.html#cb183-6"></a>)</span>
+<span id="cb183-7"><a href="day-11.html#cb183-7"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
 <pre><code>## Generalized least squares fit by maximum likelihood
 ##   Model: mean_Tmax ~ 1 
 ##   Data: dat 
@@ -777,55 +777,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Residual standard error: 8.033285 
 ## Degrees of freedom: 136 total; 135 residual</code></pre>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="day-11.html#cb186-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>AIC</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="day-11.html#cb185-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>AIC</span></code></pre></div>
 <pre><code>## [1] 582.5471</code></pre>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="day-11.html#cb188-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>BIC</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="day-11.html#cb187-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>BIC</span></code></pre></div>
 <pre><code>## [1] 594.1977</code></pre>
 <ul>
 <li>Plot the estimated covariance/correaltion function</li>
 </ul>
 <p>Note: the <em>gls</em> function partitions the variance using a single overall variance <span class="math inline">\(\sigma^2_{gls}\)</span> and a proportion constant <span class="math inline">\(\rho \in (0, 1)\)</span> so that our nugget <span class="math inline">\(\sigma^2 = \rho * \sigma^2_{gls}\)</span> and our partial sill <span class="math inline">\(\tau^2 = (1 - \rho) * \sigma^2_{gls}\)</span>.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="day-11.html#cb190-1"></a><span class="co">## extract the model parameters from the gls fit</span></span>
-<span id="cb190-2"><a href="day-11.html#cb190-2"></a>phi    &lt;-<span class="st"> </span><span class="kw">exp</span>(fit<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">1</span>])</span>
-<span id="cb190-3"><a href="day-11.html#cb190-3"></a>rho    &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>fit<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">2</span>])) </span>
-<span id="cb190-4"><a href="day-11.html#cb190-4"></a></span>
-<span id="cb190-5"><a href="day-11.html#cb190-5"></a>sigma2 &lt;-<span class="st"> </span>fit<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(rho)</span>
-<span id="cb190-6"><a href="day-11.html#cb190-6"></a>tau2   &lt;-<span class="st"> </span>fit<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>rho)</span>
-<span id="cb190-7"><a href="day-11.html#cb190-7"></a></span>
-<span id="cb190-8"><a href="day-11.html#cb190-8"></a></span>
-<span id="cb190-9"><a href="day-11.html#cb190-9"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb190-10"><a href="day-11.html#cb190-10"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb190-11"><a href="day-11.html#cb190-11"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
-<span id="cb190-12"><a href="day-11.html#cb190-12"></a><span class="kw">data.frame</span>(</span>
-<span id="cb190-13"><a href="day-11.html#cb190-13"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb190-14"><a href="day-11.html#cb190-14"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb190-15"><a href="day-11.html#cb190-15"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb190-16"><a href="day-11.html#cb190-16"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
-<span id="cb190-17"><a href="day-11.html#cb190-17"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb190-18"><a href="day-11.html#cb190-18"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
-<span id="cb190-19"><a href="day-11.html#cb190-19"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb190-20"><a href="day-11.html#cb190-20"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
-<span id="cb190-21"><a href="day-11.html#cb190-21"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="day-11.html#cb189-1"></a><span class="co">## extract the model parameters from the gls fit</span></span>
+<span id="cb189-2"><a href="day-11.html#cb189-2"></a>phi    &lt;-<span class="st"> </span><span class="kw">exp</span>(fit<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">1</span>])</span>
+<span id="cb189-3"><a href="day-11.html#cb189-3"></a>rho    &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>fit<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">2</span>])) </span>
+<span id="cb189-4"><a href="day-11.html#cb189-4"></a></span>
+<span id="cb189-5"><a href="day-11.html#cb189-5"></a>sigma2 &lt;-<span class="st"> </span>fit<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(rho)</span>
+<span id="cb189-6"><a href="day-11.html#cb189-6"></a>tau2   &lt;-<span class="st"> </span>fit<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>rho)</span>
+<span id="cb189-7"><a href="day-11.html#cb189-7"></a></span>
+<span id="cb189-8"><a href="day-11.html#cb189-8"></a></span>
+<span id="cb189-9"><a href="day-11.html#cb189-9"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb189-10"><a href="day-11.html#cb189-10"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb189-11"><a href="day-11.html#cb189-11"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
+<span id="cb189-12"><a href="day-11.html#cb189-12"></a><span class="kw">data.frame</span>(</span>
+<span id="cb189-13"><a href="day-11.html#cb189-13"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb189-14"><a href="day-11.html#cb189-14"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb189-15"><a href="day-11.html#cb189-15"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb189-16"><a href="day-11.html#cb189-16"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
+<span id="cb189-17"><a href="day-11.html#cb189-17"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb189-18"><a href="day-11.html#cb189-18"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
+<span id="cb189-19"><a href="day-11.html#cb189-19"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb189-20"><a href="day-11.html#cb189-20"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
+<span id="cb189-21"><a href="day-11.html#cb189-21"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="day-11.html#cb191-1"></a><span class="kw">data.frame</span>(</span>
-<span id="cb191-2"><a href="day-11.html#cb191-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb191-3"><a href="day-11.html#cb191-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb191-4"><a href="day-11.html#cb191-4"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb191-5"><a href="day-11.html#cb191-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
-<span id="cb191-6"><a href="day-11.html#cb191-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb191-7"><a href="day-11.html#cb191-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
-<span id="cb191-8"><a href="day-11.html#cb191-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb191-9"><a href="day-11.html#cb191-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb191-10"><a href="day-11.html#cb191-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="day-11.html#cb190-1"></a><span class="kw">data.frame</span>(</span>
+<span id="cb190-2"><a href="day-11.html#cb190-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb190-3"><a href="day-11.html#cb190-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb190-4"><a href="day-11.html#cb190-4"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb190-5"><a href="day-11.html#cb190-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
+<span id="cb190-6"><a href="day-11.html#cb190-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb190-7"><a href="day-11.html#cb190-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
+<span id="cb190-8"><a href="day-11.html#cb190-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb190-9"><a href="day-11.html#cb190-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb190-10"><a href="day-11.html#cb190-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
 <p>We can also fit this model using covariates</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="day-11.html#cb192-1"></a>fit_coef &lt;-<span class="st"> </span><span class="kw">gls</span>(</span>
-<span id="cb192-2"><a href="day-11.html#cb192-2"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon,</span>
-<span id="cb192-3"><a href="day-11.html#cb192-3"></a>  <span class="dt">data =</span> dat, </span>
-<span id="cb192-4"><a href="day-11.html#cb192-4"></a>  <span class="dt">correlation =</span> <span class="kw">corExp</span>(<span class="dt">form =</span> <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon, <span class="dt">nugget =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb192-5"><a href="day-11.html#cb192-5"></a>  <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span></span>
-<span id="cb192-6"><a href="day-11.html#cb192-6"></a>)</span>
-<span id="cb192-7"><a href="day-11.html#cb192-7"></a><span class="kw">summary</span>(fit_coef)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="day-11.html#cb191-1"></a>fit_coef &lt;-<span class="st"> </span><span class="kw">gls</span>(</span>
+<span id="cb191-2"><a href="day-11.html#cb191-2"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon,</span>
+<span id="cb191-3"><a href="day-11.html#cb191-3"></a>  <span class="dt">data =</span> dat, </span>
+<span id="cb191-4"><a href="day-11.html#cb191-4"></a>  <span class="dt">correlation =</span> <span class="kw">corExp</span>(<span class="dt">form =</span> <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon, <span class="dt">nugget =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb191-5"><a href="day-11.html#cb191-5"></a>  <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span></span>
+<span id="cb191-6"><a href="day-11.html#cb191-6"></a>)</span>
+<span id="cb191-7"><a href="day-11.html#cb191-7"></a><span class="kw">summary</span>(fit_coef)</span></code></pre></div>
 <pre><code>## Generalized least squares fit by maximum likelihood
 ##   Model: mean_Tmax ~ lat + lon 
 ##   Data: dat 
@@ -855,111 +855,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Residual standard error: 2.195568 
 ## Degrees of freedom: 136 total; 133 residual</code></pre>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="day-11.html#cb194-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>AIC</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="day-11.html#cb193-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>AIC</span></code></pre></div>
 <pre><code>## [1] 582.5471</code></pre>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="day-11.html#cb196-1"></a><span class="kw">summary</span>(fit_coef)<span class="op">$</span>AIC</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="day-11.html#cb195-1"></a><span class="kw">summary</span>(fit_coef)<span class="op">$</span>AIC</span></code></pre></div>
 <pre><code>## [1] 568.7446</code></pre>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="day-11.html#cb198-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>BIC</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="day-11.html#cb197-1"></a><span class="kw">summary</span>(fit)<span class="op">$</span>BIC</span></code></pre></div>
 <pre><code>## [1] 594.1977</code></pre>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="day-11.html#cb200-1"></a><span class="kw">summary</span>(fit_coef)<span class="op">$</span>BIC</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="day-11.html#cb199-1"></a><span class="kw">summary</span>(fit_coef)<span class="op">$</span>BIC</span></code></pre></div>
 <pre><code>## [1] 586.2206</code></pre>
 <ul>
 <li>Plot the estimated covariance/correaltion function</li>
 </ul>
 <p>Note: the <em>gls</em> function partitions the variance using a single overall variance <span class="math inline">\(\sigma^2_{gls}\)</span> and a proportion constant <span class="math inline">\(\rho \in (0, 1)\)</span> so that our nugget <span class="math inline">\(sigma^2 = \rho * \sigma^2_{gls}\)</span> and our partial sill <span class="math inline">\(\tau^2 = (1 - \rho) * \sigma^2_{gls}\)</span>.</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="day-11.html#cb202-1"></a><span class="co">## extract the model parameters from the gls fit</span></span>
-<span id="cb202-2"><a href="day-11.html#cb202-2"></a>phi    &lt;-<span class="st"> </span><span class="kw">exp</span>(fit_coef<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">1</span>])</span>
-<span id="cb202-3"><a href="day-11.html#cb202-3"></a>rho    &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>fit_coef<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">2</span>])) </span>
-<span id="cb202-4"><a href="day-11.html#cb202-4"></a></span>
-<span id="cb202-5"><a href="day-11.html#cb202-5"></a>sigma2 &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(rho)</span>
-<span id="cb202-6"><a href="day-11.html#cb202-6"></a>tau2   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>rho)</span>
-<span id="cb202-7"><a href="day-11.html#cb202-7"></a></span>
-<span id="cb202-8"><a href="day-11.html#cb202-8"></a></span>
-<span id="cb202-9"><a href="day-11.html#cb202-9"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb202-10"><a href="day-11.html#cb202-10"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb202-11"><a href="day-11.html#cb202-11"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
-<span id="cb202-12"><a href="day-11.html#cb202-12"></a><span class="kw">data.frame</span>(</span>
-<span id="cb202-13"><a href="day-11.html#cb202-13"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb202-14"><a href="day-11.html#cb202-14"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb202-15"><a href="day-11.html#cb202-15"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb202-16"><a href="day-11.html#cb202-16"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
-<span id="cb202-17"><a href="day-11.html#cb202-17"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb202-18"><a href="day-11.html#cb202-18"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
-<span id="cb202-19"><a href="day-11.html#cb202-19"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb202-20"><a href="day-11.html#cb202-20"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
-<span id="cb202-21"><a href="day-11.html#cb202-21"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="day-11.html#cb201-1"></a><span class="co">## extract the model parameters from the gls fit</span></span>
+<span id="cb201-2"><a href="day-11.html#cb201-2"></a>phi    &lt;-<span class="st"> </span><span class="kw">exp</span>(fit_coef<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">1</span>])</span>
+<span id="cb201-3"><a href="day-11.html#cb201-3"></a>rho    &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>fit_coef<span class="op">$</span>model[<span class="dv">1</span>]<span class="op">$</span>corStruct[<span class="dv">2</span>])) </span>
+<span id="cb201-4"><a href="day-11.html#cb201-4"></a></span>
+<span id="cb201-5"><a href="day-11.html#cb201-5"></a>sigma2 &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(rho)</span>
+<span id="cb201-6"><a href="day-11.html#cb201-6"></a>tau2   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>rho)</span>
+<span id="cb201-7"><a href="day-11.html#cb201-7"></a></span>
+<span id="cb201-8"><a href="day-11.html#cb201-8"></a></span>
+<span id="cb201-9"><a href="day-11.html#cb201-9"></a>d   &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">150</span>, <span class="dt">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb201-10"><a href="day-11.html#cb201-10"></a>cov &lt;-<span class="st"> </span><span class="kw">ifelse</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, sigma2, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st">  </span>d <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb201-11"><a href="day-11.html#cb201-11"></a>cor &lt;-<span class="st"> </span>cov <span class="op">/</span><span class="st"> </span>cov[<span class="dv">1</span>]</span>
+<span id="cb201-12"><a href="day-11.html#cb201-12"></a><span class="kw">data.frame</span>(</span>
+<span id="cb201-13"><a href="day-11.html#cb201-13"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb201-14"><a href="day-11.html#cb201-14"></a>    <span class="dt">cov =</span> cov[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb201-15"><a href="day-11.html#cb201-15"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb201-16"><a href="day-11.html#cb201-16"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cov)) <span class="op">+</span></span>
+<span id="cb201-17"><a href="day-11.html#cb201-17"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb201-18"><a href="day-11.html#cb201-18"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cov_nugget =</span> cov[<span class="dv">1</span>]), </span>
+<span id="cb201-19"><a href="day-11.html#cb201-19"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cov_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb201-20"><a href="day-11.html#cb201-20"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated covariance function&quot;</span>) <span class="op">+</span></span>
+<span id="cb201-21"><a href="day-11.html#cb201-21"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cov)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="day-11.html#cb203-1"></a><span class="kw">data.frame</span>(</span>
-<span id="cb203-2"><a href="day-11.html#cb203-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb203-3"><a href="day-11.html#cb203-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb203-4"><a href="day-11.html#cb203-4"></a>) <span class="op">%&gt;%</span></span>
-<span id="cb203-5"><a href="day-11.html#cb203-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
-<span id="cb203-6"><a href="day-11.html#cb203-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb203-7"><a href="day-11.html#cb203-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
-<span id="cb203-8"><a href="day-11.html#cb203-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb203-9"><a href="day-11.html#cb203-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb203-10"><a href="day-11.html#cb203-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="day-11.html#cb202-1"></a><span class="kw">data.frame</span>(</span>
+<span id="cb202-2"><a href="day-11.html#cb202-2"></a>    <span class="dt">d   =</span> d[<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb202-3"><a href="day-11.html#cb202-3"></a>    <span class="dt">cor =</span> cor[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb202-4"><a href="day-11.html#cb202-4"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb202-5"><a href="day-11.html#cb202-5"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> d, <span class="dt">y =</span> cor)) <span class="op">+</span></span>
+<span id="cb202-6"><a href="day-11.html#cb202-6"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb202-7"><a href="day-11.html#cb202-7"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">d_nugget =</span> d[<span class="dv">1</span>], <span class="dt">cor_nugget =</span> cor[<span class="dv">1</span>]), </span>
+<span id="cb202-8"><a href="day-11.html#cb202-8"></a>               <span class="kw">aes</span>(<span class="dt">x =</span> d_nugget, <span class="dt">y =</span> cor_nugget), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb202-9"><a href="day-11.html#cb202-9"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Estimated correlation function&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb202-10"><a href="day-11.html#cb202-10"></a><span class="st">    </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(cor)))</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
 <ul>
 <li>Other correlation structures avaiable with <em>?corClasses</em></li>
 </ul>
 <div id="spatial-predictions-using-nlme" class="section level4">
 <h4><span class="header-section-number">11.3.2.1</span> Spatial predictions using <em>nlme</em></h4>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="day-11.html#cb204-1"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
-<span id="cb204-2"><a href="day-11.html#cb204-2"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb204-3"><a href="day-11.html#cb204-3"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb204-4"><a href="day-11.html#cb204-4"></a>)</span>
-<span id="cb204-5"><a href="day-11.html#cb204-5"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span>
-<span id="cb204-6"><a href="day-11.html#cb204-6"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">data.frame</span>(pred_locations)</span>
-<span id="cb204-7"><a href="day-11.html#cb204-7"></a></span>
-<span id="cb204-8"><a href="day-11.html#cb204-8"></a>preds &lt;-<span class="st"> </span><span class="kw">predict</span>(</span>
-<span id="cb204-9"><a href="day-11.html#cb204-9"></a>  fit_coef, </span>
-<span id="cb204-10"><a href="day-11.html#cb204-10"></a>  <span class="dt">newdata =</span> pred_locations</span>
-<span id="cb204-11"><a href="day-11.html#cb204-11"></a>)</span>
-<span id="cb204-12"><a href="day-11.html#cb204-12"></a></span>
-<span id="cb204-13"><a href="day-11.html#cb204-13"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb204-14"><a href="day-11.html#cb204-14"></a>  <span class="dt">preds =</span> preds,</span>
-<span id="cb204-15"><a href="day-11.html#cb204-15"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
-<span id="cb204-16"><a href="day-11.html#cb204-16"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
-<span id="cb204-17"><a href="day-11.html#cb204-17"></a>) </span>
-<span id="cb204-18"><a href="day-11.html#cb204-18"></a></span>
-<span id="cb204-19"><a href="day-11.html#cb204-19"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
-<span id="cb204-20"><a href="day-11.html#cb204-20"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb204-21"><a href="day-11.html#cb204-21"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb204-22"><a href="day-11.html#cb204-22"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb204-23"><a href="day-11.html#cb204-23"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb204-24"><a href="day-11.html#cb204-24"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
-<span id="cb204-25"><a href="day-11.html#cb204-25"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="day-11.html#cb203-1"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
+<span id="cb203-2"><a href="day-11.html#cb203-2"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb203-3"><a href="day-11.html#cb203-3"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb203-4"><a href="day-11.html#cb203-4"></a>)</span>
+<span id="cb203-5"><a href="day-11.html#cb203-5"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span>
+<span id="cb203-6"><a href="day-11.html#cb203-6"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">data.frame</span>(pred_locations)</span>
+<span id="cb203-7"><a href="day-11.html#cb203-7"></a></span>
+<span id="cb203-8"><a href="day-11.html#cb203-8"></a>preds &lt;-<span class="st"> </span><span class="kw">predict</span>(</span>
+<span id="cb203-9"><a href="day-11.html#cb203-9"></a>  fit_coef, </span>
+<span id="cb203-10"><a href="day-11.html#cb203-10"></a>  <span class="dt">newdata =</span> pred_locations</span>
+<span id="cb203-11"><a href="day-11.html#cb203-11"></a>)</span>
+<span id="cb203-12"><a href="day-11.html#cb203-12"></a></span>
+<span id="cb203-13"><a href="day-11.html#cb203-13"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb203-14"><a href="day-11.html#cb203-14"></a>  <span class="dt">preds =</span> preds,</span>
+<span id="cb203-15"><a href="day-11.html#cb203-15"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
+<span id="cb203-16"><a href="day-11.html#cb203-16"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
+<span id="cb203-17"><a href="day-11.html#cb203-17"></a>) </span>
+<span id="cb203-18"><a href="day-11.html#cb203-18"></a></span>
+<span id="cb203-19"><a href="day-11.html#cb203-19"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
+<span id="cb203-20"><a href="day-11.html#cb203-20"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb203-21"><a href="day-11.html#cb203-21"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb203-22"><a href="day-11.html#cb203-22"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb203-23"><a href="day-11.html#cb203-23"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb203-24"><a href="day-11.html#cb203-24"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
+<span id="cb203-25"><a href="day-11.html#cb203-25"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 </div>
 <div id="model-fitting-with-autokrige-function" class="section level3">
 <h3><span class="header-section-number">11.3.3</span> model fitting with <em>autokrige</em> function</h3>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="day-11.html#cb205-1"></a><span class="kw">library</span>(automap)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="day-11.html#cb204-1"></a><span class="kw">library</span>(automap)</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="day-11.html#cb207-1"></a>dat_points &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(</span>
-<span id="cb207-2"><a href="day-11.html#cb207-2"></a>  <span class="dt">coords =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lon, dat<span class="op">$</span>lat),</span>
-<span id="cb207-3"><a href="day-11.html#cb207-3"></a>  <span class="dt">data  =</span> <span class="kw">data.frame</span>(</span>
-<span id="cb207-4"><a href="day-11.html#cb207-4"></a>    <span class="dt">mean_Tmax =</span> dat<span class="op">$</span>mean_Tmax,</span>
-<span id="cb207-5"><a href="day-11.html#cb207-5"></a>    <span class="dt">lat =</span> dat<span class="op">$</span>lat,</span>
-<span id="cb207-6"><a href="day-11.html#cb207-6"></a>    <span class="dt">lon =</span> dat<span class="op">$</span>lon</span>
-<span id="cb207-7"><a href="day-11.html#cb207-7"></a>  )</span>
-<span id="cb207-8"><a href="day-11.html#cb207-8"></a>)</span>
-<span id="cb207-9"><a href="day-11.html#cb207-9"></a>pred_points &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(</span>
-<span id="cb207-10"><a href="day-11.html#cb207-10"></a>  <span class="dt">coords =</span> <span class="kw">cbind</span>(dat_pred<span class="op">$</span>lon, dat_pred<span class="op">$</span>lat),</span>
-<span id="cb207-11"><a href="day-11.html#cb207-11"></a>  <span class="dt">data  =</span> <span class="kw">data.frame</span>(</span>
-<span id="cb207-12"><a href="day-11.html#cb207-12"></a>    <span class="dt">lat =</span> dat_pred<span class="op">$</span>lat,</span>
-<span id="cb207-13"><a href="day-11.html#cb207-13"></a>    <span class="dt">lon =</span> dat_pred<span class="op">$</span>lon</span>
-<span id="cb207-14"><a href="day-11.html#cb207-14"></a>  )</span>
-<span id="cb207-15"><a href="day-11.html#cb207-15"></a>)</span>
-<span id="cb207-16"><a href="day-11.html#cb207-16"></a>  </span>
-<span id="cb207-17"><a href="day-11.html#cb207-17"></a>fit &lt;-<span class="st"> </span><span class="kw">autoKrige</span>(</span>
-<span id="cb207-18"><a href="day-11.html#cb207-18"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
-<span id="cb207-19"><a href="day-11.html#cb207-19"></a>  <span class="dt">input_data =</span> dat_points, </span>
-<span id="cb207-20"><a href="day-11.html#cb207-20"></a>  <span class="dt">new_data =</span> pred_points</span>
-<span id="cb207-21"><a href="day-11.html#cb207-21"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="day-11.html#cb206-1"></a>dat_points &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(</span>
+<span id="cb206-2"><a href="day-11.html#cb206-2"></a>  <span class="dt">coords =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lon, dat<span class="op">$</span>lat),</span>
+<span id="cb206-3"><a href="day-11.html#cb206-3"></a>  <span class="dt">data  =</span> <span class="kw">data.frame</span>(</span>
+<span id="cb206-4"><a href="day-11.html#cb206-4"></a>    <span class="dt">mean_Tmax =</span> dat<span class="op">$</span>mean_Tmax,</span>
+<span id="cb206-5"><a href="day-11.html#cb206-5"></a>    <span class="dt">lat =</span> dat<span class="op">$</span>lat,</span>
+<span id="cb206-6"><a href="day-11.html#cb206-6"></a>    <span class="dt">lon =</span> dat<span class="op">$</span>lon</span>
+<span id="cb206-7"><a href="day-11.html#cb206-7"></a>  )</span>
+<span id="cb206-8"><a href="day-11.html#cb206-8"></a>)</span>
+<span id="cb206-9"><a href="day-11.html#cb206-9"></a>pred_points &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(</span>
+<span id="cb206-10"><a href="day-11.html#cb206-10"></a>  <span class="dt">coords =</span> <span class="kw">cbind</span>(dat_pred<span class="op">$</span>lon, dat_pred<span class="op">$</span>lat),</span>
+<span id="cb206-11"><a href="day-11.html#cb206-11"></a>  <span class="dt">data  =</span> <span class="kw">data.frame</span>(</span>
+<span id="cb206-12"><a href="day-11.html#cb206-12"></a>    <span class="dt">lat =</span> dat_pred<span class="op">$</span>lat,</span>
+<span id="cb206-13"><a href="day-11.html#cb206-13"></a>    <span class="dt">lon =</span> dat_pred<span class="op">$</span>lon</span>
+<span id="cb206-14"><a href="day-11.html#cb206-14"></a>  )</span>
+<span id="cb206-15"><a href="day-11.html#cb206-15"></a>)</span>
+<span id="cb206-16"><a href="day-11.html#cb206-16"></a>  </span>
+<span id="cb206-17"><a href="day-11.html#cb206-17"></a>fit &lt;-<span class="st"> </span><span class="kw">autoKrige</span>(</span>
+<span id="cb206-18"><a href="day-11.html#cb206-18"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</span>
+<span id="cb206-19"><a href="day-11.html#cb206-19"></a>  <span class="dt">input_data =</span> dat_points, </span>
+<span id="cb206-20"><a href="day-11.html#cb206-20"></a>  <span class="dt">new_data =</span> pred_points</span>
+<span id="cb206-21"><a href="day-11.html#cb206-21"></a>)</span></code></pre></div>
 <pre><code>## [using ordinary kriging]</code></pre>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="day-11.html#cb209-1"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="day-11.html#cb208-1"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
 <pre><code>## krige_output:
 ## Object of class SpatialPointsDataFrame
 ## Coordinates:
@@ -996,15 +996,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1   Nug 1.920220e+00     0.00   0.0
 ## 2   Ste 3.894906e+06 17317.93   0.9
 ## Sums of squares betw. var. model and sample var.[1] 221.0082</code></pre>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="day-11.html#cb211-1"></a><span class="kw">plot</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="day-11.html#cb210-1"></a><span class="kw">plot</span>(fit)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="day-11.html#cb212-1"></a>fit_coef &lt;-<span class="st"> </span><span class="kw">autoKrige</span>(</span>
-<span id="cb212-2"><a href="day-11.html#cb212-2"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon,</span>
-<span id="cb212-3"><a href="day-11.html#cb212-3"></a>  <span class="dt">input_data =</span> dat_points, </span>
-<span id="cb212-4"><a href="day-11.html#cb212-4"></a>  <span class="dt">new_data =</span> pred_points</span>
-<span id="cb212-5"><a href="day-11.html#cb212-5"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="day-11.html#cb211-1"></a>fit_coef &lt;-<span class="st"> </span><span class="kw">autoKrige</span>(</span>
+<span id="cb211-2"><a href="day-11.html#cb211-2"></a>  mean_Tmax <span class="op">~</span><span class="st"> </span>lat <span class="op">+</span><span class="st"> </span>lon,</span>
+<span id="cb211-3"><a href="day-11.html#cb211-3"></a>  <span class="dt">input_data =</span> dat_points, </span>
+<span id="cb211-4"><a href="day-11.html#cb211-4"></a>  <span class="dt">new_data =</span> pred_points</span>
+<span id="cb211-5"><a href="day-11.html#cb211-5"></a>)</span></code></pre></div>
 <pre><code>## [using universal kriging]</code></pre>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="day-11.html#cb214-1"></a><span class="kw">summary</span>(fit_coef)</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="day-11.html#cb213-1"></a><span class="kw">summary</span>(fit_coef)</span></code></pre></div>
 <pre><code>## krige_output:
 ## Object of class SpatialPointsDataFrame
 ## Coordinates:
@@ -1041,30 +1041,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1   Nug 0.7733065 0.000000   0.0
 ## 2   Ste 3.8560971 2.887739   0.3
 ## Sums of squares betw. var. model and sample var.[1] 197.6886</code></pre>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="day-11.html#cb216-1"></a><span class="kw">plot</span>(fit_coef)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="day-11.html#cb215-1"></a><span class="kw">plot</span>(fit_coef)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="day-11.html#cb217-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb217-2"><a href="day-11.html#cb217-2"></a>  <span class="dt">preds =</span> fit_coef<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred,</span>
-<span id="cb217-3"><a href="day-11.html#cb217-3"></a>  <span class="dt">var   =</span> fit_coef<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.var,</span>
-<span id="cb217-4"><a href="day-11.html#cb217-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
-<span id="cb217-5"><a href="day-11.html#cb217-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
-<span id="cb217-6"><a href="day-11.html#cb217-6"></a>) </span>
-<span id="cb217-7"><a href="day-11.html#cb217-7"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
-<span id="cb217-8"><a href="day-11.html#cb217-8"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb217-9"><a href="day-11.html#cb217-9"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb217-10"><a href="day-11.html#cb217-10"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb217-11"><a href="day-11.html#cb217-11"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb217-12"><a href="day-11.html#cb217-12"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
-<span id="cb217-13"><a href="day-11.html#cb217-13"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
-<span id="cb217-14"><a href="day-11.html#cb217-14"></a></span>
-<span id="cb217-15"><a href="day-11.html#cb217-15"></a></span>
-<span id="cb217-16"><a href="day-11.html#cb217-16"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
-<span id="cb217-17"><a href="day-11.html#cb217-17"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb217-18"><a href="day-11.html#cb217-18"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb217-19"><a href="day-11.html#cb217-19"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb217-20"><a href="day-11.html#cb217-20"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb217-21"><a href="day-11.html#cb217-21"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction Variance in 1990&quot;</span>)  <span class="op">+</span></span>
-<span id="cb217-22"><a href="day-11.html#cb217-22"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="day-11.html#cb216-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb216-2"><a href="day-11.html#cb216-2"></a>  <span class="dt">preds =</span> fit_coef<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred,</span>
+<span id="cb216-3"><a href="day-11.html#cb216-3"></a>  <span class="dt">var   =</span> fit_coef<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.var,</span>
+<span id="cb216-4"><a href="day-11.html#cb216-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
+<span id="cb216-5"><a href="day-11.html#cb216-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
+<span id="cb216-6"><a href="day-11.html#cb216-6"></a>) </span>
+<span id="cb216-7"><a href="day-11.html#cb216-7"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
+<span id="cb216-8"><a href="day-11.html#cb216-8"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb216-9"><a href="day-11.html#cb216-9"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb216-10"><a href="day-11.html#cb216-10"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb216-11"><a href="day-11.html#cb216-11"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb216-12"><a href="day-11.html#cb216-12"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
+<span id="cb216-13"><a href="day-11.html#cb216-13"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
+<span id="cb216-14"><a href="day-11.html#cb216-14"></a></span>
+<span id="cb216-15"><a href="day-11.html#cb216-15"></a></span>
+<span id="cb216-16"><a href="day-11.html#cb216-16"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
+<span id="cb216-17"><a href="day-11.html#cb216-17"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb216-18"><a href="day-11.html#cb216-18"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb216-19"><a href="day-11.html#cb216-19"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb216-20"><a href="day-11.html#cb216-20"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb216-21"><a href="day-11.html#cb216-21"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction Variance in 1990&quot;</span>)  <span class="op">+</span></span>
+<span id="cb216-22"><a href="day-11.html#cb216-22"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-23-1.png" width="49%" /><img src="11-day-11_files/figure-html/unnamed-chunk-23-2.png" width="49%" /></p>
 </div>
 </div>
@@ -1101,12 +1101,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The Kriging approach gets the same solution by not assuming normality and solving for the best linear unbiased predictor (BLUP)</p></li>
 </ul>
 <p>We generate the predictive maps from the example above using this formula</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="day-11.html#cb218-1"></a>fit &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
-<span id="cb218-2"><a href="day-11.html#cb218-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
-<span id="cb218-3"><a href="day-11.html#cb218-3"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
-<span id="cb218-4"><a href="day-11.html#cb218-4"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
-<span id="cb218-5"><a href="day-11.html#cb218-5"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
-<span id="cb218-6"><a href="day-11.html#cb218-6"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="day-11.html#cb217-1"></a>fit &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
+<span id="cb217-2"><a href="day-11.html#cb217-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
+<span id="cb217-3"><a href="day-11.html#cb217-3"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
+<span id="cb217-4"><a href="day-11.html#cb217-4"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
+<span id="cb217-5"><a href="day-11.html#cb217-5"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
+<span id="cb217-6"><a href="day-11.html#cb217-6"></a>)</span></code></pre></div>
 <pre><code>## kappa not used for the exponential correlation function
 ## ---------------------------------------------------------------
 ## likfit: likelihood maximisation using the function optim.
@@ -1118,68 +1118,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## likfit: WARNING: This step can be time demanding!
 ## ---------------------------------------------------------------
 ## likfit: end of numerical maximisation.</code></pre>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="day-11.html#cb220-1"></a>sigma2 &lt;-<span class="st"> </span>fit<span class="op">$</span>nugget</span>
-<span id="cb220-2"><a href="day-11.html#cb220-2"></a>tau2   &lt;-<span class="st"> </span>fit<span class="op">$</span>sigmasq</span>
-<span id="cb220-3"><a href="day-11.html#cb220-3"></a>phi    &lt;-<span class="st"> </span>fit<span class="op">$</span>phi</span>
-<span id="cb220-4"><a href="day-11.html#cb220-4"></a></span>
-<span id="cb220-5"><a href="day-11.html#cb220-5"></a><span class="co">## prediction locations</span></span>
-<span id="cb220-6"><a href="day-11.html#cb220-6"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
-<span id="cb220-7"><a href="day-11.html#cb220-7"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb220-8"><a href="day-11.html#cb220-8"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb220-9"><a href="day-11.html#cb220-9"></a>)</span>
-<span id="cb220-10"><a href="day-11.html#cb220-10"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="day-11.html#cb221-1"></a><span class="co">## calculate pairwise distance matrices -- be careful with large data</span></span>
-<span id="cb221-2"><a href="day-11.html#cb221-2"></a>locs        &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon)</span>
-<span id="cb221-3"><a href="day-11.html#cb221-3"></a>D           &lt;-<span class="st"> </span><span class="kw">rdist</span>(locs)</span>
-<span id="cb221-4"><a href="day-11.html#cb221-4"></a>D_unobs     &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations)</span>
-<span id="cb221-5"><a href="day-11.html#cb221-5"></a>D_unobs_obs &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations, locs)</span>
-<span id="cb221-6"><a href="day-11.html#cb221-6"></a></span>
-<span id="cb221-7"><a href="day-11.html#cb221-7"></a>Cov           &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(dat)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb221-8"><a href="day-11.html#cb221-8"></a>Cov_unobs     &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(pred_locations)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb221-9"><a href="day-11.html#cb221-9"></a>Cov_unobs_obs &lt;-<span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs_obs <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb221-10"><a href="day-11.html#cb221-10"></a></span>
-<span id="cb221-11"><a href="day-11.html#cb221-11"></a>Cov_inv &lt;-<span class="st"> </span><span class="kw">solve</span>(Cov)</span>
-<span id="cb221-12"><a href="day-11.html#cb221-12"></a>Cov_inv &lt;-<span class="st"> </span><span class="kw">chol2inv</span>(<span class="kw">chol</span>(Cov))</span>
-<span id="cb221-13"><a href="day-11.html#cb221-13"></a></span>
-<span id="cb221-14"><a href="day-11.html#cb221-14"></a><span class="co">## Kriging mean -- note we subtract the mean to get mean 0 then add it back in</span></span>
-<span id="cb221-15"><a href="day-11.html#cb221-15"></a>pred_mean &lt;-<span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span>(dat<span class="op">$</span>mean_Tmax <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax)) <span class="op">+</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax)</span>
-<span id="cb221-16"><a href="day-11.html#cb221-16"></a></span>
-<span id="cb221-17"><a href="day-11.html#cb221-17"></a>pred_mean_fast &lt;-<span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>(Cov_inv <span class="op">%*%</span><span class="st"> </span>(dat<span class="op">$</span>mean_Tmax <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax))) <span class="op">+</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax)</span>
-<span id="cb221-18"><a href="day-11.html#cb221-18"></a></span>
-<span id="cb221-19"><a href="day-11.html#cb221-19"></a><span class="co">## Kriging variance</span></span>
-<span id="cb221-20"><a href="day-11.html#cb221-20"></a>pred_var      &lt;-<span class="st"> </span><span class="kw">diag</span>(Cov_unobs <span class="op">-</span><span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(Cov_unobs_obs))</span>
-<span id="cb221-21"><a href="day-11.html#cb221-21"></a>pred_var_fast &lt;-<span class="st"> </span><span class="kw">diag</span>(Cov_unobs) <span class="op">-</span><span class="st"> </span><span class="kw">rowSums</span>((Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv) <span class="op">*</span><span class="st"> </span>Cov_unobs_obs)</span>
-<span id="cb221-22"><a href="day-11.html#cb221-22"></a></span>
-<span id="cb221-23"><a href="day-11.html#cb221-23"></a><span class="kw">system.time</span>(<span class="kw">diag</span>(Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(Cov_unobs_obs)))</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="day-11.html#cb219-1"></a>sigma2 &lt;-<span class="st"> </span>fit<span class="op">$</span>nugget</span>
+<span id="cb219-2"><a href="day-11.html#cb219-2"></a>tau2   &lt;-<span class="st"> </span>fit<span class="op">$</span>sigmasq</span>
+<span id="cb219-3"><a href="day-11.html#cb219-3"></a>phi    &lt;-<span class="st"> </span>fit<span class="op">$</span>phi</span>
+<span id="cb219-4"><a href="day-11.html#cb219-4"></a></span>
+<span id="cb219-5"><a href="day-11.html#cb219-5"></a><span class="co">## prediction locations</span></span>
+<span id="cb219-6"><a href="day-11.html#cb219-6"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
+<span id="cb219-7"><a href="day-11.html#cb219-7"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb219-8"><a href="day-11.html#cb219-8"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb219-9"><a href="day-11.html#cb219-9"></a>)</span>
+<span id="cb219-10"><a href="day-11.html#cb219-10"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="day-11.html#cb220-1"></a><span class="co">## calculate pairwise distance matrices -- be careful with large data</span></span>
+<span id="cb220-2"><a href="day-11.html#cb220-2"></a>locs        &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon)</span>
+<span id="cb220-3"><a href="day-11.html#cb220-3"></a>D           &lt;-<span class="st"> </span><span class="kw">rdist</span>(locs)</span>
+<span id="cb220-4"><a href="day-11.html#cb220-4"></a>D_unobs     &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations)</span>
+<span id="cb220-5"><a href="day-11.html#cb220-5"></a>D_unobs_obs &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations, locs)</span>
+<span id="cb220-6"><a href="day-11.html#cb220-6"></a></span>
+<span id="cb220-7"><a href="day-11.html#cb220-7"></a>Cov           &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(dat)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb220-8"><a href="day-11.html#cb220-8"></a>Cov_unobs     &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(pred_locations)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb220-9"><a href="day-11.html#cb220-9"></a>Cov_unobs_obs &lt;-<span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs_obs <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb220-10"><a href="day-11.html#cb220-10"></a></span>
+<span id="cb220-11"><a href="day-11.html#cb220-11"></a>Cov_inv &lt;-<span class="st"> </span><span class="kw">solve</span>(Cov)</span>
+<span id="cb220-12"><a href="day-11.html#cb220-12"></a>Cov_inv &lt;-<span class="st"> </span><span class="kw">chol2inv</span>(<span class="kw">chol</span>(Cov))</span>
+<span id="cb220-13"><a href="day-11.html#cb220-13"></a></span>
+<span id="cb220-14"><a href="day-11.html#cb220-14"></a><span class="co">## Kriging mean -- note we subtract the mean to get mean 0 then add it back in</span></span>
+<span id="cb220-15"><a href="day-11.html#cb220-15"></a>pred_mean &lt;-<span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span>(dat<span class="op">$</span>mean_Tmax <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax)) <span class="op">+</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax)</span>
+<span id="cb220-16"><a href="day-11.html#cb220-16"></a></span>
+<span id="cb220-17"><a href="day-11.html#cb220-17"></a>pred_mean_fast &lt;-<span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>(Cov_inv <span class="op">%*%</span><span class="st"> </span>(dat<span class="op">$</span>mean_Tmax <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax))) <span class="op">+</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>mean_Tmax)</span>
+<span id="cb220-18"><a href="day-11.html#cb220-18"></a></span>
+<span id="cb220-19"><a href="day-11.html#cb220-19"></a><span class="co">## Kriging variance</span></span>
+<span id="cb220-20"><a href="day-11.html#cb220-20"></a>pred_var      &lt;-<span class="st"> </span><span class="kw">diag</span>(Cov_unobs <span class="op">-</span><span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(Cov_unobs_obs))</span>
+<span id="cb220-21"><a href="day-11.html#cb220-21"></a>pred_var_fast &lt;-<span class="st"> </span><span class="kw">diag</span>(Cov_unobs) <span class="op">-</span><span class="st"> </span><span class="kw">rowSums</span>((Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv) <span class="op">*</span><span class="st"> </span>Cov_unobs_obs)</span>
+<span id="cb220-22"><a href="day-11.html#cb220-22"></a></span>
+<span id="cb220-23"><a href="day-11.html#cb220-23"></a><span class="kw">system.time</span>(<span class="kw">diag</span>(Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(Cov_unobs_obs)))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
 ##  10.453   0.302  11.250</code></pre>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="day-11.html#cb223-1"></a><span class="kw">system.time</span>(<span class="kw">rowSums</span>((Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv) <span class="op">*</span><span class="st"> </span>Cov_unobs_obs))</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="day-11.html#cb222-1"></a><span class="kw">system.time</span>(<span class="kw">rowSums</span>((Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv) <span class="op">*</span><span class="st"> </span>Cov_unobs_obs))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
 ##   0.156   0.001   0.158</code></pre>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="day-11.html#cb225-1"></a><span class="kw">all.equal</span>(pred_var, pred_var_fast)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="day-11.html#cb224-1"></a><span class="kw">all.equal</span>(pred_var, pred_var_fast)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="day-11.html#cb227-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb227-2"><a href="day-11.html#cb227-2"></a>  <span class="dt">preds =</span> pred_mean,</span>
-<span id="cb227-3"><a href="day-11.html#cb227-3"></a>  <span class="dt">var   =</span> pred_var,</span>
-<span id="cb227-4"><a href="day-11.html#cb227-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
-<span id="cb227-5"><a href="day-11.html#cb227-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
-<span id="cb227-6"><a href="day-11.html#cb227-6"></a>) </span>
-<span id="cb227-7"><a href="day-11.html#cb227-7"></a></span>
-<span id="cb227-8"><a href="day-11.html#cb227-8"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
-<span id="cb227-9"><a href="day-11.html#cb227-9"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb227-10"><a href="day-11.html#cb227-10"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb227-11"><a href="day-11.html#cb227-11"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb227-12"><a href="day-11.html#cb227-12"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb227-13"><a href="day-11.html#cb227-13"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
-<span id="cb227-14"><a href="day-11.html#cb227-14"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
-<span id="cb227-15"><a href="day-11.html#cb227-15"></a></span>
-<span id="cb227-16"><a href="day-11.html#cb227-16"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
-<span id="cb227-17"><a href="day-11.html#cb227-17"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb227-18"><a href="day-11.html#cb227-18"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb227-19"><a href="day-11.html#cb227-19"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb227-20"><a href="day-11.html#cb227-20"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb227-21"><a href="day-11.html#cb227-21"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction variance in 1990&quot;</span>)  <span class="op">+</span></span>
-<span id="cb227-22"><a href="day-11.html#cb227-22"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="day-11.html#cb226-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb226-2"><a href="day-11.html#cb226-2"></a>  <span class="dt">preds =</span> pred_mean,</span>
+<span id="cb226-3"><a href="day-11.html#cb226-3"></a>  <span class="dt">var   =</span> pred_var,</span>
+<span id="cb226-4"><a href="day-11.html#cb226-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
+<span id="cb226-5"><a href="day-11.html#cb226-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
+<span id="cb226-6"><a href="day-11.html#cb226-6"></a>) </span>
+<span id="cb226-7"><a href="day-11.html#cb226-7"></a></span>
+<span id="cb226-8"><a href="day-11.html#cb226-8"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
+<span id="cb226-9"><a href="day-11.html#cb226-9"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb226-10"><a href="day-11.html#cb226-10"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb226-11"><a href="day-11.html#cb226-11"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb226-12"><a href="day-11.html#cb226-12"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb226-13"><a href="day-11.html#cb226-13"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
+<span id="cb226-14"><a href="day-11.html#cb226-14"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
+<span id="cb226-15"><a href="day-11.html#cb226-15"></a></span>
+<span id="cb226-16"><a href="day-11.html#cb226-16"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
+<span id="cb226-17"><a href="day-11.html#cb226-17"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb226-18"><a href="day-11.html#cb226-18"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb226-19"><a href="day-11.html#cb226-19"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb226-20"><a href="day-11.html#cb226-20"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb226-21"><a href="day-11.html#cb226-21"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction variance in 1990&quot;</span>)  <span class="op">+</span></span>
+<span id="cb226-22"><a href="day-11.html#cb226-22"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-26-1.png" width="49%" /><img src="11-day-11_files/figure-html/unnamed-chunk-26-2.png" width="49%" /></p>
 <div id="kriging-equations-with-mean-mu-0" class="section level3">
 <h3><span class="header-section-number">11.4.1</span> Kriging Equations with mean <span class="math inline">\(\mu = 0\)</span></h3>
@@ -1236,13 +1236,13 @@ Var(\hat{y}(\mathbf{s}_0)) = \boldsymbol{\Sigma}_{00} - \boldsymbol{\Sigma}_0 \b
 \]</span></p>
 <p>Where <span class="math inline">\(\boldsymbol{\Sigma}_{00}\)</span> is the unconditional variance of the process at location <span class="math inline">\(\mathbf{s}_0\)</span>. From this equation, we see that the Kriging variance is smaller than the unconditional variance.</p>
 <p>We generate the predictive maps from the example above using the Universal Kriging formula</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="day-11.html#cb228-1"></a>fit_coef &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
-<span id="cb228-2"><a href="day-11.html#cb228-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
-<span id="cb228-3"><a href="day-11.html#cb228-3"></a>    <span class="dt">trend        =</span> <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>lat <span class="op">+</span><span class="st"> </span>dat<span class="op">$</span>lon,</span>
-<span id="cb228-4"><a href="day-11.html#cb228-4"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
-<span id="cb228-5"><a href="day-11.html#cb228-5"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
-<span id="cb228-6"><a href="day-11.html#cb228-6"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
-<span id="cb228-7"><a href="day-11.html#cb228-7"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="day-11.html#cb227-1"></a>fit_coef &lt;-<span class="st"> </span>geoR<span class="op">::</span><span class="kw">likfit</span>(</span>
+<span id="cb227-2"><a href="day-11.html#cb227-2"></a>    <span class="dt">data         =</span> dat<span class="op">$</span>mean_Tmax,</span>
+<span id="cb227-3"><a href="day-11.html#cb227-3"></a>    <span class="dt">trend        =</span> <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>lat <span class="op">+</span><span class="st"> </span>dat<span class="op">$</span>lon,</span>
+<span id="cb227-4"><a href="day-11.html#cb227-4"></a>    <span class="dt">coords       =</span> <span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon),</span>
+<span id="cb227-5"><a href="day-11.html#cb227-5"></a>    <span class="dt">cov.model    =</span> <span class="st">&quot;exponential&quot;</span>,</span>
+<span id="cb227-6"><a href="day-11.html#cb227-6"></a>    <span class="dt">ini.cov.pars =</span> <span class="kw">c</span>(<span class="kw">var</span>(dat<span class="op">$</span>mean_Tmax), <span class="dv">1</span>) </span>
+<span id="cb227-7"><a href="day-11.html#cb227-7"></a>)</span></code></pre></div>
 <pre><code>## kappa not used for the exponential correlation function
 ## ---------------------------------------------------------------
 ## likfit: likelihood maximisation using the function optim.
@@ -1254,56 +1254,56 @@ Var(\hat{y}(\mathbf{s}_0)) = \boldsymbol{\Sigma}_{00} - \boldsymbol{\Sigma}_0 \b
 ## likfit: WARNING: This step can be time demanding!
 ## ---------------------------------------------------------------
 ## likfit: end of numerical maximisation.</code></pre>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="day-11.html#cb230-1"></a>sigma2 &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>nugget</span>
-<span id="cb230-2"><a href="day-11.html#cb230-2"></a>tau2   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigmasq</span>
-<span id="cb230-3"><a href="day-11.html#cb230-3"></a>phi    &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>phi</span>
-<span id="cb230-4"><a href="day-11.html#cb230-4"></a>beta   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>beta</span>
-<span id="cb230-5"><a href="day-11.html#cb230-5"></a></span>
-<span id="cb230-6"><a href="day-11.html#cb230-6"></a><span class="co">## prediction locations</span></span>
-<span id="cb230-7"><a href="day-11.html#cb230-7"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
-<span id="cb230-8"><a href="day-11.html#cb230-8"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb230-9"><a href="day-11.html#cb230-9"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb230-10"><a href="day-11.html#cb230-10"></a>)</span>
-<span id="cb230-11"><a href="day-11.html#cb230-11"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="day-11.html#cb231-1"></a><span class="co">## calculate pairwise distance matrices -- be careful with large data</span></span>
-<span id="cb231-2"><a href="day-11.html#cb231-2"></a>locs        &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon)</span>
-<span id="cb231-3"><a href="day-11.html#cb231-3"></a>D           &lt;-<span class="st"> </span><span class="kw">rdist</span>(locs)</span>
-<span id="cb231-4"><a href="day-11.html#cb231-4"></a>D_unobs     &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations)</span>
-<span id="cb231-5"><a href="day-11.html#cb231-5"></a>D_unobs_obs &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations, locs)</span>
-<span id="cb231-6"><a href="day-11.html#cb231-6"></a></span>
-<span id="cb231-7"><a href="day-11.html#cb231-7"></a>Cov           &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(dat)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb231-8"><a href="day-11.html#cb231-8"></a>Cov_unobs     &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(pred_locations)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb231-9"><a href="day-11.html#cb231-9"></a>Cov_unobs_obs &lt;-<span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs_obs <span class="op">/</span><span class="st"> </span>phi)</span>
-<span id="cb231-10"><a href="day-11.html#cb231-10"></a></span>
-<span id="cb231-11"><a href="day-11.html#cb231-11"></a>Cov_inv &lt;-<span class="st"> </span><span class="kw">solve</span>(Cov)</span>
-<span id="cb231-12"><a href="day-11.html#cb231-12"></a></span>
-<span id="cb231-13"><a href="day-11.html#cb231-13"></a><span class="co">## Kriging mean -- note we subtract the mean to get mean 0 then add it back in</span></span>
-<span id="cb231-14"><a href="day-11.html#cb231-14"></a>pred_mean &lt;-<span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span>(dat<span class="op">$</span>mean_Tmax <span class="op">-</span><span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, locs) <span class="op">%*%</span><span class="st"> </span>beta) <span class="op">+</span><span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">cbind</span>(<span class="dv">1</span>, pred_locations)) <span class="op">%*%</span><span class="st"> </span>beta</span>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="day-11.html#cb229-1"></a>sigma2 &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>nugget</span>
+<span id="cb229-2"><a href="day-11.html#cb229-2"></a>tau2   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>sigmasq</span>
+<span id="cb229-3"><a href="day-11.html#cb229-3"></a>phi    &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>phi</span>
+<span id="cb229-4"><a href="day-11.html#cb229-4"></a>beta   &lt;-<span class="st"> </span>fit_coef<span class="op">$</span>beta</span>
+<span id="cb229-5"><a href="day-11.html#cb229-5"></a></span>
+<span id="cb229-6"><a href="day-11.html#cb229-6"></a><span class="co">## prediction locations</span></span>
+<span id="cb229-7"><a href="day-11.html#cb229-7"></a>pred_locations &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
+<span id="cb229-8"><a href="day-11.html#cb229-8"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lat), <span class="kw">max</span>(dat<span class="op">$</span>lat), <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb229-9"><a href="day-11.html#cb229-9"></a>  <span class="kw">seq</span>(<span class="kw">min</span>(dat<span class="op">$</span>lon), <span class="kw">max</span>(dat<span class="op">$</span>lon), <span class="dt">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb229-10"><a href="day-11.html#cb229-10"></a>)</span>
+<span id="cb229-11"><a href="day-11.html#cb229-11"></a><span class="kw">names</span>(pred_locations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="day-11.html#cb230-1"></a><span class="co">## calculate pairwise distance matrices -- be careful with large data</span></span>
+<span id="cb230-2"><a href="day-11.html#cb230-2"></a>locs        &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat<span class="op">$</span>lat, dat<span class="op">$</span>lon)</span>
+<span id="cb230-3"><a href="day-11.html#cb230-3"></a>D           &lt;-<span class="st"> </span><span class="kw">rdist</span>(locs)</span>
+<span id="cb230-4"><a href="day-11.html#cb230-4"></a>D_unobs     &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations)</span>
+<span id="cb230-5"><a href="day-11.html#cb230-5"></a>D_unobs_obs &lt;-<span class="st"> </span><span class="kw">rdist</span>(pred_locations, locs)</span>
+<span id="cb230-6"><a href="day-11.html#cb230-6"></a></span>
+<span id="cb230-7"><a href="day-11.html#cb230-7"></a>Cov           &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(dat)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb230-8"><a href="day-11.html#cb230-8"></a>Cov_unobs     &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">nrow</span>(pred_locations)) <span class="op">*</span><span class="st"> </span>sigma2 <span class="op">+</span><span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb230-9"><a href="day-11.html#cb230-9"></a>Cov_unobs_obs &lt;-<span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_unobs_obs <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb230-10"><a href="day-11.html#cb230-10"></a></span>
+<span id="cb230-11"><a href="day-11.html#cb230-11"></a>Cov_inv &lt;-<span class="st"> </span><span class="kw">solve</span>(Cov)</span>
+<span id="cb230-12"><a href="day-11.html#cb230-12"></a></span>
+<span id="cb230-13"><a href="day-11.html#cb230-13"></a><span class="co">## Kriging mean -- note we subtract the mean to get mean 0 then add it back in</span></span>
+<span id="cb230-14"><a href="day-11.html#cb230-14"></a>pred_mean &lt;-<span class="st"> </span>Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv <span class="op">%*%</span><span class="st"> </span>(dat<span class="op">$</span>mean_Tmax <span class="op">-</span><span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, locs) <span class="op">%*%</span><span class="st"> </span>beta) <span class="op">+</span><span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">cbind</span>(<span class="dv">1</span>, pred_locations)) <span class="op">%*%</span><span class="st"> </span>beta</span>
+<span id="cb230-15"><a href="day-11.html#cb230-15"></a></span>
+<span id="cb230-16"><a href="day-11.html#cb230-16"></a><span class="co">## Kriging variance -- fast form</span></span>
+<span id="cb230-17"><a href="day-11.html#cb230-17"></a>pred_var &lt;-<span class="st"> </span><span class="kw">diag</span>(Cov_unobs) <span class="op">-</span><span class="st"> </span><span class="kw">rowSums</span>((Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv) <span class="op">*</span><span class="st"> </span>Cov_unobs_obs)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="day-11.html#cb231-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb231-2"><a href="day-11.html#cb231-2"></a>  <span class="dt">preds =</span> pred_mean,</span>
+<span id="cb231-3"><a href="day-11.html#cb231-3"></a>  <span class="dt">var   =</span> pred_var,</span>
+<span id="cb231-4"><a href="day-11.html#cb231-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
+<span id="cb231-5"><a href="day-11.html#cb231-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
+<span id="cb231-6"><a href="day-11.html#cb231-6"></a>) </span>
+<span id="cb231-7"><a href="day-11.html#cb231-7"></a></span>
+<span id="cb231-8"><a href="day-11.html#cb231-8"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
+<span id="cb231-9"><a href="day-11.html#cb231-9"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb231-10"><a href="day-11.html#cb231-10"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb231-11"><a href="day-11.html#cb231-11"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb231-12"><a href="day-11.html#cb231-12"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb231-13"><a href="day-11.html#cb231-13"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
+<span id="cb231-14"><a href="day-11.html#cb231-14"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
 <span id="cb231-15"><a href="day-11.html#cb231-15"></a></span>
-<span id="cb231-16"><a href="day-11.html#cb231-16"></a><span class="co">## Kriging variance -- fast form</span></span>
-<span id="cb231-17"><a href="day-11.html#cb231-17"></a>pred_var &lt;-<span class="st"> </span><span class="kw">diag</span>(Cov_unobs) <span class="op">-</span><span class="st"> </span><span class="kw">rowSums</span>((Cov_unobs_obs <span class="op">%*%</span><span class="st"> </span>Cov_inv) <span class="op">*</span><span class="st"> </span>Cov_unobs_obs)</span></code></pre></div>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="day-11.html#cb232-1"></a>dat_pred &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb232-2"><a href="day-11.html#cb232-2"></a>  <span class="dt">preds =</span> pred_mean,</span>
-<span id="cb232-3"><a href="day-11.html#cb232-3"></a>  <span class="dt">var   =</span> pred_var,</span>
-<span id="cb232-4"><a href="day-11.html#cb232-4"></a>  <span class="dt">lat   =</span> pred_locations<span class="op">$</span>lat,</span>
-<span id="cb232-5"><a href="day-11.html#cb232-5"></a>  <span class="dt">lon   =</span> pred_locations<span class="op">$</span>lon</span>
-<span id="cb232-6"><a href="day-11.html#cb232-6"></a>) </span>
-<span id="cb232-7"><a href="day-11.html#cb232-7"></a></span>
-<span id="cb232-8"><a href="day-11.html#cb232-8"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> preds)) <span class="op">+</span></span>
-<span id="cb232-9"><a href="day-11.html#cb232-9"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb232-10"><a href="day-11.html#cb232-10"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb232-11"><a href="day-11.html#cb232-11"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb232-12"><a href="day-11.html#cb232-12"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb232-13"><a href="day-11.html#cb232-13"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted Average July max Temperature in 1990&quot;</span>) <span class="op">+</span></span>
-<span id="cb232-14"><a href="day-11.html#cb232-14"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span>
-<span id="cb232-15"><a href="day-11.html#cb232-15"></a></span>
-<span id="cb232-16"><a href="day-11.html#cb232-16"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
-<span id="cb232-17"><a href="day-11.html#cb232-17"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb232-18"><a href="day-11.html#cb232-18"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb232-19"><a href="day-11.html#cb232-19"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb232-20"><a href="day-11.html#cb232-20"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
-<span id="cb232-21"><a href="day-11.html#cb232-21"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction variance in 1990&quot;</span>)  <span class="op">+</span></span>
-<span id="cb232-22"><a href="day-11.html#cb232-22"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<span id="cb231-16"><a href="day-11.html#cb231-16"></a><span class="kw">ggplot</span>(dat_pred, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> var)) <span class="op">+</span></span>
+<span id="cb231-17"><a href="day-11.html#cb231-17"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb231-18"><a href="day-11.html#cb231-18"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb231-19"><a href="day-11.html#cb231-19"></a>               <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb231-20"><a href="day-11.html#cb231-20"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="op">+</span></span>
+<span id="cb231-21"><a href="day-11.html#cb231-21"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average July max Temperature prediction variance in 1990&quot;</span>)  <span class="op">+</span></span>
+<span id="cb231-22"><a href="day-11.html#cb231-22"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lon), <span class="dt">ylim =</span> <span class="kw">range</span>(dat<span class="op">$</span>lat), <span class="dt">ratio =</span> <span class="fl">1.3</span>)</span></code></pre></div>
 <p><img src="11-day-11_files/figure-html/unnamed-chunk-29-1.png" width="49%" /><img src="11-day-11_files/figure-html/unnamed-chunk-29-2.png" width="49%" /></p>
 
 </div>

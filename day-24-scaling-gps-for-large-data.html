@@ -419,7 +419,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="day-24-scaling-gps-for-large-data" class="section level1">
 <h1><span class="header-section-number">Chapter24</span> Day 24 – Scaling GPs for large data</h1>
-<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb761-1"><a href="day-24-scaling-gps-for-large-data.html#cb761-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb760-1"><a href="day-24-scaling-gps-for-large-data.html#cb760-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.5     ✔ dplyr   1.0.7
@@ -428,8 +428,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="day-24-scaling-gps-for-large-data.html#cb765-1"></a><span class="kw">library</span>(mvnfast)</span>
-<span id="cb765-2"><a href="day-24-scaling-gps-for-large-data.html#cb765-2"></a><span class="kw">library</span>(fields)</span></code></pre></div>
+<div class="sourceCode" id="cb764"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb764-1"><a href="day-24-scaling-gps-for-large-data.html#cb764-1"></a><span class="kw">library</span>(mvnfast)</span>
+<span id="cb764-2"><a href="day-24-scaling-gps-for-large-data.html#cb764-2"></a><span class="kw">library</span>(fields)</span></code></pre></div>
 <pre><code>## Loading required package: spam</code></pre>
 <pre><code>## Loading required package: dotCall64</code></pre>
 <pre><code>## Loading required package: grid</code></pre>
@@ -447,8 +447,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Loading required package: viridisLite</code></pre>
 <pre><code>## 
 ## Try help(fields) to get started.</code></pre>
-<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb775-1"><a href="day-24-scaling-gps-for-large-data.html#cb775-1"></a><span class="kw">library</span>(spBayes)</span>
-<span id="cb775-2"><a href="day-24-scaling-gps-for-large-data.html#cb775-2"></a><span class="kw">library</span>(spNNGP)</span></code></pre></div>
+<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb774-1"><a href="day-24-scaling-gps-for-large-data.html#cb774-1"></a><span class="kw">library</span>(spBayes)</span>
+<span id="cb774-2"><a href="day-24-scaling-gps-for-large-data.html#cb774-2"></a><span class="kw">library</span>(spNNGP)</span></code></pre></div>
 <pre><code>## Loading required package: coda</code></pre>
 <pre><code>## Loading required package: Formula</code></pre>
 <pre><code>## Loading required package: RANN</code></pre>
@@ -457,7 +457,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## The following object is masked from &#39;package:spBayes&#39;:
 ## 
 ##     spDiag</code></pre>
-<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb781-1"><a href="day-24-scaling-gps-for-large-data.html#cb781-1"></a><span class="kw">library</span>(LatticeKrig)</span></code></pre></div>
+<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="day-24-scaling-gps-for-large-data.html#cb780-1"></a><span class="kw">library</span>(LatticeKrig)</span></code></pre></div>
 <div id="announcements-19" class="section level2">
 <h2><span class="header-section-number">24.1</span> Announcements</h2>
 <ul>
@@ -527,28 +527,28 @@ y(\mathbf{s}) &amp; = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \sum_{\ell=1}^
 <ul>
 <li><a href="https://www.tandfonline.com/doi/pdf/10.1080/10618600.2014.914946">Multiresolution Gaussian Process Model for the Analysis of Large Spatial Datasets</a></li>
 </ul>
-<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="day-24-scaling-gps-for-large-data.html#cb782-1"></a><span class="co">## Make some data</span></span>
-<span id="cb782-2"><a href="day-24-scaling-gps-for-large-data.html#cb782-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb782-3"><a href="day-24-scaling-gps-for-large-data.html#cb782-3"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb782-4"><a href="day-24-scaling-gps-for-large-data.html#cb782-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb782-5"><a href="day-24-scaling-gps-for-large-data.html#cb782-5"></a></span>
-<span id="cb782-6"><a href="day-24-scaling-gps-for-large-data.html#cb782-6"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
-<span id="cb782-7"><a href="day-24-scaling-gps-for-large-data.html#cb782-7"></a></span>
-<span id="cb782-8"><a href="day-24-scaling-gps-for-large-data.html#cb782-8"></a>beta &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb782-9"><a href="day-24-scaling-gps-for-large-data.html#cb782-9"></a></span>
-<span id="cb782-10"><a href="day-24-scaling-gps-for-large-data.html#cb782-10"></a>sigma.sq &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb782-11"><a href="day-24-scaling-gps-for-large-data.html#cb782-11"></a>tau.sq &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb782-12"><a href="day-24-scaling-gps-for-large-data.html#cb782-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span></span>
-<span id="cb782-13"><a href="day-24-scaling-gps-for-large-data.html#cb782-13"></a></span>
-<span id="cb782-14"><a href="day-24-scaling-gps-for-large-data.html#cb782-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
-<span id="cb782-15"><a href="day-24-scaling-gps-for-large-data.html#cb782-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>phi <span class="op">*</span><span class="st"> </span>D)</span>
-<span id="cb782-16"><a href="day-24-scaling-gps-for-large-data.html#cb782-16"></a>w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), sigma.sq <span class="op">*</span><span class="st"> </span>R))</span>
-<span id="cb782-17"><a href="day-24-scaling-gps-for-large-data.html#cb782-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span>w, <span class="kw">sqrt</span>(tau.sq))</span>
-<span id="cb782-18"><a href="day-24-scaling-gps-for-large-data.html#cb782-18"></a></span>
-<span id="cb782-19"><a href="day-24-scaling-gps-for-large-data.html#cb782-19"></a><span class="co">## x are the spatial locations, y is the response variable, Z are the fixed effects</span></span>
-<span id="cb782-20"><a href="day-24-scaling-gps-for-large-data.html#cb782-20"></a><span class="co">## note that X has an intercept term that needs to be removed</span></span>
-<span id="cb782-21"><a href="day-24-scaling-gps-for-large-data.html#cb782-21"></a>fit &lt;-<span class="st"> </span><span class="kw">LatticeKrig</span>(<span class="dt">x =</span> coords, <span class="dt">y =</span> y, <span class="dt">Z =</span> X[, <span class="dv">2</span>])</span>
-<span id="cb782-22"><a href="day-24-scaling-gps-for-large-data.html#cb782-22"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb781-1"><a href="day-24-scaling-gps-for-large-data.html#cb781-1"></a><span class="co">## Make some data</span></span>
+<span id="cb781-2"><a href="day-24-scaling-gps-for-large-data.html#cb781-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb781-3"><a href="day-24-scaling-gps-for-large-data.html#cb781-3"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb781-4"><a href="day-24-scaling-gps-for-large-data.html#cb781-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb781-5"><a href="day-24-scaling-gps-for-large-data.html#cb781-5"></a></span>
+<span id="cb781-6"><a href="day-24-scaling-gps-for-large-data.html#cb781-6"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
+<span id="cb781-7"><a href="day-24-scaling-gps-for-large-data.html#cb781-7"></a></span>
+<span id="cb781-8"><a href="day-24-scaling-gps-for-large-data.html#cb781-8"></a>beta &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb781-9"><a href="day-24-scaling-gps-for-large-data.html#cb781-9"></a></span>
+<span id="cb781-10"><a href="day-24-scaling-gps-for-large-data.html#cb781-10"></a>sigma.sq &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb781-11"><a href="day-24-scaling-gps-for-large-data.html#cb781-11"></a>tau.sq &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb781-12"><a href="day-24-scaling-gps-for-large-data.html#cb781-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb781-13"><a href="day-24-scaling-gps-for-large-data.html#cb781-13"></a></span>
+<span id="cb781-14"><a href="day-24-scaling-gps-for-large-data.html#cb781-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
+<span id="cb781-15"><a href="day-24-scaling-gps-for-large-data.html#cb781-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>phi <span class="op">*</span><span class="st"> </span>D)</span>
+<span id="cb781-16"><a href="day-24-scaling-gps-for-large-data.html#cb781-16"></a>w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), sigma.sq <span class="op">*</span><span class="st"> </span>R))</span>
+<span id="cb781-17"><a href="day-24-scaling-gps-for-large-data.html#cb781-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span>w, <span class="kw">sqrt</span>(tau.sq))</span>
+<span id="cb781-18"><a href="day-24-scaling-gps-for-large-data.html#cb781-18"></a></span>
+<span id="cb781-19"><a href="day-24-scaling-gps-for-large-data.html#cb781-19"></a><span class="co">## x are the spatial locations, y is the response variable, Z are the fixed effects</span></span>
+<span id="cb781-20"><a href="day-24-scaling-gps-for-large-data.html#cb781-20"></a><span class="co">## note that X has an intercept term that needs to be removed</span></span>
+<span id="cb781-21"><a href="day-24-scaling-gps-for-large-data.html#cb781-21"></a>fit &lt;-<span class="st"> </span><span class="kw">LatticeKrig</span>(<span class="dt">x =</span> coords, <span class="dt">y =</span> y, <span class="dt">Z =</span> X[, <span class="dv">2</span>])</span>
+<span id="cb781-22"><a href="day-24-scaling-gps-for-large-data.html#cb781-22"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
 <pre><code>## $call
 ## LatticeKrig(x = coords, y = y, Z = X[, 2])
 ## 
@@ -678,9 +678,9 @@ y(\mathbf{s}) &amp; = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \sum_{\ell=1}^
 ## rowForCapture 0.002183888 660.65892  1.201168          -1811.978
 ## rowForCapture 0.002180251 661.60416  1.201026          -1811.978
 ## rowForCapture 0.002183888 660.65892  1.201168          -1811.978</code></pre>
-<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="day-24-scaling-gps-for-large-data.html#cb784-1"></a>preds &lt;-<span class="st"> </span><span class="kw">predict</span>(fit)</span>
-<span id="cb784-2"><a href="day-24-scaling-gps-for-large-data.html#cb784-2"></a><span class="kw">plot</span>(y, preds)</span>
-<span id="cb784-3"><a href="day-24-scaling-gps-for-large-data.html#cb784-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb783-1"><a href="day-24-scaling-gps-for-large-data.html#cb783-1"></a>preds &lt;-<span class="st"> </span><span class="kw">predict</span>(fit)</span>
+<span id="cb783-2"><a href="day-24-scaling-gps-for-large-data.html#cb783-2"></a><span class="kw">plot</span>(y, preds)</span>
+<span id="cb783-3"><a href="day-24-scaling-gps-for-large-data.html#cb783-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="24-day-24_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 
 

@@ -421,7 +421,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter25</span> Day 25 – Scaling GPs for large data</h1>
 <div id="announcements-20" class="section level2">
 <h2><span class="header-section-number">25.1</span> Announcements</h2>
-<div class="sourceCode" id="cb785"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb785-1"><a href="day-25-scaling-gps-for-large-data.html#cb785-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="day-25-scaling-gps-for-large-data.html#cb784-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.5     ✔ dplyr   1.0.7
@@ -430,8 +430,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb789-1"><a href="day-25-scaling-gps-for-large-data.html#cb789-1"></a><span class="kw">library</span>(mvnfast)</span>
-<span id="cb789-2"><a href="day-25-scaling-gps-for-large-data.html#cb789-2"></a><span class="kw">library</span>(fields)</span></code></pre></div>
+<div class="sourceCode" id="cb788"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb788-1"><a href="day-25-scaling-gps-for-large-data.html#cb788-1"></a><span class="kw">library</span>(mvnfast)</span>
+<span id="cb788-2"><a href="day-25-scaling-gps-for-large-data.html#cb788-2"></a><span class="kw">library</span>(fields)</span></code></pre></div>
 <pre><code>## Loading required package: spam</code></pre>
 <pre><code>## Loading required package: dotCall64</code></pre>
 <pre><code>## Loading required package: grid</code></pre>
@@ -449,8 +449,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Loading required package: viridisLite</code></pre>
 <pre><code>## 
 ## Try help(fields) to get started.</code></pre>
-<div class="sourceCode" id="cb799"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb799-1"><a href="day-25-scaling-gps-for-large-data.html#cb799-1"></a><span class="kw">library</span>(spBayes)</span>
-<span id="cb799-2"><a href="day-25-scaling-gps-for-large-data.html#cb799-2"></a><span class="kw">library</span>(spNNGP)</span></code></pre></div>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb798-1"><a href="day-25-scaling-gps-for-large-data.html#cb798-1"></a><span class="kw">library</span>(spBayes)</span>
+<span id="cb798-2"><a href="day-25-scaling-gps-for-large-data.html#cb798-2"></a><span class="kw">library</span>(spNNGP)</span></code></pre></div>
 <pre><code>## Loading required package: coda</code></pre>
 <pre><code>## Loading required package: Formula</code></pre>
 <pre><code>## Loading required package: RANN</code></pre>
@@ -520,72 +520,72 @@ Cov \left( \mathbf{c}^{\star} {\mathbf{C}^{\star}}^{-1} \boldsymbol{\eta}^{\star
 <li><p>variance estimates are too small <a href="%5Bhttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC2743161/pdf/nihms128321.pdf">modified predictive process</a></p></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb805-1"><a href="day-25-scaling-gps-for-large-data.html#cb805-1"></a><span class="co">## Make some data</span></span>
-<span id="cb805-2"><a href="day-25-scaling-gps-for-large-data.html#cb805-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb805-3"><a href="day-25-scaling-gps-for-large-data.html#cb805-3"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb805-4"><a href="day-25-scaling-gps-for-large-data.html#cb805-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb805-5"><a href="day-25-scaling-gps-for-large-data.html#cb805-5"></a></span>
-<span id="cb805-6"><a href="day-25-scaling-gps-for-large-data.html#cb805-6"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
-<span id="cb805-7"><a href="day-25-scaling-gps-for-large-data.html#cb805-7"></a></span>
-<span id="cb805-8"><a href="day-25-scaling-gps-for-large-data.html#cb805-8"></a>beta &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb805-9"><a href="day-25-scaling-gps-for-large-data.html#cb805-9"></a></span>
-<span id="cb805-10"><a href="day-25-scaling-gps-for-large-data.html#cb805-10"></a>sigma.sq &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb805-11"><a href="day-25-scaling-gps-for-large-data.html#cb805-11"></a>tau.sq &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb805-12"><a href="day-25-scaling-gps-for-large-data.html#cb805-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span></span>
-<span id="cb805-13"><a href="day-25-scaling-gps-for-large-data.html#cb805-13"></a></span>
-<span id="cb805-14"><a href="day-25-scaling-gps-for-large-data.html#cb805-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
-<span id="cb805-15"><a href="day-25-scaling-gps-for-large-data.html#cb805-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>phi <span class="op">*</span><span class="st"> </span>D)</span>
-<span id="cb805-16"><a href="day-25-scaling-gps-for-large-data.html#cb805-16"></a>w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), sigma.sq <span class="op">*</span><span class="st"> </span>R))</span>
-<span id="cb805-17"><a href="day-25-scaling-gps-for-large-data.html#cb805-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span>w, <span class="kw">sqrt</span>(tau.sq))</span>
-<span id="cb805-18"><a href="day-25-scaling-gps-for-large-data.html#cb805-18"></a></span>
-<span id="cb805-19"><a href="day-25-scaling-gps-for-large-data.html#cb805-19"></a><span class="co">## Fit Predictive Process</span></span>
-<span id="cb805-20"><a href="day-25-scaling-gps-for-large-data.html#cb805-20"></a>n.samples &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb805-21"><a href="day-25-scaling-gps-for-large-data.html#cb805-21"></a>batch.length &lt;-<span class="st"> </span><span class="dv">50</span></span>
-<span id="cb805-22"><a href="day-25-scaling-gps-for-large-data.html#cb805-22"></a>n.batch      &lt;-<span class="st"> </span>n.samples <span class="op">/</span><span class="st"> </span>batch.length</span>
-<span id="cb805-23"><a href="day-25-scaling-gps-for-large-data.html#cb805-23"></a></span>
-<span id="cb805-24"><a href="day-25-scaling-gps-for-large-data.html#cb805-24"></a></span>
-<span id="cb805-25"><a href="day-25-scaling-gps-for-large-data.html#cb805-25"></a>starting &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;sigma.sq&quot;</span> =<span class="st"> </span><span class="dv">5</span>, <span class="st">&quot;tau.sq&quot;</span> =<span class="st"> </span><span class="dv">1</span>)</span>
-<span id="cb805-26"><a href="day-25-scaling-gps-for-large-data.html#cb805-26"></a></span>
-<span id="cb805-27"><a href="day-25-scaling-gps-for-large-data.html#cb805-27"></a>tuning &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;sigma.sq&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;tau.sq&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>)</span>
-<span id="cb805-28"><a href="day-25-scaling-gps-for-large-data.html#cb805-28"></a></span>
-<span id="cb805-29"><a href="day-25-scaling-gps-for-large-data.html#cb805-29"></a>priors &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi.Unif&quot;</span>    =<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span><span class="op">/</span><span class="dv">10</span>, <span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.001</span>), </span>
-<span id="cb805-30"><a href="day-25-scaling-gps-for-large-data.html#cb805-30"></a>               <span class="st">&quot;sigma.sq.IG&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),</span>
-<span id="cb805-31"><a href="day-25-scaling-gps-for-large-data.html#cb805-31"></a>               <span class="st">&quot;tau.sq.IG&quot;</span>   =<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb805-32"><a href="day-25-scaling-gps-for-large-data.html#cb805-32"></a>)</span>
-<span id="cb805-33"><a href="day-25-scaling-gps-for-large-data.html#cb805-33"></a></span>
-<span id="cb805-34"><a href="day-25-scaling-gps-for-large-data.html#cb805-34"></a>cov.model &lt;-<span class="st"> &quot;exponential&quot;</span></span>
-<span id="cb805-35"><a href="day-25-scaling-gps-for-large-data.html#cb805-35"></a></span>
-<span id="cb805-36"><a href="day-25-scaling-gps-for-large-data.html#cb805-36"></a><span class="co">## specify the number and location of knots</span></span>
-<span id="cb805-37"><a href="day-25-scaling-gps-for-large-data.html#cb805-37"></a></span>
-<span id="cb805-38"><a href="day-25-scaling-gps-for-large-data.html#cb805-38"></a>n_knots &lt;-<span class="st"> </span><span class="dv">8</span><span class="op">^</span><span class="dv">2</span>     <span class="co">## this works best as a squre</span></span>
-<span id="cb805-39"><a href="day-25-scaling-gps-for-large-data.html#cb805-39"></a>knots &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
-<span id="cb805-40"><a href="day-25-scaling-gps-for-large-data.html#cb805-40"></a>  <span class="kw">expand.grid</span>(</span>
-<span id="cb805-41"><a href="day-25-scaling-gps-for-large-data.html#cb805-41"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots)),</span>
-<span id="cb805-42"><a href="day-25-scaling-gps-for-large-data.html#cb805-42"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots))</span>
-<span id="cb805-43"><a href="day-25-scaling-gps-for-large-data.html#cb805-43"></a>  )</span>
-<span id="cb805-44"><a href="day-25-scaling-gps-for-large-data.html#cb805-44"></a>)</span>
-<span id="cb805-45"><a href="day-25-scaling-gps-for-large-data.html#cb805-45"></a></span>
-<span id="cb805-46"><a href="day-25-scaling-gps-for-large-data.html#cb805-46"></a><span class="cf">if</span> (<span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;PP.RData&quot;</span>))) {</span>
-<span id="cb805-47"><a href="day-25-scaling-gps-for-large-data.html#cb805-47"></a>  <span class="kw">load</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;PP.RData&quot;</span>))</span>
-<span id="cb805-48"><a href="day-25-scaling-gps-for-large-data.html#cb805-48"></a>} <span class="cf">else</span> {</span>
-<span id="cb805-49"><a href="day-25-scaling-gps-for-large-data.html#cb805-49"></a>  fit &lt;-<span class="st"> </span><span class="kw">spLM</span>(</span>
-<span id="cb805-50"><a href="day-25-scaling-gps-for-large-data.html#cb805-50"></a>    y <span class="op">~</span><span class="st"> </span>X <span class="op">-</span><span class="st"> </span><span class="dv">1</span>,</span>
-<span id="cb805-51"><a href="day-25-scaling-gps-for-large-data.html#cb805-51"></a>    <span class="dt">coords    =</span> coords,</span>
-<span id="cb805-52"><a href="day-25-scaling-gps-for-large-data.html#cb805-52"></a>    <span class="dt">knots     =</span> knots,</span>
-<span id="cb805-53"><a href="day-25-scaling-gps-for-large-data.html#cb805-53"></a>    <span class="dt">starting  =</span> starting,</span>
-<span id="cb805-54"><a href="day-25-scaling-gps-for-large-data.html#cb805-54"></a>    <span class="dt">tuning    =</span> tuning, </span>
-<span id="cb805-55"><a href="day-25-scaling-gps-for-large-data.html#cb805-55"></a>    <span class="dt">priors    =</span> priors, </span>
-<span id="cb805-56"><a href="day-25-scaling-gps-for-large-data.html#cb805-56"></a>    <span class="dt">cov.model =</span> cov.model, </span>
-<span id="cb805-57"><a href="day-25-scaling-gps-for-large-data.html#cb805-57"></a>    <span class="dt">n.samples =</span> n.samples,</span>
-<span id="cb805-58"><a href="day-25-scaling-gps-for-large-data.html#cb805-58"></a>    <span class="dt">amcmc     =</span> <span class="kw">list</span>(</span>
-<span id="cb805-59"><a href="day-25-scaling-gps-for-large-data.html#cb805-59"></a>      <span class="dt">n.batch =</span> n.batch, </span>
-<span id="cb805-60"><a href="day-25-scaling-gps-for-large-data.html#cb805-60"></a>      <span class="dt">batch.length =</span> batch.length,</span>
-<span id="cb805-61"><a href="day-25-scaling-gps-for-large-data.html#cb805-61"></a>      <span class="dt">accept.rate =</span> <span class="fl">0.44</span></span>
-<span id="cb805-62"><a href="day-25-scaling-gps-for-large-data.html#cb805-62"></a>    ),</span>
-<span id="cb805-63"><a href="day-25-scaling-gps-for-large-data.html#cb805-63"></a>    <span class="dt">n.report  =</span> <span class="dv">10</span> <span class="co">## report every 10 adaptive batches</span></span>
-<span id="cb805-64"><a href="day-25-scaling-gps-for-large-data.html#cb805-64"></a>  )</span>
-<span id="cb805-65"><a href="day-25-scaling-gps-for-large-data.html#cb805-65"></a>  <span class="kw">save</span>(fit, <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;PP.RData&quot;</span>))</span>
-<span id="cb805-66"><a href="day-25-scaling-gps-for-large-data.html#cb805-66"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb804-1"><a href="day-25-scaling-gps-for-large-data.html#cb804-1"></a><span class="co">## Make some data</span></span>
+<span id="cb804-2"><a href="day-25-scaling-gps-for-large-data.html#cb804-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb804-3"><a href="day-25-scaling-gps-for-large-data.html#cb804-3"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb804-4"><a href="day-25-scaling-gps-for-large-data.html#cb804-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb804-5"><a href="day-25-scaling-gps-for-large-data.html#cb804-5"></a></span>
+<span id="cb804-6"><a href="day-25-scaling-gps-for-large-data.html#cb804-6"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
+<span id="cb804-7"><a href="day-25-scaling-gps-for-large-data.html#cb804-7"></a></span>
+<span id="cb804-8"><a href="day-25-scaling-gps-for-large-data.html#cb804-8"></a>beta &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb804-9"><a href="day-25-scaling-gps-for-large-data.html#cb804-9"></a></span>
+<span id="cb804-10"><a href="day-25-scaling-gps-for-large-data.html#cb804-10"></a>sigma.sq &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb804-11"><a href="day-25-scaling-gps-for-large-data.html#cb804-11"></a>tau.sq &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb804-12"><a href="day-25-scaling-gps-for-large-data.html#cb804-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb804-13"><a href="day-25-scaling-gps-for-large-data.html#cb804-13"></a></span>
+<span id="cb804-14"><a href="day-25-scaling-gps-for-large-data.html#cb804-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
+<span id="cb804-15"><a href="day-25-scaling-gps-for-large-data.html#cb804-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>phi <span class="op">*</span><span class="st"> </span>D)</span>
+<span id="cb804-16"><a href="day-25-scaling-gps-for-large-data.html#cb804-16"></a>w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), sigma.sq <span class="op">*</span><span class="st"> </span>R))</span>
+<span id="cb804-17"><a href="day-25-scaling-gps-for-large-data.html#cb804-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span>w, <span class="kw">sqrt</span>(tau.sq))</span>
+<span id="cb804-18"><a href="day-25-scaling-gps-for-large-data.html#cb804-18"></a></span>
+<span id="cb804-19"><a href="day-25-scaling-gps-for-large-data.html#cb804-19"></a><span class="co">## Fit Predictive Process</span></span>
+<span id="cb804-20"><a href="day-25-scaling-gps-for-large-data.html#cb804-20"></a>n.samples &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb804-21"><a href="day-25-scaling-gps-for-large-data.html#cb804-21"></a>batch.length &lt;-<span class="st"> </span><span class="dv">50</span></span>
+<span id="cb804-22"><a href="day-25-scaling-gps-for-large-data.html#cb804-22"></a>n.batch      &lt;-<span class="st"> </span>n.samples <span class="op">/</span><span class="st"> </span>batch.length</span>
+<span id="cb804-23"><a href="day-25-scaling-gps-for-large-data.html#cb804-23"></a></span>
+<span id="cb804-24"><a href="day-25-scaling-gps-for-large-data.html#cb804-24"></a></span>
+<span id="cb804-25"><a href="day-25-scaling-gps-for-large-data.html#cb804-25"></a>starting &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;sigma.sq&quot;</span> =<span class="st"> </span><span class="dv">5</span>, <span class="st">&quot;tau.sq&quot;</span> =<span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb804-26"><a href="day-25-scaling-gps-for-large-data.html#cb804-26"></a></span>
+<span id="cb804-27"><a href="day-25-scaling-gps-for-large-data.html#cb804-27"></a>tuning &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;sigma.sq&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;tau.sq&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>)</span>
+<span id="cb804-28"><a href="day-25-scaling-gps-for-large-data.html#cb804-28"></a></span>
+<span id="cb804-29"><a href="day-25-scaling-gps-for-large-data.html#cb804-29"></a>priors &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi.Unif&quot;</span>    =<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span><span class="op">/</span><span class="dv">10</span>, <span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.001</span>), </span>
+<span id="cb804-30"><a href="day-25-scaling-gps-for-large-data.html#cb804-30"></a>               <span class="st">&quot;sigma.sq.IG&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),</span>
+<span id="cb804-31"><a href="day-25-scaling-gps-for-large-data.html#cb804-31"></a>               <span class="st">&quot;tau.sq.IG&quot;</span>   =<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb804-32"><a href="day-25-scaling-gps-for-large-data.html#cb804-32"></a>)</span>
+<span id="cb804-33"><a href="day-25-scaling-gps-for-large-data.html#cb804-33"></a></span>
+<span id="cb804-34"><a href="day-25-scaling-gps-for-large-data.html#cb804-34"></a>cov.model &lt;-<span class="st"> &quot;exponential&quot;</span></span>
+<span id="cb804-35"><a href="day-25-scaling-gps-for-large-data.html#cb804-35"></a></span>
+<span id="cb804-36"><a href="day-25-scaling-gps-for-large-data.html#cb804-36"></a><span class="co">## specify the number and location of knots</span></span>
+<span id="cb804-37"><a href="day-25-scaling-gps-for-large-data.html#cb804-37"></a></span>
+<span id="cb804-38"><a href="day-25-scaling-gps-for-large-data.html#cb804-38"></a>n_knots &lt;-<span class="st"> </span><span class="dv">8</span><span class="op">^</span><span class="dv">2</span>     <span class="co">## this works best as a squre</span></span>
+<span id="cb804-39"><a href="day-25-scaling-gps-for-large-data.html#cb804-39"></a>knots &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb804-40"><a href="day-25-scaling-gps-for-large-data.html#cb804-40"></a>  <span class="kw">expand.grid</span>(</span>
+<span id="cb804-41"><a href="day-25-scaling-gps-for-large-data.html#cb804-41"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots)),</span>
+<span id="cb804-42"><a href="day-25-scaling-gps-for-large-data.html#cb804-42"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots))</span>
+<span id="cb804-43"><a href="day-25-scaling-gps-for-large-data.html#cb804-43"></a>  )</span>
+<span id="cb804-44"><a href="day-25-scaling-gps-for-large-data.html#cb804-44"></a>)</span>
+<span id="cb804-45"><a href="day-25-scaling-gps-for-large-data.html#cb804-45"></a></span>
+<span id="cb804-46"><a href="day-25-scaling-gps-for-large-data.html#cb804-46"></a><span class="cf">if</span> (<span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;PP.RData&quot;</span>))) {</span>
+<span id="cb804-47"><a href="day-25-scaling-gps-for-large-data.html#cb804-47"></a>  <span class="kw">load</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;PP.RData&quot;</span>))</span>
+<span id="cb804-48"><a href="day-25-scaling-gps-for-large-data.html#cb804-48"></a>} <span class="cf">else</span> {</span>
+<span id="cb804-49"><a href="day-25-scaling-gps-for-large-data.html#cb804-49"></a>  fit &lt;-<span class="st"> </span><span class="kw">spLM</span>(</span>
+<span id="cb804-50"><a href="day-25-scaling-gps-for-large-data.html#cb804-50"></a>    y <span class="op">~</span><span class="st"> </span>X <span class="op">-</span><span class="st"> </span><span class="dv">1</span>,</span>
+<span id="cb804-51"><a href="day-25-scaling-gps-for-large-data.html#cb804-51"></a>    <span class="dt">coords    =</span> coords,</span>
+<span id="cb804-52"><a href="day-25-scaling-gps-for-large-data.html#cb804-52"></a>    <span class="dt">knots     =</span> knots,</span>
+<span id="cb804-53"><a href="day-25-scaling-gps-for-large-data.html#cb804-53"></a>    <span class="dt">starting  =</span> starting,</span>
+<span id="cb804-54"><a href="day-25-scaling-gps-for-large-data.html#cb804-54"></a>    <span class="dt">tuning    =</span> tuning, </span>
+<span id="cb804-55"><a href="day-25-scaling-gps-for-large-data.html#cb804-55"></a>    <span class="dt">priors    =</span> priors, </span>
+<span id="cb804-56"><a href="day-25-scaling-gps-for-large-data.html#cb804-56"></a>    <span class="dt">cov.model =</span> cov.model, </span>
+<span id="cb804-57"><a href="day-25-scaling-gps-for-large-data.html#cb804-57"></a>    <span class="dt">n.samples =</span> n.samples,</span>
+<span id="cb804-58"><a href="day-25-scaling-gps-for-large-data.html#cb804-58"></a>    <span class="dt">amcmc     =</span> <span class="kw">list</span>(</span>
+<span id="cb804-59"><a href="day-25-scaling-gps-for-large-data.html#cb804-59"></a>      <span class="dt">n.batch =</span> n.batch, </span>
+<span id="cb804-60"><a href="day-25-scaling-gps-for-large-data.html#cb804-60"></a>      <span class="dt">batch.length =</span> batch.length,</span>
+<span id="cb804-61"><a href="day-25-scaling-gps-for-large-data.html#cb804-61"></a>      <span class="dt">accept.rate =</span> <span class="fl">0.44</span></span>
+<span id="cb804-62"><a href="day-25-scaling-gps-for-large-data.html#cb804-62"></a>    ),</span>
+<span id="cb804-63"><a href="day-25-scaling-gps-for-large-data.html#cb804-63"></a>    <span class="dt">n.report  =</span> <span class="dv">10</span> <span class="co">## report every 10 adaptive batches</span></span>
+<span id="cb804-64"><a href="day-25-scaling-gps-for-large-data.html#cb804-64"></a>  )</span>
+<span id="cb804-65"><a href="day-25-scaling-gps-for-large-data.html#cb804-65"></a>  <span class="kw">save</span>(fit, <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;PP.RData&quot;</span>))</span>
+<span id="cb804-66"><a href="day-25-scaling-gps-for-large-data.html#cb804-66"></a>}</span></code></pre></div>
 <pre><code>## ----------------------------------------
 ##  General model description
 ## ----------------------------------------
@@ -624,31 +624,31 @@ Cov \left( \mathbf{c}^{\star} {\mathbf{C}^{\star}}^{-1} \boldsymbol{\eta}^{\star
 ##  phi     24.0        0.57893
 ## -------------------------------------------------</code></pre>
 <p>To get the fitted parameters, we can recover these with composition sampling.</p>
-<div class="sourceCode" id="cb807"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb807-1"><a href="day-25-scaling-gps-for-large-data.html#cb807-1"></a><span class="co">## discard the first half of the samples as burn-in</span></span>
-<span id="cb807-2"><a href="day-25-scaling-gps-for-large-data.html#cb807-2"></a>burn.in &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>n.samples</span>
-<span id="cb807-3"><a href="day-25-scaling-gps-for-large-data.html#cb807-3"></a><span class="co">## trace plots for the exponential model</span></span>
-<span id="cb807-4"><a href="day-25-scaling-gps-for-large-data.html#cb807-4"></a>recovered_params &lt;-<span class="st"> </span><span class="kw">spRecover</span>(fit, <span class="dt">start =</span> burn.in, <span class="dt">thin =</span> <span class="dv">2</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb807-5"><a href="day-25-scaling-gps-for-large-data.html#cb807-5"></a></span>
-<span id="cb807-6"><a href="day-25-scaling-gps-for-large-data.html#cb807-6"></a>theta_post &lt;-<span class="st"> </span><span class="kw">mcmc.list</span>(recovered_params<span class="op">$</span>p.theta.samples)</span>
-<span id="cb807-7"><a href="day-25-scaling-gps-for-large-data.html#cb807-7"></a><span class="kw">plot</span>(theta_post, <span class="dt">density =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb806"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb806-1"><a href="day-25-scaling-gps-for-large-data.html#cb806-1"></a><span class="co">## discard the first half of the samples as burn-in</span></span>
+<span id="cb806-2"><a href="day-25-scaling-gps-for-large-data.html#cb806-2"></a>burn.in &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>n.samples</span>
+<span id="cb806-3"><a href="day-25-scaling-gps-for-large-data.html#cb806-3"></a><span class="co">## trace plots for the exponential model</span></span>
+<span id="cb806-4"><a href="day-25-scaling-gps-for-large-data.html#cb806-4"></a>recovered_params &lt;-<span class="st"> </span><span class="kw">spRecover</span>(fit, <span class="dt">start =</span> burn.in, <span class="dt">thin =</span> <span class="dv">2</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb806-5"><a href="day-25-scaling-gps-for-large-data.html#cb806-5"></a></span>
+<span id="cb806-6"><a href="day-25-scaling-gps-for-large-data.html#cb806-6"></a>theta_post &lt;-<span class="st"> </span><span class="kw">mcmc.list</span>(recovered_params<span class="op">$</span>p.theta.samples)</span>
+<span id="cb806-7"><a href="day-25-scaling-gps-for-large-data.html#cb806-7"></a><span class="kw">plot</span>(theta_post, <span class="dt">density =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="25-day-25_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb808-1"><a href="day-25-scaling-gps-for-large-data.html#cb808-1"></a><span class="kw">round</span>(<span class="kw">summary</span>(theta_post)<span class="op">$</span>quantiles, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb807"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb807-1"><a href="day-25-scaling-gps-for-large-data.html#cb807-1"></a><span class="kw">round</span>(<span class="kw">summary</span>(theta_post)<span class="op">$</span>quantiles, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##           2.5%   25%   50%   75%  97.5%
 ## sigma.sq 5.257 6.026 6.738 7.389 10.984
 ## tau.sq   0.193 0.325 0.408 0.545  0.765
 ## phi      2.586 3.622 4.271 4.646  5.998</code></pre>
-<div class="sourceCode" id="cb810"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb810-1"><a href="day-25-scaling-gps-for-large-data.html#cb810-1"></a>beta_post &lt;-<span class="st"> </span><span class="kw">mcmc.list</span>(recovered_params<span class="op">$</span>p.beta.recover.samples)  </span>
-<span id="cb810-2"><a href="day-25-scaling-gps-for-large-data.html#cb810-2"></a><span class="kw">plot</span>(beta_post, <span class="dt">density =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb809-1"><a href="day-25-scaling-gps-for-large-data.html#cb809-1"></a>beta_post &lt;-<span class="st"> </span><span class="kw">mcmc.list</span>(recovered_params<span class="op">$</span>p.beta.recover.samples)  </span>
+<span id="cb809-2"><a href="day-25-scaling-gps-for-large-data.html#cb809-2"></a><span class="kw">plot</span>(beta_post, <span class="dt">density =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="25-day-25_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
-<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb811-1"><a href="day-25-scaling-gps-for-large-data.html#cb811-1"></a><span class="kw">round</span>(<span class="kw">summary</span>(beta_post)<span class="op">$</span>quantiles, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb810"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb810-1"><a href="day-25-scaling-gps-for-large-data.html#cb810-1"></a><span class="kw">round</span>(<span class="kw">summary</span>(beta_post)<span class="op">$</span>quantiles, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##      2.5%    25%   50%   75% 97.5%
 ## X1 -1.925 -0.493 0.205 0.927 2.470
 ## X2  4.872  4.917 4.950 4.979 5.039</code></pre>
-<div class="sourceCode" id="cb813"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb813-1"><a href="day-25-scaling-gps-for-large-data.html#cb813-1"></a><span class="co">## recover the spatial random effects</span></span>
-<span id="cb813-2"><a href="day-25-scaling-gps-for-large-data.html#cb813-2"></a>estimated_w &lt;-<span class="st"> </span>recovered_params<span class="op">$</span>p.w.recover.samples</span>
-<span id="cb813-3"><a href="day-25-scaling-gps-for-large-data.html#cb813-3"></a></span>
-<span id="cb813-4"><a href="day-25-scaling-gps-for-large-data.html#cb813-4"></a><span class="kw">plot</span>(<span class="kw">apply</span>(estimated_w, <span class="dv">1</span>, mean), w)</span>
-<span id="cb813-5"><a href="day-25-scaling-gps-for-large-data.html#cb813-5"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb812-1"><a href="day-25-scaling-gps-for-large-data.html#cb812-1"></a><span class="co">## recover the spatial random effects</span></span>
+<span id="cb812-2"><a href="day-25-scaling-gps-for-large-data.html#cb812-2"></a>estimated_w &lt;-<span class="st"> </span>recovered_params<span class="op">$</span>p.w.recover.samples</span>
+<span id="cb812-3"><a href="day-25-scaling-gps-for-large-data.html#cb812-3"></a></span>
+<span id="cb812-4"><a href="day-25-scaling-gps-for-large-data.html#cb812-4"></a><span class="kw">plot</span>(<span class="kw">apply</span>(estimated_w, <span class="dv">1</span>, mean), w)</span>
+<span id="cb812-5"><a href="day-25-scaling-gps-for-large-data.html#cb812-5"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="25-day-25_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="sparse-matrix-routines" class="section level2">
@@ -797,52 +797,52 @@ C(d) = C_t(d | \gamma) C(d | \boldsymbol{\theta})
 </ul></li>
 <li><p>Used in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5927603/">nearest neighbor Gaussian Processes</a></p></li>
 </ul>
-<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb814-1"><a href="day-25-scaling-gps-for-large-data.html#cb814-1"></a><span class="co">## Make some data</span></span>
-<span id="cb814-2"><a href="day-25-scaling-gps-for-large-data.html#cb814-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb814-3"><a href="day-25-scaling-gps-for-large-data.html#cb814-3"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb814-4"><a href="day-25-scaling-gps-for-large-data.html#cb814-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n,<span class="dv">0</span>,<span class="dv">1</span>), <span class="kw">runif</span>(n,<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb814-5"><a href="day-25-scaling-gps-for-large-data.html#cb814-5"></a></span>
-<span id="cb814-6"><a href="day-25-scaling-gps-for-large-data.html#cb814-6"></a>x &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
-<span id="cb814-7"><a href="day-25-scaling-gps-for-large-data.html#cb814-7"></a></span>
-<span id="cb814-8"><a href="day-25-scaling-gps-for-large-data.html#cb814-8"></a>B &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">5</span>))</span>
-<span id="cb814-9"><a href="day-25-scaling-gps-for-large-data.html#cb814-9"></a></span>
-<span id="cb814-10"><a href="day-25-scaling-gps-for-large-data.html#cb814-10"></a>sigma.sq &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb814-11"><a href="day-25-scaling-gps-for-large-data.html#cb814-11"></a>tau.sq &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb814-12"><a href="day-25-scaling-gps-for-large-data.html#cb814-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span><span class="op">/</span><span class="fl">0.5</span></span>
-<span id="cb814-13"><a href="day-25-scaling-gps-for-large-data.html#cb814-13"></a></span>
-<span id="cb814-14"><a href="day-25-scaling-gps-for-large-data.html#cb814-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
-<span id="cb814-15"><a href="day-25-scaling-gps-for-large-data.html#cb814-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>phi <span class="op">*</span><span class="st"> </span>D)</span>
-<span id="cb814-16"><a href="day-25-scaling-gps-for-large-data.html#cb814-16"></a>w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), sigma.sq<span class="op">*</span>R))</span>
-<span id="cb814-17"><a href="day-25-scaling-gps-for-large-data.html#cb814-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, x<span class="op">%*%</span>B <span class="op">+</span><span class="st"> </span>w, <span class="kw">sqrt</span>(tau.sq))</span>
-<span id="cb814-18"><a href="day-25-scaling-gps-for-large-data.html#cb814-18"></a></span>
-<span id="cb814-19"><a href="day-25-scaling-gps-for-large-data.html#cb814-19"></a><span class="co">##Fit a Response and Latent NNGP model</span></span>
-<span id="cb814-20"><a href="day-25-scaling-gps-for-large-data.html#cb814-20"></a>n.samples &lt;-<span class="st"> </span><span class="dv">500</span></span>
-<span id="cb814-21"><a href="day-25-scaling-gps-for-large-data.html#cb814-21"></a></span>
-<span id="cb814-22"><a href="day-25-scaling-gps-for-large-data.html#cb814-22"></a>starting &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span>=phi, <span class="st">&quot;sigma.sq&quot;</span>=<span class="dv">5</span>, <span class="st">&quot;tau.sq&quot;</span>=<span class="dv">1</span>)</span>
-<span id="cb814-23"><a href="day-25-scaling-gps-for-large-data.html#cb814-23"></a></span>
-<span id="cb814-24"><a href="day-25-scaling-gps-for-large-data.html#cb814-24"></a>tuning &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span>=<span class="fl">0.5</span>, <span class="st">&quot;sigma.sq&quot;</span>=<span class="fl">0.5</span>, <span class="st">&quot;tau.sq&quot;</span>=<span class="fl">0.5</span>)</span>
-<span id="cb814-25"><a href="day-25-scaling-gps-for-large-data.html#cb814-25"></a></span>
-<span id="cb814-26"><a href="day-25-scaling-gps-for-large-data.html#cb814-26"></a>priors &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi.Unif&quot;</span>=<span class="kw">c</span>(<span class="dv">3</span><span class="op">/</span><span class="dv">1</span>, <span class="dv">3</span><span class="op">/</span><span class="fl">0.01</span>), <span class="st">&quot;sigma.sq.IG&quot;</span>=<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>), <span class="st">&quot;tau.sq.IG&quot;</span>=<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span>
-<span id="cb814-27"><a href="day-25-scaling-gps-for-large-data.html#cb814-27"></a></span>
-<span id="cb814-28"><a href="day-25-scaling-gps-for-large-data.html#cb814-28"></a>cov.model &lt;-<span class="st"> &quot;exponential&quot;</span></span>
-<span id="cb814-29"><a href="day-25-scaling-gps-for-large-data.html#cb814-29"></a></span>
-<span id="cb814-30"><a href="day-25-scaling-gps-for-large-data.html#cb814-30"></a><span class="cf">if</span> (<span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;NNGP.RData&quot;</span>))) {</span>
-<span id="cb814-31"><a href="day-25-scaling-gps-for-large-data.html#cb814-31"></a>    <span class="kw">load</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;NNGP.RData&quot;</span>))</span>
-<span id="cb814-32"><a href="day-25-scaling-gps-for-large-data.html#cb814-32"></a>} <span class="cf">else</span> {</span>
-<span id="cb814-33"><a href="day-25-scaling-gps-for-large-data.html#cb814-33"></a>  fit &lt;-<span class="st"> </span><span class="kw">spNNGP</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, </span>
-<span id="cb814-34"><a href="day-25-scaling-gps-for-large-data.html#cb814-34"></a>                <span class="dt">coords        =</span> coords,</span>
-<span id="cb814-35"><a href="day-25-scaling-gps-for-large-data.html#cb814-35"></a>                <span class="dt">starting      =</span> starting,</span>
-<span id="cb814-36"><a href="day-25-scaling-gps-for-large-data.html#cb814-36"></a>                <span class="dt">method        =</span> <span class="st">&quot;latent&quot;</span>,</span>
-<span id="cb814-37"><a href="day-25-scaling-gps-for-large-data.html#cb814-37"></a>                <span class="co"># method        = &quot;response&quot;,    ## use for large n, doesn&#39;t save spatial random effects</span></span>
-<span id="cb814-38"><a href="day-25-scaling-gps-for-large-data.html#cb814-38"></a>                <span class="dt">n.neighbors   =</span> <span class="dv">10</span>,</span>
-<span id="cb814-39"><a href="day-25-scaling-gps-for-large-data.html#cb814-39"></a>                <span class="dt">tuning        =</span> tuning,</span>
-<span id="cb814-40"><a href="day-25-scaling-gps-for-large-data.html#cb814-40"></a>                <span class="dt">priors        =</span> priors, </span>
-<span id="cb814-41"><a href="day-25-scaling-gps-for-large-data.html#cb814-41"></a>                <span class="dt">cov.model     =</span> cov.model,</span>
-<span id="cb814-42"><a href="day-25-scaling-gps-for-large-data.html#cb814-42"></a>                <span class="dt">n.samples     =</span> n.samples,</span>
-<span id="cb814-43"><a href="day-25-scaling-gps-for-large-data.html#cb814-43"></a>                <span class="dt">n.omp.threads =</span> <span class="dv">1</span></span>
-<span id="cb814-44"><a href="day-25-scaling-gps-for-large-data.html#cb814-44"></a>  )</span>
-<span id="cb814-45"><a href="day-25-scaling-gps-for-large-data.html#cb814-45"></a>  <span class="kw">save</span>(fit, <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;NNGP.RData&quot;</span>))</span>
-<span id="cb814-46"><a href="day-25-scaling-gps-for-large-data.html#cb814-46"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb813"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb813-1"><a href="day-25-scaling-gps-for-large-data.html#cb813-1"></a><span class="co">## Make some data</span></span>
+<span id="cb813-2"><a href="day-25-scaling-gps-for-large-data.html#cb813-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb813-3"><a href="day-25-scaling-gps-for-large-data.html#cb813-3"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb813-4"><a href="day-25-scaling-gps-for-large-data.html#cb813-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n,<span class="dv">0</span>,<span class="dv">1</span>), <span class="kw">runif</span>(n,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb813-5"><a href="day-25-scaling-gps-for-large-data.html#cb813-5"></a></span>
+<span id="cb813-6"><a href="day-25-scaling-gps-for-large-data.html#cb813-6"></a>x &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
+<span id="cb813-7"><a href="day-25-scaling-gps-for-large-data.html#cb813-7"></a></span>
+<span id="cb813-8"><a href="day-25-scaling-gps-for-large-data.html#cb813-8"></a>B &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">5</span>))</span>
+<span id="cb813-9"><a href="day-25-scaling-gps-for-large-data.html#cb813-9"></a></span>
+<span id="cb813-10"><a href="day-25-scaling-gps-for-large-data.html#cb813-10"></a>sigma.sq &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb813-11"><a href="day-25-scaling-gps-for-large-data.html#cb813-11"></a>tau.sq &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb813-12"><a href="day-25-scaling-gps-for-large-data.html#cb813-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span><span class="op">/</span><span class="fl">0.5</span></span>
+<span id="cb813-13"><a href="day-25-scaling-gps-for-large-data.html#cb813-13"></a></span>
+<span id="cb813-14"><a href="day-25-scaling-gps-for-large-data.html#cb813-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
+<span id="cb813-15"><a href="day-25-scaling-gps-for-large-data.html#cb813-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>phi <span class="op">*</span><span class="st"> </span>D)</span>
+<span id="cb813-16"><a href="day-25-scaling-gps-for-large-data.html#cb813-16"></a>w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), sigma.sq<span class="op">*</span>R))</span>
+<span id="cb813-17"><a href="day-25-scaling-gps-for-large-data.html#cb813-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, x<span class="op">%*%</span>B <span class="op">+</span><span class="st"> </span>w, <span class="kw">sqrt</span>(tau.sq))</span>
+<span id="cb813-18"><a href="day-25-scaling-gps-for-large-data.html#cb813-18"></a></span>
+<span id="cb813-19"><a href="day-25-scaling-gps-for-large-data.html#cb813-19"></a><span class="co">##Fit a Response and Latent NNGP model</span></span>
+<span id="cb813-20"><a href="day-25-scaling-gps-for-large-data.html#cb813-20"></a>n.samples &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb813-21"><a href="day-25-scaling-gps-for-large-data.html#cb813-21"></a></span>
+<span id="cb813-22"><a href="day-25-scaling-gps-for-large-data.html#cb813-22"></a>starting &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span>=phi, <span class="st">&quot;sigma.sq&quot;</span>=<span class="dv">5</span>, <span class="st">&quot;tau.sq&quot;</span>=<span class="dv">1</span>)</span>
+<span id="cb813-23"><a href="day-25-scaling-gps-for-large-data.html#cb813-23"></a></span>
+<span id="cb813-24"><a href="day-25-scaling-gps-for-large-data.html#cb813-24"></a>tuning &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi&quot;</span>=<span class="fl">0.5</span>, <span class="st">&quot;sigma.sq&quot;</span>=<span class="fl">0.5</span>, <span class="st">&quot;tau.sq&quot;</span>=<span class="fl">0.5</span>)</span>
+<span id="cb813-25"><a href="day-25-scaling-gps-for-large-data.html#cb813-25"></a></span>
+<span id="cb813-26"><a href="day-25-scaling-gps-for-large-data.html#cb813-26"></a>priors &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;phi.Unif&quot;</span>=<span class="kw">c</span>(<span class="dv">3</span><span class="op">/</span><span class="dv">1</span>, <span class="dv">3</span><span class="op">/</span><span class="fl">0.01</span>), <span class="st">&quot;sigma.sq.IG&quot;</span>=<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>), <span class="st">&quot;tau.sq.IG&quot;</span>=<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb813-27"><a href="day-25-scaling-gps-for-large-data.html#cb813-27"></a></span>
+<span id="cb813-28"><a href="day-25-scaling-gps-for-large-data.html#cb813-28"></a>cov.model &lt;-<span class="st"> &quot;exponential&quot;</span></span>
+<span id="cb813-29"><a href="day-25-scaling-gps-for-large-data.html#cb813-29"></a></span>
+<span id="cb813-30"><a href="day-25-scaling-gps-for-large-data.html#cb813-30"></a><span class="cf">if</span> (<span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;NNGP.RData&quot;</span>))) {</span>
+<span id="cb813-31"><a href="day-25-scaling-gps-for-large-data.html#cb813-31"></a>    <span class="kw">load</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;NNGP.RData&quot;</span>))</span>
+<span id="cb813-32"><a href="day-25-scaling-gps-for-large-data.html#cb813-32"></a>} <span class="cf">else</span> {</span>
+<span id="cb813-33"><a href="day-25-scaling-gps-for-large-data.html#cb813-33"></a>  fit &lt;-<span class="st"> </span><span class="kw">spNNGP</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, </span>
+<span id="cb813-34"><a href="day-25-scaling-gps-for-large-data.html#cb813-34"></a>                <span class="dt">coords        =</span> coords,</span>
+<span id="cb813-35"><a href="day-25-scaling-gps-for-large-data.html#cb813-35"></a>                <span class="dt">starting      =</span> starting,</span>
+<span id="cb813-36"><a href="day-25-scaling-gps-for-large-data.html#cb813-36"></a>                <span class="dt">method        =</span> <span class="st">&quot;latent&quot;</span>,</span>
+<span id="cb813-37"><a href="day-25-scaling-gps-for-large-data.html#cb813-37"></a>                <span class="co"># method        = &quot;response&quot;,    ## use for large n, doesn&#39;t save spatial random effects</span></span>
+<span id="cb813-38"><a href="day-25-scaling-gps-for-large-data.html#cb813-38"></a>                <span class="dt">n.neighbors   =</span> <span class="dv">10</span>,</span>
+<span id="cb813-39"><a href="day-25-scaling-gps-for-large-data.html#cb813-39"></a>                <span class="dt">tuning        =</span> tuning,</span>
+<span id="cb813-40"><a href="day-25-scaling-gps-for-large-data.html#cb813-40"></a>                <span class="dt">priors        =</span> priors, </span>
+<span id="cb813-41"><a href="day-25-scaling-gps-for-large-data.html#cb813-41"></a>                <span class="dt">cov.model     =</span> cov.model,</span>
+<span id="cb813-42"><a href="day-25-scaling-gps-for-large-data.html#cb813-42"></a>                <span class="dt">n.samples     =</span> n.samples,</span>
+<span id="cb813-43"><a href="day-25-scaling-gps-for-large-data.html#cb813-43"></a>                <span class="dt">n.omp.threads =</span> <span class="dv">1</span></span>
+<span id="cb813-44"><a href="day-25-scaling-gps-for-large-data.html#cb813-44"></a>  )</span>
+<span id="cb813-45"><a href="day-25-scaling-gps-for-large-data.html#cb813-45"></a>  <span class="kw">save</span>(fit, <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;results&quot;</span>, <span class="st">&quot;NNGP.RData&quot;</span>))</span>
+<span id="cb813-46"><a href="day-25-scaling-gps-for-large-data.html#cb813-46"></a>}</span></code></pre></div>
 <pre><code>## ----------------------------------------
 ##  Building the neighbor list
 ## ----------------------------------------
@@ -893,7 +893,7 @@ C(d) = C_t(d | \gamma) C(d | \boldsymbol{\theta})
 ## Report interval Metrop. Acceptance rate: 33.00%
 ## Overall Metrop. Acceptance rate: 28.00%
 ## -------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb816-1"><a href="day-25-scaling-gps-for-large-data.html#cb816-1"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb815-1"><a href="day-25-scaling-gps-for-large-data.html#cb815-1"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## spNNGP(formula = y ~ x - 1, coords = coords, method = &quot;latent&quot;, 
@@ -915,8 +915,8 @@ C(d) = C_t(d | \gamma) C(d | \boldsymbol{\theta})
 ## sigma.sq 4.3479  4.8966 5.3621 5.9630 6.8570
 ## tau.sq   0.6332  0.7476 0.8019 0.8480 0.9469
 ## phi      4.5484  5.0623 5.3600 5.9367 8.1709</code></pre>
-<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb818-1"><a href="day-25-scaling-gps-for-large-data.html#cb818-1"></a><span class="kw">plot</span>(<span class="kw">apply</span>(fit<span class="op">$</span>p.w.samples, <span class="dv">1</span>, median), w)</span>
-<span id="cb818-2"><a href="day-25-scaling-gps-for-large-data.html#cb818-2"></a><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb817-1"><a href="day-25-scaling-gps-for-large-data.html#cb817-1"></a><span class="kw">plot</span>(<span class="kw">apply</span>(fit<span class="op">$</span>p.w.samples, <span class="dv">1</span>, median), w)</span>
+<span id="cb817-2"><a href="day-25-scaling-gps-for-large-data.html#cb817-2"></a><span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="25-day-25_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <ul>
 <li><p>Used in <a href="https://arxiv.org/abs/1507.04789">mutliresolution predictive process approximation</a></p></li>
