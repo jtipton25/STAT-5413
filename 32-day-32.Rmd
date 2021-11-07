@@ -910,7 +910,7 @@ p1 / p2 / p3
 - the link function is $\log( \lambda_i) = log \left( E \left( y_i \right) \right) = \mathbf{X}_i \boldsymbol{\beta}$
 
 
-```{r, eval=FALSE}
+```{r}
 set.seed(100)
 N <- 30^2
 locs_full <- expand.grid(
@@ -963,7 +963,7 @@ p4 <- ggplot(dat, aes(x = x, y = y, fill = eta)) +
 
 subset the data to represent an observation process
 
-```{r, eval=FALSE}
+```{r}
 ## using 
 n <- 200
 idx <- sample(N, n)
@@ -982,14 +982,14 @@ ggplot(dat_obs, aes(x = x, y = y, fill = z)) +
   ggtitle("Observed counts")
 ```
 
-```{r, eval=FALSE}
+```{r}
 dat_fit <- data.frame(y = y, covariate = X[, 2], lon = locs$lon, lat = locs$lat)
 ## fit spatial poisson regression using mgcv
 mod <- gam(y ~ covariate + s(lon, lat), family = poisson(link = "log"), data = dat_fit)
 summary(mod)
 ```
 
-```{r, eval=FALSE}
+```{r}
 preds <- predict(mod, newdata = data.frame(covariate = X_full[, 2], lon = locs_full$lon, lat = locs_full$lat), se.fit = TRUE, type = "response")
 dat_plot <- data.frame(
   lon     = locs_full$lon, 
@@ -1028,21 +1028,21 @@ cat(read_lines("./stan_models/spatial-poisson-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r stan-poisson-spatial, message = FALSE, eval=FALSE}
-## for some reason nimble is causing problems with here
-# if (file.exists("./results/spatial-poisson-regression.RData")) {
-#   load("./results/spatial-poisson-regression.RData")
-# } else {
+```{r stan-poisson-spatial, message = FALSE}
+# for some reason nimble is causing problems with here
+if (file.exists("./results/spatial-poisson-regression.RData")) {
+  load("./results/spatial-poisson-regression.RData")
+} else {
   fit <- stan(
     file = "./stan_models/spatial-poisson-regression.stan",
     data = list(y = y, n = n, X = X, p = ncol(X), locs = locs),
     iter = 2000)
-#   save(fit, file = "./results/spatial-poisson-regression.RData")
-# }
+  save(fit, file = "./results/spatial-poisson-regression.RData")
+}
 ```
 
 
-```{r stan-poisson-spatial-results, cache = TRUE, eval=FALSE}
+```{r stan-poisson-spatial-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))
 
@@ -1052,12 +1052,12 @@ mcmc_trace(fit, regex_pars = c("beta", "tau2", "phi", "lp__"))
 
 Posterior predictive checks
 
-```{r, eval=FALSE}
+```{r}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
-```{r stan-poisson-spatial-ppc, cache = TRUE, eval=FALSE}
+```{r stan-poisson-spatial-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)  
@@ -1068,15 +1068,21 @@ p1 / p2 / p3
 
 Fit a non-spatial regression to the spatially correlated data
 
-```{r stan-poisson-nospatial, cache = TRUE, message = FALSE, eval=FALSE}
+```{r stan-poisson-nospatial, cache = TRUE, message = FALSE}
+if (file.exists("./results/nonspatial-poisson-regression.RData")) {
+  load("./results/nonspatial-poisson-regression.RData")
+} else {
 fit <- stan(
   file = here::here("stan_models", "poisson-regression.stan"),
   data = list(y = y, n = n, X = X, p = ncol(X)),
   iter = 2000)
+
+  save(fit, file = "./results/nonspatial-poisson-regression.RData")
+}
 ```
 
 
-```{r stan-poisson-nospatial-results, cache = TRUE, eval=FALSE}
+```{r stan-poisson-nospatial-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -1086,7 +1092,7 @@ mcmc_trace(fit, regex_pars = c("beta", "lp__"))
 
 Posterior predictive checks
 
-```{r, eval=FALSE}
+```{r}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
@@ -1095,7 +1101,7 @@ y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 
 - Evidence of model mis-fit
 
-```{r stan-poisson-nospatial-ppc, cache = TRUE, eval=FALSE}
+```{r stan-poisson-nospatial-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)   
@@ -1107,7 +1113,7 @@ p1 / p2 / p3
 
 - we need to define a nimble model
 
-```{r, eval=FALSE}
+```{r}
 poisson_code <- nimbleCode({
   ## prior for regression parameters beta
   for (j in 1:q) {
@@ -1161,7 +1167,7 @@ Sys.unsetenv("PKG_CXXFLAGS")
 
 Next, we make sure the model is configured 
 
-```{r, eval=FALSE}
+```{r}
 poisson_model_config <- configureMCMC(poisson_model)
 poisson_model_config$getMonitors()
 ## we are not getting samples of eta by default, add those in as well as the random effect lambda
@@ -1179,7 +1185,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r spatial-poisson-nimble, cache = TRUE, eval=FALSE}
+```{r spatial-poisson-nimble, cache = TRUE}
 # ## note: nimble was causing issues with the here function
 # if (file.exists("./results/spatial-poisson-nimble.RData")) {
 #   load("./results/spatial-poisson-nimble.RData")
@@ -1191,7 +1197,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 and examine the traceplots with 
 
-```{r, eval=FALSE}
+```{r}
 layout(matrix(1:4, 2, 2))
 plot(samples[[1]][, "beta[1]"], col = 1, type = 'l', main = "beta_0")
 for (i in 2:4) {
@@ -1213,7 +1219,7 @@ for (i in 2:4) {
 
 - plot the estimated vs. fitted values of eta
 
-```{r, eval=FALSE}
+```{r}
 eta_idx <- grepl("^eta", colnames(samples[[1]]))
 plot(apply(samples[[1]][, eta_idx], 2, mean), eta)
 for (i in 2:4) {
@@ -1224,7 +1230,7 @@ abline(0, 1, col = "red")
 
 - plot the estimated vs. fitted values of lambda
 
-```{r, eval=FALSE}
+```{r}
 lambda_idx <- grepl("lambda", colnames(samples[[1]]))
 plot(apply(samples[[1]][, lambda_idx], 2, mean), lambda)
 for (i in 2:4) {
@@ -1237,14 +1243,14 @@ abline(0, 1, col = "red")
 
 - the default sampler for $\boldsymbol{\eta}$ is a block-Metropolis algorithm which is inefficient for high-dimensional parameters.
 
-```{r, eval=FALSE}
+```{r}
 poisson_model_config <- configureMCMC(poisson_model)
 poisson_model_config$printSamplers()
 ```
 
 Change the sampler for the latent random effect $\boldsymbol{\eta}$ to an elliptical slice sampler
 
-```{r, eval=FALSE}
+```{r}
 ## We can block the parameters into small groups
 poisson_model_config$removeSamplers("eta")
 ## Note: the ess algorithm can produce lots of warning outputs. 
@@ -1278,7 +1284,7 @@ poisson_model_config$addMonitors("eta", "lambda")
 
 Now we can try fitting the MCMC with the new sampler
 
-```{r, eval=FALSE}
+```{r}
 ## I need the additional option to change my c++ compiler flags when both stan and nimble are loaded
 Sys.unsetenv("PKG_CXXFLAGS")
 poisson_mcmc    <- buildMCMC(poisson_model_config)
@@ -1288,7 +1294,7 @@ poisson_model_c <- compileNimble(poisson_mcmc)
 poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_mcmc)
 ```
 
-```{r spatial-poisson-nimble-config, cache = TRUE, eval=FALSE}
+```{r spatial-poisson-nimble-config, cache = TRUE}
 # if (file.exists("./results/spatial-poisson-nimble-config.RData")) {
 #   load("./results/spatial-poisson-nimble-config.RData")
 # } else {
@@ -1299,7 +1305,7 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_mcmc)
 
 and examine the traceplots with
 
-```{r, eval=FALSE}
+```{r}
 layout(matrix(1:4, 2, 2))
 plot(samples[[1]][, "beta[1]"], col = 1, type = 'l', main = "beta_0")
 for (i in 2:4) {
@@ -1320,7 +1326,7 @@ for (i in 2:4) {
 ```
 
 
-```{r, eval=FALSE}
+```{r}
 layout(matrix(1:2, 2, 1))
 lambda_idx <- grepl("lambda", colnames(samples[[1]]))
 
@@ -1334,7 +1340,7 @@ for (i in 2:4) {
 ```
 
 
-```{r,eval=FALSE}
+```{r}
 layout(matrix(1:2, 2, 1))
 eta_idx <- grepl("^eta", colnames(samples[[1]]))
 
