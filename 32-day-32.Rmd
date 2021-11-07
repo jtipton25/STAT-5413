@@ -521,7 +521,7 @@ for (i in 2:4) {
 - the link function is $p(\mathbf{s}) = logit \left( E \left( y(\mathbf{s}) \right) \right) = logit \left( \operatorname{Prob} \left( y(\mathbf{s}) = 1 \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s})$
 
 
-```{r, eval=FALSE}
+```{r}
 N <- 30^2
 locs_full <- expand.grid(
   seq(0, 1, length.out = sqrt(N)),
@@ -577,7 +577,7 @@ p4 <- ggplot(dat, aes(x = x, y = y, fill = eta)) +
 
 subset the data to represent an observation process
 
-```{r, eval=FALSE}
+```{r}
 ## using 
 n <- 200
 idx <- sample(N, n)
@@ -595,14 +595,14 @@ ggplot(dat_obs, aes(x = x, y = y, fill = z)) +
   ggtitle("Observed presence/absence")
 ```
 
-```{r, eval=FALSE}
+```{r}
 dat_fit <- data.frame(y = y, covariate = X[, 2], lon = locs$lon, lat = locs$lat)
 ## fit logistic regression using mgcv
 mod <- gam(y ~ covariate + s(lon, lat), family = binomial(link = "logit"), data = dat_fit)
 summary(mod)
 ```
 
-```{r, eval=FALSE}
+```{r}
 preds <- predict(mod, newdata = data.frame(covariate = X_full[, 2], lon = locs_full$lon, lat = locs_full$lat), se.fit = TRUE, type = "response")
 dat_plot <- data.frame(
   lon     = locs_full$lon, 
@@ -642,20 +642,20 @@ cat(read_lines("./stan_models/spatial-logistic-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r stan-spatial-logistic, message = FALSE, eval=FALSE}
-# if (file.exists("./results/spatial-logistic-regression.RData")) {
-#   load("./results/spatial-logistic-regression.RData")
-# } else {
+```{r stan-spatial-logistic, message = FALSE}
+if (file.exists("./results/spatial-logistic-regression.RData")) {
+  load("./results/spatial-logistic-regression.RData")
+} else {
   fit <- stan(
     file = "./stan_models/spatial-logistic-regression.stan",
     data = list(y = y, n = n, X = X, p = ncol(X), locs = locs),
     iter = 2000)
-  # save(fit, file = "./results/spatial-logistic-regression.RData")
-# }
+save(fit, file = "./results/spatial-logistic-regression.RData")
+}
 ```
 
 
-```{r stan-spatial-logistic-results, cache = TRUE, eval=FALSE}
+```{r stan-spatial-logistic-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "tau2", "phi", "lp__"))  
 
@@ -665,13 +665,13 @@ mcmc_trace(fit, regex_pars = c("beta", "tau2", "phi", "lp__"))
 
 Posterior predictive checks
 
-```{r, eval=FALSE}
+```{r}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 
-```{r stan-spatial-logistic-ppc, cache = TRUE, eval=FALSE}
+```{r stan-spatial-logistic-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)
 p3 <- ppc_ecdf_overlay(y, y_rep)
@@ -682,20 +682,20 @@ p1 / p2 / p3
 
 Fit a non-spatial regression to the spatially correlated data
 
-```{r stan-nonspatial-fit, cache = TRUE, message = FALSE, eval=FALSE}
-# if (file.exists("./results/logistic-nonspatial-regression.RData")) {
-#   load("./results/logistic-nonspatial-regression.RData")
-# } else {
+```{r stan-nonspatial-fit, cache = TRUE, message = FALSE}
+if (file.exists("./results/logistic-nonspatial-regression.RData")) {
+  load("./results/logistic-nonspatial-regression.RData")
+} else {
   fit <- stan(
     file = "./stan_models/logistic-regression.stan",
     data = list(y = y, n = n, X = X, p = ncol(X)),
     iter = 2000)
-#   save(fit, file = "./results/logistic-nonspatial-regression.RData")
-# }
+  save(fit, file = "./results/logistic-nonspatial-regression.RData")
+}
 ```
 
 
-```{r stan-nonspatial-fit-results, cache = TRUE, eval=FALSE}
+```{r stan-nonspatial-fit-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -705,7 +705,7 @@ mcmc_trace(fit, regex_pars = c("beta", "lp__"))
 
 Posterior predictive checks
 
-```{r, eval=FALSE}
+```{r}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
@@ -714,7 +714,7 @@ Poor coverage when not accounting for the spatial process
 
 Evidence of model mis-fit
 
-```{r stan-nonspatial-fit-ppc, cache = TRUE, eval=FALSE}
+```{r stan-nonspatial-fit-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])  
 p2 <- ppc_dens_overlay(y, y_rep)  
 p3 <- ppc_ecdf_overlay(y, y_rep)  
