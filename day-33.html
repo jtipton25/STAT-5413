@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter33 Day 33 | Notes for STAT 5413 - Spatial Statistics</title>
+  <meta name="description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
+  <meta name="generator" content="bookdown 0.24.3 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter33 Day 33 | Notes for STAT 5413 - Spatial Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter33 Day 33 | Notes for STAT 5413 - Spatial Statistics" />
+  
+  <meta name="twitter:description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
+  
+
+<meta name="author" content="John Tipton" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="day-32.html"/>
+<link rel="next" href="day-34.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">STAT 5413 Spatial Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="day-1.html"><a href="day-1.html"><i class="fa fa-check"></i><b>1</b> Day 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="day-1.html"><a href="day-1.html#notation"><i class="fa fa-check"></i><b>1.1</b> Notation</a></li>
+<li class="chapter" data-level="1.2" data-path="day-1.html"><a href="day-1.html#probability-distributions"><i class="fa fa-check"></i><b>1.2</b> Probability Distributions</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="day-1.html"><a href="day-1.html#example-linear-regression"><i class="fa fa-check"></i><b>1.2.1</b> Example: linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="day-1.html"><a href="day-1.html#hierarchical-modeling"><i class="fa fa-check"></i><b>1.3</b> Hierarchical modeling</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="day-1.html"><a href="day-1.html#bayesian-hierarchical-models-bhms"><i class="fa fa-check"></i><b>1.3.1</b> Bayesian Hierarchical models (BHMs)</a></li>
+<li class="chapter" data-level="1.3.2" data-path="day-1.html"><a href="day-1.html#empirical-hierarchical-models-ehms"><i class="fa fa-check"></i><b>1.3.2</b> Empirical Hierarchical models (EHMs)</a></li>
+<li class="chapter" data-level="1.3.3" data-path="day-1.html"><a href="day-1.html#data-model"><i class="fa fa-check"></i><b>1.3.3</b> Data Model</a></li>
+<li class="chapter" data-level="1.3.4" data-path="day-1.html"><a href="day-1.html#process-model"><i class="fa fa-check"></i><b>1.3.4</b> Process Model</a></li>
+<li class="chapter" data-level="1.3.5" data-path="day-1.html"><a href="day-1.html#parameter-prior-model-bmhs-only"><i class="fa fa-check"></i><b>1.3.5</b> Parameter (Prior) Model (BMHs only)</a></li>
+<li class="chapter" data-level="1.3.6" data-path="day-1.html"><a href="day-1.html#posterior-distribution"><i class="fa fa-check"></i><b>1.3.6</b> Posterior Distribution</a></li>
+<li class="chapter" data-level="1.3.7" data-path="day-1.html"><a href="day-1.html#scientifically-motivated-statistical-modeling"><i class="fa fa-check"></i><b>1.3.7</b> Scientifically Motivated Statistical Modeling</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="day-2.html"><a href="day-2.html"><i class="fa fa-check"></i><b>2</b> Day 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="day-2.html"><a href="day-2.html#spatial-data"><i class="fa fa-check"></i><b>2.1</b> Spatial Data</a></li>
+<li class="chapter" data-level="2.2" data-path="day-2.html"><a href="day-2.html#types-of-spatial-data"><i class="fa fa-check"></i><b>2.2</b> Types of spatial data</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="day-2.html"><a href="day-2.html#geostatistical-data"><i class="fa fa-check"></i><b>2.2.1</b> Geostatistical data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="day-2.html"><a href="day-2.html#areal-data"><i class="fa fa-check"></i><b>2.2.2</b> Areal data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="day-2.html"><a href="day-2.html#point-process-data"><i class="fa fa-check"></i><b>2.2.3</b> Point process data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="day-3.html"><a href="day-3.html"><i class="fa fa-check"></i><b>3</b> Day 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="day-3.html"><a href="day-3.html#anouncements"><i class="fa fa-check"></i><b>3.1</b> Anouncements</a></li>
+<li class="chapter" data-level="3.2" data-path="day-3.html"><a href="day-3.html#files-for-spatial-data"><i class="fa fa-check"></i><b>3.2</b> Files for spatial data</a></li>
+<li class="chapter" data-level="3.3" data-path="day-3.html"><a href="day-3.html#textbook-package"><i class="fa fa-check"></i><b>3.3</b> Textbook package</a></li>
+<li class="chapter" data-level="3.4" data-path="day-3.html"><a href="day-3.html#spatial-visualization"><i class="fa fa-check"></i><b>3.4</b> Spatial Visualization</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="day-3.html"><a href="day-3.html#spatial-visualization-using-fields"><i class="fa fa-check"></i><b>3.4.1</b> Spatial visualization using <em>fields</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="day-4.html"><a href="day-4.html"><i class="fa fa-check"></i><b>4</b> Day 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="day-4.html"><a href="day-4.html#announcements"><i class="fa fa-check"></i><b>4.1</b> Announcements</a></li>
+<li class="chapter" data-level="4.2" data-path="day-4.html"><a href="day-4.html#visualization-continued"><i class="fa fa-check"></i><b>4.2</b> Visualization (continued)</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="day-4.html"><a href="day-4.html#spatial-visualization-using-fields-1"><i class="fa fa-check"></i><b>4.2.1</b> Spatial visualization using <em>fields</em></a></li>
+<li class="chapter" data-level="4.2.2" data-path="day-4.html"><a href="day-4.html#in-class-activity"><i class="fa fa-check"></i><b>4.2.2</b> In Class Activity:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="day-4.html"><a href="day-4.html#interactive-visualization-interactive-with-html-format-only"><i class="fa fa-check"></i><b>4.3</b> Interactive visualization (Interactive with HTML format only)</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="day-4.html"><a href="day-4.html#interactive-display-of-data"><i class="fa fa-check"></i><b>4.3.1</b> Interactive display of data</a></li>
+<li class="chapter" data-level="4.3.2" data-path="day-4.html"><a href="day-4.html#animations"><i class="fa fa-check"></i><b>4.3.2</b> Animations</a></li>
+<li class="chapter" data-level="4.3.3" data-path="day-4.html"><a href="day-4.html#interactive-plotting-using-plotly"><i class="fa fa-check"></i><b>4.3.3</b> Interactive plotting using <em>plotly</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="day-5.html"><a href="day-5.html"><i class="fa fa-check"></i><b>5</b> Day 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="day-5.html"><a href="day-5.html#announcements-1"><i class="fa fa-check"></i><b>5.1</b> Announcements</a></li>
+<li class="chapter" data-level="5.2" data-path="day-5.html"><a href="day-5.html#spatial-means-and-covariances"><i class="fa fa-check"></i><b>5.2</b> Spatial means and covariances</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="day-5.html"><a href="day-5.html#gaussian-processes"><i class="fa fa-check"></i><b>5.2.1</b> Gaussian processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="day-6.html"><a href="day-6.html"><i class="fa fa-check"></i><b>6</b> Day 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="day-6.html"><a href="day-6.html#announcements-2"><i class="fa fa-check"></i><b>6.1</b> Announcements</a></li>
+<li class="chapter" data-level="6.2" data-path="day-6.html"><a href="day-6.html#gaussian-process-assumptions"><i class="fa fa-check"></i><b>6.2</b> Gaussian process assumptions</a></li>
+<li class="chapter" data-level="6.3" data-path="day-6.html"><a href="day-6.html#recall-hierachical-modeling"><i class="fa fa-check"></i><b>6.3</b> Recall Hierachical modeling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="day-6.html"><a href="day-6.html#data-model-1"><i class="fa fa-check"></i><b>6.3.1</b> Data Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="day-7.html"><a href="day-7.html"><i class="fa fa-check"></i><b>7</b> Day 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="day-7.html"><a href="day-7.html#common-isotropic-correlation-functions"><i class="fa fa-check"></i><b>7.1</b> Common isotropic correlation functions</a></li>
+<li class="chapter" data-level="7.2" data-path="day-7.html"><a href="day-7.html#covariograms-and-semivariograms"><i class="fa fa-check"></i><b>7.2</b> Covariograms and semivariograms</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="day-7.html"><a href="day-7.html#semivariograms-and-variograms"><i class="fa fa-check"></i><b>7.2.1</b> Semivariograms and variograms</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="day-8.html"><a href="day-8.html"><i class="fa fa-check"></i><b>8</b> Day 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="day-8.html"><a href="day-8.html#announcements-3"><i class="fa fa-check"></i><b>8.1</b> Announcements</a></li>
+<li class="chapter" data-level="8.2" data-path="day-8.html"><a href="day-8.html#estimation-of-the-spatial-process"><i class="fa fa-check"></i><b>8.2</b> Estimation of the spatial process</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="day-8.html"><a href="day-8.html#estimation-of-the-spatial-process-using-variograms"><i class="fa fa-check"></i><b>8.2.1</b> Estimation of the spatial process using variograms</a></li>
+<li class="chapter" data-level="8.2.2" data-path="day-8.html"><a href="day-8.html#maximum-likelihood"><i class="fa fa-check"></i><b>8.2.2</b> Maximum Likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="day-8.html"><a href="day-8.html#maximum-likelihood-1"><i class="fa fa-check"></i><b>8.3</b> Maximum likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="day-9.html"><a href="day-9.html"><i class="fa fa-check"></i><b>9</b> Day 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="day-9.html"><a href="day-9.html#announcements-4"><i class="fa fa-check"></i><b>9.1</b> Announcements</a></li>
+<li class="chapter" data-level="9.2" data-path="day-9.html"><a href="day-9.html#asymptotic-properties-of-the-mle"><i class="fa fa-check"></i><b>9.2</b> Asymptotic properties of the MLE</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="day-10.html"><a href="day-10.html"><i class="fa fa-check"></i><b>10</b> Day 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="day-10.html"><a href="day-10.html#announcements-5"><i class="fa fa-check"></i><b>10.1</b> Announcements</a></li>
+<li class="chapter" data-level="10.2" data-path="day-10.html"><a href="day-10.html#asymptotic-properties-of-the-mle-1"><i class="fa fa-check"></i><b>10.2</b> Asymptotic properties of the MLE</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="day-11.html"><a href="day-11.html"><i class="fa fa-check"></i><b>11</b> Day 11</a><ul>
+<li class="chapter" data-level="11.1" data-path="day-11.html"><a href="day-11.html#announcements-6"><i class="fa fa-check"></i><b>11.1</b> Announcements</a></li>
+<li class="chapter" data-level="11.2" data-path="day-11.html"><a href="day-11.html#example-spatial-analysis"><i class="fa fa-check"></i><b>11.2</b> Example spatial analysis</a></li>
+<li class="chapter" data-level="11.3" data-path="day-11.html"><a href="day-11.html#spatial-model-fitting"><i class="fa fa-check"></i><b>11.3</b> Spatial model fitting</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="day-11.html"><a href="day-11.html#fit-the-maximum-likelihood-estimate-using-the-geor-package"><i class="fa fa-check"></i><b>11.3.1</b> Fit the maximum likelihood estimate using the <em>geoR</em> package</a></li>
+<li class="chapter" data-level="11.3.2" data-path="day-11.html"><a href="day-11.html#fitting-a-spatial-model-using-the-nlme-package"><i class="fa fa-check"></i><b>11.3.2</b> Fitting a spatial model using the <em>nlme</em> package</a></li>
+<li class="chapter" data-level="11.3.3" data-path="day-11.html"><a href="day-11.html#model-fitting-with-autokrige-function"><i class="fa fa-check"></i><b>11.3.3</b> model fitting with <em>autokrige</em> function</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="day-11.html"><a href="day-11.html#kriging"><i class="fa fa-check"></i><b>11.4</b> Kriging</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="day-11.html"><a href="day-11.html#kriging-equations-with-mean-mu-0"><i class="fa fa-check"></i><b>11.4.1</b> Kriging Equations with mean <span class="math inline">\(\mu = 0\)</span></a></li>
+<li class="chapter" data-level="11.4.2" data-path="day-11.html"><a href="day-11.html#kriging-equations-with-unknown-mean"><i class="fa fa-check"></i><b>11.4.2</b> Kriging Equations with unknown mean</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="day-12.html"><a href="day-12.html"><i class="fa fa-check"></i><b>12</b> Day 12</a><ul>
+<li class="chapter" data-level="12.1" data-path="day-12.html"><a href="day-12.html#announcements-7"><i class="fa fa-check"></i><b>12.1</b> Announcements</a></li>
+<li class="chapter" data-level="12.2" data-path="day-12.html"><a href="day-12.html#introduction-to-mcmc"><i class="fa fa-check"></i><b>12.2</b> Introduction to MCMC</a></li>
+<li class="chapter" data-level="12.3" data-path="day-12.html"><a href="day-12.html#example-simple-linear-regression"><i class="fa fa-check"></i><b>12.3</b> Example: Simple linear regression</a></li>
+<li class="chapter" data-level="12.4" data-path="day-12.html"><a href="day-12.html#the-posterior-distribution"><i class="fa fa-check"></i><b>12.4</b> The posterior distribution</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="day-12.html"><a href="day-12.html#full-conditional-distribution-of-mu"><i class="fa fa-check"></i><b>12.4.1</b> Full conditional distribution of <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="12.4.2" data-path="day-12.html"><a href="day-12.html#full-conditional-distribution-for-beta"><i class="fa fa-check"></i><b>12.4.2</b> Full conditional distribution for <span class="math inline">\(\beta\)</span></a></li>
+<li class="chapter" data-level="12.4.3" data-path="day-12.html"><a href="day-12.html#full-conditional-distribution-for-sigma2"><i class="fa fa-check"></i><b>12.4.3</b> Full conditional distribution for <span class="math inline">\(\sigma^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="day-12.html"><a href="day-12.html#fitting-the-model"><i class="fa fa-check"></i><b>12.5</b> Fitting the model</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="day-12.html"><a href="day-12.html#general-recommendations-for-writing-mcmc-software"><i class="fa fa-check"></i><b>12.5.1</b> General recommendations for writing MCMC software</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="day-13.html"><a href="day-13.html"><i class="fa fa-check"></i><b>13</b> Day 13</a><ul>
+<li class="chapter" data-level="13.1" data-path="day-13.html"><a href="day-13.html#announcements-8"><i class="fa fa-check"></i><b>13.1</b> Announcements</a></li>
+<li class="chapter" data-level="13.2" data-path="day-13.html"><a href="day-13.html#the-metropolis-algorithm"><i class="fa fa-check"></i><b>13.2</b> The Metropolis Algorithm</a></li>
+<li class="chapter" data-level="13.3" data-path="day-13.html"><a href="day-13.html#the-proposal-distribution"><i class="fa fa-check"></i><b>13.3</b> The proposal distribution</a></li>
+<li class="chapter" data-level="13.4" data-path="day-13.html"><a href="day-13.html#the-metropolis-update"><i class="fa fa-check"></i><b>13.4</b> The Metropolis update</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="day-14.html"><a href="day-14.html"><i class="fa fa-check"></i><b>14</b> Day 14</a><ul>
+<li class="chapter" data-level="14.1" data-path="day-14.html"><a href="day-14.html#announcements-9"><i class="fa fa-check"></i><b>14.1</b> Announcements</a></li>
+<li class="chapter" data-level="14.2" data-path="day-14.html"><a href="day-14.html#the-metropolis-hastings-algorithm"><i class="fa fa-check"></i><b>14.2</b> The Metropolis-Hastings Algorithm</a></li>
+<li class="chapter" data-level="14.3" data-path="day-14.html"><a href="day-14.html#the-metropolis-hastings-algorithm-1"><i class="fa fa-check"></i><b>14.3</b> The Metropolis-Hastings algorithm</a></li>
+<li class="chapter" data-level="14.4" data-path="day-14.html"><a href="day-14.html#example-1"><i class="fa fa-check"></i><b>14.4</b> Example</a></li>
+<li class="chapter" data-level="14.5" data-path="day-14.html"><a href="day-14.html#posterior"><i class="fa fa-check"></i><b>14.5</b> Posterior</a></li>
+<li class="chapter" data-level="14.6" data-path="day-14.html"><a href="day-14.html#conditional-posterior-for-phi"><i class="fa fa-check"></i><b>14.6</b> Conditional posterior for <span class="math inline">\(\phi\)</span></a></li>
+<li class="chapter" data-level="14.7" data-path="day-14.html"><a href="day-14.html#conditional-posterior-for-sigma2"><i class="fa fa-check"></i><b>14.7</b> Conditional posterior for <span class="math inline">\(\sigma^2\)</span></a></li>
+<li class="chapter" data-level="14.8" data-path="day-14.html"><a href="day-14.html#mcmc-using-a-symmetric-proposal-metropolis"><i class="fa fa-check"></i><b>14.8</b> MCMC using a symmetric proposal (Metropolis)</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="day-15.html"><a href="day-15.html"><i class="fa fa-check"></i><b>15</b> Day 15</a><ul>
+<li class="chapter" data-level="15.1" data-path="day-15.html"><a href="day-15.html#announcements-10"><i class="fa fa-check"></i><b>15.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="day-16.html"><a href="day-16.html"><i class="fa fa-check"></i><b>16</b> Day 16</a><ul>
+<li class="chapter" data-level="16.1" data-path="day-16.html"><a href="day-16.html#announcements-11"><i class="fa fa-check"></i><b>16.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="day-17.html"><a href="day-17.html"><i class="fa fa-check"></i><b>17</b> Day 17</a><ul>
+<li class="chapter" data-level="17.1" data-path="day-17.html"><a href="day-17.html#announcements-12"><i class="fa fa-check"></i><b>17.1</b> Announcements</a></li>
+<li class="chapter" data-level="17.2" data-path="day-17.html"><a href="day-17.html#gaussian-process-representations"><i class="fa fa-check"></i><b>17.2</b> Gaussian process representations</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="day-18.html"><a href="day-18.html"><i class="fa fa-check"></i><b>18</b> Day 18</a><ul>
+<li class="chapter" data-level="18.1" data-path="day-18.html"><a href="day-18.html#announcements-13"><i class="fa fa-check"></i><b>18.1</b> Announcements</a></li>
+<li class="chapter" data-level="18.2" data-path="day-18.html"><a href="day-18.html#gaussian-process-representations-continued"><i class="fa fa-check"></i><b>18.2</b> Gaussian process representations continued</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="day-19.html"><a href="day-19.html"><i class="fa fa-check"></i><b>19</b> Day 19</a><ul>
+<li class="chapter" data-level="19.1" data-path="day-19.html"><a href="day-19.html#announcements-14"><i class="fa fa-check"></i><b>19.1</b> Announcements</a></li>
+<li class="chapter" data-level="19.2" data-path="day-19.html"><a href="day-19.html#stochastic-integration"><i class="fa fa-check"></i><b>19.2</b> Stochastic Integration</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="day-20.html"><a href="day-20.html"><i class="fa fa-check"></i><b>20</b> Day 20</a><ul>
+<li class="chapter" data-level="20.1" data-path="day-20.html"><a href="day-20.html#announcements-15"><i class="fa fa-check"></i><b>20.1</b> Announcements</a></li>
+<li class="chapter" data-level="20.2" data-path="day-20.html"><a href="day-20.html#spbayes-example"><i class="fa fa-check"></i><b>20.2</b> spBayes example</a></li>
+<li class="chapter" data-level="20.3" data-path="day-20.html"><a href="day-20.html#global-vs.-local-basis-function"><i class="fa fa-check"></i><b>20.3</b> Global vs. Local Basis function</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="day-20.html"><a href="day-20.html#an-example-global-basis-fourier-basis"><i class="fa fa-check"></i><b>20.3.1</b> An example global basis: Fourier Basis</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="day-20.html"><a href="day-20.html#example-local-basis"><i class="fa fa-check"></i><b>20.4</b> example local basis</a></li>
+<li class="chapter" data-level="20.5" data-path="day-20.html"><a href="day-20.html#fitting-spatial-models-many-ways"><i class="fa fa-check"></i><b>20.5</b> Fitting spatial models many ways</a></li>
+<li class="chapter" data-level="20.6" data-path="day-20.html"><a href="day-20.html#empirical-orthogonal-functions"><i class="fa fa-check"></i><b>20.6</b> Empirical Orthogonal Functions</a></li>
+<li class="chapter" data-level="20.7" data-path="day-20.html"><a href="day-20.html#spatial-modeling-with-mgcv-package"><i class="fa fa-check"></i><b>20.7</b> Spatial modeling with <code>mgcv</code> package</a></li>
+<li class="chapter" data-level="20.8" data-path="day-20.html"><a href="day-20.html#spatial-modeling-with-kernels"><i class="fa fa-check"></i><b>20.8</b> Spatial modeling with Kernels</a><ul>
+<li class="chapter" data-level="20.8.1" data-path="day-20.html"><a href="day-20.html#kernel-regression-with-a-ridge-penalty"><i class="fa fa-check"></i><b>20.8.1</b> Kernel regression with a ridge penalty</a></li>
+<li class="chapter" data-level="20.8.2" data-path="day-20.html"><a href="day-20.html#kernel-regression-with-a-lasso-penalty"><i class="fa fa-check"></i><b>20.8.2</b> Kernel regression with a lasso penalty</a></li>
+<li class="chapter" data-level="20.8.3" data-path="day-20.html"><a href="day-20.html#truncated-kernels---local-support"><i class="fa fa-check"></i><b>20.8.3</b> Truncated Kernels - local support</a></li>
+</ul></li>
+<li class="chapter" data-level="20.9" data-path="day-20.html"><a href="day-20.html#sparse-vs.-dense-matrix-computation"><i class="fa fa-check"></i><b>20.9</b> Sparse vs. Dense matrix computation</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="day-21.html"><a href="day-21.html"><i class="fa fa-check"></i><b>21</b> Day 21</a><ul>
+<li class="chapter" data-level="21.1" data-path="day-21.html"><a href="day-21.html#announcements-16"><i class="fa fa-check"></i><b>21.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="day-22.html"><a href="day-22.html"><i class="fa fa-check"></i><b>22</b> Day 22</a><ul>
+<li class="chapter" data-level="22.1" data-path="day-22.html"><a href="day-22.html#announcements-17"><i class="fa fa-check"></i><b>22.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="day-23.html"><a href="day-23.html"><i class="fa fa-check"></i><b>23</b> Day 23</a><ul>
+<li class="chapter" data-level="23.1" data-path="day-23.html"><a href="day-23.html#announcements-18"><i class="fa fa-check"></i><b>23.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html"><i class="fa fa-check"></i><b>24</b> Day 24 – Scaling GPs for large data</a><ul>
+<li class="chapter" data-level="24.1" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#announcements-19"><i class="fa fa-check"></i><b>24.1</b> Announcements</a></li>
+<li class="chapter" data-level="24.2" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#local-analysis"><i class="fa fa-check"></i><b>24.2</b> Local analysis</a></li>
+<li class="chapter" data-level="24.3" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#low-rank-approimxations"><i class="fa fa-check"></i><b>24.3</b> Low rank approimxations</a></li>
+<li class="chapter" data-level="24.4" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#spectral-basis-functions"><i class="fa fa-check"></i><b>24.4</b> Spectral basis functions</a></li>
+<li class="chapter" data-level="24.5" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#kernel-convolutions"><i class="fa fa-check"></i><b>24.5</b> Kernel convolutions</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html"><i class="fa fa-check"></i><b>25</b> Day 25 – Scaling GPs for large data</a><ul>
+<li class="chapter" data-level="25.1" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#announcements-20"><i class="fa fa-check"></i><b>25.1</b> Announcements</a></li>
+<li class="chapter" data-level="25.2" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#gaussian-predictive-process-spbayes-package"><i class="fa fa-check"></i><b>25.2</b> <span>Gaussian Predictive Process</span> (spBayes package)</a></li>
+<li class="chapter" data-level="25.3" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#sparse-matrix-routines"><i class="fa fa-check"></i><b>25.3</b> Sparse matrix routines</a></li>
+<li class="chapter" data-level="25.4" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#the-stochastic-pde-approach"><i class="fa fa-check"></i><b>25.4</b> The stochastic PDE approach</a></li>
+<li class="chapter" data-level="25.5" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#approximate-likelihood-methods"><i class="fa fa-check"></i><b>25.5</b> Approximate likelihood methods</a></li>
+<li class="chapter" data-level="25.6" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#vecchia-approximations"><i class="fa fa-check"></i><b>25.6</b> Vecchia Approximations</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="day-26.html"><a href="day-26.html"><i class="fa fa-check"></i><b>26</b> Day 26</a><ul>
+<li class="chapter" data-level="26.1" data-path="day-26.html"><a href="day-26.html#announcements-21"><i class="fa fa-check"></i><b>26.1</b> Announcements</a></li>
+<li class="chapter" data-level="26.2" data-path="day-26.html"><a href="day-26.html#multivariate-data"><i class="fa fa-check"></i><b>26.2</b> Multivariate Data</a></li>
+<li class="chapter" data-level="26.3" data-path="day-26.html"><a href="day-26.html#classical-multivariate-geostatistics"><i class="fa fa-check"></i><b>26.3</b> Classical Multivariate Geostatistics</a><ul>
+<li class="chapter" data-level="26.3.1" data-path="day-26.html"><a href="day-26.html#cross-variograms-and-cross-covariance-functions"><i class="fa fa-check"></i><b>26.3.1</b> cross-variograms and cross-covariance functions</a></li>
+<li class="chapter" data-level="26.3.2" data-path="day-26.html"><a href="day-26.html#cokriging"><i class="fa fa-check"></i><b>26.3.2</b> Cokriging</a></li>
+<li class="chapter" data-level="26.3.3" data-path="day-26.html"><a href="day-26.html#linear-model-of-coregionalization"><i class="fa fa-check"></i><b>26.3.3</b> Linear Model of Coregionalization</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="day-27.html"><a href="day-27.html"><i class="fa fa-check"></i><b>27</b> Day 27</a><ul>
+<li class="chapter" data-level="27.1" data-path="day-27.html"><a href="day-27.html#announcements-22"><i class="fa fa-check"></i><b>27.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="day-28.html"><a href="day-28.html"><i class="fa fa-check"></i><b>28</b> Day 28</a><ul>
+<li class="chapter" data-level="28.1" data-path="day-28.html"><a href="day-28.html#announcements-23"><i class="fa fa-check"></i><b>28.1</b> Announcements</a></li>
+<li class="chapter" data-level="28.2" data-path="day-28.html"><a href="day-28.html#intro-to-stan"><i class="fa fa-check"></i><b>28.2</b> Intro to stan</a><ul>
+<li class="chapter" data-level="28.2.1" data-path="day-28.html"><a href="day-28.html#example-linear-regression-1"><i class="fa fa-check"></i><b>28.2.1</b> Example: Linear regression</a></li>
+<li class="chapter" data-level="28.2.2" data-path="day-28.html"><a href="day-28.html#example-spatial-model-in-stan"><i class="fa fa-check"></i><b>28.2.2</b> Example: Spatial model in stan</a></li>
+<li class="chapter" data-level="28.2.3" data-path="day-28.html"><a href="day-28.html#example-predictive-process-model-in-stan"><i class="fa fa-check"></i><b>28.2.3</b> Example: Predictive process model in stan</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="day-28.html"><a href="day-28.html#stan-hints-and-tips"><i class="fa fa-check"></i><b>28.3</b> stan Hints and tips</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="day-29.html"><a href="day-29.html"><i class="fa fa-check"></i><b>29</b> Day 29</a><ul>
+<li class="chapter" data-level="29.1" data-path="day-29.html"><a href="day-29.html#announcements-24"><i class="fa fa-check"></i><b>29.1</b> Announcements</a></li>
+<li class="chapter" data-level="29.2" data-path="day-29.html"><a href="day-29.html#areal-data-1"><i class="fa fa-check"></i><b>29.2</b> Areal Data</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="day-30.html"><a href="day-30.html"><i class="fa fa-check"></i><b>30</b> Day 30</a><ul>
+<li class="chapter" data-level="30.1" data-path="day-30.html"><a href="day-30.html#announcements-25"><i class="fa fa-check"></i><b>30.1</b> Announcements</a></li>
+<li class="chapter" data-level="30.2" data-path="day-30.html"><a href="day-30.html#gaussian-markov-random-fields-gmrfs"><i class="fa fa-check"></i><b>30.2</b> Gaussian Markov random fields (GMRFs)</a><ul>
+<li class="chapter" data-level="30.2.1" data-path="day-30.html"><a href="day-30.html#example-2"><i class="fa fa-check"></i><b>30.2.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="day-30.html"><a href="day-30.html#conditional-autoregressive-models-car-models"><i class="fa fa-check"></i><b>30.3</b> Conditional Autoregressive models (CAR models)</a><ul>
+<li class="chapter" data-level="30.3.1" data-path="day-30.html"><a href="day-30.html#models-built-based-on-conditional-distributions-y_i-mathbfy_-i"><i class="fa fa-check"></i><b>30.3.1</b> Models built based on conditional distributions: <span class="math inline">\(y_i | \mathbf{y}_{-i}\)</span></a></li>
+<li class="chapter" data-level="30.3.2" data-path="day-30.html"><a href="day-30.html#simultaneous-autoregressive-sar-model"><i class="fa fa-check"></i><b>30.3.2</b> Simultaneous autoregressive (SAR) model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="day-31.html"><a href="day-31.html"><i class="fa fa-check"></i><b>31</b> Day 31</a><ul>
+<li class="chapter" data-level="31.1" data-path="day-31.html"><a href="day-31.html#announcements-26"><i class="fa fa-check"></i><b>31.1</b> Announcements</a></li>
+<li class="chapter" data-level="31.2" data-path="day-31.html"><a href="day-31.html#change-of-spatial-support"><i class="fa fa-check"></i><b>31.2</b> Change of Spatial Support</a></li>
+<li class="chapter" data-level="31.3" data-path="day-31.html"><a href="day-31.html#modeling-change-of-support-continuous-discrete-modeling"><i class="fa fa-check"></i><b>31.3</b> Modeling change of support – continuous-discrete modeling</a></li>
+<li class="chapter" data-level="31.4" data-path="day-31.html"><a href="day-31.html#modeling-change-of-support-discrete-discrete-modeling"><i class="fa fa-check"></i><b>31.4</b> Modeling change of support – discrete-discrete modeling</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="day-32.html"><a href="day-32.html"><i class="fa fa-check"></i><b>32</b> Day 32</a><ul>
+<li class="chapter" data-level="32.1" data-path="day-32.html"><a href="day-32.html#announcements-27"><i class="fa fa-check"></i><b>32.1</b> Announcements</a></li>
+<li class="chapter" data-level="32.2" data-path="day-32.html"><a href="day-32.html#generalized-non-gaussian-spatial-models"><i class="fa fa-check"></i><b>32.2</b> Generalized (non-Gaussian) spatial models</a></li>
+<li class="chapter" data-level="32.3" data-path="day-32.html"><a href="day-32.html#generalized-linear-models-glms-for-non-spatial-data"><i class="fa fa-check"></i><b>32.3</b> Generalized linear models (GLMs) for non-spatial data</a><ul>
+<li class="chapter" data-level="32.3.1" data-path="day-32.html"><a href="day-32.html#example-binary-logistic-regression"><i class="fa fa-check"></i><b>32.3.1</b> Example: binary (logistic) regression</a></li>
+<li class="chapter" data-level="32.3.2" data-path="day-32.html"><a href="day-32.html#example-poisson-count-regression"><i class="fa fa-check"></i><b>32.3.2</b> Example: Poisson (count) regression</a></li>
+</ul></li>
+<li class="chapter" data-level="32.4" data-path="day-32.html"><a href="day-32.html#generalized-linear-models-glms-for-spatial-data"><i class="fa fa-check"></i><b>32.4</b> Generalized linear models (GLMs) for spatial data</a><ul>
+<li class="chapter" data-level="32.4.1" data-path="day-32.html"><a href="day-32.html#example-spatial-binary-logistic-regression"><i class="fa fa-check"></i><b>32.4.1</b> Example: spatial binary (logistic) regression</a></li>
+<li class="chapter" data-level="32.4.2" data-path="day-32.html"><a href="day-32.html#example-spatial-poisson-count-regression"><i class="fa fa-check"></i><b>32.4.2</b> Example: spatial Poisson (count) regression</a></li>
+</ul></li>
+<li class="chapter" data-level="32.5" data-path="day-32.html"><a href="day-32.html#how-to-improve-computation-in-spatial-glms"><i class="fa fa-check"></i><b>32.5</b> How to improve computation in spatial GLMs</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="day-33.html"><a href="day-33.html"><i class="fa fa-check"></i><b>33</b> Day 33</a><ul>
+<li class="chapter" data-level="33.1" data-path="day-33.html"><a href="day-33.html#announcements-28"><i class="fa fa-check"></i><b>33.1</b> Announcements</a></li>
+<li class="chapter" data-level="33.2" data-path="day-33.html"><a href="day-33.html#spatio-temporal-data"><i class="fa fa-check"></i><b>33.2</b> Spatio-temporal data</a><ul>
+<li class="chapter" data-level="33.2.1" data-path="day-33.html"><a href="day-33.html#review-discrete-time"><i class="fa fa-check"></i><b>33.2.1</b> Review: discrete time</a></li>
+<li class="chapter" data-level="33.2.2" data-path="day-33.html"><a href="day-33.html#continuous-space-discrete-time-the-spatial-ar1-model"><i class="fa fa-check"></i><b>33.2.2</b> Continuous space, discrete time – the spatial AR(1) model</a></li>
+</ul></li>
+<li class="chapter" data-level="33.3" data-path="day-33.html"><a href="day-33.html#seperable-models-are-computationally-more-efficient"><i class="fa fa-check"></i><b>33.3</b> seperable models are computationally more efficient:</a><ul>
+<li class="chapter" data-level="33.3.1" data-path="day-33.html"><a href="day-33.html#more-flexible-models"><i class="fa fa-check"></i><b>33.3.1</b> More flexible models</a></li>
+</ul></li>
+<li class="chapter" data-level="33.4" data-path="day-33.html"><a href="day-33.html#continuous-space-continuous-time-models"><i class="fa fa-check"></i><b>33.4</b> Continuous space, continuous time models</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="day-34.html"><a href="day-34.html"><i class="fa fa-check"></i><b>34</b> Day 34</a><ul>
+<li class="chapter" data-level="34.1" data-path="day-34.html"><a href="day-34.html#announcements-29"><i class="fa fa-check"></i><b>34.1</b> Announcements</a></li>
+<li class="chapter" data-level="34.2" data-path="day-34.html"><a href="day-34.html#point-process-data-1"><i class="fa fa-check"></i><b>34.2</b> Point Process Data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for STAT 5413 - Spatial Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="day-33" class="section level1">
+<h1><span class="header-section-number">Chapter33</span> Day 33</h1>
+<div class="sourceCode" id="cb1074"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1074-1"><a href="day-33.html#cb1074-1"></a><span class="kw">library</span>(mvnfast)</span>
+<span id="cb1074-2"><a href="day-33.html#cb1074-2"></a><span class="kw">library</span>(fields)</span>
+<span id="cb1074-3"><a href="day-33.html#cb1074-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1074-4"><a href="day-33.html#cb1074-4"></a><span class="kw">library</span>(viridis)</span>
+<span id="cb1074-5"><a href="day-33.html#cb1074-5"></a><span class="kw">library</span>(patchwork)</span></code></pre></div>
+<div id="announcements-28" class="section level2">
+<h2><span class="header-section-number">33.1</span> Announcements</h2>
+</div>
+<div id="spatio-temporal-data" class="section level2">
+<h2><span class="header-section-number">33.2</span> Spatio-temporal data</h2>
+<p>Let <span class="math inline">\(y(\mathbf{s}, t)\)</span> be an observation at location <span class="math inline">\(\mathbf{s} \in \mathcal{D}\)</span> for time <span class="math inline">\(t \in \mathcal{T}\)</span> then <span class="math inline">\(\mathbf{y} = (y(\mathbf{s}_1, t_1), \ldots, y(\mathbf{s}_1, t_m), \ldots, y(\mathbf{s}_n, t_1), \ldots, y(\mathbf{s}_n, t_m))&#39; \sim N(\mathbf{X}\boldsymbol{\beta}, \boldsymbol{\Sigma})\)</span></p>
+<ul>
+<li><p>In general, <span class="math inline">\(\mathcal{D}\)</span> and <span class="math inline">\(\mathcal{T}\)</span> could be either discrete or continuous.</p></li>
+<li><p>Types of spatio-temporal data</p>
+<ul>
+<li><p>continuous space, continuous time</p>
+<ul>
+<li><p><span class="math inline">\(y(\mathbf{s}, t)\)</span> for <span class="math inline">\(\mathbf{s} \in \mathcal{R}^2\)</span> and <span class="math inline">\(t \in \mathcal{R}\)</span></p></li>
+<li><p>Example: temperature surfaces at locations <span class="math inline">\(\mathbf{s}\)</span> at time <span class="math inline">\(t\)</span></p></li>
+</ul></li>
+<li><p>continuous space, discrete time</p>
+<ul>
+<li><p><span class="math inline">\(y_t(\mathbf{s})\)</span> for <span class="math inline">\(\mathbf{s} \in \mathcal{R}^2\)</span> and <span class="math inline">\(t \in \{1, 2, \ldots, T\}\)</span></p></li>
+<li><p>Monthly precipitation at location <span class="math inline">\(\mathbf{s}\)</span> for year <span class="math inline">\(t\)</span></p></li>
+</ul></li>
+<li><p>discrete space, continuous time</p>
+<ul>
+<li><p><span class="math inline">\(y_i(t)\)</span> for <span class="math inline">\(i \in \{1, 2, \ldots, n \}\)</span> and <span class="math inline">\(t \in \mathcal{R}\)</span></p></li>
+<li><p>inventory at Walmart location <span class="math inline">\(i\)</span> for time <span class="math inline">\(t\)</span></p></li>
+</ul></li>
+<li><p>discrete space, discrete time</p>
+<ul>
+<li><p><span class="math inline">\(y_{it}\)</span> for <span class="math inline">\(i \in \{1, 2, \ldots, n \}\)</span> and <span class="math inline">\(t \in \{1, 2, \ldots, T\}\)</span></p></li>
+<li><p>Annual sales at Walmart location <span class="math inline">\(i\)</span> for year <span class="math inline">\(t\)</span></p></li>
+</ul></li>
+</ul></li>
+<li><p>The same old story – It’s really hard to specify a positive-definite covariance function in space-time without making some assumptions</p></li>
+</ul>
+<div id="review-discrete-time" class="section level3">
+<h3><span class="header-section-number">33.2.1</span> Review: discrete time</h3>
+<ul>
+<li>Recall the stationary first-order autoregressive (AR(1)) time series model</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+y_1 &amp; N \left( \mathbf{X}_1 \boldsymbol{\beta}, \sigma^2 \right) \\
+y_t | y_{t-1} &amp; \sim N \left( \mathbf{X}_t \boldsymbol{\beta} + \rho \left( y_{t-1} - \mathbf{X}_{t-1} \boldsymbol{\beta}  \right), \left( 1 - \rho^2 \right) \sigma^2 \right)
+\end{align*}\]</span></p>
+<p>where <span class="math inline">\(|\rho| &lt; 1\)</span>.</p>
+<ul>
+<li><p>The AR(1) is stationary (Except for the mean so assume WLOG <span class="math inline">\(\mathbf{X}_t \boldsymbol{\beta} = 0\)</span> because we can model this as a fixed effect).</p>
+<ul>
+<li><p>Mean:</p>
+<ul>
+<li><span class="math inline">\(E(y_1) = 0\)</span></li>
+<li><span class="math inline">\(E(y_2) = E(E(y_2 | y_1)) = \rho E(y_1) = 0\)</span></li>
+<li><span class="math inline">\(E(y_t) = E( E(y_t | y_{t-1})) = \cdots = \rho^{t-1} E( sy_1) = 0\)</span></li>
+</ul></li>
+<li><p>Variance</p>
+<ul>
+<li><span class="math inline">\(Var(y_1) = \sigma^2)\)</span></li>
+<li><span class="math inline">\(Var(y_2) = Var(E(y_2 | y_1)) + E(Var(y_2 | y_1)) = Var(\rho y_1) + E((1 - \rho^2) \sigma^2) = \rho^2 \sigma^2 + (1 - \rho^2) \sigma^2 = \sigma^2\)</span></li>
+<li><span class="math inline">\(Var(y_t) = \sigma^2\)</span></li>
+</ul></li>
+<li><p>Covariance</p>
+<ul>
+<li><span class="math inline">\(Cov(y_1, y_2) = Cov(y_1, \rho y_1 + \varepsilon_2) = \rho \sigma^2\)</span></li>
+<li><span class="math inline">\(Cov(y_t, y_{t+h}) = \rho^{|h|}\sigma^2 = \sigma^2 e^{-\frac{|h|}{\phi}}\)</span> where <span class="math inline">\(\phi = - \frac{1}{log(\rho)}\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+\mathbf{y} = (y_1, \ldots, y_n)&#39; \sim N( \mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{R}(\phi))
+\end{align*}\]</span></p>
+<ul>
+<li>Many other time series models (including autoregressive moving average ARMA(p, q))</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+y_t | y_{t-1}, \ldots, y_{t-p} &amp; = \sum_{j = 1}^p \phi_j y_{t-j} + \sum_{k = 1}^q \gamma_k \varepsilon_{t-k} + \varepsilon_t
+\end{align*}\]</span></p>
+</div>
+<div id="continuous-space-discrete-time-the-spatial-ar1-model" class="section level3">
+<h3><span class="header-section-number">33.2.2</span> Continuous space, discrete time – the spatial AR(1) model</h3>
+<ul>
+<li>Spatial AR(1) model:</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+y_1(\mathbf{s}) &amp; = \mathbf{X}_1(\mathbf{s}) \boldsymbol{\beta} + \varepsilon_1(\mathbf{s}) \\
+y_t(\mathbf{s}) | y_{t-1}\mathbf{s} &amp; = \mathbf{X}_t(\mathbf{s}) \boldsymbol{\beta} + \rho \left( y_{t-1}(\mathbf{s}) - \mathbf{X}_{t-1}(\mathbf{s}) \boldsymbol{\beta} \right) + \sqrt{1 - \rho^2} \varepsilon_t(\mathbf{s}),
+\end{align*}\]</span></p>
+<p>where <span class="math inline">\(|\rho| &lt; 1\)</span> and <span class="math inline">\(\boldsymbol{\varepsilon}_t = (\varepsilon_t(\mathbf{s}_1), \ldots, \varepsilon_t(\mathbf{s}_n))&#39;\)</span> are iid (with respect to time) Gaussian processes with mean <span class="math inline">\(\mathbf{0}\)</span>, variance <span class="math inline">\(\tau^2\)</span>, and Matern correlation function <span class="math inline">\(C(h | \nu, \phi)\)</span></p>
+<ul>
+<li><p>Mean: <span class="math inline">\(E(y_t(\mathbf{s})) = \mathbf{X}_t(\mathbf{s})\)</span></p></li>
+<li><p>Covariance: <span class="math inline">\(Cov(y_t(\mathbf{s}), y_{t-d}(\mathbf{s}&#39;)) = \rho^d C(|\mathbf{s} - \mathbf{s}&#39;| | \nu, \phi)\)</span></p></li>
+<li><p>The covariance is stationary and seperable</p>
+<ul>
+<li><p><span class="math inline">\(Cov(y_t(\mathbf{s}), y_{t&#39;}(\mathbf{s}&#39;)) = C_T(t, t&#39;) C_S(\mathbf{s}, \mathbf{s}&#39;)\)</span></p>
+<ul>
+<li><p>temporal correlation <span class="math inline">\(C_T(t, t&#39;)\)</span></p></li>
+<li><p>spatial correlation <span class="math inline">\(C_S(\mathbf{s}, \mathbf{s}&#39;)\)</span></p></li>
+<li><p>assumes that there is the same temporal relationship at every point in space and that there is the same spatial relationship at each time</p></li>
+</ul></li>
+<li><p>How do I know if this assumption is valid?</p>
+<ul>
+<li>There are <a href="https://www.sciencedirect.com/science/article/abs/pii/S0378375804003210">formal tests</a> for separability</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb1075"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1075-1"><a href="day-33.html#cb1075-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1075-2"><a href="day-33.html#cb1075-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1075-3"><a href="day-33.html#cb1075-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1075-4"><a href="day-33.html#cb1075-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1075-5"><a href="day-33.html#cb1075-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1075-6"><a href="day-33.html#cb1075-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1075-7"><a href="day-33.html#cb1075-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1075-8"><a href="day-33.html#cb1075-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1075-9"><a href="day-33.html#cb1075-9"></a>    )</span>
+<span id="cb1075-10"><a href="day-33.html#cb1075-10"></a>)</span>
+<span id="cb1075-11"><a href="day-33.html#cb1075-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1075-12"><a href="day-33.html#cb1075-12"></a>tau2  &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1075-13"><a href="day-33.html#cb1075-13"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1075-14"><a href="day-33.html#cb1075-14"></a>rho &lt;-<span class="st"> </span><span class="fl">0.9</span></span>
+<span id="cb1075-15"><a href="day-33.html#cb1075-15"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1075-16"><a href="day-33.html#cb1075-16"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1075-17"><a href="day-33.html#cb1075-17"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1075-18"><a href="day-33.html#cb1075-18"></a><span class="co">## initialize the distribution</span></span>
+<span id="cb1075-19"><a href="day-33.html#cb1075-19"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
+<span id="cb1075-20"><a href="day-33.html#cb1075-20"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1075-21"><a href="day-33.html#cb1075-21"></a>}</span>
+<span id="cb1075-22"><a href="day-33.html#cb1075-22"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1075-23"><a href="day-33.html#cb1075-23"></a>    y[, k] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, k<span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1075-24"><a href="day-33.html#cb1075-24"></a>}</span>
+<span id="cb1075-25"><a href="day-33.html#cb1075-25"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1075-26"><a href="day-33.html#cb1075-26"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1075-27"><a href="day-33.html#cb1075-27"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1075-28"><a href="day-33.html#cb1075-28"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1075-29"><a href="day-33.html#cb1075-29"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1075-30"><a href="day-33.html#cb1075-30"></a>)</span>
+<span id="cb1075-31"><a href="day-33.html#cb1075-31"></a></span>
+<span id="cb1075-32"><a href="day-33.html#cb1075-32"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1075-33"><a href="day-33.html#cb1075-33"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1075-34"><a href="day-33.html#cb1075-34"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1075-35"><a href="day-33.html#cb1075-35"></a>        <span class="kw">print</span>(</span>
+<span id="cb1075-36"><a href="day-33.html#cb1075-36"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1075-37"><a href="day-33.html#cb1075-37"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1075-38"><a href="day-33.html#cb1075-38"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1075-39"><a href="day-33.html#cb1075-39"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1075-40"><a href="day-33.html#cb1075-40"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1075-41"><a href="day-33.html#cb1075-41"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1075-42"><a href="day-33.html#cb1075-42"></a>        )</span>
+<span id="cb1075-43"><a href="day-33.html#cb1075-43"></a>    }</span>
+<span id="cb1075-44"><a href="day-33.html#cb1075-44"></a>}  </span>
+<span id="cb1075-45"><a href="day-33.html#cb1075-45"></a></span>
+<span id="cb1075-46"><a href="day-33.html#cb1075-46"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>))) {</span>
+<span id="cb1075-47"><a href="day-33.html#cb1075-47"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1075-48"><a href="day-33.html#cb1075-48"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1075-49"><a href="day-33.html#cb1075-49"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>),</span>
+<span id="cb1075-50"><a href="day-33.html#cb1075-50"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1075-51"><a href="day-33.html#cb1075-51"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1075-52"><a href="day-33.html#cb1075-52"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1075-53"><a href="day-33.html#cb1075-53"></a>    )</span>
+<span id="cb1075-54"><a href="day-33.html#cb1075-54"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1076"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1076-1"><a href="day-33.html#cb1076-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatio-temporal-ar.gif&quot;</span>))</span></code></pre></div>
+<p><img src="images/spatio-temporal-ar.gif" /><!-- --></p>
+</div>
+</div>
+<div id="seperable-models-are-computationally-more-efficient" class="section level2">
+<h2><span class="header-section-number">33.3</span> seperable models are computationally more efficient:</h2>
+<ul>
+<li><p>Assume complete data: all locations <span class="math inline">\(\{\mathbf{s}_1, \ldots, \mathbf{s}_n\}\)</span> are measured at each timestep <span class="math inline">\(\{ t_1, \ldots, t_T\}\)</span></p>
+<ul>
+<li>In a Bayesian setting, if there are missing values, just estimate these are parameters in the model</li>
+</ul></li>
+<li><p>Define <span class="math inline">\(\mathbf{y}_t = \left( y_t(\mathbf{s}_1), \ldots, y_t(\mathbf{s}_n) \right)&#39;\)</span> as the data observation at time <span class="math inline">\(t\)</span> and <span class="math inline">\(\mathbf{y}(\mathbf{s}) = \left( y_1(\mathbf{s}), \ldots, y_T(\mathbf{s}) \right)&#39;\)</span> as the data observation for location <span class="math inline">\(\mathbf{s}\)</span></p></li>
+<li><p><span class="math inline">\(\mathbf{y} = \left( \mathbf{y}_1&#39;, \ldots, \mathbf{y}_T&#39; \right)&#39;\)</span></p></li>
+<li><p>Let <span class="math inline">\(\mathbf{y}\)</span> be a separable spatio-temporal GP with mean <span class="math inline">\(E(y_t(\mathbf{s})) = \mathbf{X}_t(\mathbf{s}) \boldsymbol{\beta}\)</span> and separable covariance <span class="math inline">\(\tau^2 C_T(t, t&#39;) C_S(\mathbf{s}, \mathbf{s}&#39;)\)</span> given temporal correlation function <span class="math inline">\(C_T(t, t&#39;)\)</span> and spatial correlation function <span class="math inline">\(C_S(\mathbf{s}, \mathbf{s}&#39;)\)</span></p></li>
+<li><p>The mean and covariance for an observation at time <span class="math inline">\(t\)</span></p>
+<ul>
+<li><p><span class="math inline">\(E(\mathbf{y}_t) = \mathbf{X}_t \boldsymbol{\beta}\)</span></p></li>
+<li><p><span class="math inline">\(Cov(y_t(\mathbf{s}_i), y_t(\mathbf{s}_j)) = \tau^2 C_T(t, t) C_S(\mathbf{s}_i, \mathbf{s}_j) = \tau^2 C_S(\mathbf{s}_i, \mathbf{s}_j)\)</span></p></li>
+<li><p><span class="math inline">\(\mathbf{y}_t \sim N(\boldsymbol{X}_t\boldsymbol{\beta}, \boldsymbol{\Sigma}_S)\)</span></p>
+<ul>
+<li><span class="math inline">\(\boldsymbol{\Sigma}_S\)</span> are the realizations of the covariance function <span class="math inline">\(\tau^2 C_S(\mathbf{s}_i, \mathbf{s}_j)\)</span> at the set of locations for time <span class="math inline">\(t\)</span></li>
+</ul></li>
+</ul></li>
+<li><p>The mean and covariance for an observation at location <span class="math inline">\(\mathbf{s}\)</span></p>
+<ul>
+<li><p><span class="math inline">\(E(\mathbf{y}(\mathbf{s})) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta}\)</span></p></li>
+<li><p><span class="math inline">\(Cov(y_{t_i}(\mathbf{s}), y_{t_j}(\mathbf{s})) = \tau^2 C_T(t_i, t_j) C_S(\mathbf{s}, \mathbf{s}) = \tau^2 C_T(t_i, t_j)\)</span></p></li>
+<li><p><span class="math inline">\(\mathbf{y}(\mathbf{s}) \sim N(\boldsymbol{X}(\mathbf{s} \boldsymbol{\beta}, \boldsymbol{\Sigma}_T)\)</span></p>
+<ul>
+<li><span class="math inline">\(\boldsymbol{\Sigma}_T\)</span> are the realizations of the covariance function <span class="math inline">\(\tau^2 C_T(t_i, t_j)\)</span> at the time points <span class="math inline">\(t_i\)</span> and <span class="math inline">\(t_j\)</span> for location <span class="math inline">\(\mathbf{s}\)</span></li>
+</ul></li>
+</ul></li>
+<li><p>The joint distribution is <span class="math inline">\(\mathbf{y} \sim N(\mathbf{X} \boldsymbol{\beta}, \boldsymbol{\Sigma}_T \otimes \boldsymbol{\Sigma}_S)\)</span></p></li>
+<li><p>Kronecker product properties</p>
+<ul>
+<li>If <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(m \times n\)</span> matrix and <span class="math inline">\(\mathbf{B}\)</span> is a <span class="math inline">\(p \times q\)</span>, then the Kronecker product <span class="math inline">\(\mathbf{A} \otimes \mathbf{B}\)</span> is the <span class="math inline">\(pm \times qn\)</span> block matrix: <span class="math inline">\(\mathbf {A} \otimes \mathbf {B} ={\begin{pmatrix}a_{11}\mathbf {B} &amp;\cdots &amp;a_{1n}\mathbf {B} \\\vdots &amp;\ddots &amp;\vdots \\a_{m1}\mathbf {B} &amp;\cdots &amp;a_{mn}\mathbf {B} \end{pmatrix}}\)</span> which is</li>
+</ul>
+<p><span class="math inline">\({\mathbf{A}\otimes\mathbf{B}} = \begin{pmatrix}  a_{11} b_{11} &amp; a_{11} b_{12} &amp; \cdots &amp; a_{11} b_{1q} &amp;  \cdots &amp; \cdots &amp; a_{1n} b_{11} &amp; a_{1n} b_{12} &amp; \cdots &amp; a_{1n} b_{1q} \\  a_{11} b_{21} &amp; a_{11} b_{22} &amp; \cdots &amp; a_{11} b_{2q} &amp;  \cdots &amp; \cdots &amp; a_{1n} b_{21} &amp; a_{1n} b_{22} &amp; \cdots &amp; a_{1n} b_{2q} \\  \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; &amp; &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\  a_{11} b_{p1} &amp; a_{11} b_{p2} &amp; \cdots &amp; a_{11} b_{pq} &amp;  \cdots &amp; \cdots &amp; a_{1n} b_{p1} &amp; a_{1n} b_{p2} &amp; \cdots &amp; a_{1n} b_{pq} \\  \vdots &amp; \vdots &amp; &amp; \vdots &amp; \ddots &amp; &amp; \vdots &amp; \vdots &amp; &amp; \vdots \\  \vdots &amp; \vdots &amp; &amp; \vdots &amp; &amp; \ddots &amp; \vdots &amp; \vdots &amp; &amp; \vdots \\  a_{m1} b_{11} &amp; a_{m1} b_{12} &amp; \cdots &amp; a_{m1} b_{1q} &amp;  \cdots &amp; \cdots &amp; a_{mn} b_{11} &amp; a_{mn} b_{12} &amp; \cdots &amp; a_{mn} b_{1q} \\  a_{m1} b_{21} &amp; a_{m1} b_{22} &amp; \cdots &amp; a_{m1} b_{2q} &amp;  \cdots &amp; \cdots &amp; a_{mn} b_{21} &amp; a_{mn} b_{22} &amp; \cdots &amp; a_{mn} b_{2q} \\  \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; &amp; &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\  a_{m1} b_{p1} &amp; a_{m1} b_{p2} &amp; \cdots &amp; a_{m1} b_{pq} &amp;  \cdots &amp; \cdots &amp; a_{mn} b_{p1} &amp; a_{mn} b_{p2} &amp; \cdots &amp; a_{mn} b_{pq} \end{pmatrix}\)</span>.</p></li>
+<li><p>If <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix and <span class="math inline">\(\mathbf{B}\)</span> is an <span class="math inline">\(m \times m\)</span> matrix and both are invertible matrices, then <span class="math inline">\((\mathbf{A} \otimes \mathbf{B})^{-1} = \mathbf{A}^{-1} \otimes \mathbf{B}^{-1}\)</span>.</p>
+<ul>
+<li><p>computational complexity of <span class="math inline">\((\mathbf{A} \otimes \mathbf{B})^{-1} = O((nm)^3)\)</span></p></li>
+<li><p>computational complexity of <span class="math inline">\(\mathbf{A}^{-1} \otimes \mathbf{B}^{-1} = O(n^3 + m^3)\)</span></p></li>
+<li><p>Generating the Kronecker produce is embarassingly parallel</p></li>
+</ul></li>
+<li><p>If <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix and <span class="math inline">\(\mathbf{B}\)</span> is an <span class="math inline">\(m \times m\)</span> matrix and both are invertible matrices, then <span class="math inline">\(|\mathbf{A} \otimes \mathbf{B}| = |\mathbf{A}|^m |\mathbf{B}|^n\)</span>.<br />
+- computational complexity of <span class="math inline">\(|\mathbf{A} \otimes \mathbf{B}| = O((nm)^3)\)</span></p>
+<ul>
+<li>computational complexity of <span class="math inline">\(|\mathbf{A}|^m |\mathbf{B}|^n = O(n^3 + m^3)\)</span></li>
+</ul></li>
+<li><p>For sparse CAR models:</p>
+<ul>
+<li>If <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix with eigenvalues <span class="math inline">\(\lambda_1, \ldots, \lambda_n\)</span> and <span class="math inline">\(\mathbf{B}\)</span> is an <span class="math inline">\(m \times m\)</span> matrix with eigenvalues <span class="math inline">\(\omega_, \ldots, \omega_m\)</span> then the eigenvalues of <span class="math inline">\(\mathbf{A} \otimes \mathbf{B}\)</span> are <span class="math inline">\(\{\lambda_i \omega_j \}\)</span> for <span class="math inline">\(i = 1, \ldots, n\)</span> and <span class="math inline">\(j = 1, \ldots, m\)</span></li>
+</ul></li>
+<li><p>The separable likelihood is</p></li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+|\boldsymbol{\Sigma}_T \otimes \boldsymbol{\Sigma}_S|^{-\frac{1}{2}} exp\{- \frac{1}{2} \left( \mathbf{y} - \mathbf{X} \boldsymbol{\beta} \right)&#39; \left( \boldsymbol{\Sigma}_T \otimes \boldsymbol{\Sigma}_S \right)^{-1} \left( \mathbf{y} - \mathbf{X} \boldsymbol{\beta} \right) \} \\
+= |\boldsymbol{\Sigma}_T|^{-\frac{n}{2}} |\boldsymbol{\Sigma}_S|^{-\frac{m}{2}} exp\{- \frac{1}{2} \sum_{t=1}^m \sum_{t&#39;=1}^m \left( \mathbf{y}_t - \mathbf{X}_t \boldsymbol{\beta} \right)&#39; {\boldsymbol{\Sigma}_S}^{-1} \left( \mathbf{y}_{t&#39;} - \mathbf{X}_{t&#39;} \boldsymbol{\beta} \right) {{\boldsymbol{\Sigma}_T}^{-1}}_{tt&#39;} \}
+\end{align*}\]</span></p>
+<ul>
+<li><p>As these are Gaussian distributions, MLE and Bayesian estimation is straightforward</p>
+<ul>
+<li>can use dimension reduction methods to reduce computational cost</li>
+<li>spatio-temporal Kriging uses conditional multivariate normal distributions</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb1077"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1077-1"><a href="day-33.html#cb1077-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1077-2"><a href="day-33.html#cb1077-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1077-3"><a href="day-33.html#cb1077-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1077-4"><a href="day-33.html#cb1077-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1077-5"><a href="day-33.html#cb1077-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1077-6"><a href="day-33.html#cb1077-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1077-7"><a href="day-33.html#cb1077-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1077-8"><a href="day-33.html#cb1077-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1077-9"><a href="day-33.html#cb1077-9"></a>    )</span>
+<span id="cb1077-10"><a href="day-33.html#cb1077-10"></a>)</span>
+<span id="cb1077-11"><a href="day-33.html#cb1077-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1077-12"><a href="day-33.html#cb1077-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
+<span id="cb1077-13"><a href="day-33.html#cb1077-13"></a>tau2  &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1077-14"><a href="day-33.html#cb1077-14"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1077-15"><a href="day-33.html#cb1077-15"></a>phi_t &lt;-<span class="st"> </span><span class="dv">7</span></span>
+<span id="cb1077-16"><a href="day-33.html#cb1077-16"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1077-17"><a href="day-33.html#cb1077-17"></a>R_t &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t)</span>
+<span id="cb1077-18"><a href="day-33.html#cb1077-18"></a>z &lt;-<span class="st"> </span><span class="kw">sqrt</span>(tau2) <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(n <span class="op">*</span><span class="st"> </span>T), n, T)</span>
+<span id="cb1077-19"><a href="day-33.html#cb1077-19"></a>y &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">chol</span>(R_s)) <span class="op">%*%</span><span class="st"> </span>z <span class="op">%*%</span><span class="st"> </span><span class="kw">chol</span>(R_t)</span>
+<span id="cb1077-20"><a href="day-33.html#cb1077-20"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1077-21"><a href="day-33.html#cb1077-21"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1077-22"><a href="day-33.html#cb1077-22"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1077-23"><a href="day-33.html#cb1077-23"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1077-24"><a href="day-33.html#cb1077-24"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1077-25"><a href="day-33.html#cb1077-25"></a>)</span>
+<span id="cb1077-26"><a href="day-33.html#cb1077-26"></a></span>
+<span id="cb1077-27"><a href="day-33.html#cb1077-27"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1077-28"><a href="day-33.html#cb1077-28"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1077-29"><a href="day-33.html#cb1077-29"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1077-30"><a href="day-33.html#cb1077-30"></a>        <span class="kw">print</span>(</span>
+<span id="cb1077-31"><a href="day-33.html#cb1077-31"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1077-32"><a href="day-33.html#cb1077-32"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1077-33"><a href="day-33.html#cb1077-33"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1077-34"><a href="day-33.html#cb1077-34"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1077-35"><a href="day-33.html#cb1077-35"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1077-36"><a href="day-33.html#cb1077-36"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1077-37"><a href="day-33.html#cb1077-37"></a>        )</span>
+<span id="cb1077-38"><a href="day-33.html#cb1077-38"></a>    }</span>
+<span id="cb1077-39"><a href="day-33.html#cb1077-39"></a>}  </span>
+<span id="cb1077-40"><a href="day-33.html#cb1077-40"></a></span>
+<span id="cb1077-41"><a href="day-33.html#cb1077-41"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>))) {</span>
+<span id="cb1077-42"><a href="day-33.html#cb1077-42"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1077-43"><a href="day-33.html#cb1077-43"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1077-44"><a href="day-33.html#cb1077-44"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>),</span>
+<span id="cb1077-45"><a href="day-33.html#cb1077-45"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1077-46"><a href="day-33.html#cb1077-46"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1077-47"><a href="day-33.html#cb1077-47"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1077-48"><a href="day-33.html#cb1077-48"></a>    )</span>
+<span id="cb1077-49"><a href="day-33.html#cb1077-49"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1078"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1078-1"><a href="day-33.html#cb1078-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;seperable.gif&quot;</span>))</span></code></pre></div>
+<p><img src="images/seperable.gif" /><!-- --></p>
+<div id="more-flexible-models" class="section level3">
+<h3><span class="header-section-number">33.3.1</span> More flexible models</h3>
+<ul>
+<li><p>can fit models with anisotropy, nonseperability, or nonstationarity</p>
+<ul>
+<li>greatly increases computational cost and amount of data needed for estimation</li>
+</ul></li>
+<li><p>nonseperable models can often be easy to specify but hard to fit</p>
+<ul>
+<li>in some sense, modern machine learning methods (tree-based methods and neural networks) can be used to induce complex covariance structures</li>
+<li>currently, this is an underexplored area of research in spatial statistics</li>
+</ul></li>
+<li><p>Nonstationary in space, stationary in time model</p>
+<ul>
+<li><p>Use a nonstationary function <span class="math inline">\(C_S(\mathbf{s}, \mathbf{s}&#39;)\)</span></p></li>
+<li><p>Spatially varying autoregressive model
+<span class="math inline">\(\mathbf{y}_t(\mathbf{s}) = \rho(\mathbf{s}) \mathbf{y}_{t-1}(\mathbf{s}) + \varepsilon_t(\mathbf{s})\)</span></p>
+<ul>
+<li>Let the autocorrelation parameter <span class="math inline">\(\rho{s}\)</span> change over space</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb1079"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1079-1"><a href="day-33.html#cb1079-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1079-2"><a href="day-33.html#cb1079-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1079-3"><a href="day-33.html#cb1079-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1079-4"><a href="day-33.html#cb1079-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1079-5"><a href="day-33.html#cb1079-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1079-6"><a href="day-33.html#cb1079-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1079-7"><a href="day-33.html#cb1079-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1079-8"><a href="day-33.html#cb1079-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1079-9"><a href="day-33.html#cb1079-9"></a>    )</span>
+<span id="cb1079-10"><a href="day-33.html#cb1079-10"></a>)</span>
+<span id="cb1079-11"><a href="day-33.html#cb1079-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1079-12"><a href="day-33.html#cb1079-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
+<span id="cb1079-13"><a href="day-33.html#cb1079-13"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
+<span id="cb1079-14"><a href="day-33.html#cb1079-14"></a>rho &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span><span class="dv">3</span>))))</span>
+<span id="cb1079-15"><a href="day-33.html#cb1079-15"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1079-16"><a href="day-33.html#cb1079-16"></a>phi_s &lt;-<span class="st"> </span><span class="fl">0.2</span></span>
+<span id="cb1079-17"><a href="day-33.html#cb1079-17"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1079-18"><a href="day-33.html#cb1079-18"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1079-19"><a href="day-33.html#cb1079-19"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1079-20"><a href="day-33.html#cb1079-20"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1079-21"><a href="day-33.html#cb1079-21"></a>    y[, k] &lt;-<span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>y[, k<span class="dv">-1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1079-22"><a href="day-33.html#cb1079-22"></a>}</span>
+<span id="cb1079-23"><a href="day-33.html#cb1079-23"></a></span>
+<span id="cb1079-24"><a href="day-33.html#cb1079-24"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1079-25"><a href="day-33.html#cb1079-25"></a>    <span class="dt">x   =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1079-26"><a href="day-33.html#cb1079-26"></a>    <span class="dt">y   =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1079-27"><a href="day-33.html#cb1079-27"></a>    <span class="dt">rho =</span> rho,</span>
+<span id="cb1079-28"><a href="day-33.html#cb1079-28"></a>    <span class="dt">obs =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1079-29"><a href="day-33.html#cb1079-29"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1079-30"><a href="day-33.html#cb1079-30"></a>)</span>
+<span id="cb1079-31"><a href="day-33.html#cb1079-31"></a></span>
+<span id="cb1079-32"><a href="day-33.html#cb1079-32"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb1079-33"><a href="day-33.html#cb1079-33"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> rho)) <span class="op">+</span></span>
+<span id="cb1079-34"><a href="day-33.html#cb1079-34"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1079-35"><a href="day-33.html#cb1079-35"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1079-36"><a href="day-33.html#cb1079-36"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying autocorrelation&quot;</span>)</span></code></pre></div>
+<p><img src="33-day-33_files/figure-html/spatially-varying-autocorrelation-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1080"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1080-1"><a href="day-33.html#cb1080-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1080-2"><a href="day-33.html#cb1080-2"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1080-3"><a href="day-33.html#cb1080-3"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1080-4"><a href="day-33.html#cb1080-4"></a>        <span class="kw">print</span>(</span>
+<span id="cb1080-5"><a href="day-33.html#cb1080-5"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1080-6"><a href="day-33.html#cb1080-6"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1080-7"><a href="day-33.html#cb1080-7"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1080-8"><a href="day-33.html#cb1080-8"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1080-9"><a href="day-33.html#cb1080-9"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1080-10"><a href="day-33.html#cb1080-10"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1080-11"><a href="day-33.html#cb1080-11"></a>        )</span>
+<span id="cb1080-12"><a href="day-33.html#cb1080-12"></a>    }</span>
+<span id="cb1080-13"><a href="day-33.html#cb1080-13"></a>}  </span>
+<span id="cb1080-14"><a href="day-33.html#cb1080-14"></a></span>
+<span id="cb1080-15"><a href="day-33.html#cb1080-15"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>))) {</span>
+<span id="cb1080-16"><a href="day-33.html#cb1080-16"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1080-17"><a href="day-33.html#cb1080-17"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1080-18"><a href="day-33.html#cb1080-18"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>),</span>
+<span id="cb1080-19"><a href="day-33.html#cb1080-19"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1080-20"><a href="day-33.html#cb1080-20"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1080-21"><a href="day-33.html#cb1080-21"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1080-22"><a href="day-33.html#cb1080-22"></a>    )</span>
+<span id="cb1080-23"><a href="day-33.html#cb1080-23"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1081"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1081-1"><a href="day-33.html#cb1081-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;spatially-varying-rho.gif&quot;</span>))</span></code></pre></div>
+<p><img src="images/spatially-varying-rho.gif" /><!-- --></p>
+<ul>
+<li><p>Nonstationary in time, stationary in space</p>
+<ul>
+<li><p>Use a nonstationary function <span class="math inline">\(C_T(t, t&#39;)\)</span></p></li>
+<li><p>time varying autoregressive model
+<span class="math inline">\(\mathbf{y}_t(\mathbf{s}) = \rho_t \mathbf{y}_{t-1}(\mathbf{s}) + \delta_t \varepsilon_t(\mathbf{s})\)</span></p>
+<ul>
+<li><p>Let the autocorrelation parameters <span class="math inline">\(\rho_t\)</span> and <span class="math inline">\(\delta_t\)</span> change over time</p></li>
+<li><p><span class="math inline">\(logit(\boldsymbol{\rho}) \sim GP\)</span></p></li>
+<li><p><span class="math inline">\(logit(\boldsymbol{\delta}) \sim GP\)</span></p></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb1082"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1082-1"><a href="day-33.html#cb1082-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1082-2"><a href="day-33.html#cb1082-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1082-3"><a href="day-33.html#cb1082-3"></a>T &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb1082-4"><a href="day-33.html#cb1082-4"></a>t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>T</span>
+<span id="cb1082-5"><a href="day-33.html#cb1082-5"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1082-6"><a href="day-33.html#cb1082-6"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1082-7"><a href="day-33.html#cb1082-7"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1082-8"><a href="day-33.html#cb1082-8"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1082-9"><a href="day-33.html#cb1082-9"></a>    )</span>
+<span id="cb1082-10"><a href="day-33.html#cb1082-10"></a>)</span>
+<span id="cb1082-11"><a href="day-33.html#cb1082-11"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1082-12"><a href="day-33.html#cb1082-12"></a>D_t &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(t)</span>
+<span id="cb1082-13"><a href="day-33.html#cb1082-13"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1082-14"><a href="day-33.html#cb1082-14"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1082-15"><a href="day-33.html#cb1082-15"></a>phi_t &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb1082-16"><a href="day-33.html#cb1082-16"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1082-17"><a href="day-33.html#cb1082-17"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
+<span id="cb1082-18"><a href="day-33.html#cb1082-18"></a>rho  &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, T), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t[<span class="dv">1</span>]))))</span>
+<span id="cb1082-19"><a href="day-33.html#cb1082-19"></a>delta &lt;-<span class="st"> </span><span class="kw">logit</span>(<span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, T), <span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>D_t <span class="op">/</span><span class="st"> </span>phi_t[<span class="dv">2</span>]))))</span>
+<span id="cb1082-20"><a href="day-33.html#cb1082-20"></a></span>
+<span id="cb1082-21"><a href="day-33.html#cb1082-21"></a></span>
+<span id="cb1082-22"><a href="day-33.html#cb1082-22"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1082-23"><a href="day-33.html#cb1082-23"></a><span class="co">## initialize this to a steady state</span></span>
+<span id="cb1082-24"><a href="day-33.html#cb1082-24"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>delta[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1082-25"><a href="day-33.html#cb1082-25"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
+<span id="cb1082-26"><a href="day-33.html#cb1082-26"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>rho[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>y[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>delta[<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1082-27"><a href="day-33.html#cb1082-27"></a>}</span>
+<span id="cb1082-28"><a href="day-33.html#cb1082-28"></a></span>
+<span id="cb1082-29"><a href="day-33.html#cb1082-29"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1082-30"><a href="day-33.html#cb1082-30"></a>    y[, k] &lt;-<span class="st"> </span>rho[t] <span class="op">*</span><span class="st"> </span>y[, k<span class="dv">-1</span>] <span class="op">+</span><span class="st"> </span>delta[t] <span class="op">*</span><span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s)</span>
+<span id="cb1082-31"><a href="day-33.html#cb1082-31"></a>}</span>
+<span id="cb1082-32"><a href="day-33.html#cb1082-32"></a></span>
+<span id="cb1082-33"><a href="day-33.html#cb1082-33"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1082-34"><a href="day-33.html#cb1082-34"></a>    <span class="dt">x     =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1082-35"><a href="day-33.html#cb1082-35"></a>    <span class="dt">y     =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1082-36"><a href="day-33.html#cb1082-36"></a>    <span class="dt">rho   =</span> <span class="kw">rep</span>(rho, <span class="dt">each =</span> n),</span>
+<span id="cb1082-37"><a href="day-33.html#cb1082-37"></a>    <span class="dt">delta =</span> <span class="kw">rep</span>(delta, <span class="dt">each =</span> n),</span>
+<span id="cb1082-38"><a href="day-33.html#cb1082-38"></a>    <span class="dt">obs   =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1082-39"><a href="day-33.html#cb1082-39"></a>    <span class="dt">time  =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1082-40"><a href="day-33.html#cb1082-40"></a>)</span>
+<span id="cb1082-41"><a href="day-33.html#cb1082-41"></a></span>
+<span id="cb1082-42"><a href="day-33.html#cb1082-42"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb1082-43"><a href="day-33.html#cb1082-43"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> rho)) <span class="op">+</span></span>
+<span id="cb1082-44"><a href="day-33.html#cb1082-44"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb1082-45"><a href="day-33.html#cb1082-45"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> delta), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb1082-46"><a href="day-33.html#cb1082-46"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;time-varying autocorrelation&quot;</span>)</span></code></pre></div>
+<p><img src="33-day-33_files/figure-html/nonstationary-time-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1083"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1083-1"><a href="day-33.html#cb1083-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1083-2"><a href="day-33.html#cb1083-2"></a>    zlims &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1083-3"><a href="day-33.html#cb1083-3"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1083-4"><a href="day-33.html#cb1083-4"></a>        <span class="kw">print</span>(</span>
+<span id="cb1083-5"><a href="day-33.html#cb1083-5"></a>            dat <span class="op">%&gt;%</span></span>
+<span id="cb1083-6"><a href="day-33.html#cb1083-6"></a><span class="st">                </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1083-7"><a href="day-33.html#cb1083-7"></a><span class="st">                </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1083-8"><a href="day-33.html#cb1083-8"></a><span class="st">                </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1083-9"><a href="day-33.html#cb1083-9"></a><span class="st">                </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1083-10"><a href="day-33.html#cb1083-10"></a><span class="st">                </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1083-11"><a href="day-33.html#cb1083-11"></a>        )</span>
+<span id="cb1083-12"><a href="day-33.html#cb1083-12"></a>    }</span>
+<span id="cb1083-13"><a href="day-33.html#cb1083-13"></a>}  </span>
+<span id="cb1083-14"><a href="day-33.html#cb1083-14"></a></span>
+<span id="cb1083-15"><a href="day-33.html#cb1083-15"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;time-varying-rho-delta.gif&quot;</span>))) {</span>
+<span id="cb1083-16"><a href="day-33.html#cb1083-16"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1083-17"><a href="day-33.html#cb1083-17"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1083-18"><a href="day-33.html#cb1083-18"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;time-varying-rho-delta.gif&quot;</span>),</span>
+<span id="cb1083-19"><a href="day-33.html#cb1083-19"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1083-20"><a href="day-33.html#cb1083-20"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1083-21"><a href="day-33.html#cb1083-21"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1083-22"><a href="day-33.html#cb1083-22"></a>    )</span>
+<span id="cb1083-23"><a href="day-33.html#cb1083-23"></a>}</span></code></pre></div>
+<p>knitr::include_graphics(here::here(“images”, “time-varying-rho-delta.gif”))</p>
+<pre><code>
+- Dynamic linear models (DLMs)
+
+
+\begin{align*}
+\mathbf{y}_t(\mathbf{s}) &amp; = \mathbf{X}_t \boldsymbol{\beta}_t + \rho (\mathbf{y}_{t-1}(\mathbf{s}) - \mathbf{X}_{t-1} \boldsymbol{\beta}_{t-1}) + \varepsilon_t(\mathbf{s}) \\
+\boldsymbol{\beta}_{t} | \boldsymbol{\beta}_{t-1} &amp; \sim N(\mathbf{A} \boldsymbol{\beta}_{t-1}, \boldsymbol{\Sigma}_{\boldsymbol{\beta}})$
+\end{align*}
+
+- eigenvalues of $\mathbf{A}$ must be bounded by 1 in absolute value -- otherwise the process will grow without bounds
+
+        
+
+```r
+set.seed(99)
+n &lt;- 40^2
+T &lt;- 20
+t &lt;- 1:T
+locs &lt;- as.matrix(
+    expand.grid(
+        seq(0, 1, length.out = sqrt(n)),
+        seq(0, 1, length.out = sqrt(n))
+    )
+)
+D_s &lt;- fields::rdist(locs)
+
+## use fixed coefficients in time
+X &lt;- cbind(1, t(mvnfast::rmvn(1, rep(0, n), exp( - D_s / 3))))
+
+## parameters for the dynamic process
+A &lt;- matrix(c(0.5, 0.5, 0.3, 0.4), 2, 2)
+eigen(A)$values</code></pre>
+<pre><code>## [1] 0.84051248 0.05948752</code></pre>
+<div class="sourceCode" id="cb1086"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1086-1"><a href="day-33.html#cb1086-1"></a>Sigma_beta &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>))</span>
+<span id="cb1086-2"><a href="day-33.html#cb1086-2"></a>beta &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, T)</span>
+<span id="cb1086-3"><a href="day-33.html#cb1086-3"></a><span class="co">## initialize beta</span></span>
+<span id="cb1086-4"><a href="day-33.html#cb1086-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>) {</span>
+<span id="cb1086-5"><a href="day-33.html#cb1086-5"></a>    beta[, <span class="dv">1</span>] &lt;-<span class="st"> </span>mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, A <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>], Sigma_beta)</span>
+<span id="cb1086-6"><a href="day-33.html#cb1086-6"></a>}</span>
+<span id="cb1086-7"><a href="day-33.html#cb1086-7"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1086-8"><a href="day-33.html#cb1086-8"></a>    beta[, k] &lt;-<span class="st"> </span>mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, A <span class="op">%*%</span><span class="st"> </span>beta[, k<span class="dv">-1</span>], Sigma_beta)</span>
+<span id="cb1086-9"><a href="day-33.html#cb1086-9"></a>}</span>
+<span id="cb1086-10"><a href="day-33.html#cb1086-10"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1086-11"><a href="day-33.html#cb1086-11"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1086-12"><a href="day-33.html#cb1086-12"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1086-13"><a href="day-33.html#cb1086-13"></a>rho &lt;-<span class="st"> </span><span class="fl">0.8</span></span>
+<span id="cb1086-14"><a href="day-33.html#cb1086-14"></a></span>
+<span id="cb1086-15"><a href="day-33.html#cb1086-15"></a>y &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, T)</span>
+<span id="cb1086-16"><a href="day-33.html#cb1086-16"></a><span class="co">## initialize this to a steady state</span></span>
+<span id="cb1086-17"><a href="day-33.html#cb1086-17"></a>y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
+<span id="cb1086-18"><a href="day-33.html#cb1086-18"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>){</span>
+<span id="cb1086-19"><a href="day-33.html#cb1086-19"></a>    y[, <span class="dv">1</span>] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>(y[, <span class="dv">1</span>] <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, <span class="dv">1</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
+<span id="cb1086-20"><a href="day-33.html#cb1086-20"></a>}</span>
+<span id="cb1086-21"><a href="day-33.html#cb1086-21"></a></span>
+<span id="cb1086-22"><a href="day-33.html#cb1086-22"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>T) {</span>
+<span id="cb1086-23"><a href="day-33.html#cb1086-23"></a>    y[, k] &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, k] <span class="op">+</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>(y[, k<span class="dv">-1</span>] <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta[, k<span class="dv">-1</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))}</span>
+<span id="cb1086-24"><a href="day-33.html#cb1086-24"></a></span>
+<span id="cb1086-25"><a href="day-33.html#cb1086-25"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1086-26"><a href="day-33.html#cb1086-26"></a>    <span class="dt">x         =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1086-27"><a href="day-33.html#cb1086-27"></a>    <span class="dt">y         =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1086-28"><a href="day-33.html#cb1086-28"></a>    <span class="dt">covariate =</span> X[, <span class="dv">2</span>], </span>
+<span id="cb1086-29"><a href="day-33.html#cb1086-29"></a>    <span class="dt">fixed     =</span> <span class="kw">c</span>(X <span class="op">%*%</span><span class="st"> </span>beta),</span>
+<span id="cb1086-30"><a href="day-33.html#cb1086-30"></a>    <span class="dt">obs       =</span> <span class="kw">c</span>(y),</span>
+<span id="cb1086-31"><a href="day-33.html#cb1086-31"></a>    <span class="dt">time      =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> n)</span>
+<span id="cb1086-32"><a href="day-33.html#cb1086-32"></a>)</span>
+<span id="cb1086-33"><a href="day-33.html#cb1086-33"></a></span>
+<span id="cb1086-34"><a href="day-33.html#cb1086-34"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb1086-35"><a href="day-33.html#cb1086-35"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> covariate)) <span class="op">+</span></span>
+<span id="cb1086-36"><a href="day-33.html#cb1086-36"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1086-37"><a href="day-33.html#cb1086-37"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1086-38"><a href="day-33.html#cb1086-38"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;coefficients&quot;</span>)</span></code></pre></div>
+<p><img src="33-day-33_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1087"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1087-1"><a href="day-33.html#cb1087-1"></a>dat_beta &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1087-2"><a href="day-33.html#cb1087-2"></a>    <span class="dt">time =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>T, <span class="dt">each =</span> <span class="dv">2</span>), </span>
+<span id="cb1087-3"><a href="day-33.html#cb1087-3"></a>    <span class="dt">beta =</span> <span class="kw">c</span>(beta),</span>
+<span id="cb1087-4"><a href="day-33.html#cb1087-4"></a>    <span class="dt">var  =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;beta_0&quot;</span>, <span class="st">&quot;beta_1&quot;</span>), T)</span>
+<span id="cb1087-5"><a href="day-33.html#cb1087-5"></a>)</span>
+<span id="cb1087-6"><a href="day-33.html#cb1087-6"></a></span>
+<span id="cb1087-7"><a href="day-33.html#cb1087-7"></a>dat_beta <span class="op">%&gt;%</span></span>
+<span id="cb1087-8"><a href="day-33.html#cb1087-8"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> time, <span class="dt">y =</span> beta, <span class="dt">group =</span> var, <span class="dt">color =</span> var)) <span class="op">+</span></span>
+<span id="cb1087-9"><a href="day-33.html#cb1087-9"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb1087-10"><a href="day-33.html#cb1087-10"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;time varying coefficients&quot;</span>)</span></code></pre></div>
+<p><img src="33-day-33_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<div class="sourceCode" id="cb1088"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1088-1"><a href="day-33.html#cb1088-1"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb1088-2"><a href="day-33.html#cb1088-2"></a>    zlims_fixed &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>fixed)</span>
+<span id="cb1088-3"><a href="day-33.html#cb1088-3"></a>    zlims_obs &lt;-<span class="st"> </span><span class="kw">range</span>(dat<span class="op">$</span>obs)</span>
+<span id="cb1088-4"><a href="day-33.html#cb1088-4"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>T) {</span>
+<span id="cb1088-5"><a href="day-33.html#cb1088-5"></a>        p1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1088-6"><a href="day-33.html#cb1088-6"></a><span class="st">            </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1088-7"><a href="day-33.html#cb1088-7"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> fixed)) <span class="op">+</span></span>
+<span id="cb1088-8"><a href="day-33.html#cb1088-8"></a><span class="st">            </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1088-9"><a href="day-33.html#cb1088-9"></a><span class="st">            </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims_fixed) <span class="op">+</span></span>
+<span id="cb1088-10"><a href="day-33.html#cb1088-10"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;fixed effects; time&quot;</span>, i))</span>
+<span id="cb1088-11"><a href="day-33.html#cb1088-11"></a>        p2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1088-12"><a href="day-33.html#cb1088-12"></a><span class="st">            </span><span class="kw">subset</span>(time <span class="op">==</span><span class="st"> </span>i) <span class="op">%&gt;%</span></span>
+<span id="cb1088-13"><a href="day-33.html#cb1088-13"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1088-14"><a href="day-33.html#cb1088-14"></a><span class="st">            </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1088-15"><a href="day-33.html#cb1088-15"></a><span class="st">            </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims_obs) <span class="op">+</span></span>
+<span id="cb1088-16"><a href="day-33.html#cb1088-16"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;spatio-temporal process; time&quot;</span>, i))</span>
+<span id="cb1088-17"><a href="day-33.html#cb1088-17"></a>        <span class="kw">print</span>(p1 <span class="op">+</span><span class="st"> </span>p2)</span>
+<span id="cb1088-18"><a href="day-33.html#cb1088-18"></a>    }</span>
+<span id="cb1088-19"><a href="day-33.html#cb1088-19"></a>}  </span>
+<span id="cb1088-20"><a href="day-33.html#cb1088-20"></a></span>
+<span id="cb1088-21"><a href="day-33.html#cb1088-21"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>))) {</span>
+<span id="cb1088-22"><a href="day-33.html#cb1088-22"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb1088-23"><a href="day-33.html#cb1088-23"></a>        <span class="kw">make_plot</span>(), </span>
+<span id="cb1088-24"><a href="day-33.html#cb1088-24"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>),</span>
+<span id="cb1088-25"><a href="day-33.html#cb1088-25"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1088-26"><a href="day-33.html#cb1088-26"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1088-27"><a href="day-33.html#cb1088-27"></a>        <span class="dt">height =</span> <span class="dv">640</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb1088-28"><a href="day-33.html#cb1088-28"></a>    )</span>
+<span id="cb1088-29"><a href="day-33.html#cb1088-29"></a>}</span>
+<span id="cb1088-30"><a href="day-33.html#cb1088-30"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;dlm.gif&quot;</span>))</span></code></pre></div>
+<p><img src="images/dlm.gif" /><!-- --></p>
+<ul>
+<li>Spatially varying coefficient models (spatial only)</li>
+</ul>
+<div class="sourceCode" id="cb1089"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1089-1"><a href="day-33.html#cb1089-1"></a><span class="kw">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb1089-2"><a href="day-33.html#cb1089-2"></a>n &lt;-<span class="st"> </span><span class="dv">40</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1089-3"><a href="day-33.html#cb1089-3"></a>locs &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(</span>
+<span id="cb1089-4"><a href="day-33.html#cb1089-4"></a>    <span class="kw">expand.grid</span>(</span>
+<span id="cb1089-5"><a href="day-33.html#cb1089-5"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb1089-6"><a href="day-33.html#cb1089-6"></a>        <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb1089-7"><a href="day-33.html#cb1089-7"></a>    )</span>
+<span id="cb1089-8"><a href="day-33.html#cb1089-8"></a>)</span>
+<span id="cb1089-9"><a href="day-33.html#cb1089-9"></a>D_s &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs)</span>
+<span id="cb1089-10"><a href="day-33.html#cb1089-10"></a></span>
+<span id="cb1089-11"><a href="day-33.html#cb1089-11"></a><span class="co">## use fixed coefficients in time</span></span>
+<span id="cb1089-12"><a href="day-33.html#cb1089-12"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">t</span>(mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span><span class="dv">3</span>))))</span>
+<span id="cb1089-13"><a href="day-33.html#cb1089-13"></a></span>
+<span id="cb1089-14"><a href="day-33.html#cb1089-14"></a><span class="co">## parameters for the dynamic process</span></span>
+<span id="cb1089-15"><a href="day-33.html#cb1089-15"></a></span>
+<span id="cb1089-16"><a href="day-33.html#cb1089-16"></a>tau2 &lt;-<span class="st"> </span><span class="fl">0.75</span></span>
+<span id="cb1089-17"><a href="day-33.html#cb1089-17"></a>phi_s &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1089-18"><a href="day-33.html#cb1089-18"></a>R_s &lt;-<span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D_s <span class="op">/</span><span class="st"> </span>phi_s)</span>
+<span id="cb1089-19"><a href="day-33.html#cb1089-19"></a>beta &lt;-<span class="st"> </span><span class="kw">t</span>(mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">2</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), tau2 <span class="op">*</span><span class="st"> </span>R_s))</span>
+<span id="cb1089-20"><a href="day-33.html#cb1089-20"></a></span>
+<span id="cb1089-21"><a href="day-33.html#cb1089-21"></a>y &lt;-<span class="st"> </span><span class="kw">rowSums</span>(X <span class="op">*</span><span class="st"> </span>beta)</span>
+<span id="cb1089-22"><a href="day-33.html#cb1089-22"></a><span class="co">## initialize this to a steady state</span></span>
+<span id="cb1089-23"><a href="day-33.html#cb1089-23"></a></span>
+<span id="cb1089-24"><a href="day-33.html#cb1089-24"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1089-25"><a href="day-33.html#cb1089-25"></a>    <span class="dt">x         =</span> locs[, <span class="dv">1</span>],</span>
+<span id="cb1089-26"><a href="day-33.html#cb1089-26"></a>    <span class="dt">y         =</span> locs[, <span class="dv">2</span>],</span>
+<span id="cb1089-27"><a href="day-33.html#cb1089-27"></a>    <span class="dt">covariate =</span> X[, <span class="dv">2</span>], </span>
+<span id="cb1089-28"><a href="day-33.html#cb1089-28"></a>    <span class="dt">intercept =</span> beta[, <span class="dv">1</span>],</span>
+<span id="cb1089-29"><a href="day-33.html#cb1089-29"></a>    <span class="dt">slope     =</span> beta[, <span class="dv">2</span>],</span>
+<span id="cb1089-30"><a href="day-33.html#cb1089-30"></a>    <span class="dt">obs       =</span> y</span>
+<span id="cb1089-31"><a href="day-33.html#cb1089-31"></a>)</span>
+<span id="cb1089-32"><a href="day-33.html#cb1089-32"></a></span>
+<span id="cb1089-33"><a href="day-33.html#cb1089-33"></a>p1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1089-34"><a href="day-33.html#cb1089-34"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> covariate)) <span class="op">+</span></span>
+<span id="cb1089-35"><a href="day-33.html#cb1089-35"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1089-36"><a href="day-33.html#cb1089-36"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1089-37"><a href="day-33.html#cb1089-37"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;coefficients&quot;</span>)</span>
+<span id="cb1089-38"><a href="day-33.html#cb1089-38"></a></span>
+<span id="cb1089-39"><a href="day-33.html#cb1089-39"></a>p2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1089-40"><a href="day-33.html#cb1089-40"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> obs)) <span class="op">+</span></span>
+<span id="cb1089-41"><a href="day-33.html#cb1089-41"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1089-42"><a href="day-33.html#cb1089-42"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1089-43"><a href="day-33.html#cb1089-43"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;observations&quot;</span>)</span>
+<span id="cb1089-44"><a href="day-33.html#cb1089-44"></a></span>
+<span id="cb1089-45"><a href="day-33.html#cb1089-45"></a>p3 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1089-46"><a href="day-33.html#cb1089-46"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> intercept)) <span class="op">+</span></span>
+<span id="cb1089-47"><a href="day-33.html#cb1089-47"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1089-48"><a href="day-33.html#cb1089-48"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1089-49"><a href="day-33.html#cb1089-49"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying intercept&quot;</span>)</span>
+<span id="cb1089-50"><a href="day-33.html#cb1089-50"></a></span>
+<span id="cb1089-51"><a href="day-33.html#cb1089-51"></a>p4 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb1089-52"><a href="day-33.html#cb1089-52"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> slope)) <span class="op">+</span></span>
+<span id="cb1089-53"><a href="day-33.html#cb1089-53"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1089-54"><a href="day-33.html#cb1089-54"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1089-55"><a href="day-33.html#cb1089-55"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;spatially-varying slope&quot;</span>)</span>
+<span id="cb1089-56"><a href="day-33.html#cb1089-56"></a></span>
+<span id="cb1089-57"><a href="day-33.html#cb1089-57"></a>(p1 <span class="op">+</span><span class="st"> </span>p2) <span class="op">/</span><span class="st"> </span>(p3 <span class="op">+</span><span class="st"> </span>p4)</span></code></pre></div>
+<p><img src="33-day-33_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
+<div id="continuous-space-continuous-time-models" class="section level2">
+<h2><span class="header-section-number">33.4</span> Continuous space, continuous time models</h2>
+<ul>
+<li><p>observations in time but not observed at regularly spaced intervals</p></li>
+<li><p><span class="math inline">\(y(\mathbf{s}, t)\)</span> is a GP with mean <span class="math inline">\(\mathbf{X}(\mathbf{s}, t)\)</span> and <span class="math inline">\(Cov(y(\mathbf{s}, t), y(\mathbf{s}&#39;, t&#39;)) = C(\mathbf{s}, \mathbf{s}&#39;, t, t&#39;)\)</span></p></li>
+<li><p>Often seperability is assumed: <span class="math inline">\(C(\mathbf{s}, \mathbf{s}&#39;, t, t&#39;) = C_S(\mathbf{s}, \mathbf{s}&#39;) C_T(t, t&#39;)\)</span></p></li>
+<li><p>If the spectral density is seperable then the covariance is seperable</p></li>
+<li><p><span class="math inline">\(Cov(\mathbf{s}, \mathbf{s}&#39;, t, t&#39;) = \tau^2 \int \int e^{i\omega |\mathbf{s} - \mathbf{s}&#39;|}e^{i\theta |t - t&#39;|} g_S(\omega) g_T(\theta) d\omega d\theta = \tau^2 \int e^{i\omega |\mathbf{s} - \mathbf{s}&#39;|} g_S(\omega) d\omega \int e^{i\theta |t - t&#39;|} g_T(\theta) d\theta = \tau^2 C_S(\mathbf{s}, \mathbf{s}&#39;) C_T(t, t&#39;)\)</span></p></li>
+</ul>
+
+</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $folds = $(".fold-solution");
+  $folds.wrapInner("<div class=\"fold-solution-blck\">"); // wrap a div container around content
+  $folds.prepend("<button class=\"fold-solution-btn\">Show Solution</button>");  // add a button
+  $(".fold-solution-blck").toggle();  // fold all blocks
+  $(".fold-solution-btn").on("click", function() {  // add onClick event
+    $(this).text($(this).text() === "Hide Solution" ? "Show Solution" : "Hide Solution");  // if the text equals "Fold", change it to "Unfold"or else to "Fold" 
+    $(this).next(".fold-solution-blck").toggle("linear");  // "swing" is the default easing function. This can be further customized in its speed or the overall animation itself.
+  })
+});
+</script>
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $folds = $(".fold-proof");
+  $folds.wrapInner("<div class=\"fold-proof-blck\">"); // wrap a div container around content
+  $folds.prepend("<button class=\"fold-proof-btn\">Show Proof</button>");  // add a button
+  $(".fold-proof-blck").toggle();  // fold all blocks
+  $(".fold-proof-btn").on("click", function() {  // add onClick event
+    $(this).text($(this).text() === "Hide Proof" ? "Show Proof" : "Hide Proof");  // if the text equals "Fold", change it to "Unfold"or else to "Fold" 
+    $(this).next(".fold-proof-blck").toggle("linear");  // "swing" is the default easing function. This can be further customized in its speed or the overall animation itself.
+  })
+});
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="day-32.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="day-34.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["STAT-5413.pdf", "STAT-5413.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

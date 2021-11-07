@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter32 Day 32 | Notes for STAT 5413 - Spatial Statistics</title>
+  <meta name="description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
+  <meta name="generator" content="bookdown 0.24.3 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter32 Day 32 | Notes for STAT 5413 - Spatial Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter32 Day 32 | Notes for STAT 5413 - Spatial Statistics" />
+  
+  <meta name="twitter:description" content="These are the lecture notes for STAT 5413 Spatial Statistics" />
+  
+
+<meta name="author" content="John Tipton" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="day-31.html"/>
+<link rel="next" href="day-33.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">STAT 5413 Spatial Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="day-1.html"><a href="day-1.html"><i class="fa fa-check"></i><b>1</b> Day 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="day-1.html"><a href="day-1.html#notation"><i class="fa fa-check"></i><b>1.1</b> Notation</a></li>
+<li class="chapter" data-level="1.2" data-path="day-1.html"><a href="day-1.html#probability-distributions"><i class="fa fa-check"></i><b>1.2</b> Probability Distributions</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="day-1.html"><a href="day-1.html#example-linear-regression"><i class="fa fa-check"></i><b>1.2.1</b> Example: linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="day-1.html"><a href="day-1.html#hierarchical-modeling"><i class="fa fa-check"></i><b>1.3</b> Hierarchical modeling</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="day-1.html"><a href="day-1.html#bayesian-hierarchical-models-bhms"><i class="fa fa-check"></i><b>1.3.1</b> Bayesian Hierarchical models (BHMs)</a></li>
+<li class="chapter" data-level="1.3.2" data-path="day-1.html"><a href="day-1.html#empirical-hierarchical-models-ehms"><i class="fa fa-check"></i><b>1.3.2</b> Empirical Hierarchical models (EHMs)</a></li>
+<li class="chapter" data-level="1.3.3" data-path="day-1.html"><a href="day-1.html#data-model"><i class="fa fa-check"></i><b>1.3.3</b> Data Model</a></li>
+<li class="chapter" data-level="1.3.4" data-path="day-1.html"><a href="day-1.html#process-model"><i class="fa fa-check"></i><b>1.3.4</b> Process Model</a></li>
+<li class="chapter" data-level="1.3.5" data-path="day-1.html"><a href="day-1.html#parameter-prior-model-bmhs-only"><i class="fa fa-check"></i><b>1.3.5</b> Parameter (Prior) Model (BMHs only)</a></li>
+<li class="chapter" data-level="1.3.6" data-path="day-1.html"><a href="day-1.html#posterior-distribution"><i class="fa fa-check"></i><b>1.3.6</b> Posterior Distribution</a></li>
+<li class="chapter" data-level="1.3.7" data-path="day-1.html"><a href="day-1.html#scientifically-motivated-statistical-modeling"><i class="fa fa-check"></i><b>1.3.7</b> Scientifically Motivated Statistical Modeling</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="day-2.html"><a href="day-2.html"><i class="fa fa-check"></i><b>2</b> Day 2</a><ul>
+<li class="chapter" data-level="2.1" data-path="day-2.html"><a href="day-2.html#spatial-data"><i class="fa fa-check"></i><b>2.1</b> Spatial Data</a></li>
+<li class="chapter" data-level="2.2" data-path="day-2.html"><a href="day-2.html#types-of-spatial-data"><i class="fa fa-check"></i><b>2.2</b> Types of spatial data</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="day-2.html"><a href="day-2.html#geostatistical-data"><i class="fa fa-check"></i><b>2.2.1</b> Geostatistical data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="day-2.html"><a href="day-2.html#areal-data"><i class="fa fa-check"></i><b>2.2.2</b> Areal data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="day-2.html"><a href="day-2.html#point-process-data"><i class="fa fa-check"></i><b>2.2.3</b> Point process data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="day-3.html"><a href="day-3.html"><i class="fa fa-check"></i><b>3</b> Day 3</a><ul>
+<li class="chapter" data-level="3.1" data-path="day-3.html"><a href="day-3.html#anouncements"><i class="fa fa-check"></i><b>3.1</b> Anouncements</a></li>
+<li class="chapter" data-level="3.2" data-path="day-3.html"><a href="day-3.html#files-for-spatial-data"><i class="fa fa-check"></i><b>3.2</b> Files for spatial data</a></li>
+<li class="chapter" data-level="3.3" data-path="day-3.html"><a href="day-3.html#textbook-package"><i class="fa fa-check"></i><b>3.3</b> Textbook package</a></li>
+<li class="chapter" data-level="3.4" data-path="day-3.html"><a href="day-3.html#spatial-visualization"><i class="fa fa-check"></i><b>3.4</b> Spatial Visualization</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="day-3.html"><a href="day-3.html#spatial-visualization-using-fields"><i class="fa fa-check"></i><b>3.4.1</b> Spatial visualization using <em>fields</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="day-4.html"><a href="day-4.html"><i class="fa fa-check"></i><b>4</b> Day 4</a><ul>
+<li class="chapter" data-level="4.1" data-path="day-4.html"><a href="day-4.html#announcements"><i class="fa fa-check"></i><b>4.1</b> Announcements</a></li>
+<li class="chapter" data-level="4.2" data-path="day-4.html"><a href="day-4.html#visualization-continued"><i class="fa fa-check"></i><b>4.2</b> Visualization (continued)</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="day-4.html"><a href="day-4.html#spatial-visualization-using-fields-1"><i class="fa fa-check"></i><b>4.2.1</b> Spatial visualization using <em>fields</em></a></li>
+<li class="chapter" data-level="4.2.2" data-path="day-4.html"><a href="day-4.html#in-class-activity"><i class="fa fa-check"></i><b>4.2.2</b> In Class Activity:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="day-4.html"><a href="day-4.html#interactive-visualization-interactive-with-html-format-only"><i class="fa fa-check"></i><b>4.3</b> Interactive visualization (Interactive with HTML format only)</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="day-4.html"><a href="day-4.html#interactive-display-of-data"><i class="fa fa-check"></i><b>4.3.1</b> Interactive display of data</a></li>
+<li class="chapter" data-level="4.3.2" data-path="day-4.html"><a href="day-4.html#animations"><i class="fa fa-check"></i><b>4.3.2</b> Animations</a></li>
+<li class="chapter" data-level="4.3.3" data-path="day-4.html"><a href="day-4.html#interactive-plotting-using-plotly"><i class="fa fa-check"></i><b>4.3.3</b> Interactive plotting using <em>plotly</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="day-5.html"><a href="day-5.html"><i class="fa fa-check"></i><b>5</b> Day 5</a><ul>
+<li class="chapter" data-level="5.1" data-path="day-5.html"><a href="day-5.html#announcements-1"><i class="fa fa-check"></i><b>5.1</b> Announcements</a></li>
+<li class="chapter" data-level="5.2" data-path="day-5.html"><a href="day-5.html#spatial-means-and-covariances"><i class="fa fa-check"></i><b>5.2</b> Spatial means and covariances</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="day-5.html"><a href="day-5.html#gaussian-processes"><i class="fa fa-check"></i><b>5.2.1</b> Gaussian processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="day-6.html"><a href="day-6.html"><i class="fa fa-check"></i><b>6</b> Day 6</a><ul>
+<li class="chapter" data-level="6.1" data-path="day-6.html"><a href="day-6.html#announcements-2"><i class="fa fa-check"></i><b>6.1</b> Announcements</a></li>
+<li class="chapter" data-level="6.2" data-path="day-6.html"><a href="day-6.html#gaussian-process-assumptions"><i class="fa fa-check"></i><b>6.2</b> Gaussian process assumptions</a></li>
+<li class="chapter" data-level="6.3" data-path="day-6.html"><a href="day-6.html#recall-hierachical-modeling"><i class="fa fa-check"></i><b>6.3</b> Recall Hierachical modeling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="day-6.html"><a href="day-6.html#data-model-1"><i class="fa fa-check"></i><b>6.3.1</b> Data Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="day-7.html"><a href="day-7.html"><i class="fa fa-check"></i><b>7</b> Day 7</a><ul>
+<li class="chapter" data-level="7.1" data-path="day-7.html"><a href="day-7.html#common-isotropic-correlation-functions"><i class="fa fa-check"></i><b>7.1</b> Common isotropic correlation functions</a></li>
+<li class="chapter" data-level="7.2" data-path="day-7.html"><a href="day-7.html#covariograms-and-semivariograms"><i class="fa fa-check"></i><b>7.2</b> Covariograms and semivariograms</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="day-7.html"><a href="day-7.html#semivariograms-and-variograms"><i class="fa fa-check"></i><b>7.2.1</b> Semivariograms and variograms</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="day-8.html"><a href="day-8.html"><i class="fa fa-check"></i><b>8</b> Day 8</a><ul>
+<li class="chapter" data-level="8.1" data-path="day-8.html"><a href="day-8.html#announcements-3"><i class="fa fa-check"></i><b>8.1</b> Announcements</a></li>
+<li class="chapter" data-level="8.2" data-path="day-8.html"><a href="day-8.html#estimation-of-the-spatial-process"><i class="fa fa-check"></i><b>8.2</b> Estimation of the spatial process</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="day-8.html"><a href="day-8.html#estimation-of-the-spatial-process-using-variograms"><i class="fa fa-check"></i><b>8.2.1</b> Estimation of the spatial process using variograms</a></li>
+<li class="chapter" data-level="8.2.2" data-path="day-8.html"><a href="day-8.html#maximum-likelihood"><i class="fa fa-check"></i><b>8.2.2</b> Maximum Likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="day-8.html"><a href="day-8.html#maximum-likelihood-1"><i class="fa fa-check"></i><b>8.3</b> Maximum likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="day-9.html"><a href="day-9.html"><i class="fa fa-check"></i><b>9</b> Day 9</a><ul>
+<li class="chapter" data-level="9.1" data-path="day-9.html"><a href="day-9.html#announcements-4"><i class="fa fa-check"></i><b>9.1</b> Announcements</a></li>
+<li class="chapter" data-level="9.2" data-path="day-9.html"><a href="day-9.html#asymptotic-properties-of-the-mle"><i class="fa fa-check"></i><b>9.2</b> Asymptotic properties of the MLE</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="day-10.html"><a href="day-10.html"><i class="fa fa-check"></i><b>10</b> Day 10</a><ul>
+<li class="chapter" data-level="10.1" data-path="day-10.html"><a href="day-10.html#announcements-5"><i class="fa fa-check"></i><b>10.1</b> Announcements</a></li>
+<li class="chapter" data-level="10.2" data-path="day-10.html"><a href="day-10.html#asymptotic-properties-of-the-mle-1"><i class="fa fa-check"></i><b>10.2</b> Asymptotic properties of the MLE</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="day-11.html"><a href="day-11.html"><i class="fa fa-check"></i><b>11</b> Day 11</a><ul>
+<li class="chapter" data-level="11.1" data-path="day-11.html"><a href="day-11.html#announcements-6"><i class="fa fa-check"></i><b>11.1</b> Announcements</a></li>
+<li class="chapter" data-level="11.2" data-path="day-11.html"><a href="day-11.html#example-spatial-analysis"><i class="fa fa-check"></i><b>11.2</b> Example spatial analysis</a></li>
+<li class="chapter" data-level="11.3" data-path="day-11.html"><a href="day-11.html#spatial-model-fitting"><i class="fa fa-check"></i><b>11.3</b> Spatial model fitting</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="day-11.html"><a href="day-11.html#fit-the-maximum-likelihood-estimate-using-the-geor-package"><i class="fa fa-check"></i><b>11.3.1</b> Fit the maximum likelihood estimate using the <em>geoR</em> package</a></li>
+<li class="chapter" data-level="11.3.2" data-path="day-11.html"><a href="day-11.html#fitting-a-spatial-model-using-the-nlme-package"><i class="fa fa-check"></i><b>11.3.2</b> Fitting a spatial model using the <em>nlme</em> package</a></li>
+<li class="chapter" data-level="11.3.3" data-path="day-11.html"><a href="day-11.html#model-fitting-with-autokrige-function"><i class="fa fa-check"></i><b>11.3.3</b> model fitting with <em>autokrige</em> function</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="day-11.html"><a href="day-11.html#kriging"><i class="fa fa-check"></i><b>11.4</b> Kriging</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="day-11.html"><a href="day-11.html#kriging-equations-with-mean-mu-0"><i class="fa fa-check"></i><b>11.4.1</b> Kriging Equations with mean <span class="math inline">\(\mu = 0\)</span></a></li>
+<li class="chapter" data-level="11.4.2" data-path="day-11.html"><a href="day-11.html#kriging-equations-with-unknown-mean"><i class="fa fa-check"></i><b>11.4.2</b> Kriging Equations with unknown mean</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="day-12.html"><a href="day-12.html"><i class="fa fa-check"></i><b>12</b> Day 12</a><ul>
+<li class="chapter" data-level="12.1" data-path="day-12.html"><a href="day-12.html#announcements-7"><i class="fa fa-check"></i><b>12.1</b> Announcements</a></li>
+<li class="chapter" data-level="12.2" data-path="day-12.html"><a href="day-12.html#introduction-to-mcmc"><i class="fa fa-check"></i><b>12.2</b> Introduction to MCMC</a></li>
+<li class="chapter" data-level="12.3" data-path="day-12.html"><a href="day-12.html#example-simple-linear-regression"><i class="fa fa-check"></i><b>12.3</b> Example: Simple linear regression</a></li>
+<li class="chapter" data-level="12.4" data-path="day-12.html"><a href="day-12.html#the-posterior-distribution"><i class="fa fa-check"></i><b>12.4</b> The posterior distribution</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="day-12.html"><a href="day-12.html#full-conditional-distribution-of-mu"><i class="fa fa-check"></i><b>12.4.1</b> Full conditional distribution of <span class="math inline">\(\mu\)</span></a></li>
+<li class="chapter" data-level="12.4.2" data-path="day-12.html"><a href="day-12.html#full-conditional-distribution-for-beta"><i class="fa fa-check"></i><b>12.4.2</b> Full conditional distribution for <span class="math inline">\(\beta\)</span></a></li>
+<li class="chapter" data-level="12.4.3" data-path="day-12.html"><a href="day-12.html#full-conditional-distribution-for-sigma2"><i class="fa fa-check"></i><b>12.4.3</b> Full conditional distribution for <span class="math inline">\(\sigma^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="day-12.html"><a href="day-12.html#fitting-the-model"><i class="fa fa-check"></i><b>12.5</b> Fitting the model</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="day-12.html"><a href="day-12.html#general-recommendations-for-writing-mcmc-software"><i class="fa fa-check"></i><b>12.5.1</b> General recommendations for writing MCMC software</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="day-13.html"><a href="day-13.html"><i class="fa fa-check"></i><b>13</b> Day 13</a><ul>
+<li class="chapter" data-level="13.1" data-path="day-13.html"><a href="day-13.html#announcements-8"><i class="fa fa-check"></i><b>13.1</b> Announcements</a></li>
+<li class="chapter" data-level="13.2" data-path="day-13.html"><a href="day-13.html#the-metropolis-algorithm"><i class="fa fa-check"></i><b>13.2</b> The Metropolis Algorithm</a></li>
+<li class="chapter" data-level="13.3" data-path="day-13.html"><a href="day-13.html#the-proposal-distribution"><i class="fa fa-check"></i><b>13.3</b> The proposal distribution</a></li>
+<li class="chapter" data-level="13.4" data-path="day-13.html"><a href="day-13.html#the-metropolis-update"><i class="fa fa-check"></i><b>13.4</b> The Metropolis update</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="day-14.html"><a href="day-14.html"><i class="fa fa-check"></i><b>14</b> Day 14</a><ul>
+<li class="chapter" data-level="14.1" data-path="day-14.html"><a href="day-14.html#announcements-9"><i class="fa fa-check"></i><b>14.1</b> Announcements</a></li>
+<li class="chapter" data-level="14.2" data-path="day-14.html"><a href="day-14.html#the-metropolis-hastings-algorithm"><i class="fa fa-check"></i><b>14.2</b> The Metropolis-Hastings Algorithm</a></li>
+<li class="chapter" data-level="14.3" data-path="day-14.html"><a href="day-14.html#the-metropolis-hastings-algorithm-1"><i class="fa fa-check"></i><b>14.3</b> The Metropolis-Hastings algorithm</a></li>
+<li class="chapter" data-level="14.4" data-path="day-14.html"><a href="day-14.html#example-1"><i class="fa fa-check"></i><b>14.4</b> Example</a></li>
+<li class="chapter" data-level="14.5" data-path="day-14.html"><a href="day-14.html#posterior"><i class="fa fa-check"></i><b>14.5</b> Posterior</a></li>
+<li class="chapter" data-level="14.6" data-path="day-14.html"><a href="day-14.html#conditional-posterior-for-phi"><i class="fa fa-check"></i><b>14.6</b> Conditional posterior for <span class="math inline">\(\phi\)</span></a></li>
+<li class="chapter" data-level="14.7" data-path="day-14.html"><a href="day-14.html#conditional-posterior-for-sigma2"><i class="fa fa-check"></i><b>14.7</b> Conditional posterior for <span class="math inline">\(\sigma^2\)</span></a></li>
+<li class="chapter" data-level="14.8" data-path="day-14.html"><a href="day-14.html#mcmc-using-a-symmetric-proposal-metropolis"><i class="fa fa-check"></i><b>14.8</b> MCMC using a symmetric proposal (Metropolis)</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="day-15.html"><a href="day-15.html"><i class="fa fa-check"></i><b>15</b> Day 15</a><ul>
+<li class="chapter" data-level="15.1" data-path="day-15.html"><a href="day-15.html#announcements-10"><i class="fa fa-check"></i><b>15.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="day-16.html"><a href="day-16.html"><i class="fa fa-check"></i><b>16</b> Day 16</a><ul>
+<li class="chapter" data-level="16.1" data-path="day-16.html"><a href="day-16.html#announcements-11"><i class="fa fa-check"></i><b>16.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="day-17.html"><a href="day-17.html"><i class="fa fa-check"></i><b>17</b> Day 17</a><ul>
+<li class="chapter" data-level="17.1" data-path="day-17.html"><a href="day-17.html#announcements-12"><i class="fa fa-check"></i><b>17.1</b> Announcements</a></li>
+<li class="chapter" data-level="17.2" data-path="day-17.html"><a href="day-17.html#gaussian-process-representations"><i class="fa fa-check"></i><b>17.2</b> Gaussian process representations</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="day-18.html"><a href="day-18.html"><i class="fa fa-check"></i><b>18</b> Day 18</a><ul>
+<li class="chapter" data-level="18.1" data-path="day-18.html"><a href="day-18.html#announcements-13"><i class="fa fa-check"></i><b>18.1</b> Announcements</a></li>
+<li class="chapter" data-level="18.2" data-path="day-18.html"><a href="day-18.html#gaussian-process-representations-continued"><i class="fa fa-check"></i><b>18.2</b> Gaussian process representations continued</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="day-19.html"><a href="day-19.html"><i class="fa fa-check"></i><b>19</b> Day 19</a><ul>
+<li class="chapter" data-level="19.1" data-path="day-19.html"><a href="day-19.html#announcements-14"><i class="fa fa-check"></i><b>19.1</b> Announcements</a></li>
+<li class="chapter" data-level="19.2" data-path="day-19.html"><a href="day-19.html#stochastic-integration"><i class="fa fa-check"></i><b>19.2</b> Stochastic Integration</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="day-20.html"><a href="day-20.html"><i class="fa fa-check"></i><b>20</b> Day 20</a><ul>
+<li class="chapter" data-level="20.1" data-path="day-20.html"><a href="day-20.html#announcements-15"><i class="fa fa-check"></i><b>20.1</b> Announcements</a></li>
+<li class="chapter" data-level="20.2" data-path="day-20.html"><a href="day-20.html#spbayes-example"><i class="fa fa-check"></i><b>20.2</b> spBayes example</a></li>
+<li class="chapter" data-level="20.3" data-path="day-20.html"><a href="day-20.html#global-vs.-local-basis-function"><i class="fa fa-check"></i><b>20.3</b> Global vs. Local Basis function</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="day-20.html"><a href="day-20.html#an-example-global-basis-fourier-basis"><i class="fa fa-check"></i><b>20.3.1</b> An example global basis: Fourier Basis</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="day-20.html"><a href="day-20.html#example-local-basis"><i class="fa fa-check"></i><b>20.4</b> example local basis</a></li>
+<li class="chapter" data-level="20.5" data-path="day-20.html"><a href="day-20.html#fitting-spatial-models-many-ways"><i class="fa fa-check"></i><b>20.5</b> Fitting spatial models many ways</a></li>
+<li class="chapter" data-level="20.6" data-path="day-20.html"><a href="day-20.html#empirical-orthogonal-functions"><i class="fa fa-check"></i><b>20.6</b> Empirical Orthogonal Functions</a></li>
+<li class="chapter" data-level="20.7" data-path="day-20.html"><a href="day-20.html#spatial-modeling-with-mgcv-package"><i class="fa fa-check"></i><b>20.7</b> Spatial modeling with <code>mgcv</code> package</a></li>
+<li class="chapter" data-level="20.8" data-path="day-20.html"><a href="day-20.html#spatial-modeling-with-kernels"><i class="fa fa-check"></i><b>20.8</b> Spatial modeling with Kernels</a><ul>
+<li class="chapter" data-level="20.8.1" data-path="day-20.html"><a href="day-20.html#kernel-regression-with-a-ridge-penalty"><i class="fa fa-check"></i><b>20.8.1</b> Kernel regression with a ridge penalty</a></li>
+<li class="chapter" data-level="20.8.2" data-path="day-20.html"><a href="day-20.html#kernel-regression-with-a-lasso-penalty"><i class="fa fa-check"></i><b>20.8.2</b> Kernel regression with a lasso penalty</a></li>
+<li class="chapter" data-level="20.8.3" data-path="day-20.html"><a href="day-20.html#truncated-kernels---local-support"><i class="fa fa-check"></i><b>20.8.3</b> Truncated Kernels - local support</a></li>
+</ul></li>
+<li class="chapter" data-level="20.9" data-path="day-20.html"><a href="day-20.html#sparse-vs.-dense-matrix-computation"><i class="fa fa-check"></i><b>20.9</b> Sparse vs. Dense matrix computation</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="day-21.html"><a href="day-21.html"><i class="fa fa-check"></i><b>21</b> Day 21</a><ul>
+<li class="chapter" data-level="21.1" data-path="day-21.html"><a href="day-21.html#announcements-16"><i class="fa fa-check"></i><b>21.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="day-22.html"><a href="day-22.html"><i class="fa fa-check"></i><b>22</b> Day 22</a><ul>
+<li class="chapter" data-level="22.1" data-path="day-22.html"><a href="day-22.html#announcements-17"><i class="fa fa-check"></i><b>22.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="day-23.html"><a href="day-23.html"><i class="fa fa-check"></i><b>23</b> Day 23</a><ul>
+<li class="chapter" data-level="23.1" data-path="day-23.html"><a href="day-23.html#announcements-18"><i class="fa fa-check"></i><b>23.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html"><i class="fa fa-check"></i><b>24</b> Day 24 – Scaling GPs for large data</a><ul>
+<li class="chapter" data-level="24.1" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#announcements-19"><i class="fa fa-check"></i><b>24.1</b> Announcements</a></li>
+<li class="chapter" data-level="24.2" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#local-analysis"><i class="fa fa-check"></i><b>24.2</b> Local analysis</a></li>
+<li class="chapter" data-level="24.3" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#low-rank-approimxations"><i class="fa fa-check"></i><b>24.3</b> Low rank approimxations</a></li>
+<li class="chapter" data-level="24.4" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#spectral-basis-functions"><i class="fa fa-check"></i><b>24.4</b> Spectral basis functions</a></li>
+<li class="chapter" data-level="24.5" data-path="day-24-scaling-gps-for-large-data.html"><a href="day-24-scaling-gps-for-large-data.html#kernel-convolutions"><i class="fa fa-check"></i><b>24.5</b> Kernel convolutions</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html"><i class="fa fa-check"></i><b>25</b> Day 25 – Scaling GPs for large data</a><ul>
+<li class="chapter" data-level="25.1" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#announcements-20"><i class="fa fa-check"></i><b>25.1</b> Announcements</a></li>
+<li class="chapter" data-level="25.2" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#gaussian-predictive-process-spbayes-package"><i class="fa fa-check"></i><b>25.2</b> <span>Gaussian Predictive Process</span> (spBayes package)</a></li>
+<li class="chapter" data-level="25.3" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#sparse-matrix-routines"><i class="fa fa-check"></i><b>25.3</b> Sparse matrix routines</a></li>
+<li class="chapter" data-level="25.4" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#the-stochastic-pde-approach"><i class="fa fa-check"></i><b>25.4</b> The stochastic PDE approach</a></li>
+<li class="chapter" data-level="25.5" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#approximate-likelihood-methods"><i class="fa fa-check"></i><b>25.5</b> Approximate likelihood methods</a></li>
+<li class="chapter" data-level="25.6" data-path="day-25-scaling-gps-for-large-data.html"><a href="day-25-scaling-gps-for-large-data.html#vecchia-approximations"><i class="fa fa-check"></i><b>25.6</b> Vecchia Approximations</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="day-26.html"><a href="day-26.html"><i class="fa fa-check"></i><b>26</b> Day 26</a><ul>
+<li class="chapter" data-level="26.1" data-path="day-26.html"><a href="day-26.html#announcements-21"><i class="fa fa-check"></i><b>26.1</b> Announcements</a></li>
+<li class="chapter" data-level="26.2" data-path="day-26.html"><a href="day-26.html#multivariate-data"><i class="fa fa-check"></i><b>26.2</b> Multivariate Data</a></li>
+<li class="chapter" data-level="26.3" data-path="day-26.html"><a href="day-26.html#classical-multivariate-geostatistics"><i class="fa fa-check"></i><b>26.3</b> Classical Multivariate Geostatistics</a><ul>
+<li class="chapter" data-level="26.3.1" data-path="day-26.html"><a href="day-26.html#cross-variograms-and-cross-covariance-functions"><i class="fa fa-check"></i><b>26.3.1</b> cross-variograms and cross-covariance functions</a></li>
+<li class="chapter" data-level="26.3.2" data-path="day-26.html"><a href="day-26.html#cokriging"><i class="fa fa-check"></i><b>26.3.2</b> Cokriging</a></li>
+<li class="chapter" data-level="26.3.3" data-path="day-26.html"><a href="day-26.html#linear-model-of-coregionalization"><i class="fa fa-check"></i><b>26.3.3</b> Linear Model of Coregionalization</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="day-27.html"><a href="day-27.html"><i class="fa fa-check"></i><b>27</b> Day 27</a><ul>
+<li class="chapter" data-level="27.1" data-path="day-27.html"><a href="day-27.html#announcements-22"><i class="fa fa-check"></i><b>27.1</b> Announcements</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="day-28.html"><a href="day-28.html"><i class="fa fa-check"></i><b>28</b> Day 28</a><ul>
+<li class="chapter" data-level="28.1" data-path="day-28.html"><a href="day-28.html#announcements-23"><i class="fa fa-check"></i><b>28.1</b> Announcements</a></li>
+<li class="chapter" data-level="28.2" data-path="day-28.html"><a href="day-28.html#intro-to-stan"><i class="fa fa-check"></i><b>28.2</b> Intro to stan</a><ul>
+<li class="chapter" data-level="28.2.1" data-path="day-28.html"><a href="day-28.html#example-linear-regression-1"><i class="fa fa-check"></i><b>28.2.1</b> Example: Linear regression</a></li>
+<li class="chapter" data-level="28.2.2" data-path="day-28.html"><a href="day-28.html#example-spatial-model-in-stan"><i class="fa fa-check"></i><b>28.2.2</b> Example: Spatial model in stan</a></li>
+<li class="chapter" data-level="28.2.3" data-path="day-28.html"><a href="day-28.html#example-predictive-process-model-in-stan"><i class="fa fa-check"></i><b>28.2.3</b> Example: Predictive process model in stan</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="day-28.html"><a href="day-28.html#stan-hints-and-tips"><i class="fa fa-check"></i><b>28.3</b> stan Hints and tips</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="day-29.html"><a href="day-29.html"><i class="fa fa-check"></i><b>29</b> Day 29</a><ul>
+<li class="chapter" data-level="29.1" data-path="day-29.html"><a href="day-29.html#announcements-24"><i class="fa fa-check"></i><b>29.1</b> Announcements</a></li>
+<li class="chapter" data-level="29.2" data-path="day-29.html"><a href="day-29.html#areal-data-1"><i class="fa fa-check"></i><b>29.2</b> Areal Data</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="day-30.html"><a href="day-30.html"><i class="fa fa-check"></i><b>30</b> Day 30</a><ul>
+<li class="chapter" data-level="30.1" data-path="day-30.html"><a href="day-30.html#announcements-25"><i class="fa fa-check"></i><b>30.1</b> Announcements</a></li>
+<li class="chapter" data-level="30.2" data-path="day-30.html"><a href="day-30.html#gaussian-markov-random-fields-gmrfs"><i class="fa fa-check"></i><b>30.2</b> Gaussian Markov random fields (GMRFs)</a><ul>
+<li class="chapter" data-level="30.2.1" data-path="day-30.html"><a href="day-30.html#example-2"><i class="fa fa-check"></i><b>30.2.1</b> Example:</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="day-30.html"><a href="day-30.html#conditional-autoregressive-models-car-models"><i class="fa fa-check"></i><b>30.3</b> Conditional Autoregressive models (CAR models)</a><ul>
+<li class="chapter" data-level="30.3.1" data-path="day-30.html"><a href="day-30.html#models-built-based-on-conditional-distributions-y_i-mathbfy_-i"><i class="fa fa-check"></i><b>30.3.1</b> Models built based on conditional distributions: <span class="math inline">\(y_i | \mathbf{y}_{-i}\)</span></a></li>
+<li class="chapter" data-level="30.3.2" data-path="day-30.html"><a href="day-30.html#simultaneous-autoregressive-sar-model"><i class="fa fa-check"></i><b>30.3.2</b> Simultaneous autoregressive (SAR) model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="day-31.html"><a href="day-31.html"><i class="fa fa-check"></i><b>31</b> Day 31</a><ul>
+<li class="chapter" data-level="31.1" data-path="day-31.html"><a href="day-31.html#announcements-26"><i class="fa fa-check"></i><b>31.1</b> Announcements</a></li>
+<li class="chapter" data-level="31.2" data-path="day-31.html"><a href="day-31.html#change-of-spatial-support"><i class="fa fa-check"></i><b>31.2</b> Change of Spatial Support</a></li>
+<li class="chapter" data-level="31.3" data-path="day-31.html"><a href="day-31.html#modeling-change-of-support-continuous-discrete-modeling"><i class="fa fa-check"></i><b>31.3</b> Modeling change of support – continuous-discrete modeling</a></li>
+<li class="chapter" data-level="31.4" data-path="day-31.html"><a href="day-31.html#modeling-change-of-support-discrete-discrete-modeling"><i class="fa fa-check"></i><b>31.4</b> Modeling change of support – discrete-discrete modeling</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="day-32.html"><a href="day-32.html"><i class="fa fa-check"></i><b>32</b> Day 32</a><ul>
+<li class="chapter" data-level="32.1" data-path="day-32.html"><a href="day-32.html#announcements-27"><i class="fa fa-check"></i><b>32.1</b> Announcements</a></li>
+<li class="chapter" data-level="32.2" data-path="day-32.html"><a href="day-32.html#generalized-non-gaussian-spatial-models"><i class="fa fa-check"></i><b>32.2</b> Generalized (non-Gaussian) spatial models</a></li>
+<li class="chapter" data-level="32.3" data-path="day-32.html"><a href="day-32.html#generalized-linear-models-glms-for-non-spatial-data"><i class="fa fa-check"></i><b>32.3</b> Generalized linear models (GLMs) for non-spatial data</a><ul>
+<li class="chapter" data-level="32.3.1" data-path="day-32.html"><a href="day-32.html#example-binary-logistic-regression"><i class="fa fa-check"></i><b>32.3.1</b> Example: binary (logistic) regression</a></li>
+<li class="chapter" data-level="32.3.2" data-path="day-32.html"><a href="day-32.html#example-poisson-count-regression"><i class="fa fa-check"></i><b>32.3.2</b> Example: Poisson (count) regression</a></li>
+</ul></li>
+<li class="chapter" data-level="32.4" data-path="day-32.html"><a href="day-32.html#generalized-linear-models-glms-for-spatial-data"><i class="fa fa-check"></i><b>32.4</b> Generalized linear models (GLMs) for spatial data</a><ul>
+<li class="chapter" data-level="32.4.1" data-path="day-32.html"><a href="day-32.html#example-spatial-binary-logistic-regression"><i class="fa fa-check"></i><b>32.4.1</b> Example: spatial binary (logistic) regression</a></li>
+<li class="chapter" data-level="32.4.2" data-path="day-32.html"><a href="day-32.html#example-spatial-poisson-count-regression"><i class="fa fa-check"></i><b>32.4.2</b> Example: spatial Poisson (count) regression</a></li>
+</ul></li>
+<li class="chapter" data-level="32.5" data-path="day-32.html"><a href="day-32.html#how-to-improve-computation-in-spatial-glms"><i class="fa fa-check"></i><b>32.5</b> How to improve computation in spatial GLMs</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="day-33.html"><a href="day-33.html"><i class="fa fa-check"></i><b>33</b> Day 33</a><ul>
+<li class="chapter" data-level="33.1" data-path="day-33.html"><a href="day-33.html#announcements-28"><i class="fa fa-check"></i><b>33.1</b> Announcements</a></li>
+<li class="chapter" data-level="33.2" data-path="day-33.html"><a href="day-33.html#spatio-temporal-data"><i class="fa fa-check"></i><b>33.2</b> Spatio-temporal data</a><ul>
+<li class="chapter" data-level="33.2.1" data-path="day-33.html"><a href="day-33.html#review-discrete-time"><i class="fa fa-check"></i><b>33.2.1</b> Review: discrete time</a></li>
+<li class="chapter" data-level="33.2.2" data-path="day-33.html"><a href="day-33.html#continuous-space-discrete-time-the-spatial-ar1-model"><i class="fa fa-check"></i><b>33.2.2</b> Continuous space, discrete time – the spatial AR(1) model</a></li>
+</ul></li>
+<li class="chapter" data-level="33.3" data-path="day-33.html"><a href="day-33.html#seperable-models-are-computationally-more-efficient"><i class="fa fa-check"></i><b>33.3</b> seperable models are computationally more efficient:</a><ul>
+<li class="chapter" data-level="33.3.1" data-path="day-33.html"><a href="day-33.html#more-flexible-models"><i class="fa fa-check"></i><b>33.3.1</b> More flexible models</a></li>
+</ul></li>
+<li class="chapter" data-level="33.4" data-path="day-33.html"><a href="day-33.html#continuous-space-continuous-time-models"><i class="fa fa-check"></i><b>33.4</b> Continuous space, continuous time models</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="day-34.html"><a href="day-34.html"><i class="fa fa-check"></i><b>34</b> Day 34</a><ul>
+<li class="chapter" data-level="34.1" data-path="day-34.html"><a href="day-34.html#announcements-29"><i class="fa fa-check"></i><b>34.1</b> Announcements</a></li>
+<li class="chapter" data-level="34.2" data-path="day-34.html"><a href="day-34.html#point-process-data-1"><i class="fa fa-check"></i><b>34.2</b> Point Process Data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for STAT 5413 - Spatial Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="day-32" class="section level1">
+<h1><span class="header-section-number">Chapter32</span> Day 32</h1>
+<div class="sourceCode" id="cb964"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb964-1"><a href="day-32.html#cb964-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb964-2"><a href="day-32.html#cb964-2"></a><span class="kw">library</span>(fields)</span>
+<span id="cb964-3"><a href="day-32.html#cb964-3"></a><span class="kw">library</span>(viridis)</span>
+<span id="cb964-4"><a href="day-32.html#cb964-4"></a><span class="kw">library</span>(mvnfast)</span>
+<span id="cb964-5"><a href="day-32.html#cb964-5"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb964-6"><a href="day-32.html#cb964-6"></a><span class="kw">library</span>(Matrix)</span>
+<span id="cb964-7"><a href="day-32.html#cb964-7"></a><span class="kw">library</span>(patchwork)</span>
+<span id="cb964-8"><a href="day-32.html#cb964-8"></a><span class="kw">library</span>(mgcv)</span>
+<span id="cb964-9"><a href="day-32.html#cb964-9"></a><span class="kw">library</span>(rstan)</span>
+<span id="cb964-10"><a href="day-32.html#cb964-10"></a><span class="kw">library</span>(nimble)</span>
+<span id="cb964-11"><a href="day-32.html#cb964-11"></a><span class="co">## use recommended rstan settings</span></span>
+<span id="cb964-12"><a href="day-32.html#cb964-12"></a><span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</span>
+<span id="cb964-13"><a href="day-32.html#cb964-13"></a><span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb964-14"><a href="day-32.html#cb964-14"></a><span class="kw">library</span>(bayesplot)</span>
+<span id="cb964-15"><a href="day-32.html#cb964-15"></a></span>
+<span id="cb964-16"><a href="day-32.html#cb964-16"></a><span class="kw">set.seed</span>(<span class="dv">101</span>)</span></code></pre></div>
+<div id="announcements-27" class="section level2">
+<h2><span class="header-section-number">32.1</span> Announcements</h2>
+</div>
+<div id="generalized-non-gaussian-spatial-models" class="section level2">
+<h2><span class="header-section-number">32.2</span> Generalized (non-Gaussian) spatial models</h2>
+<ul>
+<li><p>Many interesting datasets are non-Gaussian</p></li>
+<li><p>Examples:</p></li>
+<li><p>environmental monitoring through presence/absence data (binary data)</p></li>
+<li><p>a researcher visits a site <span class="math inline">\(\mathbf{s}\)</span> and records if the species of interest is present <span class="math inline">\(y(\mathbf{s}) = 1\)</span> or absent <span class="math inline">\(y(\mathbf{s}) = 0\)</span></p></li>
+<li><p>crowd size estimation (count data)</p></li>
+<li><p>a researcher wants to determine the total crowd size so she divides the spatial domain into regions <span class="math inline">\(\mathcal{A} = \{ A_1, \ldots, A_n\}\)</span>, samples a few of the regions, and counts the number of people <span class="math inline">\(\mathbf{y}_i = \{0, 1, 2, \ldots \}\)</span> in each area. Then, she predicts the counts at unobserved locations to estimate total crowd size.</p></li>
+<li><p>For multivariate normal data, the spatial correlation is easy to incorporate</p></li>
+<li><p>More challenging for non-Gaussian data</p></li>
+<li><p>Recall the Gaussian model:</p></li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+y(\mathbf{s}) | \eta(\mathbf{s}) &amp; \stackrel{iid}{\sim} N(\mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s}), \sigma^2) \\
+\boldsymbol{\eta} = (\eta(\mathbf{s}_1), \ldots, \eta(\mathbf{s}_n))&#39; &amp; \sim N(\mathbf{0}, \boldsymbol{\Sigma}),
+\end{align*}\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is the covariance matrix for the covariance function <span class="math inline">\(\tau^2 \mathbf{C}(\| \mathbf{s} - \mathbf{s}&#39; \|)\)</span>.</p>
+<ul>
+<li><p>If we integrate out the random effect <span class="math inline">\(\boldsymbol{\eta}\)</span> we have:</p></li>
+<li><p><span class="math inline">\(y(\mathbf{s})\)</span> is a GP</p></li>
+<li><p><span class="math inline">\(E\left( y \left( \mathbf{s} \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta}\)</span></p></li>
+<li><p><span class="math inline">\(Cov(y(\mathbf{s}), y(\mathbf{s}&#39;)) = \begin{cases} \sigma^2 + \tau^2 &amp; h = 0 \\ \tau^2 C (h) &amp; h &gt; 0 \end{cases}\)</span></p></li>
+<li><p>Therefore, given the random effects, the observations are independent, but marginally, the observations are dependent.</p></li>
+<li><p>Instead, for spatial GLMs we add latent Gaussian random effects to the generalized linear model</p></li>
+</ul>
+</div>
+<div id="generalized-linear-models-glms-for-non-spatial-data" class="section level2">
+<h2><span class="header-section-number">32.3</span> Generalized linear models (GLMs) for non-spatial data</h2>
+<ul>
+<li>Primary idea: model</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+g \left( E \left( y_i \right) \right) &amp; = \mathbf{X}_i \boldsymbol{\beta}
+\end{align*}\]</span></p>
+<p>for some link function <span class="math inline">\(g(\cdot)\)</span></p>
+<ul>
+<li><p>What about a nugget?</p></li>
+<li><p>It is possible to include a nugget. If you include a nugget, you end up with an over-dispersed (higher variance) marginal model because there is already variance due to the distribution tied to the link function.</p></li>
+</ul>
+<div id="example-binary-logistic-regression" class="section level3">
+<h3><span class="header-section-number">32.3.1</span> Example: binary (logistic) regression</h3>
+<ul>
+<li><p><span class="math inline">\(y_i = \{0, 1\}\)</span></p></li>
+<li><p><span class="math inline">\(E \left( y_i \right) = p_i\)</span></p></li>
+<li><p>the link function is <span class="math inline">\(p_i = logit \left( E \left( y_i \right) \right) = logit \left( \operatorname{Prob} \left( y_i = 1 \right) \right) = \mathbf{X}_i \boldsymbol{\beta}\)</span></p></li>
+<li><p>the logit function is <span class="math inline">\(logit(z) = \frac{e^z}{1 + e^z}\)</span></p></li>
+<li><p>sometimes a probit link function is used <span class="math inline">\(p_i = probit \left( E \left( y_i \right) \right) = probit \left( \operatorname{Prob} \left( y_i = 1 \right) \right) = \mathbf{X}_i \boldsymbol{\beta}\)</span><br />
+</p></li>
+<li><p>the probit function is <span class="math inline">\(probit(z) = \Phi(z)\)</span> where <span class="math inline">\(\Phi()\)</span> is the standard normal CDF</p></li>
+</ul>
+<!-- - Marginal distriubtion of $y(\mathbf{s})$ for binary data -->
+<!--     -For Poisson: $[y(\mathbf{s})] = \int \operatorname{Bernoulli}\left( y(\mathbf{s}) | \boldsymbol{\beta}, \boldsymbol{\eta} \right) \operatorname{N} \left( \mathbf{0}, \boldsymbol{\Sigma} \right) d\, \boldsymbol{\eta}$ = ??? -->
+<!--     - $E\left( y(\mathbf{s}) \right) = E \left( E\left( y(\mathbf{s}) \right) \middle| \boldsymbol{\eta} \right) = E \left( e^{\mathbf{X}\(\mathbf{s}) \boldsymbol{\beta} + \boldsymbol{\eta}(\mathbf{s}) \right) = e^{\mathbf{X}\(\mathbf{s}) \boldsymbol{\beta}} E \left( e^{\boldsymbol{\eta}(\mathbf{s}) \right) = e^{\mathbf{X}\(\mathbf{s}) \boldsymbol{\beta}} e^{\tau^2 / } \right)$ -->
+<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb965-1"><a href="day-32.html#cb965-1"></a>n &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb965-2"><a href="day-32.html#cb965-2"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
+<span id="cb965-3"><a href="day-32.html#cb965-3"></a>beta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb965-4"><a href="day-32.html#cb965-4"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
+<span id="cb965-5"><a href="day-32.html#cb965-5"></a>p &lt;-<span class="st"> </span><span class="kw">logit</span>(X <span class="op">%*%</span><span class="st"> </span>beta)</span>
+<span id="cb965-6"><a href="day-32.html#cb965-6"></a>y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dv">1</span>, p)</span>
+<span id="cb965-7"><a href="day-32.html#cb965-7"></a><span class="kw">data.frame</span>(<span class="dt">x =</span> X[, <span class="dv">2</span>], <span class="dt">y =</span> y, <span class="dt">p =</span> p) <span class="op">%&gt;%</span></span>
+<span id="cb965-8"><a href="day-32.html#cb965-8"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb965-9"><a href="day-32.html#cb965-9"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb965-10"><a href="day-32.html#cb965-10"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> p), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="32-day-32_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb966"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb966-1"><a href="day-32.html#cb966-1"></a><span class="co">## fit logistic regression using mgcv</span></span>
+<span id="cb966-2"><a href="day-32.html#cb966-2"></a>mod &lt;-<span class="st"> </span><span class="kw">gam</span>(y <span class="op">~</span><span class="st"> </span>X <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb966-3"><a href="day-32.html#cb966-3"></a><span class="kw">summary</span>(mod)</span></code></pre></div>
+<pre><code>## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## y ~ X - 1
+## 
+## Parametric coefficients:
+##    Estimate Std. Error z value Pr(&gt;|z|)    
+## X1   2.4540     0.2764   8.877   &lt;2e-16 ***
+## X2   4.7980     0.4861   9.871   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## 
+## R-sq.(adj) =   0.67   Deviance explained = 62.8%
+## UBRE = -0.51829  Scale est. = 1         n = 500</code></pre>
+<div id="binary-logistic-regression-in-stan" class="section level4">
+<h4><span class="header-section-number">32.3.1.1</span> Binary logistic regression in stan</h4>
+<ul>
+<li><p>we need to define a stan model</p></li>
+<li><p>create a stan model in a folder named <code>stan_models</code> in the Rstudio project folder</p></li>
+<li><p>print the output of the model <code>logistic-regression.stan</code></p></li>
+</ul>
+<div class="sourceCode" id="cb968"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb968-1"><a href="day-32.html#cb968-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(<span class="st">&quot;./stan_models/logistic-regression.stan&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>data {
+  int&lt;lower=0&gt; n;
+  int&lt;lower=0&gt; p;
+  int&lt;lower=0,upper=1&gt; y[n];
+  matrix[n, p] X;
+}
+
+parameters {
+  vector[p] beta;
+}
+
+model {
+  y ~ bernoulli_logit(X * beta);
+  beta ~ normal(0, 1);
+}
+
+generated quantities {
+  int y_rep[n];
+  y_rep = bernoulli_logit_rng(X * beta);
+}
+// Note: the stan file must end in a blank (new) line</code></pre>
+<ul>
+<li>Fitting the model</li>
+</ul>
+<div class="sourceCode" id="cb970"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb970-1"><a href="day-32.html#cb970-1"></a><span class="cf">if</span> (<span class="kw">file.exists</span>(<span class="st">&quot;./results/logistic-regression.RData&quot;</span>)) {</span>
+<span id="cb970-2"><a href="day-32.html#cb970-2"></a>  <span class="kw">load</span>(<span class="st">&quot;./results/logistic-regression.RData&quot;</span>)</span>
+<span id="cb970-3"><a href="day-32.html#cb970-3"></a>} <span class="cf">else</span> {</span>
+<span id="cb970-4"><a href="day-32.html#cb970-4"></a>  fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb970-5"><a href="day-32.html#cb970-5"></a>    <span class="dt">file =</span> <span class="st">&quot;./stan_models/logistic-regression.stan&quot;</span>,</span>
+<span id="cb970-6"><a href="day-32.html#cb970-6"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
+<span id="cb970-7"><a href="day-32.html#cb970-7"></a>    <span class="dt">iter =</span> <span class="dv">2000</span></span>
+<span id="cb970-8"><a href="day-32.html#cb970-8"></a>  )</span>
+<span id="cb970-9"><a href="day-32.html#cb970-9"></a>  <span class="kw">save</span>(fit, <span class="dt">file =</span> <span class="st">&quot;./results/logistic-regression.RData&quot;</span>)</span>
+<span id="cb970-10"><a href="day-32.html#cb970-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb971"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb971-1"><a href="day-32.html#cb971-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb971-2"><a href="day-32.html#cb971-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<pre><code>## Inference for Stan model: logistic-regression.
+## 4 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=4000.
+## 
+##            mean se_mean   sd     10%     90% n_eff Rhat
+## beta[1]    2.04    0.01 0.21    1.77    2.31  1348    1
+## beta[2]    3.98    0.01 0.35    3.54    4.44  1323    1
+## lp__    -131.11    0.03 1.03 -132.41 -130.21  1433    1
+## 
+## Samples were drawn using NUTS(diag_e) at Sun Nov  7 14:37:26 2021.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<div class="sourceCode" id="cb973"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb973-1"><a href="day-32.html#cb973-1"></a><span class="co">## trace plots</span></span>
+<span id="cb973-2"><a href="day-32.html#cb973-2"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<p><img src="32-day-32_files/figure-html/stan-logistic-results-1.png" width="672" /></p>
+<p>Posterior predictive checks</p>
+<div class="sourceCode" id="cb974"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb974-1"><a href="day-32.html#cb974-1"></a><span class="co">## extract the posterior predictive samples</span></span>
+<span id="cb974-2"><a href="day-32.html#cb974-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span></code></pre></div>
+<div class="sourceCode" id="cb975"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb975-1"><a href="day-32.html#cb975-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ppc_intervals</span>(y, y_rep, <span class="dt">x =</span> X[, <span class="dv">2</span>])</span>
+<span id="cb975-2"><a href="day-32.html#cb975-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">ppc_dens_overlay</span>(y, y_rep) </span>
+<span id="cb975-3"><a href="day-32.html#cb975-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)   </span>
+<span id="cb975-4"><a href="day-32.html#cb975-4"></a>p1 <span class="op">/</span><span class="st"> </span>p2 <span class="op">/</span><span class="st"> </span>p3</span></code></pre></div>
+<p><img src="32-day-32_files/figure-html/stan-logistic-ppc-1.png" width="672" /></p>
+</div>
+<div id="binary-logistic-regression-in-nimble" class="section level4">
+<h4><span class="header-section-number">32.3.1.2</span> Binary logistic regression in NIMBLE</h4>
+<ul>
+<li>we need to define a nimble model</li>
+</ul>
+<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb976-1"><a href="day-32.html#cb976-1"></a>logistic_code &lt;-<span class="st"> </span><span class="kw">nimbleCode</span>({</span>
+<span id="cb976-2"><a href="day-32.html#cb976-2"></a>  <span class="co">## prior for regression parameters beta</span></span>
+<span id="cb976-3"><a href="day-32.html#cb976-3"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>q) {</span>
+<span id="cb976-4"><a href="day-32.html#cb976-4"></a>    beta[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb976-5"><a href="day-32.html#cb976-5"></a>  }</span>
+<span id="cb976-6"><a href="day-32.html#cb976-6"></a>  </span>
+<span id="cb976-7"><a href="day-32.html#cb976-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb976-8"><a href="day-32.html#cb976-8"></a>    <span class="co">## note that you have to be explicit about the variable</span></span>
+<span id="cb976-9"><a href="day-32.html#cb976-9"></a>    <span class="co">## dimensions for each statement</span></span>
+<span id="cb976-10"><a href="day-32.html#cb976-10"></a>    <span class="kw">logit</span>(p[i]) &lt;-<span class="st"> </span>X[i, <span class="dv">1</span><span class="op">:</span>q] <span class="op">%*%</span><span class="st"> </span>beta[<span class="dv">1</span><span class="op">:</span>q]</span>
+<span id="cb976-11"><a href="day-32.html#cb976-11"></a>    y[i] <span class="op">~</span><span class="st"> </span><span class="kw">dbin</span>(p[i], m[i])</span>
+<span id="cb976-12"><a href="day-32.html#cb976-12"></a>  }</span>
+<span id="cb976-13"><a href="day-32.html#cb976-13"></a>})</span>
+<span id="cb976-14"><a href="day-32.html#cb976-14"></a></span>
+<span id="cb976-15"><a href="day-32.html#cb976-15"></a><span class="co">## define the constants, data, and MCMC initial conditions</span></span>
+<span id="cb976-16"><a href="day-32.html#cb976-16"></a>constants &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n)</span>
+<span id="cb976-17"><a href="day-32.html#cb976-17"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb976-18"><a href="day-32.html#cb976-18"></a>  <span class="dt">y =</span> y, </span>
+<span id="cb976-19"><a href="day-32.html#cb976-19"></a>  <span class="dt">m =</span> <span class="kw">rep</span>(<span class="dv">1</span>, n), </span>
+<span id="cb976-20"><a href="day-32.html#cb976-20"></a>  <span class="dt">X =</span> X,</span>
+<span id="cb976-21"><a href="day-32.html#cb976-21"></a>  <span class="dt">q =</span> <span class="kw">ncol</span>(X)</span>
+<span id="cb976-22"><a href="day-32.html#cb976-22"></a>)</span>
+<span id="cb976-23"><a href="day-32.html#cb976-23"></a>inits &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">beta =</span> <span class="kw">rnorm</span>(<span class="kw">ncol</span>(X)), <span class="dt">p =</span> <span class="kw">rbeta</span>(n, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb976-24"><a href="day-32.html#cb976-24"></a></span>
+<span id="cb976-25"><a href="day-32.html#cb976-25"></a><span class="co">## create the NIMBLE model</span></span>
+<span id="cb976-26"><a href="day-32.html#cb976-26"></a>logistic_model &lt;-<span class="st"> </span><span class="kw">nimbleModel</span>(</span>
+<span id="cb976-27"><a href="day-32.html#cb976-27"></a>  <span class="dt">code      =</span> logistic_code, </span>
+<span id="cb976-28"><a href="day-32.html#cb976-28"></a>  <span class="dt">constants =</span> constants,</span>
+<span id="cb976-29"><a href="day-32.html#cb976-29"></a>  <span class="dt">data      =</span> data,</span>
+<span id="cb976-30"><a href="day-32.html#cb976-30"></a>  <span class="dt">inits     =</span> inits</span>
+<span id="cb976-31"><a href="day-32.html#cb976-31"></a>)</span></code></pre></div>
+<pre><code>## Defining model</code></pre>
+<pre><code>## Error in getSymbolicParentNodesRecurse(x, constNames, indexNames, nimbleFunctionNames, : Dynamic indexing found in a vector of indices, 1:q. Only scalar indices, such as &#39;idx&#39; in &#39;x[idx]&#39;, can be dynamic. One can instead use dynamic indexing in a vector of indices inside a nimbleFunction.</code></pre>
+<p>Note the above error – it’s saying that <code>q</code> needs to be specified as a <code>constant</code> rather than <code>data</code>.</p>
+<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb979-1"><a href="day-32.html#cb979-1"></a><span class="co">## define the constants, data, and MCMC initial conditions</span></span>
+<span id="cb979-2"><a href="day-32.html#cb979-2"></a>constants &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n, <span class="dt">q =</span> <span class="kw">ncol</span>(X))</span>
+<span id="cb979-3"><a href="day-32.html#cb979-3"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb979-4"><a href="day-32.html#cb979-4"></a>  <span class="dt">y =</span> y, </span>
+<span id="cb979-5"><a href="day-32.html#cb979-5"></a>  <span class="dt">m =</span> <span class="kw">rep</span>(<span class="dv">1</span>, n), </span>
+<span id="cb979-6"><a href="day-32.html#cb979-6"></a>  <span class="dt">X =</span> X</span>
+<span id="cb979-7"><a href="day-32.html#cb979-7"></a>)</span>
+<span id="cb979-8"><a href="day-32.html#cb979-8"></a>inits &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">beta =</span> <span class="kw">rnorm</span>(<span class="kw">ncol</span>(X)), <span class="dt">p =</span> <span class="kw">rbeta</span>(n, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb979-9"><a href="day-32.html#cb979-9"></a></span>
+<span id="cb979-10"><a href="day-32.html#cb979-10"></a><span class="co">## create the NIMBLE model</span></span>
+<span id="cb979-11"><a href="day-32.html#cb979-11"></a>logistic_model &lt;-<span class="st"> </span><span class="kw">nimbleModel</span>(</span>
+<span id="cb979-12"><a href="day-32.html#cb979-12"></a>  <span class="dt">code      =</span> logistic_code, </span>
+<span id="cb979-13"><a href="day-32.html#cb979-13"></a>  <span class="dt">constants =</span> constants,</span>
+<span id="cb979-14"><a href="day-32.html#cb979-14"></a>  <span class="dt">data      =</span> data,</span>
+<span id="cb979-15"><a href="day-32.html#cb979-15"></a>  <span class="dt">inits     =</span> inits</span>
+<span id="cb979-16"><a href="day-32.html#cb979-16"></a>)</span></code></pre></div>
+<pre><code>## Defining model</code></pre>
+<pre><code>## Building model</code></pre>
+<pre><code>## Setting data and initial values</code></pre>
+<pre><code>## Running calculate on model
+##   [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+<pre><code>## Checking model sizes and dimensions</code></pre>
+<ul>
+<li>Next, we build a default MCMC algorithm</li>
+</ul>
+<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb985-1"><a href="day-32.html#cb985-1"></a>logistic_mcmc &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(logistic_model)</span></code></pre></div>
+<pre><code>## ===== Monitors =====
+## thin = 1: beta
+## ===== Samplers =====
+## RW sampler (2)
+##   - beta[]  (2 elements)</code></pre>
+<p>We can run the algorithm in R code using</p>
+<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb987-1"><a href="day-32.html#cb987-1"></a><span class="kw">runMCMC</span>(logistic_mcmc, <span class="dt">niter =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## Warning: running an uncompiled MCMC algorithm, use compileNimble() for faster execution.</code></pre>
+<pre><code>## running chain 1...</code></pre>
+<pre><code>##         beta[1]  beta[2]
+##  [1,] 0.7073565 2.115559
+##  [2,] 1.5108923 2.354097
+##  [3,] 1.5108923 3.317967
+##  [4,] 1.5108923 3.317967
+##  [5,] 1.5108923 3.317967
+##  [6,] 1.5108923 3.317967
+##  [7,] 1.5070121 3.317967
+##  [8,] 1.4636310 3.317967
+##  [9,] 2.0753124 3.317967
+## [10,] 2.0753124 3.317967</code></pre>
+<p>but this is slow. Instead, we compile the model to c++ for faster runtimes</p>
+<div class="sourceCode" id="cb991"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb991-1"><a href="day-32.html#cb991-1"></a><span class="co">## compile the model to c++</span></span>
+<span id="cb991-2"><a href="day-32.html#cb991-2"></a>logistic_model_c &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(logistic_model)</span></code></pre></div>
+<pre><code>## Compiling
+##   [Note] This may take a minute.
+##   [Note] Use &#39;showCompilerOutput = TRUE&#39; to see C++ compilation details.</code></pre>
+<pre><code>## Warning, in eigenizing model_p[getNodeFunctionIndexedInfo(ARG1_INDEXEDNODEINFO__,1)] the [ is still there but nDim is not 0 (not a scalar).</code></pre>
+<pre><code>## Error: Failed to create the shared library. Run &#39;printErrors()&#39; to see the compilation errors.</code></pre>
+<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="day-32.html#cb995-1"></a>logistic_mcmc_c  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(logistic_mcmc, <span class="dt">project =</span> logistic_model) </span></code></pre></div>
+<pre><code>## Compiling
+##   [Note] This may take a minute.
+##   [Note] Use &#39;showCompilerOutput = TRUE&#39; to see C++ compilation details.</code></pre>
+<pre><code>## Error: Compiled C++ model not available; please include the model in your compilation call (or compile it in advance).</code></pre>
+<p>but we get some errors. A quick Google search [nimble Warning, in eigenizing model_p[getNodeFunctionIndexedInfo(ARG1_INDEXEDNODEINFO__,1)] the <a href="https://github.com/nimble-dev/nimble/issues/755">is still there but nDim is not 0 (not a scalar).</a> led me to this site that suggests the problem is that the output of <code>X[i, 1:q] %*% beta[1:q]</code> is a matrix but the logit link function needs a scalar. This is some of the “immaturity” I talk about with NIMBLE that makes it sometimes challenging to get started with. Instead, we replace the <code>X[i, 1:q] %*% beta[1:q]</code> with the inner product <code>inprod(X[i, 1:q], beta[1:q])</code> in the model statement</p>
+<div class="sourceCode" id="cb998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb998-1"><a href="day-32.html#cb998-1"></a>logistic_code &lt;-<span class="st"> </span><span class="kw">nimbleCode</span>({</span>
+<span id="cb998-2"><a href="day-32.html#cb998-2"></a>  <span class="co">## prior for regression parameters beta</span></span>
+<span id="cb998-3"><a href="day-32.html#cb998-3"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>q) {</span>
+<span id="cb998-4"><a href="day-32.html#cb998-4"></a>    beta[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb998-5"><a href="day-32.html#cb998-5"></a>  }</span>
+<span id="cb998-6"><a href="day-32.html#cb998-6"></a>  </span>
+<span id="cb998-7"><a href="day-32.html#cb998-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb998-8"><a href="day-32.html#cb998-8"></a>    <span class="co">## note that you have to be explicit about the variable</span></span>
+<span id="cb998-9"><a href="day-32.html#cb998-9"></a>    <span class="co">## dimensions for each statement</span></span>
+<span id="cb998-10"><a href="day-32.html#cb998-10"></a>    <span class="kw">logit</span>(p[i]) &lt;-<span class="st"> </span><span class="kw">inprod</span>(X[i, <span class="dv">1</span><span class="op">:</span>q], beta[<span class="dv">1</span><span class="op">:</span>q])</span>
+<span id="cb998-11"><a href="day-32.html#cb998-11"></a>    y[i] <span class="op">~</span><span class="st"> </span><span class="kw">dbin</span>(p[i], m[i])</span>
+<span id="cb998-12"><a href="day-32.html#cb998-12"></a>  }</span>
+<span id="cb998-13"><a href="day-32.html#cb998-13"></a>})</span>
+<span id="cb998-14"><a href="day-32.html#cb998-14"></a><span class="co">## define the constants, data, and MCMC initial conditions</span></span>
+<span id="cb998-15"><a href="day-32.html#cb998-15"></a>constants &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n, <span class="dt">q =</span> <span class="kw">ncol</span>(X))</span>
+<span id="cb998-16"><a href="day-32.html#cb998-16"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb998-17"><a href="day-32.html#cb998-17"></a>  <span class="dt">y =</span> y, </span>
+<span id="cb998-18"><a href="day-32.html#cb998-18"></a>  <span class="dt">m =</span> <span class="kw">rep</span>(<span class="dv">1</span>, n), </span>
+<span id="cb998-19"><a href="day-32.html#cb998-19"></a>  <span class="dt">X =</span> X</span>
+<span id="cb998-20"><a href="day-32.html#cb998-20"></a>)</span>
+<span id="cb998-21"><a href="day-32.html#cb998-21"></a>inits &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">beta =</span> <span class="kw">rnorm</span>(<span class="kw">ncol</span>(X)), <span class="dt">p =</span> <span class="kw">rbeta</span>(n, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb998-22"><a href="day-32.html#cb998-22"></a></span>
+<span id="cb998-23"><a href="day-32.html#cb998-23"></a><span class="co">## create the NIMBLE model</span></span>
+<span id="cb998-24"><a href="day-32.html#cb998-24"></a>logistic_model &lt;-<span class="st"> </span><span class="kw">nimbleModel</span>(</span>
+<span id="cb998-25"><a href="day-32.html#cb998-25"></a>  <span class="dt">code      =</span> logistic_code, </span>
+<span id="cb998-26"><a href="day-32.html#cb998-26"></a>  <span class="dt">constants =</span> constants,</span>
+<span id="cb998-27"><a href="day-32.html#cb998-27"></a>  <span class="dt">data      =</span> data,</span>
+<span id="cb998-28"><a href="day-32.html#cb998-28"></a>  <span class="dt">inits     =</span> inits</span>
+<span id="cb998-29"><a href="day-32.html#cb998-29"></a>)</span></code></pre></div>
+<pre><code>## Defining model</code></pre>
+<pre><code>## Building model</code></pre>
+<pre><code>## Setting data and initial values</code></pre>
+<pre><code>## Running calculate on model
+##   [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+<pre><code>## Checking model sizes and dimensions</code></pre>
+<div class="sourceCode" id="cb1004"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1004-1"><a href="day-32.html#cb1004-1"></a><span class="co">## I need the additional option to change my c++ compiler flags when both stan and nimble are loaded</span></span>
+<span id="cb1004-2"><a href="day-32.html#cb1004-2"></a><span class="kw">Sys.unsetenv</span>(<span class="st">&quot;PKG_CXXFLAGS&quot;</span>)</span>
+<span id="cb1004-3"><a href="day-32.html#cb1004-3"></a>logistic_mcmc    &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(logistic_model)</span></code></pre></div>
+<pre><code>## ===== Monitors =====
+## thin = 1: beta
+## ===== Samplers =====
+## RW sampler (2)
+##   - beta[]  (2 elements)</code></pre>
+<div class="sourceCode" id="cb1006"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1006-1"><a href="day-32.html#cb1006-1"></a><span class="co">## compile the model to c++</span></span>
+<span id="cb1006-2"><a href="day-32.html#cb1006-2"></a>logistic_model_c &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(logistic_model)</span></code></pre></div>
+<pre><code>## Compiling
+##   [Note] This may take a minute.
+##   [Note] Use &#39;showCompilerOutput = TRUE&#39; to see C++ compilation details.</code></pre>
+<div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1008-1"><a href="day-32.html#cb1008-1"></a>logistic_mcmc_c  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(logistic_mcmc, <span class="dt">project =</span> logistic_model) </span></code></pre></div>
+<pre><code>## Compiling
+##   [Note] This may take a minute.
+##   [Note] Use &#39;showCompilerOutput = TRUE&#39; to see C++ compilation details.</code></pre>
+<ul>
+<li>once the model is compiled, we fit this using <code>runMCMC</code></li>
+</ul>
+<div class="sourceCode" id="cb1010"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1010-1"><a href="day-32.html#cb1010-1"></a><span class="co"># if (file.exists(&quot;./results/logistic-regression-nimble.RData&quot;)) {</span></span>
+<span id="cb1010-2"><a href="day-32.html#cb1010-2"></a><span class="co">#   load(&quot;./results/logistic-regression-nimble.RData&quot;)</span></span>
+<span id="cb1010-3"><a href="day-32.html#cb1010-3"></a><span class="co"># } else {</span></span>
+<span id="cb1010-4"><a href="day-32.html#cb1010-4"></a>  samples &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(logistic_mcmc_c, <span class="dt">niter =</span> <span class="dv">1000</span>, <span class="dt">nchains =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## running chain 1...</code></pre>
+<pre><code>## |-------------|-------------|-------------|-------------|
+## |-------------------------------------------------------|</code></pre>
+<pre><code>## running chain 2...</code></pre>
+<pre><code>## |-------------|-------------|-------------|-------------|
+## |-------------------------------------------------------|</code></pre>
+<pre><code>## running chain 3...</code></pre>
+<pre><code>## |-------------|-------------|-------------|-------------|
+## |-------------------------------------------------------|</code></pre>
+<pre><code>## running chain 4...</code></pre>
+<pre><code>## |-------------|-------------|-------------|-------------|
+## |-------------------------------------------------------|</code></pre>
+<div class="sourceCode" id="cb1019"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1019-1"><a href="day-32.html#cb1019-1"></a>  <span class="co"># save(samples, file = &quot;./results/logistic-regression-nimble.RData&quot;)</span></span>
+<span id="cb1019-2"><a href="day-32.html#cb1019-2"></a><span class="co"># }</span></span></code></pre></div>
+<p>and examine the traceplots with</p>
+<div class="sourceCode" id="cb1020"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1020-1"><a href="day-32.html#cb1020-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb1020-2"><a href="day-32.html#cb1020-2"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_0&quot;</span>)</span>
+<span id="cb1020-3"><a href="day-32.html#cb1020-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1020-4"><a href="day-32.html#cb1020-4"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1020-5"><a href="day-32.html#cb1020-5"></a>}</span>
+<span id="cb1020-6"><a href="day-32.html#cb1020-6"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_1&quot;</span>)</span>
+<span id="cb1020-7"><a href="day-32.html#cb1020-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1020-8"><a href="day-32.html#cb1020-8"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1020-9"><a href="day-32.html#cb1020-9"></a>}</span></code></pre></div>
+<p><img src="32-day-32_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+<div id="example-poisson-count-regression" class="section level3">
+<h3><span class="header-section-number">32.3.2</span> Example: Poisson (count) regression</h3>
+<ul>
+<li><p><span class="math inline">\(y_i = \{0, 1, 2, \ldots \}\)</span></p></li>
+<li><p><span class="math inline">\(E \left( y_i \right) = \lambda_i\)</span></p></li>
+<li><p>the link function is <span class="math inline">\(\log( \lambda_i) = log \left( E \left( y_i \right) \right) = \mathbf{X}_i \boldsymbol{\beta}\)</span></p></li>
+<li><p>Marginal distriubtion of <span class="math inline">\(y(\mathbf{s})\)</span> for Poisson data</p></li>
+<li><p><span class="math inline">\([y(\mathbf{s})] = \int \operatorname{Poisson}\left( y(\mathbf{s}) | \boldsymbol{\beta}, \boldsymbol{\eta} \right) \operatorname{N} \left( \mathbf{0}, \boldsymbol{\Sigma} \right) d\, \boldsymbol{\eta}\)</span> = ???</p></li>
+<li><p><span class="math inline">\(E\left( y(\mathbf{s}) \right) = E \left( E\left( y(\mathbf{s}) \right) \middle| \boldsymbol{\eta} \right) = E \left( e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \boldsymbol{\eta}(\mathbf{s}) } \right) = e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta}} E \left( e^{\boldsymbol{\eta}(\mathbf{s})} \right) = e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta}} e^{\tau^2}\)</span></p></li>
+<li><p><span class="math inline">\(Var \left( y(\mathbf{s}) \right) = Var \left( E \left( y(\mathbf{s}) \right) \middle| \boldsymbol{\eta} \right) + E \left( Var \left( y(\mathbf{s}) \right) \middle| \boldsymbol{\eta} \right) = Var \left( e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \boldsymbol{\eta}(\mathbf{s}) } \right) + E \left( e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \boldsymbol{\eta}(\mathbf{s}) } \right) = Var \left( e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \boldsymbol{\eta}(\mathbf{s}) } \right) + e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \tau^2 / 2} &gt; e^{\mathbf{X}(\mathbf{s}) \boldsymbol{\beta} }\)</span></p></li>
+<li><p>overdispersed relative to the non-spatial Poisson</p></li>
+<li><p><span class="math inline">\(Cov(y(\mathbf{s}), y(\mathbf{s}&#39;))\)</span> is more complicated</p></li>
+</ul>
+<div class="sourceCode" id="cb1021"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1021-1"><a href="day-32.html#cb1021-1"></a>n &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb1021-2"><a href="day-32.html#cb1021-2"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
+<span id="cb1021-3"><a href="day-32.html#cb1021-3"></a>beta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="fl">1.5</span>)</span>
+<span id="cb1021-4"><a href="day-32.html#cb1021-4"></a><span class="co">## log(lambda) &lt;- X %*% beta</span></span>
+<span id="cb1021-5"><a href="day-32.html#cb1021-5"></a>lambda &lt;-<span class="st"> </span><span class="kw">exp</span>(X <span class="op">%*%</span><span class="st"> </span>beta)</span>
+<span id="cb1021-6"><a href="day-32.html#cb1021-6"></a>y &lt;-<span class="st"> </span><span class="kw">rpois</span>(n, lambda)</span>
+<span id="cb1021-7"><a href="day-32.html#cb1021-7"></a><span class="kw">data.frame</span>(<span class="dt">x =</span> X[, <span class="dv">2</span>], <span class="dt">y =</span> y, <span class="dt">lambda =</span> lambda) <span class="op">%&gt;%</span></span>
+<span id="cb1021-8"><a href="day-32.html#cb1021-8"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">lambda =</span> lambda)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1021-9"><a href="day-32.html#cb1021-9"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb1021-10"><a href="day-32.html#cb1021-10"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> lambda), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1022"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1022-1"><a href="day-32.html#cb1022-1"></a><span class="co">## fit logistic regression using mgcv</span></span>
+<span id="cb1022-2"><a href="day-32.html#cb1022-2"></a>mod &lt;-<span class="st"> </span><span class="kw">gam</span>(y <span class="op">~</span><span class="st"> </span>X <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">family =</span> <span class="kw">poisson</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>))</span>
+<span id="cb1022-3"><a href="day-32.html#cb1022-3"></a><span class="kw">summary</span>(mod)</span></code></pre></div>
+<pre><code>## 
+## Family: poisson 
+## Link function: log 
+## 
+## Formula:
+## y ~ X - 1
+## 
+## Parametric coefficients:
+##    Estimate Std. Error z value Pr(&gt;|z|)    
+## X1 -0.50861    0.06038  -8.423   &lt;2e-16 ***
+## X2  0.54531    0.05869   9.291   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## 
+## R-sq.(adj) =  0.343   Deviance explained = 32.8%
+## UBRE = -0.62829  Scale est. = 1         n = 500</code></pre>
+<div id="poisson-regression-in-stan" class="section level4">
+<h4><span class="header-section-number">32.3.2.1</span> Poisson regression in stan</h4>
+<ul>
+<li><p>we need to define a stan model</p></li>
+<li><p>create a stan model in a folder named <code>stan_models</code> in the Rstudio project folder</p></li>
+<li><p>print the output of the model <code>poisson-regression.stan</code></p></li>
+</ul>
+<div class="sourceCode" id="cb1024"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1024-1"><a href="day-32.html#cb1024-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(<span class="st">&quot;./stan_models/poisson-regression.stan&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>data {
+  int&lt;lower=0&gt; n;
+  int&lt;lower=0&gt; p;
+  int&lt;lower=0&gt; y[n];
+  matrix[n, p] X;
+}
+
+// The parameters accepted by the model. 
+parameters {
+  vector[p] beta;
+}
+
+model {
+  y ~ poisson_log(X * beta);
+  beta ~ normal(0, 5);
+}
+
+generated quantities {
+  int y_rep[n];
+  y_rep = poisson_log_rng(X * beta);  
+}
+// Note: the stan file must end in a blank (new) line</code></pre>
+<ul>
+<li>Fitting the model</li>
+</ul>
+<div class="sourceCode" id="cb1026"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1026-1"><a href="day-32.html#cb1026-1"></a><span class="cf">if</span> (<span class="kw">file.exists</span>(<span class="st">&quot;./results/poisson-regression.RData&quot;</span>)) {</span>
+<span id="cb1026-2"><a href="day-32.html#cb1026-2"></a>  <span class="kw">load</span>(<span class="st">&quot;./results/poisson-regression.RData&quot;</span>)</span>
+<span id="cb1026-3"><a href="day-32.html#cb1026-3"></a>} <span class="cf">else</span> {</span>
+<span id="cb1026-4"><a href="day-32.html#cb1026-4"></a>  fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb1026-5"><a href="day-32.html#cb1026-5"></a>    <span class="dt">file =</span> <span class="st">&quot;./stan_models/poisson-regression.stan&quot;</span>,</span>
+<span id="cb1026-6"><a href="day-32.html#cb1026-6"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
+<span id="cb1026-7"><a href="day-32.html#cb1026-7"></a>    <span class="dt">iter =</span> <span class="dv">2000</span></span>
+<span id="cb1026-8"><a href="day-32.html#cb1026-8"></a>  )</span>
+<span id="cb1026-9"><a href="day-32.html#cb1026-9"></a>  <span class="kw">save</span>(fit, <span class="dt">file =</span> <span class="st">&quot;./results/poisson-regression.RData&quot;</span>)</span>
+<span id="cb1026-10"><a href="day-32.html#cb1026-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1027"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1027-1"><a href="day-32.html#cb1027-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb1027-2"><a href="day-32.html#cb1027-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span>
+<span id="cb1027-3"><a href="day-32.html#cb1027-3"></a></span>
+<span id="cb1027-4"><a href="day-32.html#cb1027-4"></a><span class="co">## trace plots</span></span>
+<span id="cb1027-5"><a href="day-32.html#cb1027-5"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<p>Posterior predictive checks</p>
+<div class="sourceCode" id="cb1028"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1028-1"><a href="day-32.html#cb1028-1"></a><span class="co">## extract the posterior predictive samples</span></span>
+<span id="cb1028-2"><a href="day-32.html#cb1028-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span></code></pre></div>
+<div class="sourceCode" id="cb1029"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1029-1"><a href="day-32.html#cb1029-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ppc_intervals</span>(y, y_rep, <span class="dt">x =</span> X[, <span class="dv">2</span>])</span>
+<span id="cb1029-2"><a href="day-32.html#cb1029-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">ppc_dens_overlay</span>(y, y_rep)  </span>
+<span id="cb1029-3"><a href="day-32.html#cb1029-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)  </span>
+<span id="cb1029-4"><a href="day-32.html#cb1029-4"></a>p1 <span class="op">/</span><span class="st"> </span>p2 <span class="op">/</span><span class="st"> </span>p3 </span></code></pre></div>
+</div>
+<div id="poisson-regression-in-nimble" class="section level4">
+<h4><span class="header-section-number">32.3.2.2</span> Poisson regression in NIMBLE</h4>
+<ul>
+<li>we need to define a nimble model</li>
+</ul>
+<div class="sourceCode" id="cb1030"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1030-1"><a href="day-32.html#cb1030-1"></a>poisson_code &lt;-<span class="st"> </span><span class="kw">nimbleCode</span>({</span>
+<span id="cb1030-2"><a href="day-32.html#cb1030-2"></a>  <span class="co">## prior for regression parameters beta</span></span>
+<span id="cb1030-3"><a href="day-32.html#cb1030-3"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>q) {</span>
+<span id="cb1030-4"><a href="day-32.html#cb1030-4"></a>    beta[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb1030-5"><a href="day-32.html#cb1030-5"></a>  }</span>
+<span id="cb1030-6"><a href="day-32.html#cb1030-6"></a>  </span>
+<span id="cb1030-7"><a href="day-32.html#cb1030-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb1030-8"><a href="day-32.html#cb1030-8"></a>    <span class="co">## note that you have to be explicit about the variable</span></span>
+<span id="cb1030-9"><a href="day-32.html#cb1030-9"></a>    <span class="co">## dimensions for each statement</span></span>
+<span id="cb1030-10"><a href="day-32.html#cb1030-10"></a>    <span class="kw">log</span>(lambda[i]) &lt;-<span class="st"> </span><span class="kw">inprod</span>(X[i, <span class="dv">1</span><span class="op">:</span>q], beta[<span class="dv">1</span><span class="op">:</span>q])</span>
+<span id="cb1030-11"><a href="day-32.html#cb1030-11"></a>    y[i] <span class="op">~</span><span class="st"> </span><span class="kw">dpois</span>(lambda[i])</span>
+<span id="cb1030-12"><a href="day-32.html#cb1030-12"></a>  }</span>
+<span id="cb1030-13"><a href="day-32.html#cb1030-13"></a>})</span>
+<span id="cb1030-14"><a href="day-32.html#cb1030-14"></a><span class="co">## define the constants, data, and MCMC initial conditions</span></span>
+<span id="cb1030-15"><a href="day-32.html#cb1030-15"></a>constants &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n, <span class="dt">q =</span> <span class="kw">ncol</span>(X))</span>
+<span id="cb1030-16"><a href="day-32.html#cb1030-16"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb1030-17"><a href="day-32.html#cb1030-17"></a>  <span class="dt">y =</span> y, </span>
+<span id="cb1030-18"><a href="day-32.html#cb1030-18"></a>  <span class="dt">X =</span> X</span>
+<span id="cb1030-19"><a href="day-32.html#cb1030-19"></a>)</span>
+<span id="cb1030-20"><a href="day-32.html#cb1030-20"></a>inits &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">beta =</span> <span class="kw">rnorm</span>(<span class="kw">ncol</span>(X)), <span class="dt">lambda =</span> <span class="kw">rexp</span>(n, <span class="dv">1</span>))</span>
+<span id="cb1030-21"><a href="day-32.html#cb1030-21"></a></span>
+<span id="cb1030-22"><a href="day-32.html#cb1030-22"></a><span class="co">## create the NIMBLE model</span></span>
+<span id="cb1030-23"><a href="day-32.html#cb1030-23"></a>poisson_model &lt;-<span class="st"> </span><span class="kw">nimbleModel</span>(</span>
+<span id="cb1030-24"><a href="day-32.html#cb1030-24"></a>  <span class="dt">code      =</span> poisson_code, </span>
+<span id="cb1030-25"><a href="day-32.html#cb1030-25"></a>  <span class="dt">constants =</span> constants,</span>
+<span id="cb1030-26"><a href="day-32.html#cb1030-26"></a>  <span class="dt">data      =</span> data,</span>
+<span id="cb1030-27"><a href="day-32.html#cb1030-27"></a>  <span class="dt">inits     =</span> inits</span>
+<span id="cb1030-28"><a href="day-32.html#cb1030-28"></a>)</span>
+<span id="cb1030-29"><a href="day-32.html#cb1030-29"></a></span>
+<span id="cb1030-30"><a href="day-32.html#cb1030-30"></a><span class="co">## I need the additional option to change my c++ compiler flags when both stan and nimble are loaded</span></span>
+<span id="cb1030-31"><a href="day-32.html#cb1030-31"></a><span class="kw">Sys.unsetenv</span>(<span class="st">&quot;PKG_CXXFLAGS&quot;</span>)</span>
+<span id="cb1030-32"><a href="day-32.html#cb1030-32"></a>poisson_mcmc    &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(poisson_model)</span>
+<span id="cb1030-33"><a href="day-32.html#cb1030-33"></a><span class="co">## compile the model to c++</span></span>
+<span id="cb1030-34"><a href="day-32.html#cb1030-34"></a>poisson_model_c &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(poisson_model)</span>
+<span id="cb1030-35"><a href="day-32.html#cb1030-35"></a></span>
+<span id="cb1030-36"><a href="day-32.html#cb1030-36"></a>poisson_mcmc_c  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(poisson_mcmc, <span class="dt">project =</span> poisson_model) </span></code></pre></div>
+<ul>
+<li>once the model is compiled, we fit this using <code>runMCMC</code></li>
+</ul>
+<div class="sourceCode" id="cb1031"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1031-1"><a href="day-32.html#cb1031-1"></a><span class="co"># if (file.exists(&quot;./results/poisson-regression-nimble.RData&quot;)) {</span></span>
+<span id="cb1031-2"><a href="day-32.html#cb1031-2"></a><span class="co">#   load(&quot;./results/poisson-regression-nimble.RData&quot;)</span></span>
+<span id="cb1031-3"><a href="day-32.html#cb1031-3"></a><span class="co"># } else {</span></span>
+<span id="cb1031-4"><a href="day-32.html#cb1031-4"></a>  samples &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(poisson_mcmc_c, <span class="dt">niter =</span> <span class="dv">1000</span>, <span class="dt">nchains =</span> <span class="dv">4</span>)</span>
+<span id="cb1031-5"><a href="day-32.html#cb1031-5"></a>  <span class="co"># save(samples, file = &quot;./results/poisson-regression-nimble.RData&quot;)</span></span>
+<span id="cb1031-6"><a href="day-32.html#cb1031-6"></a><span class="co"># }</span></span></code></pre></div>
+<p>and examine the traceplots with</p>
+<div class="sourceCode" id="cb1032"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1032-1"><a href="day-32.html#cb1032-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb1032-2"><a href="day-32.html#cb1032-2"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_0&quot;</span>)</span>
+<span id="cb1032-3"><a href="day-32.html#cb1032-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1032-4"><a href="day-32.html#cb1032-4"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1032-5"><a href="day-32.html#cb1032-5"></a>}</span>
+<span id="cb1032-6"><a href="day-32.html#cb1032-6"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_1&quot;</span>)</span>
+<span id="cb1032-7"><a href="day-32.html#cb1032-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1032-8"><a href="day-32.html#cb1032-8"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1032-9"><a href="day-32.html#cb1032-9"></a>}</span></code></pre></div>
+<ul>
+<li>Many other models are possible including</li>
+<li>negative binomial (overdispersed count data)</li>
+<li>gamma regression</li>
+<li>beta regression (model a latent proportion)</li>
+<li>multinomial regression (many different categories)</li>
+<li>zero-inflated models (binary and glm model together)</li>
+<li>many, many others</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="generalized-linear-models-glms-for-spatial-data" class="section level2">
+<h2><span class="header-section-number">32.4</span> Generalized linear models (GLMs) for spatial data</h2>
+<ul>
+<li><p>Define <span class="math inline">\(\boldsymbol{\eta} \sim GP\)</span> with mean 0 and covariance <span class="math inline">\(\tau^2 C(h)\)</span></p></li>
+<li><p>Given <span class="math inline">\(\eta(\mathbf{s})\)</span>, the <span class="math inline">\(y(\mathbf{s})\)</span> are independent with <span class="math inline">\(g \left( E \left( y(\mathbf{s}) \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s})\)</span></p></li>
+<li><p>Marginally over the random effect <span class="math inline">\(\boldsymbol{\eta}\)</span> (integrating <span class="math inline">\(\boldsymbol{\eta}\)</span> out of the model), the <span class="math inline">\(\mathbf{y}\)</span> are dependent.</p></li>
+<li><p>However, the analytic form of the marginal distribution is typically hard to derive.</p></li>
+</ul>
+<div id="example-spatial-binary-logistic-regression" class="section level3">
+<h3><span class="header-section-number">32.4.1</span> Example: spatial binary (logistic) regression</h3>
+<ul>
+<li><p><span class="math inline">\(y(\mathbf{s}) = \{0, 1\}\)</span></p></li>
+<li><p><span class="math inline">\(E \left( y(\mathbf{s}) \right) = p(\mathbf{s})\)</span></p></li>
+<li><p>the link function is <span class="math inline">\(p(\mathbf{s}) = logit \left( E \left( y(\mathbf{s}) \right) \right) = logit \left( \operatorname{Prob} \left( y(\mathbf{s}) = 1 \right) \right) = \mathbf{X}(\mathbf{s}) \boldsymbol{\beta} + \eta(\mathbf{s})\)</span></p></li>
+</ul>
+<div class="sourceCode" id="cb1033"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1033-1"><a href="day-32.html#cb1033-1"></a>N &lt;-<span class="st"> </span><span class="dv">30</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1033-2"><a href="day-32.html#cb1033-2"></a>locs_full &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
+<span id="cb1033-3"><a href="day-32.html#cb1033-3"></a>  <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(N)),</span>
+<span id="cb1033-4"><a href="day-32.html#cb1033-4"></a>  <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(N))</span>
+<span id="cb1033-5"><a href="day-32.html#cb1033-5"></a>)</span>
+<span id="cb1033-6"><a href="day-32.html#cb1033-6"></a><span class="kw">colnames</span>(locs_full) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)</span>
+<span id="cb1033-7"><a href="day-32.html#cb1033-7"></a></span>
+<span id="cb1033-8"><a href="day-32.html#cb1033-8"></a><span class="co">## fixed effects</span></span>
+<span id="cb1033-9"><a href="day-32.html#cb1033-9"></a>X_full &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb1033-10"><a href="day-32.html#cb1033-10"></a>beta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="fl">0.5</span>)</span>
+<span id="cb1033-11"><a href="day-32.html#cb1033-11"></a>Xbeta &lt;-<span class="st"> </span>X_full <span class="op">%*%</span><span class="st"> </span>beta</span>
+<span id="cb1033-12"><a href="day-32.html#cb1033-12"></a><span class="co">## random effects</span></span>
+<span id="cb1033-13"><a href="day-32.html#cb1033-13"></a>D &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs_full)</span>
+<span id="cb1033-14"><a href="day-32.html#cb1033-14"></a>tau2 &lt;-<span class="st"> </span><span class="fl">1.25</span></span>
+<span id="cb1033-15"><a href="day-32.html#cb1033-15"></a>phi &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb1033-16"><a href="day-32.html#cb1033-16"></a>Sigma &lt;-<span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb1033-17"><a href="day-32.html#cb1033-17"></a>eta &lt;-<span class="st"> </span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, N), Sigma)</span>
+<span id="cb1033-18"><a href="day-32.html#cb1033-18"></a></span>
+<span id="cb1033-19"><a href="day-32.html#cb1033-19"></a><span class="co">## GLM link function</span></span>
+<span id="cb1033-20"><a href="day-32.html#cb1033-20"></a><span class="co">## logit(p_i) &lt;- X %*% beta + eta</span></span>
+<span id="cb1033-21"><a href="day-32.html#cb1033-21"></a>logit &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">exp</span>(x) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(x))</span>
+<span id="cb1033-22"><a href="day-32.html#cb1033-22"></a>p_i &lt;-<span class="st"> </span><span class="kw">logit</span>(Xbeta <span class="op">+</span><span class="st"> </span>eta)</span>
+<span id="cb1033-23"><a href="day-32.html#cb1033-23"></a>y_full &lt;-<span class="st"> </span><span class="kw">rbinom</span>(N, <span class="dv">1</span>, p_i)</span>
+<span id="cb1033-24"><a href="day-32.html#cb1033-24"></a></span>
+<span id="cb1033-25"><a href="day-32.html#cb1033-25"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1033-26"><a href="day-32.html#cb1033-26"></a>  <span class="dt">x      =</span> locs_full[, <span class="dv">1</span>], </span>
+<span id="cb1033-27"><a href="day-32.html#cb1033-27"></a>  <span class="dt">y      =</span> locs_full[, <span class="dv">2</span>], </span>
+<span id="cb1033-28"><a href="day-32.html#cb1033-28"></a>  <span class="dt">z      =</span> y_full, </span>
+<span id="cb1033-29"><a href="day-32.html#cb1033-29"></a>  <span class="dt">p_i    =</span> p_i, </span>
+<span id="cb1033-30"><a href="day-32.html#cb1033-30"></a>  <span class="dt">Xbeta  =</span> Xbeta, </span>
+<span id="cb1033-31"><a href="day-32.html#cb1033-31"></a>  <span class="dt">eta    =</span> eta</span>
+<span id="cb1033-32"><a href="day-32.html#cb1033-32"></a>)</span>
+<span id="cb1033-33"><a href="day-32.html#cb1033-33"></a><span class="co">## using patchwork plots</span></span>
+<span id="cb1033-34"><a href="day-32.html#cb1033-34"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1033-35"><a href="day-32.html#cb1033-35"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1033-36"><a href="day-32.html#cb1033-36"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;data&quot;</span>) <span class="op">+</span></span>
+<span id="cb1033-37"><a href="day-32.html#cb1033-37"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1033-38"><a href="day-32.html#cb1033-38"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> p_i)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1033-39"><a href="day-32.html#cb1033-39"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1033-40"><a href="day-32.html#cb1033-40"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;latent value p&quot;</span>) <span class="op">+</span></span>
+<span id="cb1033-41"><a href="day-32.html#cb1033-41"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1033-42"><a href="day-32.html#cb1033-42"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> Xbeta)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1033-43"><a href="day-32.html#cb1033-43"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1033-44"><a href="day-32.html#cb1033-44"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;latent fixed effects&quot;</span>) <span class="op">+</span></span>
+<span id="cb1033-45"><a href="day-32.html#cb1033-45"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1033-46"><a href="day-32.html#cb1033-46"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> eta)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1033-47"><a href="day-32.html#cb1033-47"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1033-48"><a href="day-32.html#cb1033-48"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;latent spatial random effect&quot;</span>) <span class="op">+</span></span>
+<span id="cb1033-49"><a href="day-32.html#cb1033-49"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1033-50"><a href="day-32.html#cb1033-50"></a></span>
+<span id="cb1033-51"><a href="day-32.html#cb1033-51"></a>(p1 <span class="op">+</span><span class="st"> </span>p2) <span class="op">/</span><span class="st"> </span>(p3 <span class="op">+</span><span class="st"> </span>p4)</span></code></pre></div>
+<p>subset the data to represent an observation process</p>
+<div class="sourceCode" id="cb1034"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1034-1"><a href="day-32.html#cb1034-1"></a><span class="co">## using </span></span>
+<span id="cb1034-2"><a href="day-32.html#cb1034-2"></a>n &lt;-<span class="st"> </span><span class="dv">200</span></span>
+<span id="cb1034-3"><a href="day-32.html#cb1034-3"></a>idx &lt;-<span class="st"> </span><span class="kw">sample</span>(N, n)</span>
+<span id="cb1034-4"><a href="day-32.html#cb1034-4"></a>y &lt;-<span class="st"> </span>y_full[idx]</span>
+<span id="cb1034-5"><a href="day-32.html#cb1034-5"></a>X &lt;-<span class="st"> </span>X_full[idx, ]</span>
+<span id="cb1034-6"><a href="day-32.html#cb1034-6"></a>locs &lt;-<span class="st"> </span>locs_full[idx, ]</span>
+<span id="cb1034-7"><a href="day-32.html#cb1034-7"></a>dat_obs &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1034-8"><a href="day-32.html#cb1034-8"></a>  <span class="dt">x      =</span> locs[, <span class="dv">1</span>], </span>
+<span id="cb1034-9"><a href="day-32.html#cb1034-9"></a>  <span class="dt">y      =</span> locs[, <span class="dv">2</span>], </span>
+<span id="cb1034-10"><a href="day-32.html#cb1034-10"></a>  <span class="dt">z      =</span> y</span>
+<span id="cb1034-11"><a href="day-32.html#cb1034-11"></a>)</span>
+<span id="cb1034-12"><a href="day-32.html#cb1034-12"></a></span>
+<span id="cb1034-13"><a href="day-32.html#cb1034-13"></a><span class="kw">ggplot</span>(dat_obs, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
+<span id="cb1034-14"><a href="day-32.html#cb1034-14"></a><span class="st">  </span><span class="kw">geom_tile</span>() <span class="op">+</span></span>
+<span id="cb1034-15"><a href="day-32.html#cb1034-15"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed presence/absence&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1035"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1035-1"><a href="day-32.html#cb1035-1"></a>dat_fit &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">y =</span> y, <span class="dt">covariate =</span> X[, <span class="dv">2</span>], <span class="dt">lon =</span> locs<span class="op">$</span>lon, <span class="dt">lat =</span> locs<span class="op">$</span>lat)</span>
+<span id="cb1035-2"><a href="day-32.html#cb1035-2"></a><span class="co">## fit logistic regression using mgcv</span></span>
+<span id="cb1035-3"><a href="day-32.html#cb1035-3"></a>mod &lt;-<span class="st"> </span><span class="kw">gam</span>(y <span class="op">~</span><span class="st"> </span>covariate <span class="op">+</span><span class="st"> </span><span class="kw">s</span>(lon, lat), <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> dat_fit)</span>
+<span id="cb1035-4"><a href="day-32.html#cb1035-4"></a><span class="kw">summary</span>(mod)</span></code></pre></div>
+<div class="sourceCode" id="cb1036"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1036-1"><a href="day-32.html#cb1036-1"></a>preds &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">covariate =</span> X_full[, <span class="dv">2</span>], <span class="dt">lon =</span> locs_full<span class="op">$</span>lon, <span class="dt">lat =</span> locs_full<span class="op">$</span>lat), <span class="dt">se.fit =</span> <span class="ot">TRUE</span>, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb1036-2"><a href="day-32.html#cb1036-2"></a>dat_plot &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1036-3"><a href="day-32.html#cb1036-3"></a>  <span class="dt">lon     =</span> locs_full<span class="op">$</span>lon, </span>
+<span id="cb1036-4"><a href="day-32.html#cb1036-4"></a>  <span class="dt">lat     =</span> locs_full<span class="op">$</span>lat,</span>
+<span id="cb1036-5"><a href="day-32.html#cb1036-5"></a>  <span class="dt">p       =</span> <span class="kw">c</span>(p_i),</span>
+<span id="cb1036-6"><a href="day-32.html#cb1036-6"></a>  <span class="dt">y       =</span> y_full,</span>
+<span id="cb1036-7"><a href="day-32.html#cb1036-7"></a>  <span class="dt">y_pred  =</span> preds<span class="op">$</span>fit,</span>
+<span id="cb1036-8"><a href="day-32.html#cb1036-8"></a>  <span class="dt">sd_pred =</span> preds<span class="op">$</span>se.fit</span>
+<span id="cb1036-9"><a href="day-32.html#cb1036-9"></a>)</span>
+<span id="cb1036-10"><a href="day-32.html#cb1036-10"></a>zlims &lt;-<span class="st"> </span><span class="kw">range</span>(<span class="kw">range</span>(p_i), <span class="kw">range</span>(preds<span class="op">$</span>fit))</span>
+<span id="cb1036-11"><a href="day-32.html#cb1036-11"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> p)) <span class="op">+</span></span>
+<span id="cb1036-12"><a href="day-32.html#cb1036-12"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1036-13"><a href="day-32.html#cb1036-13"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1036-14"><a href="day-32.html#cb1036-14"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;simulated latent intensity&quot;</span>)</span>
+<span id="cb1036-15"><a href="day-32.html#cb1036-15"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> y)) <span class="op">+</span></span>
+<span id="cb1036-16"><a href="day-32.html#cb1036-16"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1036-17"><a href="day-32.html#cb1036-17"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1036-18"><a href="day-32.html#cb1036-18"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;observed data&quot;</span>)</span>
+<span id="cb1036-19"><a href="day-32.html#cb1036-19"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> y_pred)) <span class="op">+</span></span>
+<span id="cb1036-20"><a href="day-32.html#cb1036-20"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1036-21"><a href="day-32.html#cb1036-21"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1036-22"><a href="day-32.html#cb1036-22"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;predicted intensity&quot;</span>)</span>
+<span id="cb1036-23"><a href="day-32.html#cb1036-23"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> sd_pred)) <span class="op">+</span></span>
+<span id="cb1036-24"><a href="day-32.html#cb1036-24"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1036-25"><a href="day-32.html#cb1036-25"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1036-26"><a href="day-32.html#cb1036-26"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;predicted sd&quot;</span>)</span>
+<span id="cb1036-27"><a href="day-32.html#cb1036-27"></a>(p1 <span class="op">+</span><span class="st"> </span>p2) <span class="op">/</span><span class="st"> </span>(p3 <span class="op">+</span><span class="st"> </span>p4)</span></code></pre></div>
+<div id="spatial-logistic-regression-in-stan" class="section level4">
+<h4><span class="header-section-number">32.4.1.1</span> Spatial Logistic regression in stan</h4>
+<ul>
+<li>print the output of the model <code>spatial-logistic-regression.stan</code></li>
+</ul>
+<div class="sourceCode" id="cb1037"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1037-1"><a href="day-32.html#cb1037-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(<span class="st">&quot;./stan_models/spatial-logistic-regression.stan&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>data {
+  int&lt;lower=0&gt; n;
+  int&lt;lower=0&gt; p;
+  int&lt;lower=0,upper=1&gt; y[n];
+  matrix[n, p] X;
+  matrix[n, 2] locs;
+}
+
+transformed data {
+  matrix[n, n] D;
+  for (i in 1:n) {
+    for (j in 1:(i-1)) {
+      D[i, j] = sqrt(sum(square(locs[i, ] - locs[j, ])));
+      D[j, i] = D[i, j];
+    }
+    D[i, i] = 0.0;
+  }
+}
+
+parameters {
+  vector[p] beta;
+  real&lt;lower=0&gt; tau2;
+  real&lt;lower=0&gt; phi;
+  vector[n] eta_center;
+}
+
+transformed parameters {
+  cov_matrix[n] Sigma;
+  matrix[n, n] L_Sigma;
+  Sigma = tau2 * exp( - D / phi);
+  L_Sigma = cholesky_decompose(Sigma);
+}
+
+model {
+  tau2 ~ student_t(3, 0, 1);  // student t prior with df 3, mean 0, sd 1
+  phi ~ student_t(3, 0, 1);   // student t prior with df 3, mean 0, sd 1
+  to_vector(eta_center) ~ std_normal();
+  y ~ bernoulli_logit(X * beta + L_Sigma * eta_center);  
+  beta ~ normal(0, 1);
+}
+
+generated quantities {
+  int y_rep[n];
+  y_rep = bernoulli_logit_rng(X * beta + L_Sigma * eta_center);  
+}
+// Note: the stan file must end in a blank (new) line</code></pre>
+<ul>
+<li>Fitting the model</li>
+</ul>
+<div class="sourceCode" id="cb1039"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1039-1"><a href="day-32.html#cb1039-1"></a><span class="co"># if (file.exists(&quot;./results/spatial-logistic-regression.RData&quot;)) {</span></span>
+<span id="cb1039-2"><a href="day-32.html#cb1039-2"></a><span class="co">#   load(&quot;./results/spatial-logistic-regression.RData&quot;)</span></span>
+<span id="cb1039-3"><a href="day-32.html#cb1039-3"></a><span class="co"># } else {</span></span>
+<span id="cb1039-4"><a href="day-32.html#cb1039-4"></a>  fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb1039-5"><a href="day-32.html#cb1039-5"></a>    <span class="dt">file =</span> <span class="st">&quot;./stan_models/spatial-logistic-regression.stan&quot;</span>,</span>
+<span id="cb1039-6"><a href="day-32.html#cb1039-6"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X), <span class="dt">locs =</span> locs),</span>
+<span id="cb1039-7"><a href="day-32.html#cb1039-7"></a>    <span class="dt">iter =</span> <span class="dv">2000</span>)</span>
+<span id="cb1039-8"><a href="day-32.html#cb1039-8"></a>  <span class="co"># save(fit, file = &quot;./results/spatial-logistic-regression.RData&quot;)</span></span>
+<span id="cb1039-9"><a href="day-32.html#cb1039-9"></a><span class="co"># }</span></span></code></pre></div>
+<div class="sourceCode" id="cb1040"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1040-1"><a href="day-32.html#cb1040-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb1040-2"><a href="day-32.html#cb1040-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))  </span>
+<span id="cb1040-3"><a href="day-32.html#cb1040-3"></a></span>
+<span id="cb1040-4"><a href="day-32.html#cb1040-4"></a><span class="co">## trace plots</span></span>
+<span id="cb1040-5"><a href="day-32.html#cb1040-5"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<p>Posterior predictive checks</p>
+<div class="sourceCode" id="cb1041"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1041-1"><a href="day-32.html#cb1041-1"></a><span class="co">## extract the posterior predictive samples</span></span>
+<span id="cb1041-2"><a href="day-32.html#cb1041-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span></code></pre></div>
+<div class="sourceCode" id="cb1042"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1042-1"><a href="day-32.html#cb1042-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ppc_intervals</span>(y, y_rep, <span class="dt">x =</span> X[, <span class="dv">2</span>])</span>
+<span id="cb1042-2"><a href="day-32.html#cb1042-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">ppc_dens_overlay</span>(y, y_rep)</span>
+<span id="cb1042-3"><a href="day-32.html#cb1042-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)</span>
+<span id="cb1042-4"><a href="day-32.html#cb1042-4"></a>p1 <span class="op">/</span><span class="st"> </span>p2 <span class="op">/</span><span class="st"> </span>p3 </span></code></pre></div>
+</div>
+<div id="what-if-we-fit-a-non-spatial-regression" class="section level4">
+<h4><span class="header-section-number">32.4.1.2</span> What if we fit a non-spatial regression?</h4>
+<p>Fit a non-spatial regression to the spatially correlated data</p>
+<div class="sourceCode" id="cb1043"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1043-1"><a href="day-32.html#cb1043-1"></a><span class="co"># if (file.exists(&quot;./results/logistic-nonspatial-regression.RData&quot;)) {</span></span>
+<span id="cb1043-2"><a href="day-32.html#cb1043-2"></a><span class="co">#   load(&quot;./results/logistic-nonspatial-regression.RData&quot;)</span></span>
+<span id="cb1043-3"><a href="day-32.html#cb1043-3"></a><span class="co"># } else {</span></span>
+<span id="cb1043-4"><a href="day-32.html#cb1043-4"></a>  fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb1043-5"><a href="day-32.html#cb1043-5"></a>    <span class="dt">file =</span> <span class="st">&quot;./stan_models/logistic-regression.stan&quot;</span>,</span>
+<span id="cb1043-6"><a href="day-32.html#cb1043-6"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
+<span id="cb1043-7"><a href="day-32.html#cb1043-7"></a>    <span class="dt">iter =</span> <span class="dv">2000</span>)</span>
+<span id="cb1043-8"><a href="day-32.html#cb1043-8"></a><span class="co">#   save(fit, file = &quot;./results/logistic-nonspatial-regression.RData&quot;)</span></span>
+<span id="cb1043-9"><a href="day-32.html#cb1043-9"></a><span class="co"># }</span></span></code></pre></div>
+<div class="sourceCode" id="cb1044"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1044-1"><a href="day-32.html#cb1044-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb1044-2"><a href="day-32.html#cb1044-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span>
+<span id="cb1044-3"><a href="day-32.html#cb1044-3"></a></span>
+<span id="cb1044-4"><a href="day-32.html#cb1044-4"></a><span class="co">## trace plots</span></span>
+<span id="cb1044-5"><a href="day-32.html#cb1044-5"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<p>Posterior predictive checks</p>
+<div class="sourceCode" id="cb1045"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1045-1"><a href="day-32.html#cb1045-1"></a><span class="co">## extract the posterior predictive samples</span></span>
+<span id="cb1045-2"><a href="day-32.html#cb1045-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span></code></pre></div>
+<p>Poor coverage when not accounting for the spatial process</p>
+<p>Evidence of model mis-fit</p>
+<div class="sourceCode" id="cb1046"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1046-1"><a href="day-32.html#cb1046-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ppc_intervals</span>(y, y_rep, <span class="dt">x =</span> X[, <span class="dv">2</span>])  </span>
+<span id="cb1046-2"><a href="day-32.html#cb1046-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">ppc_dens_overlay</span>(y, y_rep)  </span>
+<span id="cb1046-3"><a href="day-32.html#cb1046-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)  </span>
+<span id="cb1046-4"><a href="day-32.html#cb1046-4"></a>p1 <span class="op">/</span><span class="st"> </span>p2 <span class="op">/</span><span class="st"> </span>p3</span></code></pre></div>
+<!-- #### Spatial logistic regression in INLA -->
+<!-- - Integrated Nested Laplace Approximation -->
+<!--     - uses a stochastic PDE approximation to the Matern -->
+<!--     -  -->
+<!-- ```{r} -->
+<!-- ## generate a mesh for fitting the INLA SPDE approximation -->
+<!-- ## note: be careful to make the mesh too small as this can become very time consuming -->
+<!-- fine_mesh   <- inla.mesh.2d(locs_full, max.edge = c(0.05, 0.1), offset = c(0.1, 0.2)) -->
+<!-- coarse_mesh <- inla.mesh.2d(locs_full, max.edge = c(10, 100), offset = c(0.05, 0.1)) -->
+<!-- layout(matrix(1:2, 1, 2)) -->
+<!-- plot(fine_mesh) -->
+<!-- points(locs, col = "red", pch = 16) -->
+<!-- plot(coarse_mesh) -->
+<!-- points(locs, col = "red", pch = 16) -->
+<!-- ``` -->
+<!-- ## start with a coarse mesh -->
+<!-- ```{r, cache = TRUE} -->
+<!-- ## generate the SPDE model for the coarse mesh -->
+<!-- coarse_spde   <- inla.spde2.matern(mesh = coarse_mesh, alpha = 2) -->
+<!-- A_coarse      <- inla.spde.make.A(mesh = coarse_mesh, loc = as.matrix(locs)) -->
+<!-- s_coarse      <- inla.spde.make.index(name = "spatial.field", -->
+<!--   n.spde = coarse_spde$n.spde) -->
+<!-- ## create the data stack for the coarse mesh -->
+<!-- coarse_stack <- inla.stack( -->
+<!--   data    = list(y = y),  -->
+<!--   A       = list(A_coarse, 1), -->
+<!--   effects = list(c(s_coarse, list(Intercept = 1)), list(covariate = X[, 2])), -->
+<!--   tag     = "coarse_mesh" -->
+<!-- ) -->
+<!-- ## create the prediction stack for the coarse mesh predictions -->
+<!-- A_pred <- inla.spde.make.A(mesh = coarse_mesh, loc = as.matrix(locs_full)) -->
+<!-- coarse_stack_pred <- inla.stack( -->
+<!--   data    = list(y = NA), -->
+<!--   A       = list(A_pred, 1), -->
+<!--   effects = list(c(s_coarse, list (Intercept = 1)), list(covariate = X_full[, 2])), -->
+<!--   tag     = "coarse_pred") -->
+<!-- ## fit the INLA model on the coarse mesh -->
+<!-- join_stack_coarse <- inla.stack(coarse_stack, coarse_stack_pred) -->
+<!-- form              <- y ~ -1 + Intercept + covariate + f(spatial.field, model = spde) -->
+<!-- fit_coarse <- inla( -->
+<!--   formula           = form, -->
+<!--   family            = "binomial",  -->
+<!--   Ntrials           = rep(1, n+N),  -->
+<!--   data              = inla.stack.data(join_stack_coarse, spde = coarse_spde), -->
+<!--   control.family    = list(link = "logit"), -->
+<!--   control.predictor = list(link = 1, A = inla.stack.A(join_stack_coarse), compute = TRUE), -->
+<!--   control.compute = list(cpo = TRUE, dic = TRUE) -->
+<!-- ) -->
+<!-- summary(fit_coarse) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ## extract predicted values -->
+<!-- #Get predicted data on grid -->
+<!-- idx_pred <- inla.stack.index(join_stack_coarse, "coarse_pred")$data -->
+<!-- y_pred_mean_coarse <- fit_coarse$summary.fitted.values[idx_pred, "mean"] -->
+<!-- y_pred_sd_coarse   <- fit_coarse$summary.fitted.values[idx_pred, "sd"] -->
+<!-- dat_plot <- data.frame( -->
+<!--   x             = locs_full[, 1], -->
+<!--   y             = locs_full[, 2], -->
+<!--   p             = logit(p_i),  -->
+<!--   p_pred_coarse = y_pred_mean_coarse, -->
+<!--   p_sd_coarse   = y_pred_sd_coarse -->
+<!-- ) -->
+<!-- p1 <- ggplot(data = dat_plot, aes(x = x, y = y, fill = p)) + -->
+<!--   geom_raster() + -->
+<!--   scale_fill_viridis() + -->
+<!--   ggtitle("simulated latent probability") -->
+<!-- p2 <- ggplot(data = dat_plot, aes(x = x, y = y, fill = p_pred_coarse)) + -->
+<!--   geom_raster() + -->
+<!--   scale_fill_viridis() + -->
+<!--   ggtitle("estimated latent probability") -->
+<!-- p3 <- ggplot(data = dat_plot, aes(x = x, y = y, fill = p_sd_coarse)) + -->
+<!--   geom_raster() + -->
+<!--   scale_fill_viridis() + -->
+<!--   ggtitle("posterior predictive sd") -->
+<!-- p1 + p2 + p3 -->
+<!-- ``` -->
+<!-- ## fit the INLA model to the fine mesh -->
+<!-- ```{r, cache = TRUE} -->
+<!-- ## generate the SPDE model for the fine mesh -->
+<!-- fine_spde   <- inla.spde2.matern(mesh = fine_mesh, alpha = 2) -->
+<!-- A_fine      <- inla.spde.make.A(mesh = fine_mesh, loc = as.matrix(locs)) -->
+<!-- s_fine      <- inla.spde.make.index(name = "spatial.field", -->
+<!--   n.spde = fine_spde$n.spde) -->
+<!-- ## create the data stack for the fine mesh -->
+<!-- fine_stack <- inla.stack( -->
+<!--   data    = list(y = y),  -->
+<!--   A       = list(A_fine, 1), -->
+<!--   effects = list(c(s_fine, list(Intercept = 1)), list(covariate = X[, 2])), -->
+<!--   tag     = "fine_mesh" -->
+<!-- ) -->
+<!-- ## create the prediction stack for the fine mesh predictions -->
+<!-- A_pred <- inla.spde.make.A(mesh = fine_mesh, loc = as.matrix(locs_full)) -->
+<!-- fine_stack_pred <- inla.stack( -->
+<!--   data    = list(y = NA), -->
+<!--   A       = list(A_pred, 1), -->
+<!--   effects = list(c(s_fine, list (Intercept = 1)), list(covariate = X_full[, 2])), -->
+<!--   tag     = "fine_pred") -->
+<!-- ## fit the INLA model on the fine mesh -->
+<!-- join_stack_fine <- inla.stack(fine_stack, fine_stack_pred) -->
+<!-- form            <- y ~ -1 + Intercept + covariate + f(spatial.field, model = spde) -->
+<!-- fit_fine <- inla( -->
+<!--   formula           = form, -->
+<!--   family            = "binomial",  -->
+<!--   Ntrials           = rep(1, n+N),  -->
+<!--   data              = inla.stack.data(join_stack_fine, spde = fine_spde), -->
+<!--   control.family    = list(link = "logit"), -->
+<!--   control.predictor = list(link = 1, A = inla.stack.A(join_stack_fine), compute = TRUE), -->
+<!--   control.compute = list(cpo = TRUE, dic = TRUE) -->
+<!-- ) -->
+<!-- summary(fit_fine) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ## extract predicted values -->
+<!-- #Get predicted data on grid -->
+<!-- idx_pred <- inla.stack.index(join_stack_fine, "fine_pred")$data -->
+<!-- y_pred_mean_fine <- fit_fine$summary.fitted.values[idx_pred, "mean"] -->
+<!-- y_pred_sd_fine   <- fit_fine$summary.fitted.values[idx_pred, "sd"] -->
+<!-- dat_plot <- data.frame( -->
+<!--   x = locs_full[, 1], -->
+<!--   y = locs_full[, 2], -->
+<!--   p = logit(p_i),  -->
+<!--   p_pred_fine = y_pred_mean_fine, -->
+<!--   p_sd_fine   = y_pred_sd_fine -->
+<!-- ) -->
+<!-- p1 <- ggplot(data = dat_plot, aes(x = x, y = y, fill = p)) + -->
+<!--   geom_raster() + -->
+<!--   scale_fill_viridis() + -->
+<!--   ggtitle("simulated latent probability") -->
+<!-- p2 <- ggplot(data = dat_plot, aes(x = x, y = y, fill = p_pred_fine)) + -->
+<!--   geom_raster() + -->
+<!--   scale_fill_viridis() + -->
+<!--   ggtitle("estimated latent probability") -->
+<!-- p3 <- ggplot(data = dat_plot, aes(x = x, y = y, fill = p_sd_fine)) + -->
+<!--   geom_raster() + -->
+<!--   scale_fill_viridis() + -->
+<!--   ggtitle("posterior predictive sd") -->
+<!-- p1 + p2 + p3 -->
+<!-- ``` -->
+<!-- #### Spatial logistic regression by hand MCMC -->
+<!-- ```{r, comment = ""} -->
+<!-- read_lines(here::here("R", "mcmc-bernoulli.R")) -->
+<!-- source(here::here("R", "mcmc-bernoulli.R")) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- out <- mcmc_bernoulli(y, X, locs, n_adapt = 2000, n_mcmc = 5000, n_message = 10) -->
+<!-- ``` -->
+</div>
+</div>
+<div id="example-spatial-poisson-count-regression" class="section level3">
+<h3><span class="header-section-number">32.4.2</span> Example: spatial Poisson (count) regression</h3>
+<ul>
+<li><p><span class="math inline">\(y_i = \{0, 1, 2, \ldots \}\)</span></p></li>
+<li><p><span class="math inline">\(E \left( y_i \right) = \lambda_i\)</span></p></li>
+<li><p>the link function is <span class="math inline">\(\log( \lambda_i) = log \left( E \left( y_i \right) \right) = \mathbf{X}_i \boldsymbol{\beta}\)</span></p></li>
+</ul>
+<div class="sourceCode" id="cb1047"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1047-1"><a href="day-32.html#cb1047-1"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb1047-2"><a href="day-32.html#cb1047-2"></a>N &lt;-<span class="st"> </span><span class="dv">30</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb1047-3"><a href="day-32.html#cb1047-3"></a>locs_full &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
+<span id="cb1047-4"><a href="day-32.html#cb1047-4"></a>  <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(N)),</span>
+<span id="cb1047-5"><a href="day-32.html#cb1047-5"></a>  <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(N)))</span>
+<span id="cb1047-6"><a href="day-32.html#cb1047-6"></a><span class="kw">colnames</span>(locs_full) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)</span>
+<span id="cb1047-7"><a href="day-32.html#cb1047-7"></a></span>
+<span id="cb1047-8"><a href="day-32.html#cb1047-8"></a><span class="co">## fixed effects</span></span>
+<span id="cb1047-9"><a href="day-32.html#cb1047-9"></a>X_full &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb1047-10"><a href="day-32.html#cb1047-10"></a>beta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="fl">0.5</span>)</span>
+<span id="cb1047-11"><a href="day-32.html#cb1047-11"></a>Xbeta &lt;-<span class="st"> </span>X_full <span class="op">%*%</span><span class="st"> </span>beta</span>
+<span id="cb1047-12"><a href="day-32.html#cb1047-12"></a><span class="co">## random effects</span></span>
+<span id="cb1047-13"><a href="day-32.html#cb1047-13"></a>D &lt;-<span class="st"> </span>fields<span class="op">::</span><span class="kw">rdist</span>(locs_full)</span>
+<span id="cb1047-14"><a href="day-32.html#cb1047-14"></a>tau2 &lt;-<span class="st"> </span><span class="fl">3.25</span></span>
+<span id="cb1047-15"><a href="day-32.html#cb1047-15"></a>phi &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb1047-16"><a href="day-32.html#cb1047-16"></a>Sigma &lt;-<span class="st"> </span>tau2 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb1047-17"><a href="day-32.html#cb1047-17"></a>eta_full &lt;-<span class="st"> </span><span class="kw">as.vector</span>(mvnfast<span class="op">::</span><span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, N), Sigma))</span>
+<span id="cb1047-18"><a href="day-32.html#cb1047-18"></a></span>
+<span id="cb1047-19"><a href="day-32.html#cb1047-19"></a><span class="co">## GLM link function</span></span>
+<span id="cb1047-20"><a href="day-32.html#cb1047-20"></a><span class="co">## log(lambda) &lt;- X %*% beta</span></span>
+<span id="cb1047-21"><a href="day-32.html#cb1047-21"></a>lambda_full &lt;-<span class="st"> </span><span class="kw">exp</span>(Xbeta <span class="op">+</span><span class="st"> </span>eta_full)</span>
+<span id="cb1047-22"><a href="day-32.html#cb1047-22"></a>y_full &lt;-<span class="st"> </span><span class="kw">rpois</span>(N, lambda_full)</span>
+<span id="cb1047-23"><a href="day-32.html#cb1047-23"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1047-24"><a href="day-32.html#cb1047-24"></a>  <span class="dt">x      =</span> locs_full[, <span class="dv">1</span>], </span>
+<span id="cb1047-25"><a href="day-32.html#cb1047-25"></a>  <span class="dt">y      =</span> locs_full[, <span class="dv">2</span>], </span>
+<span id="cb1047-26"><a href="day-32.html#cb1047-26"></a>  <span class="dt">z      =</span> y_full, </span>
+<span id="cb1047-27"><a href="day-32.html#cb1047-27"></a>  <span class="dt">lambda =</span> lambda_full, </span>
+<span id="cb1047-28"><a href="day-32.html#cb1047-28"></a>  <span class="dt">Xbeta  =</span> Xbeta, </span>
+<span id="cb1047-29"><a href="day-32.html#cb1047-29"></a>  <span class="dt">eta    =</span> eta_full)</span>
+<span id="cb1047-30"><a href="day-32.html#cb1047-30"></a><span class="co">## using patchwork plots</span></span>
+<span id="cb1047-31"><a href="day-32.html#cb1047-31"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1047-32"><a href="day-32.html#cb1047-32"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1047-33"><a href="day-32.html#cb1047-33"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;data&quot;</span>) <span class="op">+</span></span>
+<span id="cb1047-34"><a href="day-32.html#cb1047-34"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1047-35"><a href="day-32.html#cb1047-35"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> lambda)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1047-36"><a href="day-32.html#cb1047-36"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1047-37"><a href="day-32.html#cb1047-37"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;latent value lambda&quot;</span>) <span class="op">+</span></span>
+<span id="cb1047-38"><a href="day-32.html#cb1047-38"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1047-39"><a href="day-32.html#cb1047-39"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> Xbeta)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1047-40"><a href="day-32.html#cb1047-40"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1047-41"><a href="day-32.html#cb1047-41"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;latent fixed effects&quot;</span>) <span class="op">+</span></span>
+<span id="cb1047-42"><a href="day-32.html#cb1047-42"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1047-43"><a href="day-32.html#cb1047-43"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> eta)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1047-44"><a href="day-32.html#cb1047-44"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1047-45"><a href="day-32.html#cb1047-45"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;latent spatial random effect&quot;</span>) <span class="op">+</span></span>
+<span id="cb1047-46"><a href="day-32.html#cb1047-46"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>()</span>
+<span id="cb1047-47"><a href="day-32.html#cb1047-47"></a></span>
+<span id="cb1047-48"><a href="day-32.html#cb1047-48"></a>(p1 <span class="op">+</span><span class="st"> </span>p2) <span class="op">/</span><span class="st"> </span>(p3 <span class="op">+</span><span class="st"> </span>p4)</span></code></pre></div>
+<p>subset the data to represent an observation process</p>
+<div class="sourceCode" id="cb1048"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1048-1"><a href="day-32.html#cb1048-1"></a><span class="co">## using </span></span>
+<span id="cb1048-2"><a href="day-32.html#cb1048-2"></a>n &lt;-<span class="st"> </span><span class="dv">200</span></span>
+<span id="cb1048-3"><a href="day-32.html#cb1048-3"></a>idx &lt;-<span class="st"> </span><span class="kw">sample</span>(N, n)</span>
+<span id="cb1048-4"><a href="day-32.html#cb1048-4"></a>y &lt;-<span class="st"> </span>y_full[idx]</span>
+<span id="cb1048-5"><a href="day-32.html#cb1048-5"></a>X &lt;-<span class="st"> </span>X_full[idx, ]</span>
+<span id="cb1048-6"><a href="day-32.html#cb1048-6"></a>locs &lt;-<span class="st"> </span>locs_full[idx, ]</span>
+<span id="cb1048-7"><a href="day-32.html#cb1048-7"></a>lambda &lt;-<span class="st"> </span>lambda_full[idx]</span>
+<span id="cb1048-8"><a href="day-32.html#cb1048-8"></a>eta &lt;-<span class="st"> </span>eta_full[idx]</span>
+<span id="cb1048-9"><a href="day-32.html#cb1048-9"></a>dat_obs &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1048-10"><a href="day-32.html#cb1048-10"></a>  <span class="dt">x      =</span> locs[, <span class="dv">1</span>], </span>
+<span id="cb1048-11"><a href="day-32.html#cb1048-11"></a>  <span class="dt">y      =</span> locs[, <span class="dv">2</span>], </span>
+<span id="cb1048-12"><a href="day-32.html#cb1048-12"></a>  <span class="dt">z      =</span> y)</span>
+<span id="cb1048-13"><a href="day-32.html#cb1048-13"></a></span>
+<span id="cb1048-14"><a href="day-32.html#cb1048-14"></a><span class="kw">ggplot</span>(dat_obs, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
+<span id="cb1048-15"><a href="day-32.html#cb1048-15"></a><span class="st">  </span><span class="kw">geom_tile</span>() <span class="op">+</span></span>
+<span id="cb1048-16"><a href="day-32.html#cb1048-16"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed counts&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1049"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1049-1"><a href="day-32.html#cb1049-1"></a>dat_fit &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">y =</span> y, <span class="dt">covariate =</span> X[, <span class="dv">2</span>], <span class="dt">lon =</span> locs<span class="op">$</span>lon, <span class="dt">lat =</span> locs<span class="op">$</span>lat)</span>
+<span id="cb1049-2"><a href="day-32.html#cb1049-2"></a><span class="co">## fit spatial poisson regression using mgcv</span></span>
+<span id="cb1049-3"><a href="day-32.html#cb1049-3"></a>mod &lt;-<span class="st"> </span><span class="kw">gam</span>(y <span class="op">~</span><span class="st"> </span>covariate <span class="op">+</span><span class="st"> </span><span class="kw">s</span>(lon, lat), <span class="dt">family =</span> <span class="kw">poisson</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>), <span class="dt">data =</span> dat_fit)</span>
+<span id="cb1049-4"><a href="day-32.html#cb1049-4"></a><span class="kw">summary</span>(mod)</span></code></pre></div>
+<div class="sourceCode" id="cb1050"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1050-1"><a href="day-32.html#cb1050-1"></a>preds &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">covariate =</span> X_full[, <span class="dv">2</span>], <span class="dt">lon =</span> locs_full<span class="op">$</span>lon, <span class="dt">lat =</span> locs_full<span class="op">$</span>lat), <span class="dt">se.fit =</span> <span class="ot">TRUE</span>, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb1050-2"><a href="day-32.html#cb1050-2"></a>dat_plot &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb1050-3"><a href="day-32.html#cb1050-3"></a>  <span class="dt">lon     =</span> locs_full<span class="op">$</span>lon, </span>
+<span id="cb1050-4"><a href="day-32.html#cb1050-4"></a>  <span class="dt">lat     =</span> locs_full<span class="op">$</span>lat,</span>
+<span id="cb1050-5"><a href="day-32.html#cb1050-5"></a>  <span class="dt">lambda  =</span> <span class="kw">c</span>(lambda_full),</span>
+<span id="cb1050-6"><a href="day-32.html#cb1050-6"></a>  <span class="dt">y       =</span> y_full,</span>
+<span id="cb1050-7"><a href="day-32.html#cb1050-7"></a>  <span class="dt">y_pred  =</span> preds<span class="op">$</span>fit,</span>
+<span id="cb1050-8"><a href="day-32.html#cb1050-8"></a>  <span class="dt">sd_pred =</span> preds<span class="op">$</span>se.fit)</span>
+<span id="cb1050-9"><a href="day-32.html#cb1050-9"></a>zlims &lt;-<span class="st"> </span><span class="kw">range</span>(<span class="kw">range</span>(lambda), <span class="kw">range</span>(preds<span class="op">$</span>fit))</span>
+<span id="cb1050-10"><a href="day-32.html#cb1050-10"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> lambda)) <span class="op">+</span></span>
+<span id="cb1050-11"><a href="day-32.html#cb1050-11"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1050-12"><a href="day-32.html#cb1050-12"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1050-13"><a href="day-32.html#cb1050-13"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;simulated latent intensity&quot;</span>)</span>
+<span id="cb1050-14"><a href="day-32.html#cb1050-14"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> y)) <span class="op">+</span></span>
+<span id="cb1050-15"><a href="day-32.html#cb1050-15"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1050-16"><a href="day-32.html#cb1050-16"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1050-17"><a href="day-32.html#cb1050-17"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;observed data&quot;</span>)</span>
+<span id="cb1050-18"><a href="day-32.html#cb1050-18"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> y_pred)) <span class="op">+</span></span>
+<span id="cb1050-19"><a href="day-32.html#cb1050-19"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1050-20"><a href="day-32.html#cb1050-20"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>(<span class="dt">limits =</span> zlims) <span class="op">+</span></span>
+<span id="cb1050-21"><a href="day-32.html#cb1050-21"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;predicted intensity&quot;</span>)</span>
+<span id="cb1050-22"><a href="day-32.html#cb1050-22"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dat_plot, <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">fill =</span> sd_pred)) <span class="op">+</span></span>
+<span id="cb1050-23"><a href="day-32.html#cb1050-23"></a><span class="st">  </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb1050-24"><a href="day-32.html#cb1050-24"></a><span class="st">  </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb1050-25"><a href="day-32.html#cb1050-25"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;predicted sd&quot;</span>)</span>
+<span id="cb1050-26"><a href="day-32.html#cb1050-26"></a>(p1 <span class="op">+</span><span class="st"> </span>p2) <span class="op">/</span><span class="st"> </span>(p3 <span class="op">+</span><span class="st"> </span>p4)</span></code></pre></div>
+<p>We can fit spatial the Poisson regression in stan</p>
+<ul>
+<li>print the output of the model <code>spatial-poisson-regression.stan</code></li>
+</ul>
+<div class="sourceCode" id="cb1051"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1051-1"><a href="day-32.html#cb1051-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(<span class="st">&quot;./stan_models/spatial-poisson-regression.stan&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>data {
+  int&lt;lower=0&gt; n;
+  int&lt;lower=0&gt; p;
+  int&lt;lower=0&gt; y[n];
+  matrix[n, p] X;
+  matrix[n, 2] locs;
+}
+
+transformed data {
+  matrix[n, n] D;
+  for (i in 1:n) {
+    for (j in 1:(i-1)) {
+      D[i, j] = sqrt(sum(square(locs[i, ] - locs[j, ])));
+      D[j, i] = D[i, j];
+    }
+    D[i, i] = 0.0;
+  }
+}
+
+parameters {
+  vector[p] beta;
+  real&lt;lower=0&gt; tau2;
+  real&lt;lower=0&gt; phi;
+  vector[n] eta_center;
+}
+
+transformed parameters {
+  cov_matrix[n] Sigma;
+  matrix[n, n] L_Sigma;
+  Sigma = tau2 * exp( - D / phi);
+  L_Sigma = cholesky_decompose(Sigma);
+}
+
+model {
+  tau2 ~ student_t(3, 0, 1);  // student t prior with df 3, mean 0, sd 1
+  phi ~ student_t(3, 0, 1);   // student t prior with df 3, mean 0, sd 1
+  to_vector(eta_center) ~ std_normal();
+  y ~ poisson_log(X * beta + L_Sigma * eta_center);  
+  beta ~ normal(0, 5);
+}
+
+generated quantities {
+  int y_rep[n];
+  y_rep = poisson_log_rng(X * beta + L_Sigma * eta_center);  
+}
+// Note: the stan file must end in a blank (new) line</code></pre>
+<ul>
+<li>Fitting the model</li>
+</ul>
+<div class="sourceCode" id="cb1053"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1053-1"><a href="day-32.html#cb1053-1"></a><span class="co">## for some reason nimble is causing problems with here</span></span>
+<span id="cb1053-2"><a href="day-32.html#cb1053-2"></a><span class="co"># if (file.exists(&quot;./results/spatial-poisson-regression.RData&quot;)) {</span></span>
+<span id="cb1053-3"><a href="day-32.html#cb1053-3"></a><span class="co">#   load(&quot;./results/spatial-poisson-regression.RData&quot;)</span></span>
+<span id="cb1053-4"><a href="day-32.html#cb1053-4"></a><span class="co"># } else {</span></span>
+<span id="cb1053-5"><a href="day-32.html#cb1053-5"></a>  fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb1053-6"><a href="day-32.html#cb1053-6"></a>    <span class="dt">file =</span> <span class="st">&quot;./stan_models/spatial-poisson-regression.stan&quot;</span>,</span>
+<span id="cb1053-7"><a href="day-32.html#cb1053-7"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X), <span class="dt">locs =</span> locs),</span>
+<span id="cb1053-8"><a href="day-32.html#cb1053-8"></a>    <span class="dt">iter =</span> <span class="dv">2000</span>)</span>
+<span id="cb1053-9"><a href="day-32.html#cb1053-9"></a><span class="co">#   save(fit, file = &quot;./results/spatial-poisson-regression.RData&quot;)</span></span>
+<span id="cb1053-10"><a href="day-32.html#cb1053-10"></a><span class="co"># }</span></span></code></pre></div>
+<div class="sourceCode" id="cb1054"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1054-1"><a href="day-32.html#cb1054-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb1054-2"><a href="day-32.html#cb1054-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span>
+<span id="cb1054-3"><a href="day-32.html#cb1054-3"></a></span>
+<span id="cb1054-4"><a href="day-32.html#cb1054-4"></a><span class="co">## trace plots</span></span>
+<span id="cb1054-5"><a href="day-32.html#cb1054-5"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<p>Posterior predictive checks</p>
+<div class="sourceCode" id="cb1055"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1055-1"><a href="day-32.html#cb1055-1"></a><span class="co">## extract the posterior predictive samples</span></span>
+<span id="cb1055-2"><a href="day-32.html#cb1055-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span></code></pre></div>
+<div class="sourceCode" id="cb1056"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1056-1"><a href="day-32.html#cb1056-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ppc_intervals</span>(y, y_rep, <span class="dt">x =</span> X[, <span class="dv">2</span>])</span>
+<span id="cb1056-2"><a href="day-32.html#cb1056-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">ppc_dens_overlay</span>(y, y_rep)</span>
+<span id="cb1056-3"><a href="day-32.html#cb1056-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)  </span>
+<span id="cb1056-4"><a href="day-32.html#cb1056-4"></a>p1 <span class="op">/</span><span class="st"> </span>p2 <span class="op">/</span><span class="st"> </span>p3  </span></code></pre></div>
+<div id="what-if-we-fit-a-non-spatial-regression-1" class="section level4">
+<h4><span class="header-section-number">32.4.2.1</span> What if we fit a non-spatial regression?</h4>
+<p>Fit a non-spatial regression to the spatially correlated data</p>
+<div class="sourceCode" id="cb1057"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1057-1"><a href="day-32.html#cb1057-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb1057-2"><a href="day-32.html#cb1057-2"></a>  <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;poisson-regression.stan&quot;</span>),</span>
+<span id="cb1057-3"><a href="day-32.html#cb1057-3"></a>  <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
+<span id="cb1057-4"><a href="day-32.html#cb1057-4"></a>  <span class="dt">iter =</span> <span class="dv">2000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1058"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1058-1"><a href="day-32.html#cb1058-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb1058-2"><a href="day-32.html#cb1058-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span>
+<span id="cb1058-3"><a href="day-32.html#cb1058-3"></a></span>
+<span id="cb1058-4"><a href="day-32.html#cb1058-4"></a><span class="co">## trace plots  </span></span>
+<span id="cb1058-5"><a href="day-32.html#cb1058-5"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<p>Posterior predictive checks</p>
+<div class="sourceCode" id="cb1059"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1059-1"><a href="day-32.html#cb1059-1"></a><span class="co">## extract the posterior predictive samples</span></span>
+<span id="cb1059-2"><a href="day-32.html#cb1059-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span></code></pre></div>
+<ul>
+<li><p>Poor coverage when not accounting for the spatial process</p></li>
+<li><p>Evidence of model mis-fit</p></li>
+</ul>
+<div class="sourceCode" id="cb1060"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1060-1"><a href="day-32.html#cb1060-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ppc_intervals</span>(y, y_rep, <span class="dt">x =</span> X[, <span class="dv">2</span>])</span>
+<span id="cb1060-2"><a href="day-32.html#cb1060-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">ppc_dens_overlay</span>(y, y_rep)</span>
+<span id="cb1060-3"><a href="day-32.html#cb1060-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)   </span>
+<span id="cb1060-4"><a href="day-32.html#cb1060-4"></a>p1 <span class="op">/</span><span class="st"> </span>p2 <span class="op">/</span><span class="st"> </span>p3   </span></code></pre></div>
+</div>
+<div id="spatial-poisson-regression-in-nimble" class="section level4">
+<h4><span class="header-section-number">32.4.2.2</span> Spatial Poisson regression in NIMBLE</h4>
+<ul>
+<li>we need to define a nimble model</li>
+</ul>
+<div class="sourceCode" id="cb1061"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1061-1"><a href="day-32.html#cb1061-1"></a>poisson_code &lt;-<span class="st"> </span><span class="kw">nimbleCode</span>({</span>
+<span id="cb1061-2"><a href="day-32.html#cb1061-2"></a>  <span class="co">## prior for regression parameters beta</span></span>
+<span id="cb1061-3"><a href="day-32.html#cb1061-3"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>q) {</span>
+<span id="cb1061-4"><a href="day-32.html#cb1061-4"></a>    beta[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb1061-5"><a href="day-32.html#cb1061-5"></a>  }</span>
+<span id="cb1061-6"><a href="day-32.html#cb1061-6"></a>  tau <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1061-7"><a href="day-32.html#cb1061-7"></a>  phi <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1061-8"><a href="day-32.html#cb1061-8"></a>  </span>
+<span id="cb1061-9"><a href="day-32.html#cb1061-9"></a>  <span class="co">## note that you have to be explicit about the variable</span></span>
+<span id="cb1061-10"><a href="day-32.html#cb1061-10"></a>  <span class="co">## dimensions for each statement</span></span>
+<span id="cb1061-11"><a href="day-32.html#cb1061-11"></a>  Sigma[<span class="dv">1</span><span class="op">:</span>n, <span class="dv">1</span><span class="op">:</span>n] &lt;-<span class="st"> </span>tau<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>( <span class="op">-</span><span class="st"> </span>D[<span class="dv">1</span><span class="op">:</span>n, <span class="dv">1</span><span class="op">:</span>n] <span class="op">/</span><span class="st"> </span>phi)</span>
+<span id="cb1061-12"><a href="day-32.html#cb1061-12"></a>  <span class="co"># Sigma_chol[1:n, 1:n] &lt;- chol(Sigma[1:n, 1:n])</span></span>
+<span id="cb1061-13"><a href="day-32.html#cb1061-13"></a>  </span>
+<span id="cb1061-14"><a href="day-32.html#cb1061-14"></a>  eta[<span class="dv">1</span><span class="op">:</span>n] <span class="op">~</span><span class="st"> </span><span class="kw">dmnorm</span>(zeros[<span class="dv">1</span><span class="op">:</span>n], Sigma[<span class="dv">1</span><span class="op">:</span>n, <span class="dv">1</span><span class="op">:</span>n])</span>
+<span id="cb1061-15"><a href="day-32.html#cb1061-15"></a>  </span>
+<span id="cb1061-16"><a href="day-32.html#cb1061-16"></a>  </span>
+<span id="cb1061-17"><a href="day-32.html#cb1061-17"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb1061-18"><a href="day-32.html#cb1061-18"></a>    <span class="co">## note that you have to be explicit about the variable</span></span>
+<span id="cb1061-19"><a href="day-32.html#cb1061-19"></a>    <span class="co">## dimensions for each statement</span></span>
+<span id="cb1061-20"><a href="day-32.html#cb1061-20"></a>    <span class="kw">log</span>(lambda[i]) &lt;-<span class="st"> </span><span class="kw">inprod</span>(X[i, <span class="dv">1</span><span class="op">:</span>q], beta[<span class="dv">1</span><span class="op">:</span>q]) <span class="op">+</span><span class="st"> </span>eta[i]</span>
+<span id="cb1061-21"><a href="day-32.html#cb1061-21"></a>    y[i] <span class="op">~</span><span class="st"> </span><span class="kw">dpois</span>(lambda[i])</span>
+<span id="cb1061-22"><a href="day-32.html#cb1061-22"></a>  }</span>
+<span id="cb1061-23"><a href="day-32.html#cb1061-23"></a>})</span>
+<span id="cb1061-24"><a href="day-32.html#cb1061-24"></a><span class="co">## define the constants, data, and MCMC initial conditions</span></span>
+<span id="cb1061-25"><a href="day-32.html#cb1061-25"></a>constants &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n, <span class="dt">q =</span> <span class="kw">ncol</span>(X))</span>
+<span id="cb1061-26"><a href="day-32.html#cb1061-26"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb1061-27"><a href="day-32.html#cb1061-27"></a>  <span class="dt">y =</span> y, </span>
+<span id="cb1061-28"><a href="day-32.html#cb1061-28"></a>  <span class="dt">X =</span> X,</span>
+<span id="cb1061-29"><a href="day-32.html#cb1061-29"></a>  <span class="dt">D =</span> fields<span class="op">::</span><span class="kw">rdist</span>(locs),</span>
+<span id="cb1061-30"><a href="day-32.html#cb1061-30"></a>  <span class="dt">zeros =</span> <span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
+<span id="cb1061-31"><a href="day-32.html#cb1061-31"></a>)</span>
+<span id="cb1061-32"><a href="day-32.html#cb1061-32"></a>inits &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb1061-33"><a href="day-32.html#cb1061-33"></a>  <span class="dt">beta =</span> <span class="kw">rnorm</span>(<span class="kw">ncol</span>(X)),</span>
+<span id="cb1061-34"><a href="day-32.html#cb1061-34"></a>  <span class="dt">lambda =</span> <span class="kw">rexp</span>(n, <span class="dv">1</span>), </span>
+<span id="cb1061-35"><a href="day-32.html#cb1061-35"></a>  <span class="dt">tau =</span> <span class="kw">rgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), </span>
+<span id="cb1061-36"><a href="day-32.html#cb1061-36"></a>  <span class="dt">phi =</span> <span class="kw">rgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb1061-37"><a href="day-32.html#cb1061-37"></a>  <span class="dt">eta =</span> <span class="kw">rnorm</span>(n)</span>
+<span id="cb1061-38"><a href="day-32.html#cb1061-38"></a>)</span>
+<span id="cb1061-39"><a href="day-32.html#cb1061-39"></a></span>
+<span id="cb1061-40"><a href="day-32.html#cb1061-40"></a><span class="co">## create the NIMBLE model</span></span>
+<span id="cb1061-41"><a href="day-32.html#cb1061-41"></a>poisson_model &lt;-<span class="st"> </span><span class="kw">nimbleModel</span>(</span>
+<span id="cb1061-42"><a href="day-32.html#cb1061-42"></a>  <span class="dt">code      =</span> poisson_code, </span>
+<span id="cb1061-43"><a href="day-32.html#cb1061-43"></a>  <span class="dt">constants =</span> constants,</span>
+<span id="cb1061-44"><a href="day-32.html#cb1061-44"></a>  <span class="dt">data      =</span> data,</span>
+<span id="cb1061-45"><a href="day-32.html#cb1061-45"></a>  <span class="dt">inits     =</span> inits</span>
+<span id="cb1061-46"><a href="day-32.html#cb1061-46"></a>)</span>
+<span id="cb1061-47"><a href="day-32.html#cb1061-47"></a></span>
+<span id="cb1061-48"><a href="day-32.html#cb1061-48"></a><span class="co">## I need the additional option to change my c++ compiler flags when both stan and nimble are loaded</span></span>
+<span id="cb1061-49"><a href="day-32.html#cb1061-49"></a><span class="kw">Sys.unsetenv</span>(<span class="st">&quot;PKG_CXXFLAGS&quot;</span>)</span></code></pre></div>
+<p>Next, we make sure the model is configured</p>
+<div class="sourceCode" id="cb1062"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1062-1"><a href="day-32.html#cb1062-1"></a>poisson_model_config &lt;-<span class="st"> </span><span class="kw">configureMCMC</span>(poisson_model)</span>
+<span id="cb1062-2"><a href="day-32.html#cb1062-2"></a>poisson_model_config<span class="op">$</span><span class="kw">getMonitors</span>()</span>
+<span id="cb1062-3"><a href="day-32.html#cb1062-3"></a><span class="co">## we are not getting samples of eta by default, add those in as well as the random effect lambda</span></span>
+<span id="cb1062-4"><a href="day-32.html#cb1062-4"></a>poisson_model_config<span class="op">$</span><span class="kw">addMonitors</span>(<span class="st">&quot;eta&quot;</span>, <span class="st">&quot;lambda&quot;</span>)</span>
+<span id="cb1062-5"><a href="day-32.html#cb1062-5"></a></span>
+<span id="cb1062-6"><a href="day-32.html#cb1062-6"></a><span class="co">## we can also check the samplers </span></span>
+<span id="cb1062-7"><a href="day-32.html#cb1062-7"></a><span class="co">## now we build the model</span></span>
+<span id="cb1062-8"><a href="day-32.html#cb1062-8"></a>poisson_mcmc    &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(poisson_model_config)</span>
+<span id="cb1062-9"><a href="day-32.html#cb1062-9"></a></span>
+<span id="cb1062-10"><a href="day-32.html#cb1062-10"></a><span class="co">## compile the model to c++</span></span>
+<span id="cb1062-11"><a href="day-32.html#cb1062-11"></a>poisson_model_c &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(poisson_model)</span>
+<span id="cb1062-12"><a href="day-32.html#cb1062-12"></a></span>
+<span id="cb1062-13"><a href="day-32.html#cb1062-13"></a>poisson_mcmc_c  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(poisson_mcmc, <span class="dt">project =</span> poisson_model) </span></code></pre></div>
+<ul>
+<li>once the model is compiled, we fit this using <code>runMCMC</code></li>
+</ul>
+<div class="sourceCode" id="cb1063"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1063-1"><a href="day-32.html#cb1063-1"></a><span class="co"># ## note: nimble was causing issues with the here function</span></span>
+<span id="cb1063-2"><a href="day-32.html#cb1063-2"></a><span class="co"># if (file.exists(&quot;./results/spatial-poisson-nimble.RData&quot;)) {</span></span>
+<span id="cb1063-3"><a href="day-32.html#cb1063-3"></a><span class="co">#   load(&quot;./results/spatial-poisson-nimble.RData&quot;)</span></span>
+<span id="cb1063-4"><a href="day-32.html#cb1063-4"></a><span class="co"># } else {</span></span>
+<span id="cb1063-5"><a href="day-32.html#cb1063-5"></a>  samples &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(poisson_mcmc_c, <span class="dt">niter =</span> <span class="dv">10000</span>, <span class="dt">nchains =</span> <span class="dv">4</span>)</span>
+<span id="cb1063-6"><a href="day-32.html#cb1063-6"></a><span class="co">#   save(samples, file = &quot;./results/spatial-poisson-nimble.RData&quot;)</span></span>
+<span id="cb1063-7"><a href="day-32.html#cb1063-7"></a><span class="co"># }</span></span></code></pre></div>
+<p>and examine the traceplots with</p>
+<div class="sourceCode" id="cb1064"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1064-1"><a href="day-32.html#cb1064-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb1064-2"><a href="day-32.html#cb1064-2"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_0&quot;</span>)</span>
+<span id="cb1064-3"><a href="day-32.html#cb1064-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1064-4"><a href="day-32.html#cb1064-4"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1064-5"><a href="day-32.html#cb1064-5"></a>}</span>
+<span id="cb1064-6"><a href="day-32.html#cb1064-6"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_1&quot;</span>)</span>
+<span id="cb1064-7"><a href="day-32.html#cb1064-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1064-8"><a href="day-32.html#cb1064-8"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1064-9"><a href="day-32.html#cb1064-9"></a>}</span>
+<span id="cb1064-10"><a href="day-32.html#cb1064-10"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;tau&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;tau&quot;</span>)</span>
+<span id="cb1064-11"><a href="day-32.html#cb1064-11"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1064-12"><a href="day-32.html#cb1064-12"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;tau&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1064-13"><a href="day-32.html#cb1064-13"></a>}</span>
+<span id="cb1064-14"><a href="day-32.html#cb1064-14"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;phi&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;phi&quot;</span>)</span>
+<span id="cb1064-15"><a href="day-32.html#cb1064-15"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1064-16"><a href="day-32.html#cb1064-16"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;phi&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1064-17"><a href="day-32.html#cb1064-17"></a>}</span></code></pre></div>
+<ul>
+<li>plot the estimated vs. fitted values of eta</li>
+</ul>
+<div class="sourceCode" id="cb1065"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1065-1"><a href="day-32.html#cb1065-1"></a>eta_idx &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;^eta&quot;</span>, <span class="kw">colnames</span>(samples[[<span class="dv">1</span>]]))</span>
+<span id="cb1065-2"><a href="day-32.html#cb1065-2"></a><span class="kw">plot</span>(<span class="kw">apply</span>(samples[[<span class="dv">1</span>]][, eta_idx], <span class="dv">2</span>, mean), eta)</span>
+<span id="cb1065-3"><a href="day-32.html#cb1065-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1065-4"><a href="day-32.html#cb1065-4"></a>  <span class="kw">points</span>(<span class="kw">apply</span>(samples[[i]][, eta_idx], <span class="dv">2</span>, mean), eta, <span class="dt">col =</span> i)</span>
+<span id="cb1065-5"><a href="day-32.html#cb1065-5"></a>}</span>
+<span id="cb1065-6"><a href="day-32.html#cb1065-6"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<ul>
+<li>plot the estimated vs. fitted values of lambda</li>
+</ul>
+<div class="sourceCode" id="cb1066"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1066-1"><a href="day-32.html#cb1066-1"></a>lambda_idx &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;lambda&quot;</span>, <span class="kw">colnames</span>(samples[[<span class="dv">1</span>]]))</span>
+<span id="cb1066-2"><a href="day-32.html#cb1066-2"></a><span class="kw">plot</span>(<span class="kw">apply</span>(samples[[<span class="dv">1</span>]][, lambda_idx], <span class="dv">2</span>, mean), lambda)</span>
+<span id="cb1066-3"><a href="day-32.html#cb1066-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1066-4"><a href="day-32.html#cb1066-4"></a>  <span class="kw">points</span>(<span class="kw">apply</span>(samples[[i]][, lambda_idx], <span class="dv">2</span>, mean), lambda, <span class="dt">col =</span> i)</span>
+<span id="cb1066-5"><a href="day-32.html#cb1066-5"></a>}</span>
+<span id="cb1066-6"><a href="day-32.html#cb1066-6"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+</div>
+<div id="configure-and-change-the-mcmc-samplers-nimble" class="section level4">
+<h4><span class="header-section-number">32.4.2.3</span> Configure and change the mcmc samplers (NIMBLE)</h4>
+<ul>
+<li>the default sampler for <span class="math inline">\(\boldsymbol{\eta}\)</span> is a block-Metropolis algorithm which is inefficient for high-dimensional parameters.</li>
+</ul>
+<div class="sourceCode" id="cb1067"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1067-1"><a href="day-32.html#cb1067-1"></a>poisson_model_config &lt;-<span class="st"> </span><span class="kw">configureMCMC</span>(poisson_model)</span>
+<span id="cb1067-2"><a href="day-32.html#cb1067-2"></a>poisson_model_config<span class="op">$</span><span class="kw">printSamplers</span>()</span></code></pre></div>
+<p>Change the sampler for the latent random effect <span class="math inline">\(\boldsymbol{\eta}\)</span> to an elliptical slice sampler</p>
+<div class="sourceCode" id="cb1068"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1068-1"><a href="day-32.html#cb1068-1"></a><span class="co">## We can block the parameters into small groups</span></span>
+<span id="cb1068-2"><a href="day-32.html#cb1068-2"></a>poisson_model_config<span class="op">$</span><span class="kw">removeSamplers</span>(<span class="st">&quot;eta&quot;</span>)</span>
+<span id="cb1068-3"><a href="day-32.html#cb1068-3"></a><span class="co">## Note: the ess algorithm can produce lots of warning outputs. </span></span>
+<span id="cb1068-4"><a href="day-32.html#cb1068-4"></a><span class="co">## The settings below limit these outputs</span></span>
+<span id="cb1068-5"><a href="day-32.html#cb1068-5"></a>poisson_model_config<span class="op">$</span><span class="kw">addSampler</span>(<span class="dt">target =</span> <span class="kw">paste0</span>(<span class="st">&quot;eta[1:&quot;</span>, n, <span class="st">&quot;]&quot;</span>), <span class="dt">type =</span> <span class="st">&quot;ess&quot;</span>, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">maxContractions =</span> <span class="dv">5000</span>, <span class="dt">maxContractionsWarning =</span> <span class="ot">FALSE</span>))</span>
+<span id="cb1068-6"><a href="day-32.html#cb1068-6"></a></span>
+<span id="cb1068-7"><a href="day-32.html#cb1068-7"></a>poisson_model_config<span class="op">$</span><span class="kw">printSamplers</span>()</span>
+<span id="cb1068-8"><a href="day-32.html#cb1068-8"></a><span class="co">## monitor the chain for eta and lambda</span></span>
+<span id="cb1068-9"><a href="day-32.html#cb1068-9"></a>poisson_model_config<span class="op">$</span><span class="kw">addMonitors</span>(<span class="st">&quot;eta&quot;</span>, <span class="st">&quot;lambda&quot;</span>)</span></code></pre></div>
+<!-- Change the sampler for the latent random effect $\boldsymbol{\eta}$ -->
+<!-- ```{r} -->
+<!-- ## We can block the parameters into small groups -->
+<!-- poisson_model_config$removeSamplers("eta") -->
+<!-- sampling_idx <- cbind( -->
+<!--   seq(1, n, by = 5), -->
+<!--   seq(5, n, by = 5) -->
+<!-- ) -->
+<!-- head(sampling_idx) -->
+<!-- for (i in 1:nrow(sampling_idx)) { -->
+<!--   poisson_model_config$addSampler(target = paste0("eta[", sampling_idx[i, 1], ":", sampling_idx[i, 2], "]"), type = "RW_block") -->
+<!-- } -->
+<!-- poisson_model_config$printSamplers() -->
+<!-- ## monitor the chain for eta and lambda -->
+<!-- poisson_model_config$addMonitors("eta", "lambda") -->
+<!-- ``` -->
+<p>Now we can try fitting the MCMC with the new sampler</p>
+<div class="sourceCode" id="cb1069"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1069-1"><a href="day-32.html#cb1069-1"></a><span class="co">## I need the additional option to change my c++ compiler flags when both stan and nimble are loaded</span></span>
+<span id="cb1069-2"><a href="day-32.html#cb1069-2"></a><span class="kw">Sys.unsetenv</span>(<span class="st">&quot;PKG_CXXFLAGS&quot;</span>)</span>
+<span id="cb1069-3"><a href="day-32.html#cb1069-3"></a>poisson_mcmc    &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(poisson_model_config)</span>
+<span id="cb1069-4"><a href="day-32.html#cb1069-4"></a><span class="co">## compile the model to c++</span></span>
+<span id="cb1069-5"><a href="day-32.html#cb1069-5"></a>poisson_model_c &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(poisson_mcmc)</span>
+<span id="cb1069-6"><a href="day-32.html#cb1069-6"></a></span>
+<span id="cb1069-7"><a href="day-32.html#cb1069-7"></a>poisson_mcmc_c  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(poisson_mcmc, <span class="dt">project =</span> poisson_mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb1070"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1070-1"><a href="day-32.html#cb1070-1"></a><span class="co"># if (file.exists(&quot;./results/spatial-poisson-nimble-config.RData&quot;)) {</span></span>
+<span id="cb1070-2"><a href="day-32.html#cb1070-2"></a><span class="co">#   load(&quot;./results/spatial-poisson-nimble-config.RData&quot;)</span></span>
+<span id="cb1070-3"><a href="day-32.html#cb1070-3"></a><span class="co"># } else {</span></span>
+<span id="cb1070-4"><a href="day-32.html#cb1070-4"></a>  samples &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(poisson_mcmc_c, <span class="dt">niter =</span> <span class="dv">5000</span>, <span class="dt">nchains =</span> <span class="dv">4</span>)</span>
+<span id="cb1070-5"><a href="day-32.html#cb1070-5"></a><span class="co">#   save(samples, file = &quot;./results/spatial-poisson-nimble-config.RData&quot;)</span></span>
+<span id="cb1070-6"><a href="day-32.html#cb1070-6"></a><span class="co"># }</span></span></code></pre></div>
+<p>and examine the traceplots with</p>
+<div class="sourceCode" id="cb1071"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1071-1"><a href="day-32.html#cb1071-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb1071-2"><a href="day-32.html#cb1071-2"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_0&quot;</span>)</span>
+<span id="cb1071-3"><a href="day-32.html#cb1071-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1071-4"><a href="day-32.html#cb1071-4"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[1]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1071-5"><a href="day-32.html#cb1071-5"></a>}</span>
+<span id="cb1071-6"><a href="day-32.html#cb1071-6"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;beta_1&quot;</span>)</span>
+<span id="cb1071-7"><a href="day-32.html#cb1071-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1071-8"><a href="day-32.html#cb1071-8"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;beta[2]&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1071-9"><a href="day-32.html#cb1071-9"></a>}</span>
+<span id="cb1071-10"><a href="day-32.html#cb1071-10"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;tau&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;tau&quot;</span>)</span>
+<span id="cb1071-11"><a href="day-32.html#cb1071-11"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1071-12"><a href="day-32.html#cb1071-12"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;tau&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1071-13"><a href="day-32.html#cb1071-13"></a>}</span>
+<span id="cb1071-14"><a href="day-32.html#cb1071-14"></a><span class="kw">plot</span>(samples[[<span class="dv">1</span>]][, <span class="st">&quot;phi&quot;</span>], <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">main =</span> <span class="st">&quot;phi&quot;</span>)</span>
+<span id="cb1071-15"><a href="day-32.html#cb1071-15"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1071-16"><a href="day-32.html#cb1071-16"></a>  <span class="kw">lines</span>(samples[[i]][, <span class="st">&quot;phi&quot;</span>], <span class="dt">col =</span> i, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1071-17"><a href="day-32.html#cb1071-17"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1072"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1072-1"><a href="day-32.html#cb1072-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb1072-2"><a href="day-32.html#cb1072-2"></a>lambda_idx &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;lambda&quot;</span>, <span class="kw">colnames</span>(samples[[<span class="dv">1</span>]]))</span>
+<span id="cb1072-3"><a href="day-32.html#cb1072-3"></a></span>
+<span id="cb1072-4"><a href="day-32.html#cb1072-4"></a><span class="kw">matplot</span>(samples[[<span class="dv">1</span>]][, lambda_idx], <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1072-5"><a href="day-32.html#cb1072-5"></a><span class="kw">plot</span>(<span class="kw">apply</span>(samples[[<span class="dv">1</span>]][, lambda_idx], <span class="dv">2</span>, mean), lambda)</span>
+<span id="cb1072-6"><a href="day-32.html#cb1072-6"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb1072-7"><a href="day-32.html#cb1072-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1072-8"><a href="day-32.html#cb1072-8"></a>  <span class="kw">points</span>(<span class="kw">apply</span>(samples[[i]][, lambda_idx], <span class="dv">2</span>, mean), lambda, <span class="dt">col =</span> i)</span>
+<span id="cb1072-9"><a href="day-32.html#cb1072-9"></a>}</span>
+<span id="cb1072-10"><a href="day-32.html#cb1072-10"></a>  <span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)  </span></code></pre></div>
+<div class="sourceCode" id="cb1073"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1073-1"><a href="day-32.html#cb1073-1"></a><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb1073-2"><a href="day-32.html#cb1073-2"></a>eta_idx &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;^eta&quot;</span>, <span class="kw">colnames</span>(samples[[<span class="dv">1</span>]]))</span>
+<span id="cb1073-3"><a href="day-32.html#cb1073-3"></a></span>
+<span id="cb1073-4"><a href="day-32.html#cb1073-4"></a><span class="kw">matplot</span>(samples[[<span class="dv">1</span>]][, eta_idx], <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span>
+<span id="cb1073-5"><a href="day-32.html#cb1073-5"></a></span>
+<span id="cb1073-6"><a href="day-32.html#cb1073-6"></a><span class="kw">plot</span>(<span class="kw">apply</span>(samples[[<span class="dv">1</span>]][, eta_idx], <span class="dv">2</span>, mean), eta)</span>
+<span id="cb1073-7"><a href="day-32.html#cb1073-7"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb1073-8"><a href="day-32.html#cb1073-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) {</span>
+<span id="cb1073-9"><a href="day-32.html#cb1073-9"></a>  <span class="kw">points</span>(<span class="kw">apply</span>(samples[[i]][, eta_idx], <span class="dv">2</span>, mean), eta, <span class="dt">col =</span> i)</span>
+<span id="cb1073-10"><a href="day-32.html#cb1073-10"></a>}</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="how-to-improve-computation-in-spatial-glms" class="section level2">
+<h2><span class="header-section-number">32.5</span> How to improve computation in spatial GLMs</h2>
+<ul>
+<li><p>Notice how much faster the spline spatial model using the <code>mgcv</code> package fit the data?</p>
+<ul>
+<li><p>splines are reduced rank (fewer parameters to estimate)</p></li>
+<li><p>other reduced rank models</p>
+<ul>
+<li>fixed rank kriging</li>
+<li>predictive process models</li>
+<li></li>
+</ul></li>
+</ul></li>
+</ul>
+
+</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $folds = $(".fold-solution");
+  $folds.wrapInner("<div class=\"fold-solution-blck\">"); // wrap a div container around content
+  $folds.prepend("<button class=\"fold-solution-btn\">Show Solution</button>");  // add a button
+  $(".fold-solution-blck").toggle();  // fold all blocks
+  $(".fold-solution-btn").on("click", function() {  // add onClick event
+    $(this).text($(this).text() === "Hide Solution" ? "Show Solution" : "Hide Solution");  // if the text equals "Fold", change it to "Unfold"or else to "Fold" 
+    $(this).next(".fold-solution-blck").toggle("linear");  // "swing" is the default easing function. This can be further customized in its speed or the overall animation itself.
+  })
+});
+</script>
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $folds = $(".fold-proof");
+  $folds.wrapInner("<div class=\"fold-proof-blck\">"); // wrap a div container around content
+  $folds.prepend("<button class=\"fold-proof-btn\">Show Proof</button>");  // add a button
+  $(".fold-proof-blck").toggle();  // fold all blocks
+  $(".fold-proof-btn").on("click", function() {  // add onClick event
+    $(this).text($(this).text() === "Hide Proof" ? "Show Proof" : "Hide Proof");  // if the text equals "Fold", change it to "Unfold"or else to "Fold" 
+    $(this).next(".fold-proof-blck").toggle("linear");  // "swing" is the default easing function. This can be further customized in its speed or the overall animation itself.
+  })
+});
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="day-31.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="day-33.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["STAT-5413.pdf", "STAT-5413.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
