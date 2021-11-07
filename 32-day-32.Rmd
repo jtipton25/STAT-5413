@@ -144,15 +144,14 @@ cat(read_lines("./stan_models/logistic-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r stan-logistic, message = FALSE}
+```{r stan-logistic, message = FALSE, cache = TRUE}
 if (file.exists("./results/logistic-regression.RData")) {
   load("./results/logistic-regression.RData")
 } else {
   fit <- stan(
     file = "./stan_models/logistic-regression.stan",
     data = list(y = y, n = n, X = X, p = ncol(X)),
-    iter = 2000
-  )
+    iter = 2000)
   save(fit, file = "./results/logistic-regression.RData")
 }
 ```
@@ -310,12 +309,12 @@ logistic_mcmc_c  <- compileNimble(logistic_mcmc, project = logistic_model)
 - once the model is compiled, we fit this using `runMCMC`
 
 ```{r nimble-logistic, cache = TRUE}
-# if (file.exists("./results/logistic-regression-nimble.RData")) {
-#   load("./results/logistic-regression-nimble.RData")
-# } else {
+if (file.exists("./results/logistic-regression-nimble.RData")) {
+  load("./results/logistic-regression-nimble.RData")
+} else {
   samples <- runMCMC(logistic_mcmc_c, niter = 1000, nchains = 4)
-  # save(samples, file = "./results/logistic-regression-nimble.RData")
-# }
+  save(samples, file = "./results/logistic-regression-nimble.RData")
+}
 ```
 
 and examine the traceplots with 
@@ -356,7 +355,7 @@ for (i in 2:4) {
 
 - $Cov(y(\mathbf{s}), y(\mathbf{s}'))$ is more complicated
 
-```{r, eval = FALSE}
+```{r}
 n <- 500
 X <- cbind(1, rnorm(n))
 beta <- c(-2, 1.5)
@@ -389,7 +388,7 @@ cat(read_lines("./stan_models/poisson-regression.stan"), sep = "\n")
 
 - Fitting the model
 
-```{r stan-poisson, message = FALSE, eval = FALSE}
+```{r stan-poisson, message = FALSE}
 if (file.exists("./results/poisson-regression.RData")) {
   load("./results/poisson-regression.RData")
 } else {
@@ -403,7 +402,7 @@ if (file.exists("./results/poisson-regression.RData")) {
 ```
 
 
-```{r stan-poisson-results, cache = TRUE, eval = FALSE}
+```{r stan-poisson-results, cache = TRUE}
 ## only plot the regression parameters
 print(fit, probs = c(0.1, 0.9), pars = c("beta", "lp__"))
 
@@ -413,13 +412,13 @@ mcmc_trace(fit, regex_pars = c("beta", "lp__"))
 
 Posterior predictive checks
 
-```{r, eval = FALSE}
+```{r}
 ## extract the posterior predictive samples
 y_rep <- rstan::extract(fit, pars = "y_rep")$y_rep
 ```
 
 
-```{r stan-poisson-ppc, cache = TRUE, eval=FALSE}
+```{r stan-poisson-ppc, cache = TRUE}
 p1 <- ppc_intervals(y, y_rep, x = X[, 2])
 p2 <- ppc_dens_overlay(y, y_rep)  
 p3 <- ppc_ecdf_overlay(y, y_rep)  
@@ -430,7 +429,7 @@ p1 / p2 / p3
 
 - we need to define a nimble model
 
-```{r, eval=FALSE}
+```{r}
 poisson_code <- nimbleCode({
   ## prior for regression parameters beta
   for (j in 1:q) {
@@ -471,18 +470,18 @@ poisson_mcmc_c  <- compileNimble(poisson_mcmc, project = poisson_model)
 
 - once the model is compiled, we fit this using `runMCMC`
 
-```{r nimble-poisson, cache = TRUE, eval=FALSE}
-# if (file.exists("./results/poisson-regression-nimble.RData")) {
-#   load("./results/poisson-regression-nimble.RData")
-# } else {
+```{r nimble-poisson, cache = TRUE}
+if (file.exists("./results/poisson-regression-nimble.RData")) {
+  load("./results/poisson-regression-nimble.RData")
+} else {
   samples <- runMCMC(poisson_mcmc_c, niter = 1000, nchains = 4)
-  # save(samples, file = "./results/poisson-regression-nimble.RData")
-# }
+  save(samples, file = "./results/poisson-regression-nimble.RData")
+}
 ```
 
 and examine the traceplots with 
 
-```{r, eval=FALSE}
+```{r}
 layout(matrix(1:2, 2, 1))
 plot(samples[[1]][, "beta[1]"], col = 1, type = 'l', main = "beta_0")
 for (i in 2:4) {
