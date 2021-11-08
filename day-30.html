@@ -419,19 +419,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="day-30" class="section level1">
 <h1><span class="header-section-number">Chapter30</span> Day 30</h1>
-<div class="sourceCode" id="cb886"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb886-1"><a href="day-30.html#cb886-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb886-2"><a href="day-30.html#cb886-2"></a><span class="kw">library</span>(viridis)</span>
-<span id="cb886-3"><a href="day-30.html#cb886-3"></a><span class="kw">library</span>(mvnfast)</span>
-<span id="cb886-4"><a href="day-30.html#cb886-4"></a><span class="kw">library</span>(igraph)</span>
-<span id="cb886-5"><a href="day-30.html#cb886-5"></a><span class="kw">library</span>(Matrix)</span>
-<span id="cb886-6"><a href="day-30.html#cb886-6"></a><span class="kw">library</span>(patchwork)</span>
-<span id="cb886-7"><a href="day-30.html#cb886-7"></a><span class="kw">library</span>(rstan)</span>
-<span id="cb886-8"><a href="day-30.html#cb886-8"></a><span class="co">## use recommended rstan settings</span></span>
-<span id="cb886-9"><a href="day-30.html#cb886-9"></a><span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</span>
-<span id="cb886-10"><a href="day-30.html#cb886-10"></a><span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb886-11"><a href="day-30.html#cb886-11"></a><span class="kw">library</span>(bayesplot)</span>
-<span id="cb886-12"><a href="day-30.html#cb886-12"></a></span>
-<span id="cb886-13"><a href="day-30.html#cb886-13"></a><span class="kw">set.seed</span>(<span class="dv">101</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb887-1"><a href="day-30.html#cb887-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb887-2"><a href="day-30.html#cb887-2"></a><span class="kw">library</span>(viridis)</span>
+<span id="cb887-3"><a href="day-30.html#cb887-3"></a><span class="kw">library</span>(mvnfast)</span>
+<span id="cb887-4"><a href="day-30.html#cb887-4"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb887-5"><a href="day-30.html#cb887-5"></a><span class="kw">library</span>(Matrix)</span>
+<span id="cb887-6"><a href="day-30.html#cb887-6"></a><span class="kw">library</span>(patchwork)</span>
+<span id="cb887-7"><a href="day-30.html#cb887-7"></a><span class="kw">library</span>(rstan)</span>
+<span id="cb887-8"><a href="day-30.html#cb887-8"></a><span class="co">## use recommended rstan settings</span></span>
+<span id="cb887-9"><a href="day-30.html#cb887-9"></a><span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</span>
+<span id="cb887-10"><a href="day-30.html#cb887-10"></a><span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb887-11"><a href="day-30.html#cb887-11"></a><span class="kw">library</span>(bayesplot)</span>
+<span id="cb887-12"><a href="day-30.html#cb887-12"></a></span>
+<span id="cb887-13"><a href="day-30.html#cb887-13"></a><span class="kw">set.seed</span>(<span class="dv">101</span>)</span></code></pre></div>
 <div id="announcements-25" class="section level2">
 <h2><span class="header-section-number">30.1</span> Announcements</h2>
 <ul>
@@ -471,38 +471,38 @@ Q_{i, j} \neq 0 \hspace{1em} \Leftrightarrow \hspace{1em} \{i, j\} \in \mathcal{
 y_t = \phi y_{t-1} + \varepsilon_t
 \end{align*}\]</span></p>
 <p>where <span class="math inline">\(|\phi| &lt; 1\)</span>, <span class="math inline">\(\varepsilon_t \stackrel{iid}{\sim} N(0, 1)\)</span>, and <span class="math inline">\(y_1 \sim N(0, 1 / (1 - \phi^2))\)</span>.</p>
-<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb887-1"><a href="day-30.html#cb887-1"></a>n &lt;-<span class="st"> </span><span class="dv">500</span></span>
-<span id="cb887-2"><a href="day-30.html#cb887-2"></a>phi &lt;-<span class="st"> </span><span class="fl">0.9</span></span>
-<span id="cb887-3"><a href="day-30.html#cb887-3"></a></span>
-<span id="cb887-4"><a href="day-30.html#cb887-4"></a><span class="co">## autoregression model representation</span></span>
-<span id="cb887-5"><a href="day-30.html#cb887-5"></a>y &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
-<span id="cb887-6"><a href="day-30.html#cb887-6"></a>y[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>phi<span class="op">^</span><span class="dv">2</span>)))</span>
-<span id="cb887-7"><a href="day-30.html#cb887-7"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>n) {</span>
-<span id="cb887-8"><a href="day-30.html#cb887-8"></a>    y[t] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, phi <span class="op">*</span><span class="st"> </span>y[t<span class="dv">-1</span>], <span class="dv">1</span>)</span>
-<span id="cb887-9"><a href="day-30.html#cb887-9"></a>}</span>
-<span id="cb887-10"><a href="day-30.html#cb887-10"></a><span class="kw">plot</span>(y, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb888-1"><a href="day-30.html#cb888-1"></a>n &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb888-2"><a href="day-30.html#cb888-2"></a>phi &lt;-<span class="st"> </span><span class="fl">0.9</span></span>
+<span id="cb888-3"><a href="day-30.html#cb888-3"></a></span>
+<span id="cb888-4"><a href="day-30.html#cb888-4"></a><span class="co">## autoregression model representation</span></span>
+<span id="cb888-5"><a href="day-30.html#cb888-5"></a>y &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
+<span id="cb888-6"><a href="day-30.html#cb888-6"></a>y[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>phi<span class="op">^</span><span class="dv">2</span>)))</span>
+<span id="cb888-7"><a href="day-30.html#cb888-7"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>n) {</span>
+<span id="cb888-8"><a href="day-30.html#cb888-8"></a>    y[t] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, phi <span class="op">*</span><span class="st"> </span>y[t<span class="dv">-1</span>], <span class="dv">1</span>)</span>
+<span id="cb888-9"><a href="day-30.html#cb888-9"></a>}</span>
+<span id="cb888-10"><a href="day-30.html#cb888-10"></a><span class="kw">plot</span>(y, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <ul>
 <li>The set of edges is <span class="math inline">\(\mathcal{E} = \{ \{ 1, 2\}, \{2, 3\}, \ldots, \{n-1, n\} \}\)</span> and the precision matrix <span class="math inline">\(\mathbf{Q}\)</span> has nonzero elements <span class="math inline">\(Q_{i,j} = -\phi\)</span> for <span class="math inline">\(|i-j| = 1\)</span>, <span class="math inline">\(Q_{1,1} = Q_{n,n} = 1\)</span> and <span class="math inline">\(Q_{i,i} = 1 + \phi^2\)</span> for <span class="math inline">\(i = 2, \ldots, n-1\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb888-1"><a href="day-30.html#cb888-1"></a><span class="co">## GMRF representation</span></span>
-<span id="cb888-2"><a href="day-30.html#cb888-2"></a>Q &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, n)</span>
-<span id="cb888-3"><a href="day-30.html#cb888-3"></a>Q &lt;-<span class="st"> </span><span class="kw">toeplitz</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span>phi, <span class="kw">rep</span>(<span class="dv">0</span>, n <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)))</span>
-<span id="cb888-4"><a href="day-30.html#cb888-4"></a><span class="kw">diag</span>(Q) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>phi<span class="op">^</span><span class="dv">2</span>, n <span class="op">-</span><span class="st"> </span><span class="dv">2</span>), <span class="dv">1</span>)</span>
-<span id="cb888-5"><a href="day-30.html#cb888-5"></a>Q[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb889"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb889-1"><a href="day-30.html#cb889-1"></a><span class="co">## GMRF representation</span></span>
+<span id="cb889-2"><a href="day-30.html#cb889-2"></a>Q &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, n)</span>
+<span id="cb889-3"><a href="day-30.html#cb889-3"></a>Q &lt;-<span class="st"> </span><span class="kw">toeplitz</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span>phi, <span class="kw">rep</span>(<span class="dv">0</span>, n <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)))</span>
+<span id="cb889-4"><a href="day-30.html#cb889-4"></a><span class="kw">diag</span>(Q) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>phi<span class="op">^</span><span class="dv">2</span>, n <span class="op">-</span><span class="st"> </span><span class="dv">2</span>), <span class="dv">1</span>)</span>
+<span id="cb889-5"><a href="day-30.html#cb889-5"></a>Q[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
 <pre><code>##      [,1]  [,2]  [,3]  [,4]  [,5]
 ## [1,]  1.0 -0.90  0.00  0.00  0.00
 ## [2,] -0.9  1.81 -0.90  0.00  0.00
 ## [3,]  0.0 -0.90  1.81 -0.90  0.00
 ## [4,]  0.0  0.00 -0.90  1.81 -0.90
 ## [5,]  0.0  0.00  0.00 -0.90  1.81</code></pre>
-<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb890-1"><a href="day-30.html#cb890-1"></a>y &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">solve</span>(Q)))</span>
-<span id="cb890-2"><a href="day-30.html#cb890-2"></a><span class="kw">plot</span>(y, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb891-1"><a href="day-30.html#cb891-1"></a>y &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, n), <span class="kw">solve</span>(Q)))</span>
+<span id="cb891-2"><a href="day-30.html#cb891-2"></a><span class="kw">plot</span>(y, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <ul>
 <li>notice how sparse the matrix <span class="math inline">\(\mathbf{Q}\)</span> is</li>
 </ul>
-<div class="sourceCode" id="cb891"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb891-1"><a href="day-30.html#cb891-1"></a><span class="kw">mean</span>(Q <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb892"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb892-1"><a href="day-30.html#cb892-1"></a><span class="kw">mean</span>(Q <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] 0.994008</code></pre>
 <ul>
 <li>Recall the autocorrelation function of an AR(1) timeseries at lag <span class="math inline">\(h\)</span>:
@@ -510,16 +510,16 @@ y_t = \phi y_{t-1} + \varepsilon_t
 <li><span class="math inline">\(\gamma(h) = \phi^h\)</span></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb893-1"><a href="day-30.html#cb893-1"></a>Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(Q)</span>
-<span id="cb893-2"><a href="day-30.html#cb893-2"></a><span class="kw">plot</span>(</span>
-<span id="cb893-3"><a href="day-30.html#cb893-3"></a>    Sigma[<span class="dv">1</span>, ] <span class="op">/</span><span class="st"> </span>Sigma[<span class="dv">1</span>, <span class="dv">1</span>], </span>
-<span id="cb893-4"><a href="day-30.html#cb893-4"></a>    <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>, </span>
-<span id="cb893-5"><a href="day-30.html#cb893-5"></a>    <span class="dt">main =</span> <span class="st">&quot;GMRF ACF in points, theoretical ACF in red&quot;</span></span>
-<span id="cb893-6"><a href="day-30.html#cb893-6"></a>)</span>
-<span id="cb893-7"><a href="day-30.html#cb893-7"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">1</span>, phi<span class="op">^</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="dv">-1</span>))), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb894-1"><a href="day-30.html#cb894-1"></a>Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(Q)</span>
+<span id="cb894-2"><a href="day-30.html#cb894-2"></a><span class="kw">plot</span>(</span>
+<span id="cb894-3"><a href="day-30.html#cb894-3"></a>    Sigma[<span class="dv">1</span>, ] <span class="op">/</span><span class="st"> </span>Sigma[<span class="dv">1</span>, <span class="dv">1</span>], </span>
+<span id="cb894-4"><a href="day-30.html#cb894-4"></a>    <span class="dt">type =</span> <span class="st">&#39;p&#39;</span>, </span>
+<span id="cb894-5"><a href="day-30.html#cb894-5"></a>    <span class="dt">main =</span> <span class="st">&quot;GMRF ACF in points, theoretical ACF in red&quot;</span></span>
+<span id="cb894-6"><a href="day-30.html#cb894-6"></a>)</span>
+<span id="cb894-7"><a href="day-30.html#cb894-7"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">1</span>, phi<span class="op">^</span>(<span class="dv">1</span><span class="op">:</span>(n<span class="dv">-1</span>))), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>where <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is a dense matrix</p>
-<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb894-1"><a href="day-30.html#cb894-1"></a><span class="kw">mean</span>(Sigma <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb895-1"><a href="day-30.html#cb895-1"></a><span class="kw">mean</span>(Sigma <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p>therefore, the GMRF formulation can be evaluated using <span class="math inline">\(\mathcal{O}(n)\)</span> algorithms</p>
 </div>
@@ -622,11 +622,11 @@ the CAR and SAR models</a></li>
 </ul></li>
 <li><p>if <span class="math inline">\(\phi = 0\)</span>, then the observations are spatially independent</p></li>
 </ul>
-<div class="sourceCode" id="cb896"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb896-1"><a href="day-30.html#cb896-1"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb896-2"><a href="day-30.html#cb896-2"></a>phi &lt;-<span class="st"> </span><span class="fl">0.4</span></span>
-<span id="cb896-3"><a href="day-30.html#cb896-3"></a><span class="co">## construct a sparse matrix adjacency matrix for a 2-d lattice</span></span>
-<span id="cb896-4"><a href="day-30.html#cb896-4"></a>A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(igraph<span class="op">::</span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb896-5"><a href="day-30.html#cb896-5"></a>A[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb897"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb897-1"><a href="day-30.html#cb897-1"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb897-2"><a href="day-30.html#cb897-2"></a>phi &lt;-<span class="st"> </span><span class="fl">0.4</span></span>
+<span id="cb897-3"><a href="day-30.html#cb897-3"></a><span class="co">## construct a sparse matrix adjacency matrix for a 2-d lattice</span></span>
+<span id="cb897-4"><a href="day-30.html#cb897-4"></a>A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(igraph<span class="op">::</span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb897-5"><a href="day-30.html#cb897-5"></a>A[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
 <pre><code>## 5 x 5 sparse Matrix of class &quot;dgCMatrix&quot;
 ##               
 ## [1,] . 1 . . .
@@ -634,8 +634,8 @@ the CAR and SAR models</a></li>
 ## [3,] . 1 . 1 .
 ## [4,] . . 1 . 1
 ## [5,] . . . 1 .</code></pre>
-<div class="sourceCode" id="cb898"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb898-1"><a href="day-30.html#cb898-1"></a>D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
-<span id="cb898-2"><a href="day-30.html#cb898-2"></a>D[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb899-1"><a href="day-30.html#cb899-1"></a>D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
+<span id="cb899-2"><a href="day-30.html#cb899-2"></a>D[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
 <pre><code>## 5 x 5 diagonal matrix of class &quot;ddiMatrix&quot;
 ##      [,1] [,2] [,3] [,4] [,5]
 ## [1,]    2    .    .    .    .
@@ -643,8 +643,8 @@ the CAR and SAR models</a></li>
 ## [3,]    .    .    3    .    .
 ## [4,]    .    .    .    3    .
 ## [5,]    .    .    .    .    3</code></pre>
-<div class="sourceCode" id="cb900"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb900-1"><a href="day-30.html#cb900-1"></a>Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A</span>
-<span id="cb900-2"><a href="day-30.html#cb900-2"></a>Q[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb901"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb901-1"><a href="day-30.html#cb901-1"></a>Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A</span>
+<span id="cb901-2"><a href="day-30.html#cb901-2"></a>Q[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
 <pre><code>## 5 x 5 sparse Matrix of class &quot;dgCMatrix&quot;
 ##                              
 ## [1,]  2.0 -0.4  .    .    .  
@@ -652,113 +652,113 @@ the CAR and SAR models</a></li>
 ## [3,]  .   -0.4  3.0 -0.4  .  
 ## [4,]  .    .   -0.4  3.0 -0.4
 ## [5,]  .    .    .   -0.4  3.0</code></pre>
-<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb902-1"><a href="day-30.html#cb902-1"></a>Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(Q)</span>
-<span id="cb902-2"><a href="day-30.html#cb902-2"></a><span class="co">## calculate the correlation from a first order CAR</span></span>
-<span id="cb902-3"><a href="day-30.html#cb902-3"></a>Sigma[<span class="dv">5</span>, <span class="dv">6</span>] <span class="op">/</span><span class="st"> </span>Sigma[<span class="dv">5</span>, <span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb903"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb903-1"><a href="day-30.html#cb903-1"></a>Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(Q)</span>
+<span id="cb903-2"><a href="day-30.html#cb903-2"></a><span class="co">## calculate the correlation from a first order CAR</span></span>
+<span id="cb903-3"><a href="day-30.html#cb903-3"></a>Sigma[<span class="dv">5</span>, <span class="dv">6</span>] <span class="op">/</span><span class="st"> </span>Sigma[<span class="dv">5</span>, <span class="dv">5</span>]</span></code></pre></div>
 <pre><code>## [1] 0.1393298</code></pre>
-<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb904-1"><a href="day-30.html#cb904-1"></a>n_phi &lt;-<span class="st"> </span><span class="dv">500</span></span>
-<span id="cb904-2"><a href="day-30.html#cb904-2"></a>phi &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> n_phi)[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, n_phi)]</span>
-<span id="cb904-3"><a href="day-30.html#cb904-3"></a>rho &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n_phi <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</span>
-<span id="cb904-4"><a href="day-30.html#cb904-4"></a><span class="co">## do this as a loop</span></span>
-<span id="cb904-5"><a href="day-30.html#cb904-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(n_phi<span class="dv">-2</span>)) {</span>
-<span id="cb904-6"><a href="day-30.html#cb904-6"></a>    A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(<span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb904-7"><a href="day-30.html#cb904-7"></a>    D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
-<span id="cb904-8"><a href="day-30.html#cb904-8"></a>    Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi[i] <span class="op">*</span><span class="st"> </span>A</span>
-<span id="cb904-9"><a href="day-30.html#cb904-9"></a>    Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(Q)</span>
-<span id="cb904-10"><a href="day-30.html#cb904-10"></a>    <span class="co">## calculate the correlation from a first order CAR</span></span>
-<span id="cb904-11"><a href="day-30.html#cb904-11"></a>    rho[i] &lt;-<span class="st"> </span>Sigma[<span class="dv">5</span>, <span class="dv">6</span>] <span class="op">/</span><span class="st"> </span>Sigma[<span class="dv">5</span>, <span class="dv">5</span>]</span>
-<span id="cb904-12"><a href="day-30.html#cb904-12"></a>}</span>
-<span id="cb904-13"><a href="day-30.html#cb904-13"></a><span class="kw">data.frame</span>(<span class="dt">phi =</span> phi, <span class="dt">rho =</span> rho) <span class="op">%&gt;%</span></span>
-<span id="cb904-14"><a href="day-30.html#cb904-14"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> phi, <span class="dt">y =</span> rho)) <span class="op">+</span></span>
-<span id="cb904-15"><a href="day-30.html#cb904-15"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb904-16"><a href="day-30.html#cb904-16"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="op">+</span></span>
-<span id="cb904-17"><a href="day-30.html#cb904-17"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;correlation&quot;</span>) <span class="op">+</span></span>
-<span id="cb904-18"><a href="day-30.html#cb904-18"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CAR correlation (lag-1) vs phi parameter&quot;</span>) <span class="op">+</span></span>
-<span id="cb904-19"><a href="day-30.html#cb904-19"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb905"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb905-1"><a href="day-30.html#cb905-1"></a>n_phi &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb905-2"><a href="day-30.html#cb905-2"></a>phi &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> n_phi)[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, n_phi)]</span>
+<span id="cb905-3"><a href="day-30.html#cb905-3"></a>rho &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n_phi <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb905-4"><a href="day-30.html#cb905-4"></a><span class="co">## do this as a loop</span></span>
+<span id="cb905-5"><a href="day-30.html#cb905-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(n_phi<span class="dv">-2</span>)) {</span>
+<span id="cb905-6"><a href="day-30.html#cb905-6"></a>    A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(<span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb905-7"><a href="day-30.html#cb905-7"></a>    D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
+<span id="cb905-8"><a href="day-30.html#cb905-8"></a>    Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi[i] <span class="op">*</span><span class="st"> </span>A</span>
+<span id="cb905-9"><a href="day-30.html#cb905-9"></a>    Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(Q)</span>
+<span id="cb905-10"><a href="day-30.html#cb905-10"></a>    <span class="co">## calculate the correlation from a first order CAR</span></span>
+<span id="cb905-11"><a href="day-30.html#cb905-11"></a>    rho[i] &lt;-<span class="st"> </span>Sigma[<span class="dv">5</span>, <span class="dv">6</span>] <span class="op">/</span><span class="st"> </span>Sigma[<span class="dv">5</span>, <span class="dv">5</span>]</span>
+<span id="cb905-12"><a href="day-30.html#cb905-12"></a>}</span>
+<span id="cb905-13"><a href="day-30.html#cb905-13"></a><span class="kw">data.frame</span>(<span class="dt">phi =</span> phi, <span class="dt">rho =</span> rho) <span class="op">%&gt;%</span></span>
+<span id="cb905-14"><a href="day-30.html#cb905-14"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> phi, <span class="dt">y =</span> rho)) <span class="op">+</span></span>
+<span id="cb905-15"><a href="day-30.html#cb905-15"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb905-16"><a href="day-30.html#cb905-16"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb905-17"><a href="day-30.html#cb905-17"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;correlation&quot;</span>) <span class="op">+</span></span>
+<span id="cb905-18"><a href="day-30.html#cb905-18"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CAR correlation (lag-1) vs phi parameter&quot;</span>) <span class="op">+</span></span>
+<span id="cb905-19"><a href="day-30.html#cb905-19"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) </span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/car-correlation-1.png" width="672" /></p>
 <ul>
 <li>Plot how the <span class="math inline">\(\phi\)</span> parameter determines the correlation</li>
 </ul>
-<div class="sourceCode" id="cb905"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb905-1"><a href="day-30.html#cb905-1"></a><span class="co">## simulate some data</span></span>
-<span id="cb905-2"><a href="day-30.html#cb905-2"></a></span>
-<span id="cb905-3"><a href="day-30.html#cb905-3"></a>simulate_data &lt;-<span class="st"> </span><span class="cf">function</span>(n, phi) {</span>
-<span id="cb905-4"><a href="day-30.html#cb905-4"></a>  </span>
-<span id="cb905-5"><a href="day-30.html#cb905-5"></a>  locs &lt;-<span class="st"> </span></span>
-<span id="cb905-6"><a href="day-30.html#cb905-6"></a><span class="st">    </span><span class="kw">expand.grid</span>(</span>
-<span id="cb905-7"><a href="day-30.html#cb905-7"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb905-8"><a href="day-30.html#cb905-8"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb905-9"><a href="day-30.html#cb905-9"></a>    )</span>
-<span id="cb905-10"><a href="day-30.html#cb905-10"></a>  </span>
-<span id="cb905-11"><a href="day-30.html#cb905-11"></a>  <span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
-<span id="cb905-12"><a href="day-30.html#cb905-12"></a>  </span>
-<span id="cb905-13"><a href="day-30.html#cb905-13"></a>  A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
-<span id="cb905-14"><a href="day-30.html#cb905-14"></a><span class="st">    </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb905-15"><a href="day-30.html#cb905-15"></a>  D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
-<span id="cb905-16"><a href="day-30.html#cb905-16"></a>  Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A</span>
-<span id="cb905-17"><a href="day-30.html#cb905-17"></a>  <span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
-<span id="cb905-18"><a href="day-30.html#cb905-18"></a>  R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
-<span id="cb905-19"><a href="day-30.html#cb905-19"></a>  y &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
-<span id="cb905-20"><a href="day-30.html#cb905-20"></a>  </span>
-<span id="cb905-21"><a href="day-30.html#cb905-21"></a>  <span class="co">## generate the plot</span></span>
-<span id="cb905-22"><a href="day-30.html#cb905-22"></a>  output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
-<span id="cb905-23"><a href="day-30.html#cb905-23"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
-<span id="cb905-24"><a href="day-30.html#cb905-24"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb905-25"><a href="day-30.html#cb905-25"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb905-26"><a href="day-30.html#cb905-26"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;Phi = &quot;</span>, phi))</span>
-<span id="cb905-27"><a href="day-30.html#cb905-27"></a>  </span>
-<span id="cb905-28"><a href="day-30.html#cb905-28"></a>  <span class="kw">return</span>(output)</span>
-<span id="cb905-29"><a href="day-30.html#cb905-29"></a>}  </span>
-<span id="cb905-30"><a href="day-30.html#cb905-30"></a></span>
-<span id="cb905-31"><a href="day-30.html#cb905-31"></a>p1 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.999</span>)</span>
-<span id="cb905-32"><a href="day-30.html#cb905-32"></a>p2 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.9</span>)</span>
-<span id="cb905-33"><a href="day-30.html#cb905-33"></a>p3 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.8</span>)</span>
-<span id="cb905-34"><a href="day-30.html#cb905-34"></a>p4 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.8</span>)</span>
-<span id="cb905-35"><a href="day-30.html#cb905-35"></a>p5 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">-0.9</span>)</span>
-<span id="cb905-36"><a href="day-30.html#cb905-36"></a>p6 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.999</span>)</span>
-<span id="cb905-37"><a href="day-30.html#cb905-37"></a></span>
-<span id="cb905-38"><a href="day-30.html#cb905-38"></a>(p1 <span class="op">|</span><span class="st"> </span>p2 <span class="op">|</span><span class="st"> </span>p3) <span class="op">/</span><span class="st"> </span>(p4 <span class="op">|</span><span class="st"> </span>p5 <span class="op">|</span><span class="st"> </span>p6)</span></code></pre></div>
-<p><img src="30-day-30_files/figure-html/sim_car-1.png" width="672" /></p>
-<div id="fitting-a-car-model-in-stan" class="section level4">
-<h4><span class="header-section-number">30.3.1.1</span> Fitting a CAR model in <code>stan</code></h4>
-<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb906-1"><a href="day-30.html#cb906-1"></a><span class="co">## simulate data for fitting the model</span></span>
-<span id="cb906-2"><a href="day-30.html#cb906-2"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb906-3"><a href="day-30.html#cb906-3"></a>phi &lt;-<span class="st"> </span><span class="fl">0.999</span></span>
-<span id="cb906-4"><a href="day-30.html#cb906-4"></a>sigma2 &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
-<span id="cb906-5"><a href="day-30.html#cb906-5"></a>locs &lt;-<span class="st"> </span></span>
-<span id="cb906-6"><a href="day-30.html#cb906-6"></a><span class="st">  </span><span class="kw">expand.grid</span>(</span>
-<span id="cb906-7"><a href="day-30.html#cb906-7"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb906-8"><a href="day-30.html#cb906-8"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb906-9"><a href="day-30.html#cb906-9"></a>  )</span>
-<span id="cb906-10"><a href="day-30.html#cb906-10"></a></span>
-<span id="cb906-11"><a href="day-30.html#cb906-11"></a><span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
-<span id="cb906-12"><a href="day-30.html#cb906-12"></a></span>
-<span id="cb906-13"><a href="day-30.html#cb906-13"></a>A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
-<span id="cb906-14"><a href="day-30.html#cb906-14"></a><span class="st">  </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb906-15"><a href="day-30.html#cb906-15"></a>D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
-<span id="cb906-16"><a href="day-30.html#cb906-16"></a>Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A</span>
-<span id="cb906-17"><a href="day-30.html#cb906-17"></a><span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
-<span id="cb906-18"><a href="day-30.html#cb906-18"></a>R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
-<span id="cb906-19"><a href="day-30.html#cb906-19"></a>eta &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
-<span id="cb906-20"><a href="day-30.html#cb906-20"></a>y &lt;-<span class="st"> </span>eta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, <span class="kw">sqrt</span>(sigma2))</span>
-<span id="cb906-21"><a href="day-30.html#cb906-21"></a></span>
-<span id="cb906-22"><a href="day-30.html#cb906-22"></a>p1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> eta) <span class="op">%&gt;%</span></span>
+<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb906-1"><a href="day-30.html#cb906-1"></a><span class="co">## simulate some data</span></span>
+<span id="cb906-2"><a href="day-30.html#cb906-2"></a></span>
+<span id="cb906-3"><a href="day-30.html#cb906-3"></a>simulate_data &lt;-<span class="st"> </span><span class="cf">function</span>(n, phi) {</span>
+<span id="cb906-4"><a href="day-30.html#cb906-4"></a>  </span>
+<span id="cb906-5"><a href="day-30.html#cb906-5"></a>  locs &lt;-<span class="st"> </span></span>
+<span id="cb906-6"><a href="day-30.html#cb906-6"></a><span class="st">    </span><span class="kw">expand.grid</span>(</span>
+<span id="cb906-7"><a href="day-30.html#cb906-7"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb906-8"><a href="day-30.html#cb906-8"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb906-9"><a href="day-30.html#cb906-9"></a>    )</span>
+<span id="cb906-10"><a href="day-30.html#cb906-10"></a>  </span>
+<span id="cb906-11"><a href="day-30.html#cb906-11"></a>  <span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
+<span id="cb906-12"><a href="day-30.html#cb906-12"></a>  </span>
+<span id="cb906-13"><a href="day-30.html#cb906-13"></a>  A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb906-14"><a href="day-30.html#cb906-14"></a><span class="st">    </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb906-15"><a href="day-30.html#cb906-15"></a>  D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
+<span id="cb906-16"><a href="day-30.html#cb906-16"></a>  Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A</span>
+<span id="cb906-17"><a href="day-30.html#cb906-17"></a>  <span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
+<span id="cb906-18"><a href="day-30.html#cb906-18"></a>  R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
+<span id="cb906-19"><a href="day-30.html#cb906-19"></a>  y &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
+<span id="cb906-20"><a href="day-30.html#cb906-20"></a>  </span>
+<span id="cb906-21"><a href="day-30.html#cb906-21"></a>  <span class="co">## generate the plot</span></span>
+<span id="cb906-22"><a href="day-30.html#cb906-22"></a>  output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
 <span id="cb906-23"><a href="day-30.html#cb906-23"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
 <span id="cb906-24"><a href="day-30.html#cb906-24"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
 <span id="cb906-25"><a href="day-30.html#cb906-25"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb906-26"><a href="day-30.html#cb906-26"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Spatial random effect&quot;</span>)</span>
-<span id="cb906-27"><a href="day-30.html#cb906-27"></a>p2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
-<span id="cb906-28"><a href="day-30.html#cb906-28"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
-<span id="cb906-29"><a href="day-30.html#cb906-29"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb906-30"><a href="day-30.html#cb906-30"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb906-31"><a href="day-30.html#cb906-31"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed data&quot;</span>)</span>
-<span id="cb906-32"><a href="day-30.html#cb906-32"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
+<span id="cb906-26"><a href="day-30.html#cb906-26"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;Phi = &quot;</span>, phi))</span>
+<span id="cb906-27"><a href="day-30.html#cb906-27"></a>  </span>
+<span id="cb906-28"><a href="day-30.html#cb906-28"></a>  <span class="kw">return</span>(output)</span>
+<span id="cb906-29"><a href="day-30.html#cb906-29"></a>}  </span>
+<span id="cb906-30"><a href="day-30.html#cb906-30"></a></span>
+<span id="cb906-31"><a href="day-30.html#cb906-31"></a>p1 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.999</span>)</span>
+<span id="cb906-32"><a href="day-30.html#cb906-32"></a>p2 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.9</span>)</span>
+<span id="cb906-33"><a href="day-30.html#cb906-33"></a>p3 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.8</span>)</span>
+<span id="cb906-34"><a href="day-30.html#cb906-34"></a>p4 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.8</span>)</span>
+<span id="cb906-35"><a href="day-30.html#cb906-35"></a>p5 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">-0.9</span>)</span>
+<span id="cb906-36"><a href="day-30.html#cb906-36"></a>p6 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.999</span>)</span>
+<span id="cb906-37"><a href="day-30.html#cb906-37"></a></span>
+<span id="cb906-38"><a href="day-30.html#cb906-38"></a>(p1 <span class="op">|</span><span class="st"> </span>p2 <span class="op">|</span><span class="st"> </span>p3) <span class="op">/</span><span class="st"> </span>(p4 <span class="op">|</span><span class="st"> </span>p5 <span class="op">|</span><span class="st"> </span>p6)</span></code></pre></div>
+<p><img src="30-day-30_files/figure-html/sim_car-1.png" width="672" /></p>
+<div id="fitting-a-car-model-in-stan" class="section level4">
+<h4><span class="header-section-number">30.3.1.1</span> Fitting a CAR model in <code>stan</code></h4>
+<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb907-1"><a href="day-30.html#cb907-1"></a><span class="co">## simulate data for fitting the model</span></span>
+<span id="cb907-2"><a href="day-30.html#cb907-2"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb907-3"><a href="day-30.html#cb907-3"></a>phi &lt;-<span class="st"> </span><span class="fl">0.999</span></span>
+<span id="cb907-4"><a href="day-30.html#cb907-4"></a>sigma2 &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb907-5"><a href="day-30.html#cb907-5"></a>locs &lt;-<span class="st"> </span></span>
+<span id="cb907-6"><a href="day-30.html#cb907-6"></a><span class="st">  </span><span class="kw">expand.grid</span>(</span>
+<span id="cb907-7"><a href="day-30.html#cb907-7"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb907-8"><a href="day-30.html#cb907-8"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb907-9"><a href="day-30.html#cb907-9"></a>  )</span>
+<span id="cb907-10"><a href="day-30.html#cb907-10"></a></span>
+<span id="cb907-11"><a href="day-30.html#cb907-11"></a><span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
+<span id="cb907-12"><a href="day-30.html#cb907-12"></a></span>
+<span id="cb907-13"><a href="day-30.html#cb907-13"></a>A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb907-14"><a href="day-30.html#cb907-14"></a><span class="st">  </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb907-15"><a href="day-30.html#cb907-15"></a>D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
+<span id="cb907-16"><a href="day-30.html#cb907-16"></a>Q &lt;-<span class="st"> </span>D <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A</span>
+<span id="cb907-17"><a href="day-30.html#cb907-17"></a><span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
+<span id="cb907-18"><a href="day-30.html#cb907-18"></a>R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
+<span id="cb907-19"><a href="day-30.html#cb907-19"></a>eta &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
+<span id="cb907-20"><a href="day-30.html#cb907-20"></a>y &lt;-<span class="st"> </span>eta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, <span class="kw">sqrt</span>(sigma2))</span>
+<span id="cb907-21"><a href="day-30.html#cb907-21"></a></span>
+<span id="cb907-22"><a href="day-30.html#cb907-22"></a>p1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> eta) <span class="op">%&gt;%</span></span>
+<span id="cb907-23"><a href="day-30.html#cb907-23"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
+<span id="cb907-24"><a href="day-30.html#cb907-24"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb907-25"><a href="day-30.html#cb907-25"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb907-26"><a href="day-30.html#cb907-26"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Spatial random effect&quot;</span>)</span>
+<span id="cb907-27"><a href="day-30.html#cb907-27"></a>p2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
+<span id="cb907-28"><a href="day-30.html#cb907-28"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
+<span id="cb907-29"><a href="day-30.html#cb907-29"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb907-30"><a href="day-30.html#cb907-30"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb907-31"><a href="day-30.html#cb907-31"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed data&quot;</span>)</span>
+<span id="cb907-32"><a href="day-30.html#cb907-32"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <ul>
 <li><p>we need to define a stan model</p></li>
 <li><p>create a stan model in a folder named <code>stan_models</code> in the Rstudio project folder</p></li>
 <li><p>print the output of the model <code>spatial-car.stan</code></p></li>
 </ul>
-<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb907-1"><a href="day-30.html#cb907-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-car.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb908"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb908-1"><a href="day-30.html#cb908-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-car.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>data {
     int&lt;lower=0&gt; N;    // the number of observations
     vector[N] y;       // the obersved values
@@ -789,13 +789,13 @@ model {
 <li>note: this is very slow for even moderate sized data</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb909"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb909-1"><a href="day-30.html#cb909-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb909-2"><a href="day-30.html#cb909-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-car.stan&quot;</span>),</span>
-<span id="cb909-3"><a href="day-30.html#cb909-3"></a>    <span class="co">## note: convert from a sparse matrix format to regular matrix</span></span>
-<span id="cb909-4"><a href="day-30.html#cb909-4"></a>    <span class="co">## for fitting in stan</span></span>
-<span id="cb909-5"><a href="day-30.html#cb909-5"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">N =</span> n, <span class="dt">D =</span> <span class="kw">as.matrix</span>(D), <span class="dt">A =</span> <span class="kw">as.matrix</span>(A)),</span>
-<span id="cb909-6"><a href="day-30.html#cb909-6"></a>    <span class="dt">iter =</span> <span class="dv">5000</span></span>
-<span id="cb909-7"><a href="day-30.html#cb909-7"></a>)  </span></code></pre></div>
+<div class="sourceCode" id="cb910"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb910-1"><a href="day-30.html#cb910-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb910-2"><a href="day-30.html#cb910-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-car.stan&quot;</span>),</span>
+<span id="cb910-3"><a href="day-30.html#cb910-3"></a>    <span class="co">## note: convert from a sparse matrix format to regular matrix</span></span>
+<span id="cb910-4"><a href="day-30.html#cb910-4"></a>    <span class="co">## for fitting in stan</span></span>
+<span id="cb910-5"><a href="day-30.html#cb910-5"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">N =</span> n, <span class="dt">D =</span> <span class="kw">as.matrix</span>(D), <span class="dt">A =</span> <span class="kw">as.matrix</span>(A)),</span>
+<span id="cb910-6"><a href="day-30.html#cb910-6"></a>    <span class="dt">iter =</span> <span class="dv">5000</span></span>
+<span id="cb910-7"><a href="day-30.html#cb910-7"></a>)  </span></code></pre></div>
 <pre><code>## Warning: There were 18 divergent transitions after warmup. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 ## to find out why this is a problem and how to eliminate them.</code></pre>
@@ -811,7 +811,7 @@ model {
 <ul>
 <li>Note: this is giving warinings – it’s best to pay attention to these in stan</li>
 </ul>
-<div class="sourceCode" id="cb915"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb915-1"><a href="day-30.html#cb915-1"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb916-1"><a href="day-30.html#cb916-1"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
 <pre><code>## Inference for Stan model: spatial-car.
 ## 4 chains, each with iter=5000; warmup=2500; thin=1; 
 ## post-warmup draws per chain=2500, total post-warmup draws=10000.
@@ -827,27 +827,27 @@ model {
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb917"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb917-1"><a href="day-30.html#cb917-1"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb918-1"><a href="day-30.html#cb918-1"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb918-1"><a href="day-30.html#cb918-1"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb919"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb919-1"><a href="day-30.html#cb919-1"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
-<div class="sourceCode" id="cb919"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb919-1"><a href="day-30.html#cb919-1"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb920-1"><a href="day-30.html#cb920-1"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-9-3.png" width="672" /></p>
 <ul>
 <li>plot fitted vs. simulated spatial random effect</li>
 </ul>
-<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb920-1"><a href="day-30.html#cb920-1"></a>eta_post &lt;-<span class="st"> </span><span class="kw">extract</span>(fit)<span class="op">$</span>eta</span>
-<span id="cb920-2"><a href="day-30.html#cb920-2"></a><span class="kw">plot</span>(<span class="kw">apply</span>(eta_post, <span class="dv">2</span>, mean), eta)</span>
-<span id="cb920-3"><a href="day-30.html#cb920-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb921-1"><a href="day-30.html#cb921-1"></a>eta_post &lt;-<span class="st"> </span><span class="kw">extract</span>(fit)<span class="op">$</span>eta</span>
+<span id="cb921-2"><a href="day-30.html#cb921-2"></a><span class="kw">plot</span>(<span class="kw">apply</span>(eta_post, <span class="dv">2</span>, mean), eta)</span>
+<span id="cb921-3"><a href="day-30.html#cb921-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <ul>
 <li>looks like there might be a mean shift (non-identifiability)</li>
 </ul>
-<div class="sourceCode" id="cb921"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb921-1"><a href="day-30.html#cb921-1"></a>mu_post &lt;-<span class="st"> </span><span class="kw">extract</span>(fit)<span class="op">$</span>mu</span>
-<span id="cb921-2"><a href="day-30.html#cb921-2"></a><span class="kw">plot</span>(<span class="kw">mean</span>(mu_post) <span class="op">+</span><span class="st"> </span><span class="kw">apply</span>(eta_post, <span class="dv">2</span>, mean), eta)</span>
-<span id="cb921-3"><a href="day-30.html#cb921-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb922"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb922-1"><a href="day-30.html#cb922-1"></a>mu_post &lt;-<span class="st"> </span><span class="kw">extract</span>(fit)<span class="op">$</span>mu</span>
+<span id="cb922-2"><a href="day-30.html#cb922-2"></a><span class="kw">plot</span>(<span class="kw">mean</span>(mu_post) <span class="op">+</span><span class="st"> </span><span class="kw">apply</span>(eta_post, <span class="dv">2</span>, mean), eta)</span>
+<span id="cb922-3"><a href="day-30.html#cb922-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<div class="sourceCode" id="cb922"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb922-1"><a href="day-30.html#cb922-1"></a><span class="kw">mean</span>(eta)</span></code></pre></div>
+<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb923-1"><a href="day-30.html#cb923-1"></a><span class="kw">mean</span>(eta)</span></code></pre></div>
 <pre><code>## [1] 0.8118206</code></pre>
 <ul>
 <li><p>Note: the above model is inefficient as it doesn’t leverage sparse matrix operations. More complicated (and efficient) code is <a href="https://mc-stan.org/users/documentation/case-studies/mbjoseph-CARStan.html">available here</a></p></li>
@@ -883,118 +883,118 @@ the CAR and SAR models</a></li>
 </ul></li>
 <li><p>if <span class="math inline">\(\phi = 0\)</span>, then the observations are spatially independent</p></li>
 </ul>
-<div class="sourceCode" id="cb924"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb924-1"><a href="day-30.html#cb924-1"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb924-2"><a href="day-30.html#cb924-2"></a>phi &lt;-<span class="st"> </span><span class="fl">0.4</span></span>
-<span id="cb924-3"><a href="day-30.html#cb924-3"></a><span class="co">## construct a sparse matrix adjacency matrix for a 2-d lattice</span></span>
-<span id="cb924-4"><a href="day-30.html#cb924-4"></a>A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(<span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb924-5"><a href="day-30.html#cb924-5"></a>D  &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">rowSums</span>(A))</span>
-<span id="cb924-6"><a href="day-30.html#cb924-6"></a>Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)))</span>
-<span id="cb924-7"><a href="day-30.html#cb924-7"></a></span>
-<span id="cb924-8"><a href="day-30.html#cb924-8"></a><span class="co">## calculate the correlation from a first order SAR</span></span>
-<span id="cb924-9"><a href="day-30.html#cb924-9"></a><span class="kw">cov2cor</span>(Sigma)[<span class="dv">5</span>, <span class="dv">6</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb925"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb925-1"><a href="day-30.html#cb925-1"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb925-2"><a href="day-30.html#cb925-2"></a>phi &lt;-<span class="st"> </span><span class="fl">0.4</span></span>
+<span id="cb925-3"><a href="day-30.html#cb925-3"></a><span class="co">## construct a sparse matrix adjacency matrix for a 2-d lattice</span></span>
+<span id="cb925-4"><a href="day-30.html#cb925-4"></a>A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(<span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb925-5"><a href="day-30.html#cb925-5"></a>D  &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">rowSums</span>(A))</span>
+<span id="cb925-6"><a href="day-30.html#cb925-6"></a>Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)))</span>
+<span id="cb925-7"><a href="day-30.html#cb925-7"></a></span>
+<span id="cb925-8"><a href="day-30.html#cb925-8"></a><span class="co">## calculate the correlation from a first order SAR</span></span>
+<span id="cb925-9"><a href="day-30.html#cb925-9"></a><span class="kw">cov2cor</span>(Sigma)[<span class="dv">5</span>, <span class="dv">6</span>]</span></code></pre></div>
 <pre><code>## [1] 0.2755259</code></pre>
-<div class="sourceCode" id="cb926"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb926-1"><a href="day-30.html#cb926-1"></a><span class="co">## do this as a loop</span></span>
-<span id="cb926-2"><a href="day-30.html#cb926-2"></a>n_phi &lt;-<span class="st"> </span><span class="dv">500</span></span>
-<span id="cb926-3"><a href="day-30.html#cb926-3"></a>phi &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> n_phi)[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, n_phi)]</span>
-<span id="cb926-4"><a href="day-30.html#cb926-4"></a>rho &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n_phi <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</span>
-<span id="cb926-5"><a href="day-30.html#cb926-5"></a>A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(<span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb926-6"><a href="day-30.html#cb926-6"></a>D &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">rowSums</span>(A))</span>
-<span id="cb926-7"><a href="day-30.html#cb926-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(n_phi<span class="dv">-2</span>)) {</span>
-<span id="cb926-8"><a href="day-30.html#cb926-8"></a>  Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi[i] <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi[i] <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)))</span>
-<span id="cb926-9"><a href="day-30.html#cb926-9"></a>  <span class="co">## calculate the correlation from a first order CAR</span></span>
-<span id="cb926-10"><a href="day-30.html#cb926-10"></a>  rho[i] &lt;-<span class="st"> </span><span class="kw">cov2cor</span>(Sigma)[<span class="dv">5</span>, <span class="dv">6</span>] </span>
-<span id="cb926-11"><a href="day-30.html#cb926-11"></a>}</span>
-<span id="cb926-12"><a href="day-30.html#cb926-12"></a><span class="kw">data.frame</span>(<span class="dt">phi =</span> phi, <span class="dt">rho =</span> rho) <span class="op">%&gt;%</span></span>
-<span id="cb926-13"><a href="day-30.html#cb926-13"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> phi, <span class="dt">y =</span> rho)) <span class="op">+</span></span>
-<span id="cb926-14"><a href="day-30.html#cb926-14"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb926-15"><a href="day-30.html#cb926-15"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="op">+</span></span>
-<span id="cb926-16"><a href="day-30.html#cb926-16"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;correlation&quot;</span>) <span class="op">+</span></span>
-<span id="cb926-17"><a href="day-30.html#cb926-17"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;SAR correlation (lag-1) vs. phi parameter&quot;</span>) <span class="op">+</span></span>
-<span id="cb926-18"><a href="day-30.html#cb926-18"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb927-1"><a href="day-30.html#cb927-1"></a><span class="co">## do this as a loop</span></span>
+<span id="cb927-2"><a href="day-30.html#cb927-2"></a>n_phi &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb927-3"><a href="day-30.html#cb927-3"></a>phi &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> n_phi)[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, n_phi)]</span>
+<span id="cb927-4"><a href="day-30.html#cb927-4"></a>rho &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n_phi <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb927-5"><a href="day-30.html#cb927-5"></a>A  &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">as_adjacency_matrix</span>(<span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>), <span class="dt">sparse =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb927-6"><a href="day-30.html#cb927-6"></a>D &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">rowSums</span>(A))</span>
+<span id="cb927-7"><a href="day-30.html#cb927-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(n_phi<span class="dv">-2</span>)) {</span>
+<span id="cb927-8"><a href="day-30.html#cb927-8"></a>  Sigma &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi[i] <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">solve</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi[i] <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)))</span>
+<span id="cb927-9"><a href="day-30.html#cb927-9"></a>  <span class="co">## calculate the correlation from a first order CAR</span></span>
+<span id="cb927-10"><a href="day-30.html#cb927-10"></a>  rho[i] &lt;-<span class="st"> </span><span class="kw">cov2cor</span>(Sigma)[<span class="dv">5</span>, <span class="dv">6</span>] </span>
+<span id="cb927-11"><a href="day-30.html#cb927-11"></a>}</span>
+<span id="cb927-12"><a href="day-30.html#cb927-12"></a><span class="kw">data.frame</span>(<span class="dt">phi =</span> phi, <span class="dt">rho =</span> rho) <span class="op">%&gt;%</span></span>
+<span id="cb927-13"><a href="day-30.html#cb927-13"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> phi, <span class="dt">y =</span> rho)) <span class="op">+</span></span>
+<span id="cb927-14"><a href="day-30.html#cb927-14"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb927-15"><a href="day-30.html#cb927-15"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb927-16"><a href="day-30.html#cb927-16"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;correlation&quot;</span>) <span class="op">+</span></span>
+<span id="cb927-17"><a href="day-30.html#cb927-17"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;SAR correlation (lag-1) vs. phi parameter&quot;</span>) <span class="op">+</span></span>
+<span id="cb927-18"><a href="day-30.html#cb927-18"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/sar-vs-car-1.png" width="672" /></p>
 <ul>
 <li>Plot how the <span class="math inline">\(\phi\)</span> parameter determines the correlation</li>
 </ul>
-<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb927-1"><a href="day-30.html#cb927-1"></a><span class="co">## simulate some data</span></span>
-<span id="cb927-2"><a href="day-30.html#cb927-2"></a></span>
-<span id="cb927-3"><a href="day-30.html#cb927-3"></a>simulate_data &lt;-<span class="st"> </span><span class="cf">function</span>(n, phi) {</span>
-<span id="cb927-4"><a href="day-30.html#cb927-4"></a>  </span>
-<span id="cb927-5"><a href="day-30.html#cb927-5"></a>  locs &lt;-<span class="st"> </span></span>
-<span id="cb927-6"><a href="day-30.html#cb927-6"></a><span class="st">    </span><span class="kw">expand.grid</span>(</span>
-<span id="cb927-7"><a href="day-30.html#cb927-7"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb927-8"><a href="day-30.html#cb927-8"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb927-9"><a href="day-30.html#cb927-9"></a>    )</span>
-<span id="cb927-10"><a href="day-30.html#cb927-10"></a>  </span>
-<span id="cb927-11"><a href="day-30.html#cb927-11"></a>  <span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
-<span id="cb927-12"><a href="day-30.html#cb927-12"></a>  </span>
-<span id="cb927-13"><a href="day-30.html#cb927-13"></a>  A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
-<span id="cb927-14"><a href="day-30.html#cb927-14"></a><span class="st">    </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb927-15"><a href="day-30.html#cb927-15"></a>  D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
-<span id="cb927-16"><a href="day-30.html#cb927-16"></a>  Q &lt;-<span class="st"> </span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D))</span>
-<span id="cb927-17"><a href="day-30.html#cb927-17"></a>  <span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
-<span id="cb927-18"><a href="day-30.html#cb927-18"></a>  R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
-<span id="cb927-19"><a href="day-30.html#cb927-19"></a>  y &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
-<span id="cb927-20"><a href="day-30.html#cb927-20"></a>  </span>
-<span id="cb927-21"><a href="day-30.html#cb927-21"></a>  <span class="co">## generate the plot</span></span>
-<span id="cb927-22"><a href="day-30.html#cb927-22"></a>  output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
-<span id="cb927-23"><a href="day-30.html#cb927-23"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
-<span id="cb927-24"><a href="day-30.html#cb927-24"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb927-25"><a href="day-30.html#cb927-25"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb927-26"><a href="day-30.html#cb927-26"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;Phi = &quot;</span>, phi)) </span>
-<span id="cb927-27"><a href="day-30.html#cb927-27"></a>  </span>
-<span id="cb927-28"><a href="day-30.html#cb927-28"></a>  <span class="kw">return</span>(output)</span>
-<span id="cb927-29"><a href="day-30.html#cb927-29"></a>}  </span>
-<span id="cb927-30"><a href="day-30.html#cb927-30"></a></span>
-<span id="cb927-31"><a href="day-30.html#cb927-31"></a>p1 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.999</span>)</span>
-<span id="cb927-32"><a href="day-30.html#cb927-32"></a>p2 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.9</span>)</span>
-<span id="cb927-33"><a href="day-30.html#cb927-33"></a>p3 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.8</span>)</span>
-<span id="cb927-34"><a href="day-30.html#cb927-34"></a>p4 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.8</span>)</span>
-<span id="cb927-35"><a href="day-30.html#cb927-35"></a>p5 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">-0.9</span>)</span>
-<span id="cb927-36"><a href="day-30.html#cb927-36"></a>p6 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.999</span>)</span>
-<span id="cb927-37"><a href="day-30.html#cb927-37"></a></span>
-<span id="cb927-38"><a href="day-30.html#cb927-38"></a>(p1 <span class="op">|</span><span class="st"> </span>p2 <span class="op">|</span><span class="st"> </span>p3) <span class="op">/</span><span class="st"> </span>(p4 <span class="op">|</span><span class="st"> </span>p5 <span class="op">|</span><span class="st"> </span>p6)</span></code></pre></div>
+<div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb928-1"><a href="day-30.html#cb928-1"></a><span class="co">## simulate some data</span></span>
+<span id="cb928-2"><a href="day-30.html#cb928-2"></a></span>
+<span id="cb928-3"><a href="day-30.html#cb928-3"></a>simulate_data &lt;-<span class="st"> </span><span class="cf">function</span>(n, phi) {</span>
+<span id="cb928-4"><a href="day-30.html#cb928-4"></a>  </span>
+<span id="cb928-5"><a href="day-30.html#cb928-5"></a>  locs &lt;-<span class="st"> </span></span>
+<span id="cb928-6"><a href="day-30.html#cb928-6"></a><span class="st">    </span><span class="kw">expand.grid</span>(</span>
+<span id="cb928-7"><a href="day-30.html#cb928-7"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb928-8"><a href="day-30.html#cb928-8"></a>      <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb928-9"><a href="day-30.html#cb928-9"></a>    )</span>
+<span id="cb928-10"><a href="day-30.html#cb928-10"></a>  </span>
+<span id="cb928-11"><a href="day-30.html#cb928-11"></a>  <span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
+<span id="cb928-12"><a href="day-30.html#cb928-12"></a>  </span>
+<span id="cb928-13"><a href="day-30.html#cb928-13"></a>  A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb928-14"><a href="day-30.html#cb928-14"></a><span class="st">    </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb928-15"><a href="day-30.html#cb928-15"></a>  D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
+<span id="cb928-16"><a href="day-30.html#cb928-16"></a>  Q &lt;-<span class="st"> </span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D)) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(D))</span>
+<span id="cb928-17"><a href="day-30.html#cb928-17"></a>  <span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
+<span id="cb928-18"><a href="day-30.html#cb928-18"></a>  R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
+<span id="cb928-19"><a href="day-30.html#cb928-19"></a>  y &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
+<span id="cb928-20"><a href="day-30.html#cb928-20"></a>  </span>
+<span id="cb928-21"><a href="day-30.html#cb928-21"></a>  <span class="co">## generate the plot</span></span>
+<span id="cb928-22"><a href="day-30.html#cb928-22"></a>  output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
+<span id="cb928-23"><a href="day-30.html#cb928-23"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
+<span id="cb928-24"><a href="day-30.html#cb928-24"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb928-25"><a href="day-30.html#cb928-25"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb928-26"><a href="day-30.html#cb928-26"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;Phi = &quot;</span>, phi)) </span>
+<span id="cb928-27"><a href="day-30.html#cb928-27"></a>  </span>
+<span id="cb928-28"><a href="day-30.html#cb928-28"></a>  <span class="kw">return</span>(output)</span>
+<span id="cb928-29"><a href="day-30.html#cb928-29"></a>}  </span>
+<span id="cb928-30"><a href="day-30.html#cb928-30"></a></span>
+<span id="cb928-31"><a href="day-30.html#cb928-31"></a>p1 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.999</span>)</span>
+<span id="cb928-32"><a href="day-30.html#cb928-32"></a>p2 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.9</span>)</span>
+<span id="cb928-33"><a href="day-30.html#cb928-33"></a>p3 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">0.8</span>)</span>
+<span id="cb928-34"><a href="day-30.html#cb928-34"></a>p4 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.8</span>)</span>
+<span id="cb928-35"><a href="day-30.html#cb928-35"></a>p5 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="fl">-0.9</span>)</span>
+<span id="cb928-36"><a href="day-30.html#cb928-36"></a>p6 &lt;-<span class="st"> </span><span class="kw">simulate_data</span>(<span class="dt">n =</span> <span class="dv">50</span><span class="op">^</span><span class="dv">2</span>, <span class="dt">phi =</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.999</span>)</span>
+<span id="cb928-37"><a href="day-30.html#cb928-37"></a></span>
+<span id="cb928-38"><a href="day-30.html#cb928-38"></a>(p1 <span class="op">|</span><span class="st"> </span>p2 <span class="op">|</span><span class="st"> </span>p3) <span class="op">/</span><span class="st"> </span>(p4 <span class="op">|</span><span class="st"> </span>p5 <span class="op">|</span><span class="st"> </span>p6)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/sim-sar-1.png" width="672" /></p>
 <div id="fitting-a-sar-model-in-stan" class="section level4">
 <h4><span class="header-section-number">30.3.2.1</span> Fitting a SAR model in <code>stan</code></h4>
-<div class="sourceCode" id="cb928"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb928-1"><a href="day-30.html#cb928-1"></a><span class="co">## simulate data for fitting the model</span></span>
-<span id="cb928-2"><a href="day-30.html#cb928-2"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb928-3"><a href="day-30.html#cb928-3"></a>phi &lt;-<span class="st"> </span><span class="fl">0.9</span></span>
-<span id="cb928-4"><a href="day-30.html#cb928-4"></a>sigma2 &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
-<span id="cb928-5"><a href="day-30.html#cb928-5"></a>tau2 &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb928-6"><a href="day-30.html#cb928-6"></a>locs &lt;-<span class="st"> </span></span>
-<span id="cb928-7"><a href="day-30.html#cb928-7"></a><span class="st">  </span><span class="kw">expand.grid</span>(</span>
-<span id="cb928-8"><a href="day-30.html#cb928-8"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
-<span id="cb928-9"><a href="day-30.html#cb928-9"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
-<span id="cb928-10"><a href="day-30.html#cb928-10"></a>  )</span>
-<span id="cb928-11"><a href="day-30.html#cb928-11"></a></span>
-<span id="cb928-12"><a href="day-30.html#cb928-12"></a><span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
-<span id="cb928-13"><a href="day-30.html#cb928-13"></a></span>
-<span id="cb928-14"><a href="day-30.html#cb928-14"></a>A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
-<span id="cb928-15"><a href="day-30.html#cb928-15"></a><span class="st">  </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb928-16"><a href="day-30.html#cb928-16"></a>D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
-<span id="cb928-17"><a href="day-30.html#cb928-17"></a>Q &lt;-<span class="st"> </span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D) <span class="op">/</span><span class="st"> </span>tau2</span>
-<span id="cb928-18"><a href="day-30.html#cb928-18"></a><span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
-<span id="cb928-19"><a href="day-30.html#cb928-19"></a>R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
-<span id="cb928-20"><a href="day-30.html#cb928-20"></a>eta &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
-<span id="cb928-21"><a href="day-30.html#cb928-21"></a>y &lt;-<span class="st"> </span>eta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, <span class="kw">sqrt</span>(sigma2))</span>
-<span id="cb928-22"><a href="day-30.html#cb928-22"></a></span>
-<span id="cb928-23"><a href="day-30.html#cb928-23"></a>p1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> eta) <span class="op">%&gt;%</span></span>
-<span id="cb928-24"><a href="day-30.html#cb928-24"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
-<span id="cb928-25"><a href="day-30.html#cb928-25"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb928-26"><a href="day-30.html#cb928-26"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb928-27"><a href="day-30.html#cb928-27"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Spatial random effect&quot;</span>)</span>
-<span id="cb928-28"><a href="day-30.html#cb928-28"></a>p2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
-<span id="cb928-29"><a href="day-30.html#cb928-29"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
-<span id="cb928-30"><a href="day-30.html#cb928-30"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
-<span id="cb928-31"><a href="day-30.html#cb928-31"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
-<span id="cb928-32"><a href="day-30.html#cb928-32"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed data&quot;</span>)</span>
-<span id="cb928-33"><a href="day-30.html#cb928-33"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
+<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb929-1"><a href="day-30.html#cb929-1"></a><span class="co">## simulate data for fitting the model</span></span>
+<span id="cb929-2"><a href="day-30.html#cb929-2"></a>n &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb929-3"><a href="day-30.html#cb929-3"></a>phi &lt;-<span class="st"> </span><span class="fl">0.9</span></span>
+<span id="cb929-4"><a href="day-30.html#cb929-4"></a>sigma2 &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb929-5"><a href="day-30.html#cb929-5"></a>tau2 &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb929-6"><a href="day-30.html#cb929-6"></a>locs &lt;-<span class="st"> </span></span>
+<span id="cb929-7"><a href="day-30.html#cb929-7"></a><span class="st">  </span><span class="kw">expand.grid</span>(</span>
+<span id="cb929-8"><a href="day-30.html#cb929-8"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n)),</span>
+<span id="cb929-9"><a href="day-30.html#cb929-9"></a>    <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n))</span>
+<span id="cb929-10"><a href="day-30.html#cb929-10"></a>  )</span>
+<span id="cb929-11"><a href="day-30.html#cb929-11"></a></span>
+<span id="cb929-12"><a href="day-30.html#cb929-12"></a><span class="co"># plot(make_lattice(length = sqrt(n), dim = 2))</span></span>
+<span id="cb929-13"><a href="day-30.html#cb929-13"></a></span>
+<span id="cb929-14"><a href="day-30.html#cb929-14"></a>A  &lt;-<span class="st"> </span><span class="kw">make_lattice</span>(<span class="dt">length =</span> <span class="kw">sqrt</span>(n), <span class="dt">dim =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb929-15"><a href="day-30.html#cb929-15"></a><span class="st">  </span><span class="kw">as_adjacency_matrix</span>(<span class="dt">sparse =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb929-16"><a href="day-30.html#cb929-16"></a>D &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(<span class="dt">x =</span> <span class="kw">colSums</span>(A))</span>
+<span id="cb929-17"><a href="day-30.html#cb929-17"></a>Q &lt;-<span class="st"> </span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D) <span class="op">/</span><span class="st"> </span>tau2</span>
+<span id="cb929-18"><a href="day-30.html#cb929-18"></a><span class="co">## cholesky (this is a sparse matrix that is upper diagonal)</span></span>
+<span id="cb929-19"><a href="day-30.html#cb929-19"></a>R &lt;-<span class="st"> </span><span class="kw">chol</span>(Q)</span>
+<span id="cb929-20"><a href="day-30.html#cb929-20"></a>eta &lt;-<span class="st"> </span><span class="kw">backsolve</span>(R, <span class="kw">rnorm</span>(n))</span>
+<span id="cb929-21"><a href="day-30.html#cb929-21"></a>y &lt;-<span class="st"> </span>eta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, <span class="kw">sqrt</span>(sigma2))</span>
+<span id="cb929-22"><a href="day-30.html#cb929-22"></a></span>
+<span id="cb929-23"><a href="day-30.html#cb929-23"></a>p1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> eta) <span class="op">%&gt;%</span></span>
+<span id="cb929-24"><a href="day-30.html#cb929-24"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
+<span id="cb929-25"><a href="day-30.html#cb929-25"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb929-26"><a href="day-30.html#cb929-26"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb929-27"><a href="day-30.html#cb929-27"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Spatial random effect&quot;</span>)</span>
+<span id="cb929-28"><a href="day-30.html#cb929-28"></a>p2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> locs[, <span class="dv">1</span>], <span class="dt">y =</span> locs[, <span class="dv">2</span>], <span class="dt">z =</span> y) <span class="op">%&gt;%</span></span>
+<span id="cb929-29"><a href="day-30.html#cb929-29"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">fill =</span> z)) <span class="op">+</span></span>
+<span id="cb929-30"><a href="day-30.html#cb929-30"></a><span class="st">    </span><span class="kw">geom_raster</span>() <span class="op">+</span></span>
+<span id="cb929-31"><a href="day-30.html#cb929-31"></a><span class="st">    </span><span class="kw">scale_fill_viridis</span>() <span class="op">+</span></span>
+<span id="cb929-32"><a href="day-30.html#cb929-32"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Observed data&quot;</span>)</span>
+<span id="cb929-33"><a href="day-30.html#cb929-33"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <ul>
 <li><p>we need to define a stan model</p></li>
 <li><p>print the output of the model <code>spatial-sar.stan</code></p></li>
 </ul>
-<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb929-1"><a href="day-30.html#cb929-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-sar.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb930"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb930-1"><a href="day-30.html#cb930-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-sar.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>data {
   int&lt;lower=0&gt; N;
   vector[N] y;
@@ -1031,13 +1031,13 @@ model {
 <li>note: this is very slow for even moderate sized data</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb931-1"><a href="day-30.html#cb931-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb931-2"><a href="day-30.html#cb931-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-sar.stan&quot;</span>),</span>
-<span id="cb931-3"><a href="day-30.html#cb931-3"></a>    <span class="co">## note: convert from a sparse matrix format to regular matrix</span></span>
-<span id="cb931-4"><a href="day-30.html#cb931-4"></a>    <span class="co">## for fitting in stan</span></span>
-<span id="cb931-5"><a href="day-30.html#cb931-5"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">N =</span> n, <span class="dt">D =</span> <span class="kw">as.matrix</span>(D), <span class="dt">A =</span> <span class="kw">as.matrix</span>(A)),</span>
-<span id="cb931-6"><a href="day-30.html#cb931-6"></a>    <span class="dt">iter =</span> <span class="dv">5000</span></span>
-<span id="cb931-7"><a href="day-30.html#cb931-7"></a>)  </span></code></pre></div>
+<div class="sourceCode" id="cb932"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb932-1"><a href="day-30.html#cb932-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb932-2"><a href="day-30.html#cb932-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-sar.stan&quot;</span>),</span>
+<span id="cb932-3"><a href="day-30.html#cb932-3"></a>    <span class="co">## note: convert from a sparse matrix format to regular matrix</span></span>
+<span id="cb932-4"><a href="day-30.html#cb932-4"></a>    <span class="co">## for fitting in stan</span></span>
+<span id="cb932-5"><a href="day-30.html#cb932-5"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">N =</span> n, <span class="dt">D =</span> <span class="kw">as.matrix</span>(D), <span class="dt">A =</span> <span class="kw">as.matrix</span>(A)),</span>
+<span id="cb932-6"><a href="day-30.html#cb932-6"></a>    <span class="dt">iter =</span> <span class="dv">5000</span></span>
+<span id="cb932-7"><a href="day-30.html#cb932-7"></a>)  </span></code></pre></div>
 <pre><code>## Warning: There were 4 chains where the estimated Bayesian Fraction of Missing Information was low. See
 ## http://mc-stan.org/misc/warnings.html#bfmi-low</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
@@ -1053,7 +1053,7 @@ model {
 <ul>
 <li>Note: this is giving warinings – it’s best to pay attention to these in stan</li>
 </ul>
-<div class="sourceCode" id="cb937"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb937-1"><a href="day-30.html#cb937-1"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb938"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb938-1"><a href="day-30.html#cb938-1"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
 <pre><code>## Inference for Stan model: spatial-sar.
 ## 4 chains, each with iter=5000; warmup=2500; thin=1; 
 ## post-warmup draws per chain=2500, total post-warmup draws=10000.
@@ -1069,18 +1069,18 @@ model {
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb939"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb939-1"><a href="day-30.html#cb939-1"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb940-1"><a href="day-30.html#cb940-1"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb940-1"><a href="day-30.html#cb940-1"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb941"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb941-1"><a href="day-30.html#cb941-1"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
-<div class="sourceCode" id="cb941"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb941-1"><a href="day-30.html#cb941-1"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb942-1"><a href="day-30.html#cb942-1"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-15-3.png" width="672" /></p>
 <ul>
 <li>plot fitted vs. simulated spatial random effect</li>
 </ul>
-<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb942-1"><a href="day-30.html#cb942-1"></a>eta_post &lt;-<span class="st"> </span><span class="kw">extract</span>(fit)<span class="op">$</span>eta</span>
-<span id="cb942-2"><a href="day-30.html#cb942-2"></a><span class="kw">plot</span>(<span class="kw">apply</span>(eta_post, <span class="dv">2</span>, mean), eta)</span>
-<span id="cb942-3"><a href="day-30.html#cb942-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb943"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb943-1"><a href="day-30.html#cb943-1"></a>eta_post &lt;-<span class="st"> </span><span class="kw">extract</span>(fit)<span class="op">$</span>eta</span>
+<span id="cb943-2"><a href="day-30.html#cb943-2"></a><span class="kw">plot</span>(<span class="kw">apply</span>(eta_post, <span class="dv">2</span>, mean), eta)</span>
+<span id="cb943-3"><a href="day-30.html#cb943-3"></a><span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="30-day-30_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <ul>
 <li><p>More on CAR and SAR models is <a href="https://www.stat.colostate.edu/~hooten/papers/pdf/VerHoef_etal_SpatStat_2018.pdf">available here</a>

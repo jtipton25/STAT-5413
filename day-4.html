@@ -651,29 +651,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb78-8"><a href="day-4.html#cb78-8"></a>        <span class="dt">mainTitle  =</span> <span class="st">&quot;Entire United States&quot;</span>,</span>
 <span id="cb78-9"><a href="day-4.html#cb78-9"></a>        <span class="dt">geom =</span> <span class="st">&quot;raster&quot;</span></span>
 <span id="cb78-10"><a href="day-4.html#cb78-10"></a>    )</span></code></pre></div>
+<pre><code>## Warning: Raster pixels are placed at uneven horizontal intervals and will be
+## shifted. Consider using geom_tile() instead.</code></pre>
 <pre><code>## Warning: Raster pixels are placed at uneven vertical intervals and will be
 ## shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="04-day-4_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="day-4.html#cb80-1"></a><span class="co">## Subsample the data</span></span>
-<span id="cb80-2"><a href="day-4.html#cb80-2"></a>dat <span class="op">%&gt;%</span></span>
-<span id="cb80-3"><a href="day-4.html#cb80-3"></a><span class="st">    </span><span class="kw">subset</span>(inUS) <span class="op">%&gt;%</span></span>
-<span id="cb80-4"><a href="day-4.html#cb80-4"></a><span class="st">    </span><span class="kw">sample_n</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span></span>
-<span id="cb80-5"><a href="day-4.html#cb80-5"></a><span class="st">    </span><span class="kw">map_heat</span>(</span>
-<span id="cb80-6"><a href="day-4.html#cb80-6"></a>        <span class="dt">color_low  =</span> <span class="st">&quot;pink&quot;</span>, </span>
-<span id="cb80-7"><a href="day-4.html#cb80-7"></a>        <span class="dt">color_high =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb80-8"><a href="day-4.html#cb80-8"></a>        <span class="dt">mainTitle  =</span> <span class="st">&quot;Entire United States&quot;</span>,</span>
-<span id="cb80-9"><a href="day-4.html#cb80-9"></a>        <span class="dt">geom =</span> <span class="st">&quot;tile&quot;</span></span>
-<span id="cb80-10"><a href="day-4.html#cb80-10"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="day-4.html#cb81-1"></a><span class="co">## Subsample the data</span></span>
+<span id="cb81-2"><a href="day-4.html#cb81-2"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb81-3"><a href="day-4.html#cb81-3"></a><span class="st">    </span><span class="kw">subset</span>(inUS) <span class="op">%&gt;%</span></span>
+<span id="cb81-4"><a href="day-4.html#cb81-4"></a><span class="st">    </span><span class="kw">sample_n</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span></span>
+<span id="cb81-5"><a href="day-4.html#cb81-5"></a><span class="st">    </span><span class="kw">map_heat</span>(</span>
+<span id="cb81-6"><a href="day-4.html#cb81-6"></a>        <span class="dt">color_low  =</span> <span class="st">&quot;pink&quot;</span>, </span>
+<span id="cb81-7"><a href="day-4.html#cb81-7"></a>        <span class="dt">color_high =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb81-8"><a href="day-4.html#cb81-8"></a>        <span class="dt">mainTitle  =</span> <span class="st">&quot;Entire United States&quot;</span>,</span>
+<span id="cb81-9"><a href="day-4.html#cb81-9"></a>        <span class="dt">geom =</span> <span class="st">&quot;tile&quot;</span></span>
+<span id="cb81-10"><a href="day-4.html#cb81-10"></a>    )</span></code></pre></div>
 <p><img src="04-day-4_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <ul>
 <li>Plotting spatial data using google maps</li>
 </ul>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="day-4.html#cb81-1"></a><span class="co">## longitude and latitude of approximately the center of Arkansas</span></span>
-<span id="cb81-2"><a href="day-4.html#cb81-2"></a>arkansas_center &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">92.33</span>, <span class="fl">35.00</span>) </span>
-<span id="cb81-3"><a href="day-4.html#cb81-3"></a></span>
-<span id="cb81-4"><a href="day-4.html#cb81-4"></a><span class="kw">library</span>(maps)</span>
-<span id="cb81-5"><a href="day-4.html#cb81-5"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb81-6"><a href="day-4.html#cb81-6"></a><span class="kw">library</span>(ggmap)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="day-4.html#cb82-1"></a><span class="co">## longitude and latitude of approximately the center of Arkansas</span></span>
+<span id="cb82-2"><a href="day-4.html#cb82-2"></a>arkansas_center &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">92.33</span>, <span class="fl">35.00</span>) </span>
+<span id="cb82-3"><a href="day-4.html#cb82-3"></a></span>
+<span id="cb82-4"><a href="day-4.html#cb82-4"></a><span class="kw">library</span>(maps)</span>
+<span id="cb82-5"><a href="day-4.html#cb82-5"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb82-6"><a href="day-4.html#cb82-6"></a><span class="kw">library</span>(ggmap)</span></code></pre></div>
 <pre><code>## Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</code></pre>
 <pre><code>## Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</code></pre>
 <pre><code>## 
@@ -681,15 +683,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## The following object is masked from &#39;package:plotly&#39;:
 ## 
 ##     wind</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="day-4.html#cb86-1"></a>lon &lt;-<span class="st"> </span>arkansas_center[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">length =</span> <span class="dv">10</span>)   </span>
-<span id="cb86-2"><a href="day-4.html#cb86-2"></a>lat &lt;-<span class="st"> </span>arkansas_center[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">length =</span> <span class="dv">10</span>)   </span>
-<span id="cb86-3"><a href="day-4.html#cb86-3"></a>s   &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(lon, lat)</span>
-<span id="cb86-4"><a href="day-4.html#cb86-4"></a></span>
-<span id="cb86-5"><a href="day-4.html#cb86-5"></a><span class="kw">head</span>(lon)</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="day-4.html#cb87-1"></a>lon &lt;-<span class="st"> </span>arkansas_center[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">length =</span> <span class="dv">10</span>)   </span>
+<span id="cb87-2"><a href="day-4.html#cb87-2"></a>lat &lt;-<span class="st"> </span>arkansas_center[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">length =</span> <span class="dv">10</span>)   </span>
+<span id="cb87-3"><a href="day-4.html#cb87-3"></a>s   &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(lon, lat)</span>
+<span id="cb87-4"><a href="day-4.html#cb87-4"></a></span>
+<span id="cb87-5"><a href="day-4.html#cb87-5"></a><span class="kw">head</span>(lon)</span></code></pre></div>
 <pre><code>## [1] -94.33000 -93.88556 -93.44111 -92.99667 -92.55222 -92.10778</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="day-4.html#cb88-1"></a><span class="kw">head</span>(lat) </span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="day-4.html#cb89-1"></a><span class="kw">head</span>(lat) </span></code></pre></div>
 <pre><code>## [1] 33.00000 33.44444 33.88889 34.33333 34.77778 35.22222</code></pre>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="day-4.html#cb90-1"></a><span class="kw">str</span>(s)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="day-4.html#cb91-1"></a><span class="kw">str</span>(s)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    100 obs. of  2 variables:
 ##  $ Var1: num  -94.3 -93.9 -93.4 -93 -92.6 ...
 ##  $ Var2: num  33 33 33 33 33 33 33 33 33 33 ...
@@ -698,51 +700,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   ..$ dimnames:List of 2
 ##   .. ..$ Var1: chr [1:10] &quot;Var1=-94.33000&quot; &quot;Var1=-93.88556&quot; &quot;Var1=-93.44111&quot; &quot;Var1=-92.99667&quot; ...
 ##   .. ..$ Var2: chr [1:10] &quot;Var2=33.00000&quot; &quot;Var2=33.44444&quot; &quot;Var2=33.88889&quot; &quot;Var2=34.33333&quot; ...</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="day-4.html#cb92-1"></a><span class="kw">plot</span>(s)</span>
-<span id="cb92-2"><a href="day-4.html#cb92-2"></a><span class="kw">points</span>(arkansas_center, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">col =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="day-4.html#cb93-1"></a><span class="kw">plot</span>(s)</span>
+<span id="cb93-2"><a href="day-4.html#cb93-2"></a><span class="kw">points</span>(arkansas_center, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">col =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="04-day-4_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="day-4.html#cb93-1"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">lon =</span> lon, <span class="dt">lat =</span> lat)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="day-4.html#cb94-1"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">lon =</span> lon, <span class="dt">lat =</span> lat)</span></code></pre></div>
 <p>Using Google maps requires registration of a key. See <a href="https://www.littlemissdata.com/blog/maps">https://www.littlemissdata.com/blog/maps</a> for details.</p>
 <ul>
 <li>Plotting areal data
 The example is from <a href="https://www4.stat.ncsu.edu/~reich/SpatialStats/code/Guns.pdf">https://www4.stat.ncsu.edu/~reich/SpatialStats/code/Guns.pdf</a> taken from <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(15)01026-0/fulltext">https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(15)01026-0/fulltext</a></li>
 </ul>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="day-4.html#cb94-1"></a><span class="co">## process the guns data</span></span>
-<span id="cb94-2"><a href="day-4.html#cb94-2"></a><span class="co"># load(here::here(&quot;data&quot;, &quot;guns.RData&quot;))</span></span>
-<span id="cb94-3"><a href="day-4.html#cb94-3"></a><span class="co"># names(Y)[1:5]</span></span>
-<span id="cb94-4"><a href="day-4.html#cb94-4"></a><span class="co"># region  &lt;- tolower(names(Y))</span></span>
-<span id="cb94-5"><a href="day-4.html#cb94-5"></a><span class="co"># region[1:5]</span></span>
-<span id="cb94-6"><a href="day-4.html#cb94-6"></a><span class="co"># rate    &lt;- 10000*Y/N</span></span>
-<span id="cb94-7"><a href="day-4.html#cb94-7"></a><span class="co"># numlaws &lt;- rowSums(X)</span></span>
-<span id="cb94-8"><a href="day-4.html#cb94-8"></a><span class="co"># crime   &lt;- data.frame(Y=Y,N=N,rate=rate,X=X,numlaws,region=region)</span></span>
-<span id="cb94-9"><a href="day-4.html#cb94-9"></a><span class="co"># dat &lt;- data.frame(</span></span>
-<span id="cb94-10"><a href="day-4.html#cb94-10"></a><span class="co">#     deaths_2010             = Y,</span></span>
-<span id="cb94-11"><a href="day-4.html#cb94-11"></a><span class="co">#     population              = N,</span></span>
-<span id="cb94-12"><a href="day-4.html#cb94-12"></a><span class="co">#     deaths_per_10000        = Z[, 1],</span></span>
-<span id="cb94-13"><a href="day-4.html#cb94-13"></a><span class="co">#     firearm_quartile        = Z[, 2],</span></span>
-<span id="cb94-14"><a href="day-4.html#cb94-14"></a><span class="co">#     unemployment_quartile   = Z[, 3],</span></span>
-<span id="cb94-15"><a href="day-4.html#cb94-15"></a><span class="co">#     non_firearm_homocide    = Z[, 4],</span></span>
-<span id="cb94-16"><a href="day-4.html#cb94-16"></a><span class="co">#     firearm_export_quartile = Z[, 5],</span></span>
-<span id="cb94-17"><a href="day-4.html#cb94-17"></a><span class="co">#     numlaws                 = apply(X, 1, sum),</span></span>
-<span id="cb94-18"><a href="day-4.html#cb94-18"></a><span class="co">#     region                  = region</span></span>
-<span id="cb94-19"><a href="day-4.html#cb94-19"></a><span class="co"># )</span></span>
-<span id="cb94-20"><a href="day-4.html#cb94-20"></a><span class="co"># save(dat, file = here::here(&quot;data&quot;, &quot;guns_processed.RData&quot;))</span></span>
-<span id="cb94-21"><a href="day-4.html#cb94-21"></a><span class="kw">load</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;guns_processed.RData&quot;</span>))</span>
-<span id="cb94-22"><a href="day-4.html#cb94-22"></a></span>
-<span id="cb94-23"><a href="day-4.html#cb94-23"></a><span class="co">## mutate a death rate</span></span>
-<span id="cb94-24"><a href="day-4.html#cb94-24"></a>dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
-<span id="cb94-25"><a href="day-4.html#cb94-25"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">rate =</span> <span class="dv">10000</span> <span class="op">*</span><span class="st"> </span>deaths_<span class="dv">2010</span> <span class="op">/</span><span class="st"> </span>population)</span>
-<span id="cb94-26"><a href="day-4.html#cb94-26"></a></span>
-<span id="cb94-27"><a href="day-4.html#cb94-27"></a>dat <span class="op">%&gt;%</span></span>
-<span id="cb94-28"><a href="day-4.html#cb94-28"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> numlaws, <span class="dt">y =</span> rate, <span class="dt">color =</span> region <span class="op">==</span><span class="st"> &quot;arkansas&quot;</span>)) <span class="op">+</span></span>
-<span id="cb94-29"><a href="day-4.html#cb94-29"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb94-30"><a href="day-4.html#cb94-30"></a><span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></span>
-<span id="cb94-31"><a href="day-4.html#cb94-31"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Number of gun control laws&quot;</span>) <span class="op">+</span></span>
-<span id="cb94-32"><a href="day-4.html#cb94-32"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Homicide rate (deaths/100K)&quot;</span>) <span class="op">+</span></span>
-<span id="cb94-33"><a href="day-4.html#cb94-33"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Arkansas in red&quot;</span>) <span class="op">+</span></span>
-<span id="cb94-34"><a href="day-4.html#cb94-34"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="day-4.html#cb95-1"></a><span class="co">## process the guns data</span></span>
+<span id="cb95-2"><a href="day-4.html#cb95-2"></a><span class="co"># load(here::here(&quot;data&quot;, &quot;guns.RData&quot;))</span></span>
+<span id="cb95-3"><a href="day-4.html#cb95-3"></a><span class="co"># names(Y)[1:5]</span></span>
+<span id="cb95-4"><a href="day-4.html#cb95-4"></a><span class="co"># region  &lt;- tolower(names(Y))</span></span>
+<span id="cb95-5"><a href="day-4.html#cb95-5"></a><span class="co"># region[1:5]</span></span>
+<span id="cb95-6"><a href="day-4.html#cb95-6"></a><span class="co"># rate    &lt;- 10000*Y/N</span></span>
+<span id="cb95-7"><a href="day-4.html#cb95-7"></a><span class="co"># numlaws &lt;- rowSums(X)</span></span>
+<span id="cb95-8"><a href="day-4.html#cb95-8"></a><span class="co"># crime   &lt;- data.frame(Y=Y,N=N,rate=rate,X=X,numlaws,region=region)</span></span>
+<span id="cb95-9"><a href="day-4.html#cb95-9"></a><span class="co"># dat &lt;- data.frame(</span></span>
+<span id="cb95-10"><a href="day-4.html#cb95-10"></a><span class="co">#     deaths_2010             = Y,</span></span>
+<span id="cb95-11"><a href="day-4.html#cb95-11"></a><span class="co">#     population              = N,</span></span>
+<span id="cb95-12"><a href="day-4.html#cb95-12"></a><span class="co">#     deaths_per_10000        = Z[, 1],</span></span>
+<span id="cb95-13"><a href="day-4.html#cb95-13"></a><span class="co">#     firearm_quartile        = Z[, 2],</span></span>
+<span id="cb95-14"><a href="day-4.html#cb95-14"></a><span class="co">#     unemployment_quartile   = Z[, 3],</span></span>
+<span id="cb95-15"><a href="day-4.html#cb95-15"></a><span class="co">#     non_firearm_homocide    = Z[, 4],</span></span>
+<span id="cb95-16"><a href="day-4.html#cb95-16"></a><span class="co">#     firearm_export_quartile = Z[, 5],</span></span>
+<span id="cb95-17"><a href="day-4.html#cb95-17"></a><span class="co">#     numlaws                 = apply(X, 1, sum),</span></span>
+<span id="cb95-18"><a href="day-4.html#cb95-18"></a><span class="co">#     region                  = region</span></span>
+<span id="cb95-19"><a href="day-4.html#cb95-19"></a><span class="co"># )</span></span>
+<span id="cb95-20"><a href="day-4.html#cb95-20"></a><span class="co"># save(dat, file = here::here(&quot;data&quot;, &quot;guns_processed.RData&quot;))</span></span>
+<span id="cb95-21"><a href="day-4.html#cb95-21"></a><span class="kw">load</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;guns_processed.RData&quot;</span>))</span>
+<span id="cb95-22"><a href="day-4.html#cb95-22"></a></span>
+<span id="cb95-23"><a href="day-4.html#cb95-23"></a><span class="co">## mutate a death rate</span></span>
+<span id="cb95-24"><a href="day-4.html#cb95-24"></a>dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span></span>
+<span id="cb95-25"><a href="day-4.html#cb95-25"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">rate =</span> <span class="dv">10000</span> <span class="op">*</span><span class="st"> </span>deaths_<span class="dv">2010</span> <span class="op">/</span><span class="st"> </span>population)</span>
+<span id="cb95-26"><a href="day-4.html#cb95-26"></a></span>
+<span id="cb95-27"><a href="day-4.html#cb95-27"></a>dat <span class="op">%&gt;%</span></span>
+<span id="cb95-28"><a href="day-4.html#cb95-28"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> numlaws, <span class="dt">y =</span> rate, <span class="dt">color =</span> region <span class="op">==</span><span class="st"> &quot;arkansas&quot;</span>)) <span class="op">+</span></span>
+<span id="cb95-29"><a href="day-4.html#cb95-29"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb95-30"><a href="day-4.html#cb95-30"></a><span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></span>
+<span id="cb95-31"><a href="day-4.html#cb95-31"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Number of gun control laws&quot;</span>) <span class="op">+</span></span>
+<span id="cb95-32"><a href="day-4.html#cb95-32"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Homicide rate (deaths/100K)&quot;</span>) <span class="op">+</span></span>
+<span id="cb95-33"><a href="day-4.html#cb95-33"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Arkansas in red&quot;</span>) <span class="op">+</span></span>
+<span id="cb95-34"><a href="day-4.html#cb95-34"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="04-day-4_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="day-4.html#cb95-1"></a><span class="kw">lm</span>(rate <span class="op">~</span><span class="st"> </span>numlaws, <span class="dt">data =</span> dat) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="day-4.html#cb96-1"></a><span class="kw">lm</span>(rate <span class="op">~</span><span class="st"> </span>numlaws, <span class="dt">data =</span> dat) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = rate ~ numlaws, data = dat)
@@ -761,8 +763,8 @@ The example is from <a href="https://www4.stat.ncsu.edu/~reich/SpatialStats/code
 ## Residual standard error: 0.2867 on 48 degrees of freedom
 ## Multiple R-squared:  0.4448, Adjusted R-squared:  0.4332 
 ## F-statistic: 38.45 on 1 and 48 DF,  p-value: 1.236e-07</code></pre>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="day-4.html#cb97-1"></a>us &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)</span>
-<span id="cb97-2"><a href="day-4.html#cb97-2"></a><span class="kw">head</span>(us)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="day-4.html#cb98-1"></a>us &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)</span>
+<span id="cb98-2"><a href="day-4.html#cb98-2"></a><span class="kw">head</span>(us)</span></code></pre></div>
 <pre><code>##        long      lat group order  region subregion
 ## 1 -87.46201 30.38968     1     1 alabama      &lt;NA&gt;
 ## 2 -87.48493 30.37249     1     2 alabama      &lt;NA&gt;
@@ -770,33 +772,33 @@ The example is from <a href="https://www4.stat.ncsu.edu/~reich/SpatialStats/code
 ## 4 -87.53076 30.33239     1     4 alabama      &lt;NA&gt;
 ## 5 -87.57087 30.32665     1     5 alabama      &lt;NA&gt;
 ## 6 -87.58806 30.32665     1     6 alabama      &lt;NA&gt;</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="day-4.html#cb99-1"></a>gg &lt;-<span class="st"> </span><span class="kw">ggplot</span>()</span>
-<span id="cb99-2"><a href="day-4.html#cb99-2"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">geom_map</span>(<span class="dt">data =</span> us, <span class="dt">map =</span> us,</span>
-<span id="cb99-3"><a href="day-4.html#cb99-3"></a>                    <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">map_id =</span> region),</span>
-<span id="cb99-4"><a href="day-4.html#cb99-4"></a>                    <span class="dt">fill =</span> <span class="st">&quot;#ffffff&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;#ffffff&quot;</span>, <span class="dt">size =</span> <span class="fl">0.15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="day-4.html#cb100-1"></a>gg &lt;-<span class="st"> </span><span class="kw">ggplot</span>()</span>
+<span id="cb100-2"><a href="day-4.html#cb100-2"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">geom_map</span>(<span class="dt">data =</span> us, <span class="dt">map =</span> us,</span>
+<span id="cb100-3"><a href="day-4.html#cb100-3"></a>                    <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">map_id =</span> region),</span>
+<span id="cb100-4"><a href="day-4.html#cb100-4"></a>                    <span class="dt">fill =</span> <span class="st">&quot;#ffffff&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;#ffffff&quot;</span>, <span class="dt">size =</span> <span class="fl">0.15</span>)</span></code></pre></div>
 <pre><code>## Warning: Ignoring unknown aesthetics: x, y</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="day-4.html#cb101-1"></a>gg</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="day-4.html#cb102-1"></a>gg</span></code></pre></div>
 <p><img src="04-day-4_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="day-4.html#cb102-1"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">geom_map</span>(</span>
-<span id="cb102-2"><a href="day-4.html#cb102-2"></a>    <span class="dt">data =</span> dat, </span>
-<span id="cb102-3"><a href="day-4.html#cb102-3"></a>    <span class="dt">map =</span> us,</span>
-<span id="cb102-4"><a href="day-4.html#cb102-4"></a>    <span class="kw">aes</span>(<span class="dt">fill =</span> rate, <span class="dt">map_id =</span> region),</span>
-<span id="cb102-5"><a href="day-4.html#cb102-5"></a>    <span class="dt">color =</span> <span class="st">&quot;#ffffff&quot;</span>, <span class="dt">size =</span> <span class="fl">0.15</span></span>
-<span id="cb102-6"><a href="day-4.html#cb102-6"></a>)</span>
-<span id="cb102-7"><a href="day-4.html#cb102-7"></a></span>
-<span id="cb102-8"><a href="day-4.html#cb102-8"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_continuous</span>(</span>
-<span id="cb102-9"><a href="day-4.html#cb102-9"></a>    <span class="dt">low  =</span> <span class="st">&#39;thistle2&#39;</span>, </span>
-<span id="cb102-10"><a href="day-4.html#cb102-10"></a>    <span class="dt">high =</span> <span class="st">&#39;darkred&#39;</span>, </span>
-<span id="cb102-11"><a href="day-4.html#cb102-11"></a>    <span class="dt">guide=</span> <span class="st">&#39;colorbar&#39;</span>,</span>
-<span id="cb102-12"><a href="day-4.html#cb102-12"></a>    <span class="dt">name =</span> <span class="st">&quot;Deaths/100K&quot;</span></span>
-<span id="cb102-13"><a href="day-4.html#cb102-13"></a>)</span>
-<span id="cb102-14"><a href="day-4.html#cb102-14"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">title =</span> <span class="st">&quot;Homicide rates&quot;</span>)</span>
-<span id="cb102-15"><a href="day-4.html#cb102-15"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>(<span class="st">&quot;albers&quot;</span>, <span class="dt">lat0 =</span> <span class="dv">39</span>, <span class="dt">lat1 =</span> <span class="dv">45</span>) </span>
-<span id="cb102-16"><a href="day-4.html#cb102-16"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.border =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb102-17"><a href="day-4.html#cb102-17"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb102-18"><a href="day-4.html#cb102-18"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb102-19"><a href="day-4.html#cb102-19"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb102-20"><a href="day-4.html#cb102-20"></a>gg</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="day-4.html#cb103-1"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">geom_map</span>(</span>
+<span id="cb103-2"><a href="day-4.html#cb103-2"></a>    <span class="dt">data =</span> dat, </span>
+<span id="cb103-3"><a href="day-4.html#cb103-3"></a>    <span class="dt">map =</span> us,</span>
+<span id="cb103-4"><a href="day-4.html#cb103-4"></a>    <span class="kw">aes</span>(<span class="dt">fill =</span> rate, <span class="dt">map_id =</span> region),</span>
+<span id="cb103-5"><a href="day-4.html#cb103-5"></a>    <span class="dt">color =</span> <span class="st">&quot;#ffffff&quot;</span>, <span class="dt">size =</span> <span class="fl">0.15</span></span>
+<span id="cb103-6"><a href="day-4.html#cb103-6"></a>)</span>
+<span id="cb103-7"><a href="day-4.html#cb103-7"></a></span>
+<span id="cb103-8"><a href="day-4.html#cb103-8"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_continuous</span>(</span>
+<span id="cb103-9"><a href="day-4.html#cb103-9"></a>    <span class="dt">low  =</span> <span class="st">&#39;thistle2&#39;</span>, </span>
+<span id="cb103-10"><a href="day-4.html#cb103-10"></a>    <span class="dt">high =</span> <span class="st">&#39;darkred&#39;</span>, </span>
+<span id="cb103-11"><a href="day-4.html#cb103-11"></a>    <span class="dt">guide=</span> <span class="st">&#39;colorbar&#39;</span>,</span>
+<span id="cb103-12"><a href="day-4.html#cb103-12"></a>    <span class="dt">name =</span> <span class="st">&quot;Deaths/100K&quot;</span></span>
+<span id="cb103-13"><a href="day-4.html#cb103-13"></a>)</span>
+<span id="cb103-14"><a href="day-4.html#cb103-14"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">title =</span> <span class="st">&quot;Homicide rates&quot;</span>)</span>
+<span id="cb103-15"><a href="day-4.html#cb103-15"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>(<span class="st">&quot;albers&quot;</span>, <span class="dt">lat0 =</span> <span class="dv">39</span>, <span class="dt">lat1 =</span> <span class="dv">45</span>) </span>
+<span id="cb103-16"><a href="day-4.html#cb103-16"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.border =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb103-17"><a href="day-4.html#cb103-17"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.background =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb103-18"><a href="day-4.html#cb103-18"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb103-19"><a href="day-4.html#cb103-19"></a>gg &lt;-<span class="st"> </span>gg <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb103-20"><a href="day-4.html#cb103-20"></a>gg</span></code></pre></div>
 <p><img src="04-day-4_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>The map looks right according to</p>
 <p><a href="http://www.deathpenaltyinfo.org/murder-rates-nationally-and-state#MRord">http://www.deathpenaltyinfo.org/murder-rates-nationally-and-state#MRord</a></p>
@@ -804,173 +806,173 @@ The example is from <a href="https://www4.stat.ncsu.edu/~reich/SpatialStats/code
 <div id="in-class-activity" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> In Class Activity:</h3>
 <p>From <a href="https://spacetimewithr.org/code">Lab 2.1</a> on the textbook site</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="day-4.html#cb103-1"></a><span class="co">## Wikle, C. K., Zammit-Mangion, A., and Cressie, N. (2019), </span></span>
-<span id="cb103-2"><a href="day-4.html#cb103-2"></a><span class="co">## Spatio-Temporal Statistics with R, Boca Raton, FL: Chapman &amp; Hall/CRC</span></span>
-<span id="cb103-3"><a href="day-4.html#cb103-3"></a><span class="co">## Copyright (c) 2019 Wikle, Zammit-Mangion, Cressie</span></span>
-<span id="cb103-4"><a href="day-4.html#cb103-4"></a><span class="co">##</span></span>
-<span id="cb103-5"><a href="day-4.html#cb103-5"></a><span class="co">## This program is free software; you can redistribute it and/or</span></span>
-<span id="cb103-6"><a href="day-4.html#cb103-6"></a><span class="co">## modify it under the terms of the GNU General Public License</span></span>
-<span id="cb103-7"><a href="day-4.html#cb103-7"></a><span class="co">## as published by the Free Software Foundation; either version 2</span></span>
-<span id="cb103-8"><a href="day-4.html#cb103-8"></a><span class="co">## of the License, or (at your option) any later version.</span></span>
-<span id="cb103-9"><a href="day-4.html#cb103-9"></a><span class="co">##</span></span>
-<span id="cb103-10"><a href="day-4.html#cb103-10"></a><span class="co">## This program is distributed in the hope that it will be useful,</span></span>
-<span id="cb103-11"><a href="day-4.html#cb103-11"></a><span class="co">## but WITHOUT ANY WARRANTY; without even the implied warranty of</span></span>
-<span id="cb103-12"><a href="day-4.html#cb103-12"></a><span class="co">## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span></span>
-<span id="cb103-13"><a href="day-4.html#cb103-13"></a><span class="co">## GNU General Public License for more details.</span></span>
-<span id="cb103-14"><a href="day-4.html#cb103-14"></a></span>
-<span id="cb103-15"><a href="day-4.html#cb103-15"></a><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
-<span id="cb103-16"><a href="day-4.html#cb103-16"></a><span class="kw">library</span>(<span class="st">&quot;tidyr&quot;</span>)</span>
-<span id="cb103-17"><a href="day-4.html#cb103-17"></a><span class="kw">library</span>(<span class="st">&quot;STRbook&quot;</span>)</span>
-<span id="cb103-18"><a href="day-4.html#cb103-18"></a></span>
-<span id="cb103-19"><a href="day-4.html#cb103-19"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-20"><a href="day-4.html#cb103-20"></a>locs &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Stationinfo.dat&quot;</span>,</span>
-<span id="cb103-21"><a href="day-4.html#cb103-21"></a>                               <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>),</span>
-<span id="cb103-22"><a href="day-4.html#cb103-22"></a>                   <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>))</span>
-<span id="cb103-23"><a href="day-4.html#cb103-23"></a>Times &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Times_1990.dat&quot;</span>,</span>
-<span id="cb103-24"><a href="day-4.html#cb103-24"></a>                                <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>),</span>
-<span id="cb103-25"><a href="day-4.html#cb103-25"></a>                    <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&quot;julian&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>))</span>
-<span id="cb103-26"><a href="day-4.html#cb103-26"></a>Tmax &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Tmax_1990.dat&quot;</span>,</span>
-<span id="cb103-27"><a href="day-4.html#cb103-27"></a>                               <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>))</span>
-<span id="cb103-28"><a href="day-4.html#cb103-28"></a></span>
-<span id="cb103-29"><a href="day-4.html#cb103-29"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-30"><a href="day-4.html#cb103-30"></a><span class="kw">names</span>(Tmax) &lt;-<span class="st"> </span>locs<span class="op">$</span>id</span>
-<span id="cb103-31"><a href="day-4.html#cb103-31"></a></span>
-<span id="cb103-32"><a href="day-4.html#cb103-32"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-33"><a href="day-4.html#cb103-33"></a>Tmax &lt;-<span class="st"> </span><span class="kw">cbind</span>(Times, Tmax)</span>
-<span id="cb103-34"><a href="day-4.html#cb103-34"></a><span class="kw">head</span>(<span class="kw">names</span>(Tmax), <span class="dv">10</span>)</span>
-<span id="cb103-35"><a href="day-4.html#cb103-35"></a></span>
-<span id="cb103-36"><a href="day-4.html#cb103-36"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-37"><a href="day-4.html#cb103-37"></a>Tmax_long &lt;-<span class="st"> </span><span class="kw">gather</span>(Tmax, id, z, <span class="op">-</span>julian, <span class="op">-</span>year, <span class="op">-</span>month, <span class="op">-</span>day)</span>
-<span id="cb103-38"><a href="day-4.html#cb103-38"></a><span class="kw">head</span>(Tmax_long)</span>
-<span id="cb103-39"><a href="day-4.html#cb103-39"></a></span>
-<span id="cb103-40"><a href="day-4.html#cb103-40"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-41"><a href="day-4.html#cb103-41"></a>Tmax_long<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">as.integer</span>(Tmax_long<span class="op">$</span>id)</span>
-<span id="cb103-42"><a href="day-4.html#cb103-42"></a></span>
-<span id="cb103-43"><a href="day-4.html#cb103-43"></a><span class="co">## -----------------------------------------------------------</span></span>
-<span id="cb103-44"><a href="day-4.html#cb103-44"></a><span class="kw">nrow</span>(Tmax_long)</span>
-<span id="cb103-45"><a href="day-4.html#cb103-45"></a>Tmax_long &lt;-<span class="st"> </span><span class="kw">filter</span>(Tmax_long, <span class="op">!</span>(z <span class="op">&lt;=</span><span class="st"> </span><span class="dv">-9998</span>))</span>
-<span id="cb103-46"><a href="day-4.html#cb103-46"></a><span class="kw">nrow</span>(Tmax_long)</span>
-<span id="cb103-47"><a href="day-4.html#cb103-47"></a></span>
-<span id="cb103-48"><a href="day-4.html#cb103-48"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-49"><a href="day-4.html#cb103-49"></a>Tmax_long &lt;-<span class="st"> </span><span class="kw">mutate</span>(Tmax_long, <span class="dt">proc =</span> <span class="st">&quot;Tmax&quot;</span>)</span>
-<span id="cb103-50"><a href="day-4.html#cb103-50"></a><span class="kw">head</span>(Tmax_long)</span>
-<span id="cb103-51"><a href="day-4.html#cb103-51"></a></span>
-<span id="cb103-52"><a href="day-4.html#cb103-52"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-53"><a href="day-4.html#cb103-53"></a><span class="kw">data</span>(Tmin_long, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
-<span id="cb103-54"><a href="day-4.html#cb103-54"></a><span class="kw">data</span>(TDP_long, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
-<span id="cb103-55"><a href="day-4.html#cb103-55"></a><span class="kw">data</span>(Precip_long, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
-<span id="cb103-56"><a href="day-4.html#cb103-56"></a></span>
-<span id="cb103-57"><a href="day-4.html#cb103-57"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-58"><a href="day-4.html#cb103-58"></a>NOAA_df_<span class="dv">1990</span> &lt;-<span class="st"> </span><span class="kw">rbind</span>(Tmax_long, Tmin_long, TDP_long, Precip_long)</span>
-<span id="cb103-59"><a href="day-4.html#cb103-59"></a></span>
-<span id="cb103-60"><a href="day-4.html#cb103-60"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-61"><a href="day-4.html#cb103-61"></a>summ &lt;-<span class="st"> </span><span class="kw">group_by</span>(NOAA_df_<span class="dv">1990</span>, year, proc) <span class="op">%&gt;%</span><span class="st">  </span><span class="co"># groupings</span></span>
-<span id="cb103-62"><a href="day-4.html#cb103-62"></a><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean_proc =</span> <span class="kw">mean</span>(z))          <span class="co"># operation</span></span>
-<span id="cb103-63"><a href="day-4.html#cb103-63"></a></span>
-<span id="cb103-64"><a href="day-4.html#cb103-64"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-65"><a href="day-4.html#cb103-65"></a>NOAA_precip &lt;-<span class="st"> </span><span class="kw">filter</span>(NOAA_df_<span class="dv">1990</span>, proc <span class="op">==</span><span class="st"> &quot;Precip&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month <span class="op">==</span><span class="st"> </span><span class="dv">6</span>)</span>
-<span id="cb103-66"><a href="day-4.html#cb103-66"></a>summ &lt;-<span class="st"> </span><span class="kw">group_by</span>(NOAA_precip, year, id) <span class="op">%&gt;%</span></span>
-<span id="cb103-67"><a href="day-4.html#cb103-67"></a><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">days_no_precip =</span> <span class="kw">sum</span>(z <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))</span>
-<span id="cb103-68"><a href="day-4.html#cb103-68"></a><span class="kw">head</span>(summ)</span>
-<span id="cb103-69"><a href="day-4.html#cb103-69"></a></span>
-<span id="cb103-70"><a href="day-4.html#cb103-70"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-71"><a href="day-4.html#cb103-71"></a><span class="kw">median</span>(summ<span class="op">$</span>days_no_precip)</span>
-<span id="cb103-72"><a href="day-4.html#cb103-72"></a></span>
-<span id="cb103-73"><a href="day-4.html#cb103-73"></a><span class="co">## -------------------------------------------------------------</span></span>
-<span id="cb103-74"><a href="day-4.html#cb103-74"></a>grps &lt;-<span class="st"> </span><span class="kw">group_by</span>(NOAA_precip, year, id)</span>
-<span id="cb103-75"><a href="day-4.html#cb103-75"></a>summ &lt;-<span class="st"> </span><span class="kw">summarise</span>(grps, <span class="dt">days_no_precip =</span> <span class="kw">sum</span>(z <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))</span>
-<span id="cb103-76"><a href="day-4.html#cb103-76"></a></span>
-<span id="cb103-77"><a href="day-4.html#cb103-77"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-78"><a href="day-4.html#cb103-78"></a>NOAA_df_sorted &lt;-<span class="st"> </span><span class="kw">arrange</span>(NOAA_df_<span class="dv">1990</span>, julian, id)</span>
-<span id="cb103-79"><a href="day-4.html#cb103-79"></a></span>
-<span id="cb103-80"><a href="day-4.html#cb103-80"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-81"><a href="day-4.html#cb103-81"></a>df1 &lt;-<span class="st"> </span><span class="kw">select</span>(NOAA_df_<span class="dv">1990</span>, julian, z)</span>
-<span id="cb103-82"><a href="day-4.html#cb103-82"></a>df2 &lt;-<span class="st"> </span><span class="kw">select</span>(NOAA_df_<span class="dv">1990</span>, <span class="op">-</span>julian)</span>
-<span id="cb103-83"><a href="day-4.html#cb103-83"></a></span>
-<span id="cb103-84"><a href="day-4.html#cb103-84"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-85"><a href="day-4.html#cb103-85"></a>NOAA_df_<span class="dv">1990</span> &lt;-<span class="st"> </span><span class="kw">left_join</span>(NOAA_df_<span class="dv">1990</span>, locs, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</span>
-<span id="cb103-86"><a href="day-4.html#cb103-86"></a></span>
-<span id="cb103-87"><a href="day-4.html#cb103-87"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-88"><a href="day-4.html#cb103-88"></a>Tmax_long_sel &lt;-<span class="st"> </span><span class="kw">select</span>(Tmax_long, julian, id, z)</span>
-<span id="cb103-89"><a href="day-4.html#cb103-89"></a>Tmax_wide &lt;-<span class="st"> </span><span class="kw">spread</span>(Tmax_long_sel, id, z)</span>
-<span id="cb103-90"><a href="day-4.html#cb103-90"></a><span class="kw">dim</span>(Tmax_wide)</span>
-<span id="cb103-91"><a href="day-4.html#cb103-91"></a></span>
-<span id="cb103-92"><a href="day-4.html#cb103-92"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-93"><a href="day-4.html#cb103-93"></a>M &lt;-<span class="st"> </span><span class="kw">select</span>(Tmax_wide, <span class="op">-</span>julian) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</span>
-<span id="cb103-94"><a href="day-4.html#cb103-94"></a></span>
-<span id="cb103-95"><a href="day-4.html#cb103-95"></a><span class="co">## -----------------------------------------------------------</span></span>
-<span id="cb103-96"><a href="day-4.html#cb103-96"></a><span class="kw">library</span>(<span class="st">&quot;sp&quot;</span>)</span>
-<span id="cb103-97"><a href="day-4.html#cb103-97"></a><span class="kw">library</span>(<span class="st">&quot;spacetime&quot;</span>)</span>
-<span id="cb103-98"><a href="day-4.html#cb103-98"></a></span>
-<span id="cb103-99"><a href="day-4.html#cb103-99"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-100"><a href="day-4.html#cb103-100"></a>NOAA_df_<span class="dv">1990</span><span class="op">$</span>date &lt;-<span class="st"> </span><span class="kw">with</span>(NOAA_df_<span class="dv">1990</span>,</span>
-<span id="cb103-101"><a href="day-4.html#cb103-101"></a>                          <span class="kw">paste</span>(year, month, day, <span class="dt">sep =</span> <span class="st">&quot;-&quot;</span>))</span>
-<span id="cb103-102"><a href="day-4.html#cb103-102"></a><span class="kw">head</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>date, <span class="dv">4</span>)   <span class="co"># show first four elements</span></span>
-<span id="cb103-103"><a href="day-4.html#cb103-103"></a></span>
-<span id="cb103-104"><a href="day-4.html#cb103-104"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-105"><a href="day-4.html#cb103-105"></a>NOAA_df_<span class="dv">1990</span><span class="op">$</span>date &lt;-<span class="st"> </span><span class="kw">as.Date</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>date)</span>
-<span id="cb103-106"><a href="day-4.html#cb103-106"></a><span class="kw">class</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>date)</span>
-<span id="cb103-107"><a href="day-4.html#cb103-107"></a></span>
-<span id="cb103-108"><a href="day-4.html#cb103-108"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-109"><a href="day-4.html#cb103-109"></a>Tmax_long2 &lt;-<span class="st"> </span><span class="kw">filter</span>(NOAA_df_<span class="dv">1990</span>, proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>)</span>
-<span id="cb103-110"><a href="day-4.html#cb103-110"></a>STObj &lt;-<span class="st"> </span><span class="kw">stConstruct</span>(<span class="dt">x =</span> Tmax_long2,           <span class="co"># data set</span></span>
-<span id="cb103-111"><a href="day-4.html#cb103-111"></a>                     <span class="dt">space =</span> <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>),  <span class="co"># spatial fields</span></span>
-<span id="cb103-112"><a href="day-4.html#cb103-112"></a>                     <span class="dt">time =</span> <span class="st">&quot;date&quot;</span>)            <span class="co"># time field</span></span>
-<span id="cb103-113"><a href="day-4.html#cb103-113"></a><span class="kw">class</span>(STObj)</span>
-<span id="cb103-114"><a href="day-4.html#cb103-114"></a></span>
-<span id="cb103-115"><a href="day-4.html#cb103-115"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-116"><a href="day-4.html#cb103-116"></a>spat_part &lt;-<span class="st"> </span><span class="kw">SpatialPoints</span>(<span class="dt">coords =</span> Tmax_long2[, <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)])</span>
-<span id="cb103-117"><a href="day-4.html#cb103-117"></a>temp_part &lt;-<span class="st"> </span>Tmax_long2<span class="op">$</span>date</span>
-<span id="cb103-118"><a href="day-4.html#cb103-118"></a>STObj2 &lt;-<span class="st"> </span><span class="kw">STIDF</span>(<span class="dt">sp =</span> spat_part,</span>
-<span id="cb103-119"><a href="day-4.html#cb103-119"></a>                <span class="dt">time =</span> temp_part,</span>
-<span id="cb103-120"><a href="day-4.html#cb103-120"></a>                <span class="dt">data =</span> <span class="kw">select</span>(Tmax_long2, <span class="op">-</span>date, <span class="op">-</span>lon, <span class="op">-</span>lat))</span>
-<span id="cb103-121"><a href="day-4.html#cb103-121"></a><span class="kw">class</span>(STObj2)</span>
-<span id="cb103-122"><a href="day-4.html#cb103-122"></a></span>
-<span id="cb103-123"><a href="day-4.html#cb103-123"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-124"><a href="day-4.html#cb103-124"></a>spat_part &lt;-<span class="st"> </span><span class="kw">SpatialPoints</span>(<span class="dt">coords =</span> locs[, <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)])</span>
-<span id="cb103-125"><a href="day-4.html#cb103-125"></a>temp_part &lt;-<span class="st"> </span><span class="kw">with</span>(Times,</span>
-<span id="cb103-126"><a href="day-4.html#cb103-126"></a>                  <span class="kw">paste</span>(year, month, day, <span class="dt">sep =</span> <span class="st">&quot;-&quot;</span>))</span>
-<span id="cb103-127"><a href="day-4.html#cb103-127"></a>temp_part &lt;-<span class="st"> </span><span class="kw">as.Date</span>(temp_part)</span>
-<span id="cb103-128"><a href="day-4.html#cb103-128"></a></span>
-<span id="cb103-129"><a href="day-4.html#cb103-129"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-130"><a href="day-4.html#cb103-130"></a>Tmax_long3 &lt;-<span class="st"> </span><span class="kw">gather</span>(Tmax, id, z, <span class="op">-</span>julian, <span class="op">-</span>year, <span class="op">-</span>month, <span class="op">-</span>day)</span>
-<span id="cb103-131"><a href="day-4.html#cb103-131"></a></span>
-<span id="cb103-132"><a href="day-4.html#cb103-132"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-133"><a href="day-4.html#cb103-133"></a>Tmax_long3<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">as.integer</span>(Tmax_long3<span class="op">$</span>id)</span>
-<span id="cb103-134"><a href="day-4.html#cb103-134"></a>Tmax_long3 &lt;-<span class="st"> </span><span class="kw">arrange</span>(Tmax_long3,julian,id)</span>
-<span id="cb103-135"><a href="day-4.html#cb103-135"></a></span>
-<span id="cb103-136"><a href="day-4.html#cb103-136"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-137"><a href="day-4.html#cb103-137"></a><span class="kw">all</span>(<span class="kw">unique</span>(Tmax_long3<span class="op">$</span>id) <span class="op">==</span><span class="st"> </span>locs<span class="op">$</span>id)</span>
-<span id="cb103-138"><a href="day-4.html#cb103-138"></a></span>
-<span id="cb103-139"><a href="day-4.html#cb103-139"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-140"><a href="day-4.html#cb103-140"></a>STObj3 &lt;-<span class="st"> </span><span class="kw">STFDF</span>(<span class="dt">sp =</span> spat_part,</span>
-<span id="cb103-141"><a href="day-4.html#cb103-141"></a>                <span class="dt">time =</span> temp_part,</span>
-<span id="cb103-142"><a href="day-4.html#cb103-142"></a>                <span class="dt">data =</span> Tmax_long3)</span>
-<span id="cb103-143"><a href="day-4.html#cb103-143"></a><span class="kw">class</span>(STObj3)</span>
-<span id="cb103-144"><a href="day-4.html#cb103-144"></a></span>
-<span id="cb103-145"><a href="day-4.html#cb103-145"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-146"><a href="day-4.html#cb103-146"></a><span class="kw">proj4string</span>(STObj3) &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>)</span>
-<span id="cb103-147"><a href="day-4.html#cb103-147"></a></span>
-<span id="cb103-148"><a href="day-4.html#cb103-148"></a><span class="co">## ------------------------------------------------------------------------</span></span>
-<span id="cb103-149"><a href="day-4.html#cb103-149"></a>STObj3<span class="op">$</span>z[STObj3<span class="op">$</span>z <span class="op">==</span><span class="st"> </span><span class="dv">-9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="day-4.html#cb104-1"></a><span class="co">## Wikle, C. K., Zammit-Mangion, A., and Cressie, N. (2019), </span></span>
+<span id="cb104-2"><a href="day-4.html#cb104-2"></a><span class="co">## Spatio-Temporal Statistics with R, Boca Raton, FL: Chapman &amp; Hall/CRC</span></span>
+<span id="cb104-3"><a href="day-4.html#cb104-3"></a><span class="co">## Copyright (c) 2019 Wikle, Zammit-Mangion, Cressie</span></span>
+<span id="cb104-4"><a href="day-4.html#cb104-4"></a><span class="co">##</span></span>
+<span id="cb104-5"><a href="day-4.html#cb104-5"></a><span class="co">## This program is free software; you can redistribute it and/or</span></span>
+<span id="cb104-6"><a href="day-4.html#cb104-6"></a><span class="co">## modify it under the terms of the GNU General Public License</span></span>
+<span id="cb104-7"><a href="day-4.html#cb104-7"></a><span class="co">## as published by the Free Software Foundation; either version 2</span></span>
+<span id="cb104-8"><a href="day-4.html#cb104-8"></a><span class="co">## of the License, or (at your option) any later version.</span></span>
+<span id="cb104-9"><a href="day-4.html#cb104-9"></a><span class="co">##</span></span>
+<span id="cb104-10"><a href="day-4.html#cb104-10"></a><span class="co">## This program is distributed in the hope that it will be useful,</span></span>
+<span id="cb104-11"><a href="day-4.html#cb104-11"></a><span class="co">## but WITHOUT ANY WARRANTY; without even the implied warranty of</span></span>
+<span id="cb104-12"><a href="day-4.html#cb104-12"></a><span class="co">## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span></span>
+<span id="cb104-13"><a href="day-4.html#cb104-13"></a><span class="co">## GNU General Public License for more details.</span></span>
+<span id="cb104-14"><a href="day-4.html#cb104-14"></a></span>
+<span id="cb104-15"><a href="day-4.html#cb104-15"></a><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb104-16"><a href="day-4.html#cb104-16"></a><span class="kw">library</span>(<span class="st">&quot;tidyr&quot;</span>)</span>
+<span id="cb104-17"><a href="day-4.html#cb104-17"></a><span class="kw">library</span>(<span class="st">&quot;STRbook&quot;</span>)</span>
+<span id="cb104-18"><a href="day-4.html#cb104-18"></a></span>
+<span id="cb104-19"><a href="day-4.html#cb104-19"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-20"><a href="day-4.html#cb104-20"></a>locs &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Stationinfo.dat&quot;</span>,</span>
+<span id="cb104-21"><a href="day-4.html#cb104-21"></a>                               <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>),</span>
+<span id="cb104-22"><a href="day-4.html#cb104-22"></a>                   <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lon&quot;</span>))</span>
+<span id="cb104-23"><a href="day-4.html#cb104-23"></a>Times &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Times_1990.dat&quot;</span>,</span>
+<span id="cb104-24"><a href="day-4.html#cb104-24"></a>                                <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>),</span>
+<span id="cb104-25"><a href="day-4.html#cb104-25"></a>                    <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&quot;julian&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>))</span>
+<span id="cb104-26"><a href="day-4.html#cb104-26"></a>Tmax &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Tmax_1990.dat&quot;</span>,</span>
+<span id="cb104-27"><a href="day-4.html#cb104-27"></a>                               <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>))</span>
+<span id="cb104-28"><a href="day-4.html#cb104-28"></a></span>
+<span id="cb104-29"><a href="day-4.html#cb104-29"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-30"><a href="day-4.html#cb104-30"></a><span class="kw">names</span>(Tmax) &lt;-<span class="st"> </span>locs<span class="op">$</span>id</span>
+<span id="cb104-31"><a href="day-4.html#cb104-31"></a></span>
+<span id="cb104-32"><a href="day-4.html#cb104-32"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-33"><a href="day-4.html#cb104-33"></a>Tmax &lt;-<span class="st"> </span><span class="kw">cbind</span>(Times, Tmax)</span>
+<span id="cb104-34"><a href="day-4.html#cb104-34"></a><span class="kw">head</span>(<span class="kw">names</span>(Tmax), <span class="dv">10</span>)</span>
+<span id="cb104-35"><a href="day-4.html#cb104-35"></a></span>
+<span id="cb104-36"><a href="day-4.html#cb104-36"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-37"><a href="day-4.html#cb104-37"></a>Tmax_long &lt;-<span class="st"> </span><span class="kw">gather</span>(Tmax, id, z, <span class="op">-</span>julian, <span class="op">-</span>year, <span class="op">-</span>month, <span class="op">-</span>day)</span>
+<span id="cb104-38"><a href="day-4.html#cb104-38"></a><span class="kw">head</span>(Tmax_long)</span>
+<span id="cb104-39"><a href="day-4.html#cb104-39"></a></span>
+<span id="cb104-40"><a href="day-4.html#cb104-40"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-41"><a href="day-4.html#cb104-41"></a>Tmax_long<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">as.integer</span>(Tmax_long<span class="op">$</span>id)</span>
+<span id="cb104-42"><a href="day-4.html#cb104-42"></a></span>
+<span id="cb104-43"><a href="day-4.html#cb104-43"></a><span class="co">## -----------------------------------------------------------</span></span>
+<span id="cb104-44"><a href="day-4.html#cb104-44"></a><span class="kw">nrow</span>(Tmax_long)</span>
+<span id="cb104-45"><a href="day-4.html#cb104-45"></a>Tmax_long &lt;-<span class="st"> </span><span class="kw">filter</span>(Tmax_long, <span class="op">!</span>(z <span class="op">&lt;=</span><span class="st"> </span><span class="dv">-9998</span>))</span>
+<span id="cb104-46"><a href="day-4.html#cb104-46"></a><span class="kw">nrow</span>(Tmax_long)</span>
+<span id="cb104-47"><a href="day-4.html#cb104-47"></a></span>
+<span id="cb104-48"><a href="day-4.html#cb104-48"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-49"><a href="day-4.html#cb104-49"></a>Tmax_long &lt;-<span class="st"> </span><span class="kw">mutate</span>(Tmax_long, <span class="dt">proc =</span> <span class="st">&quot;Tmax&quot;</span>)</span>
+<span id="cb104-50"><a href="day-4.html#cb104-50"></a><span class="kw">head</span>(Tmax_long)</span>
+<span id="cb104-51"><a href="day-4.html#cb104-51"></a></span>
+<span id="cb104-52"><a href="day-4.html#cb104-52"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-53"><a href="day-4.html#cb104-53"></a><span class="kw">data</span>(Tmin_long, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
+<span id="cb104-54"><a href="day-4.html#cb104-54"></a><span class="kw">data</span>(TDP_long, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
+<span id="cb104-55"><a href="day-4.html#cb104-55"></a><span class="kw">data</span>(Precip_long, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
+<span id="cb104-56"><a href="day-4.html#cb104-56"></a></span>
+<span id="cb104-57"><a href="day-4.html#cb104-57"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-58"><a href="day-4.html#cb104-58"></a>NOAA_df_<span class="dv">1990</span> &lt;-<span class="st"> </span><span class="kw">rbind</span>(Tmax_long, Tmin_long, TDP_long, Precip_long)</span>
+<span id="cb104-59"><a href="day-4.html#cb104-59"></a></span>
+<span id="cb104-60"><a href="day-4.html#cb104-60"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-61"><a href="day-4.html#cb104-61"></a>summ &lt;-<span class="st"> </span><span class="kw">group_by</span>(NOAA_df_<span class="dv">1990</span>, year, proc) <span class="op">%&gt;%</span><span class="st">  </span><span class="co"># groupings</span></span>
+<span id="cb104-62"><a href="day-4.html#cb104-62"></a><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean_proc =</span> <span class="kw">mean</span>(z))          <span class="co"># operation</span></span>
+<span id="cb104-63"><a href="day-4.html#cb104-63"></a></span>
+<span id="cb104-64"><a href="day-4.html#cb104-64"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-65"><a href="day-4.html#cb104-65"></a>NOAA_precip &lt;-<span class="st"> </span><span class="kw">filter</span>(NOAA_df_<span class="dv">1990</span>, proc <span class="op">==</span><span class="st"> &quot;Precip&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month <span class="op">==</span><span class="st"> </span><span class="dv">6</span>)</span>
+<span id="cb104-66"><a href="day-4.html#cb104-66"></a>summ &lt;-<span class="st"> </span><span class="kw">group_by</span>(NOAA_precip, year, id) <span class="op">%&gt;%</span></span>
+<span id="cb104-67"><a href="day-4.html#cb104-67"></a><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">days_no_precip =</span> <span class="kw">sum</span>(z <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))</span>
+<span id="cb104-68"><a href="day-4.html#cb104-68"></a><span class="kw">head</span>(summ)</span>
+<span id="cb104-69"><a href="day-4.html#cb104-69"></a></span>
+<span id="cb104-70"><a href="day-4.html#cb104-70"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-71"><a href="day-4.html#cb104-71"></a><span class="kw">median</span>(summ<span class="op">$</span>days_no_precip)</span>
+<span id="cb104-72"><a href="day-4.html#cb104-72"></a></span>
+<span id="cb104-73"><a href="day-4.html#cb104-73"></a><span class="co">## -------------------------------------------------------------</span></span>
+<span id="cb104-74"><a href="day-4.html#cb104-74"></a>grps &lt;-<span class="st"> </span><span class="kw">group_by</span>(NOAA_precip, year, id)</span>
+<span id="cb104-75"><a href="day-4.html#cb104-75"></a>summ &lt;-<span class="st"> </span><span class="kw">summarise</span>(grps, <span class="dt">days_no_precip =</span> <span class="kw">sum</span>(z <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))</span>
+<span id="cb104-76"><a href="day-4.html#cb104-76"></a></span>
+<span id="cb104-77"><a href="day-4.html#cb104-77"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-78"><a href="day-4.html#cb104-78"></a>NOAA_df_sorted &lt;-<span class="st"> </span><span class="kw">arrange</span>(NOAA_df_<span class="dv">1990</span>, julian, id)</span>
+<span id="cb104-79"><a href="day-4.html#cb104-79"></a></span>
+<span id="cb104-80"><a href="day-4.html#cb104-80"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-81"><a href="day-4.html#cb104-81"></a>df1 &lt;-<span class="st"> </span><span class="kw">select</span>(NOAA_df_<span class="dv">1990</span>, julian, z)</span>
+<span id="cb104-82"><a href="day-4.html#cb104-82"></a>df2 &lt;-<span class="st"> </span><span class="kw">select</span>(NOAA_df_<span class="dv">1990</span>, <span class="op">-</span>julian)</span>
+<span id="cb104-83"><a href="day-4.html#cb104-83"></a></span>
+<span id="cb104-84"><a href="day-4.html#cb104-84"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-85"><a href="day-4.html#cb104-85"></a>NOAA_df_<span class="dv">1990</span> &lt;-<span class="st"> </span><span class="kw">left_join</span>(NOAA_df_<span class="dv">1990</span>, locs, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</span>
+<span id="cb104-86"><a href="day-4.html#cb104-86"></a></span>
+<span id="cb104-87"><a href="day-4.html#cb104-87"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-88"><a href="day-4.html#cb104-88"></a>Tmax_long_sel &lt;-<span class="st"> </span><span class="kw">select</span>(Tmax_long, julian, id, z)</span>
+<span id="cb104-89"><a href="day-4.html#cb104-89"></a>Tmax_wide &lt;-<span class="st"> </span><span class="kw">spread</span>(Tmax_long_sel, id, z)</span>
+<span id="cb104-90"><a href="day-4.html#cb104-90"></a><span class="kw">dim</span>(Tmax_wide)</span>
+<span id="cb104-91"><a href="day-4.html#cb104-91"></a></span>
+<span id="cb104-92"><a href="day-4.html#cb104-92"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-93"><a href="day-4.html#cb104-93"></a>M &lt;-<span class="st"> </span><span class="kw">select</span>(Tmax_wide, <span class="op">-</span>julian) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</span>
+<span id="cb104-94"><a href="day-4.html#cb104-94"></a></span>
+<span id="cb104-95"><a href="day-4.html#cb104-95"></a><span class="co">## -----------------------------------------------------------</span></span>
+<span id="cb104-96"><a href="day-4.html#cb104-96"></a><span class="kw">library</span>(<span class="st">&quot;sp&quot;</span>)</span>
+<span id="cb104-97"><a href="day-4.html#cb104-97"></a><span class="kw">library</span>(<span class="st">&quot;spacetime&quot;</span>)</span>
+<span id="cb104-98"><a href="day-4.html#cb104-98"></a></span>
+<span id="cb104-99"><a href="day-4.html#cb104-99"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-100"><a href="day-4.html#cb104-100"></a>NOAA_df_<span class="dv">1990</span><span class="op">$</span>date &lt;-<span class="st"> </span><span class="kw">with</span>(NOAA_df_<span class="dv">1990</span>,</span>
+<span id="cb104-101"><a href="day-4.html#cb104-101"></a>                          <span class="kw">paste</span>(year, month, day, <span class="dt">sep =</span> <span class="st">&quot;-&quot;</span>))</span>
+<span id="cb104-102"><a href="day-4.html#cb104-102"></a><span class="kw">head</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>date, <span class="dv">4</span>)   <span class="co"># show first four elements</span></span>
+<span id="cb104-103"><a href="day-4.html#cb104-103"></a></span>
+<span id="cb104-104"><a href="day-4.html#cb104-104"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-105"><a href="day-4.html#cb104-105"></a>NOAA_df_<span class="dv">1990</span><span class="op">$</span>date &lt;-<span class="st"> </span><span class="kw">as.Date</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>date)</span>
+<span id="cb104-106"><a href="day-4.html#cb104-106"></a><span class="kw">class</span>(NOAA_df_<span class="dv">1990</span><span class="op">$</span>date)</span>
+<span id="cb104-107"><a href="day-4.html#cb104-107"></a></span>
+<span id="cb104-108"><a href="day-4.html#cb104-108"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-109"><a href="day-4.html#cb104-109"></a>Tmax_long2 &lt;-<span class="st"> </span><span class="kw">filter</span>(NOAA_df_<span class="dv">1990</span>, proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>)</span>
+<span id="cb104-110"><a href="day-4.html#cb104-110"></a>STObj &lt;-<span class="st"> </span><span class="kw">stConstruct</span>(<span class="dt">x =</span> Tmax_long2,           <span class="co"># data set</span></span>
+<span id="cb104-111"><a href="day-4.html#cb104-111"></a>                     <span class="dt">space =</span> <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>),  <span class="co"># spatial fields</span></span>
+<span id="cb104-112"><a href="day-4.html#cb104-112"></a>                     <span class="dt">time =</span> <span class="st">&quot;date&quot;</span>)            <span class="co"># time field</span></span>
+<span id="cb104-113"><a href="day-4.html#cb104-113"></a><span class="kw">class</span>(STObj)</span>
+<span id="cb104-114"><a href="day-4.html#cb104-114"></a></span>
+<span id="cb104-115"><a href="day-4.html#cb104-115"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-116"><a href="day-4.html#cb104-116"></a>spat_part &lt;-<span class="st"> </span><span class="kw">SpatialPoints</span>(<span class="dt">coords =</span> Tmax_long2[, <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)])</span>
+<span id="cb104-117"><a href="day-4.html#cb104-117"></a>temp_part &lt;-<span class="st"> </span>Tmax_long2<span class="op">$</span>date</span>
+<span id="cb104-118"><a href="day-4.html#cb104-118"></a>STObj2 &lt;-<span class="st"> </span><span class="kw">STIDF</span>(<span class="dt">sp =</span> spat_part,</span>
+<span id="cb104-119"><a href="day-4.html#cb104-119"></a>                <span class="dt">time =</span> temp_part,</span>
+<span id="cb104-120"><a href="day-4.html#cb104-120"></a>                <span class="dt">data =</span> <span class="kw">select</span>(Tmax_long2, <span class="op">-</span>date, <span class="op">-</span>lon, <span class="op">-</span>lat))</span>
+<span id="cb104-121"><a href="day-4.html#cb104-121"></a><span class="kw">class</span>(STObj2)</span>
+<span id="cb104-122"><a href="day-4.html#cb104-122"></a></span>
+<span id="cb104-123"><a href="day-4.html#cb104-123"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-124"><a href="day-4.html#cb104-124"></a>spat_part &lt;-<span class="st"> </span><span class="kw">SpatialPoints</span>(<span class="dt">coords =</span> locs[, <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>)])</span>
+<span id="cb104-125"><a href="day-4.html#cb104-125"></a>temp_part &lt;-<span class="st"> </span><span class="kw">with</span>(Times,</span>
+<span id="cb104-126"><a href="day-4.html#cb104-126"></a>                  <span class="kw">paste</span>(year, month, day, <span class="dt">sep =</span> <span class="st">&quot;-&quot;</span>))</span>
+<span id="cb104-127"><a href="day-4.html#cb104-127"></a>temp_part &lt;-<span class="st"> </span><span class="kw">as.Date</span>(temp_part)</span>
+<span id="cb104-128"><a href="day-4.html#cb104-128"></a></span>
+<span id="cb104-129"><a href="day-4.html#cb104-129"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-130"><a href="day-4.html#cb104-130"></a>Tmax_long3 &lt;-<span class="st"> </span><span class="kw">gather</span>(Tmax, id, z, <span class="op">-</span>julian, <span class="op">-</span>year, <span class="op">-</span>month, <span class="op">-</span>day)</span>
+<span id="cb104-131"><a href="day-4.html#cb104-131"></a></span>
+<span id="cb104-132"><a href="day-4.html#cb104-132"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-133"><a href="day-4.html#cb104-133"></a>Tmax_long3<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">as.integer</span>(Tmax_long3<span class="op">$</span>id)</span>
+<span id="cb104-134"><a href="day-4.html#cb104-134"></a>Tmax_long3 &lt;-<span class="st"> </span><span class="kw">arrange</span>(Tmax_long3,julian,id)</span>
+<span id="cb104-135"><a href="day-4.html#cb104-135"></a></span>
+<span id="cb104-136"><a href="day-4.html#cb104-136"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-137"><a href="day-4.html#cb104-137"></a><span class="kw">all</span>(<span class="kw">unique</span>(Tmax_long3<span class="op">$</span>id) <span class="op">==</span><span class="st"> </span>locs<span class="op">$</span>id)</span>
+<span id="cb104-138"><a href="day-4.html#cb104-138"></a></span>
+<span id="cb104-139"><a href="day-4.html#cb104-139"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-140"><a href="day-4.html#cb104-140"></a>STObj3 &lt;-<span class="st"> </span><span class="kw">STFDF</span>(<span class="dt">sp =</span> spat_part,</span>
+<span id="cb104-141"><a href="day-4.html#cb104-141"></a>                <span class="dt">time =</span> temp_part,</span>
+<span id="cb104-142"><a href="day-4.html#cb104-142"></a>                <span class="dt">data =</span> Tmax_long3)</span>
+<span id="cb104-143"><a href="day-4.html#cb104-143"></a><span class="kw">class</span>(STObj3)</span>
+<span id="cb104-144"><a href="day-4.html#cb104-144"></a></span>
+<span id="cb104-145"><a href="day-4.html#cb104-145"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-146"><a href="day-4.html#cb104-146"></a><span class="kw">proj4string</span>(STObj3) &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>)</span>
+<span id="cb104-147"><a href="day-4.html#cb104-147"></a></span>
+<span id="cb104-148"><a href="day-4.html#cb104-148"></a><span class="co">## ------------------------------------------------------------------------</span></span>
+<span id="cb104-149"><a href="day-4.html#cb104-149"></a>STObj3<span class="op">$</span>z[STObj3<span class="op">$</span>z <span class="op">==</span><span class="st"> </span><span class="dv">-9999</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></span></code></pre></div>
 </div>
 </div>
 <div id="interactive-visualization-interactive-with-html-format-only" class="section level2">
 <h2><span class="header-section-number">4.3</span> Interactive visualization (Interactive with HTML format only)</h2>
 <div id="interactive-display-of-data" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Interactive display of data</h3>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="day-4.html#cb104-1"></a><span class="co">## first you need to install these packages</span></span>
-<span id="cb104-2"><a href="day-4.html#cb104-2"></a><span class="co"># install.packages(&quot;webshot&quot;)</span></span>
-<span id="cb104-3"><a href="day-4.html#cb104-3"></a><span class="co"># webshot::install_phantomjs()</span></span>
-<span id="cb104-4"><a href="day-4.html#cb104-4"></a>DT<span class="op">::</span><span class="kw">datatable</span>(iris)</span></code></pre></div>
-<div id="htmlwidget-73b0142a930e153d0967" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-73b0142a930e153d0967">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5,7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7,6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3,3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8,3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4,4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1,6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2,1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3,2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="day-4.html#cb105-1"></a><span class="co">## first you need to install these packages</span></span>
+<span id="cb105-2"><a href="day-4.html#cb105-2"></a><span class="co"># install.packages(&quot;webshot&quot;)</span></span>
+<span id="cb105-3"><a href="day-4.html#cb105-3"></a><span class="co"># webshot::install_phantomjs()</span></span>
+<span id="cb105-4"><a href="day-4.html#cb105-4"></a>DT<span class="op">::</span><span class="kw">datatable</span>(iris)</span></code></pre></div>
+<div id="htmlwidget-c7cf6773af0cd0ea1156" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c7cf6773af0cd0ea1156">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5,7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7,6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3,3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8,3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4,4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1,6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2,1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3,2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica","virginica"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="animations" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Animations</h3>
 <p>Lets animate the <em>NOAA_df_1990</em> dataset</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="day-4.html#cb105-1"></a><span class="kw">data</span>(<span class="st">&quot;NOAA_df_1990&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
-<span id="cb105-2"><a href="day-4.html#cb105-2"></a><span class="kw">glimpse</span>(NOAA_df_<span class="dv">1990</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="day-4.html#cb106-1"></a><span class="kw">data</span>(<span class="st">&quot;NOAA_df_1990&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;STRbook&quot;</span>)</span>
+<span id="cb106-2"><a href="day-4.html#cb106-2"></a><span class="kw">glimpse</span>(NOAA_df_<span class="dv">1990</span>)</span></code></pre></div>
 <pre><code>## Rows: 730,486
 ## Columns: 10
 ## $ julian &lt;int&gt; 726834, 726835, 726836, 726837, 726838, 726839, 726840, 726841,…
@@ -983,102 +985,102 @@ The example is from <a href="https://www4.stat.ncsu.edu/~reich/SpatialStats/code
 ## $ lat    &lt;dbl&gt; 39.35, 39.35, 39.35, 39.35, 39.35, 39.35, 39.35, 39.35, 39.35, …
 ## $ lon    &lt;dbl&gt; -81.43333, -81.43333, -81.43333, -81.43333, -81.43333, -81.4333…
 ## $ date   &lt;date&gt; 1990-01-01, 1990-01-02, 1990-01-03, 1990-01-04, 1990-01-05, 19…</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="day-4.html#cb107-1"></a><span class="co"># not sure why this is throwing an error...</span></span>
-<span id="cb107-2"><a href="day-4.html#cb107-2"></a></span>
-<span id="cb107-3"><a href="day-4.html#cb107-3"></a><span class="co"># see if this is a namespace issue</span></span>
-<span id="cb107-4"><a href="day-4.html#cb107-4"></a></span>
-<span id="cb107-5"><a href="day-4.html#cb107-5"></a><span class="co">## 48 unique months and years</span></span>
-<span id="cb107-6"><a href="day-4.html#cb107-6"></a>month_year &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
-<span id="cb107-7"><a href="day-4.html#cb107-7"></a><span class="st">    </span><span class="kw">filter</span>(day <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>id <span class="op">==</span><span class="st"> </span><span class="dv">3804</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb107-8"><a href="day-4.html#cb107-8"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(month, year)</span>
-<span id="cb107-9"><a href="day-4.html#cb107-9"></a></span>
-<span id="cb107-10"><a href="day-4.html#cb107-10"></a><span class="co">## limits of the temperature range</span></span>
-<span id="cb107-11"><a href="day-4.html#cb107-11"></a>zlim &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
-<span id="cb107-12"><a href="day-4.html#cb107-12"></a><span class="st">    </span><span class="kw">filter</span>(proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb107-13"><a href="day-4.html#cb107-13"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(z) <span class="op">%&gt;%</span></span>
-<span id="cb107-14"><a href="day-4.html#cb107-14"></a><span class="st">    </span><span class="kw">range</span>()</span>
-<span id="cb107-15"><a href="day-4.html#cb107-15"></a></span>
-<span id="cb107-16"><a href="day-4.html#cb107-16"></a><span class="co">## Only plot the states with data</span></span>
-<span id="cb107-17"><a href="day-4.html#cb107-17"></a>states &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>) </span>
-<span id="cb107-18"><a href="day-4.html#cb107-18"></a>states &lt;-<span class="st"> </span>states <span class="op">%&gt;%</span></span>
-<span id="cb107-19"><a href="day-4.html#cb107-19"></a><span class="st">    </span><span class="kw">subset</span>(<span class="op">!</span>(region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb107-20"><a href="day-4.html#cb107-20"></a>        <span class="st">&quot;washington&quot;</span>, <span class="st">&quot;oregon&quot;</span>, <span class="st">&quot;california&quot;</span>, <span class="st">&quot;nevada&quot;</span>, <span class="st">&quot;idaho&quot;</span>, <span class="st">&quot;utah&quot;</span>, </span>
-<span id="cb107-21"><a href="day-4.html#cb107-21"></a>        <span class="st">&quot;arizona&quot;</span>,<span class="st">&quot;montana&quot;</span>, <span class="st">&quot;wyoming&quot;</span>, <span class="st">&quot;colorado&quot;</span>, <span class="st">&quot;new mexico&quot;</span>))) </span>
-<span id="cb107-22"><a href="day-4.html#cb107-22"></a></span>
-<span id="cb107-23"><a href="day-4.html#cb107-23"></a><span class="co">## generate a plotting function</span></span>
-<span id="cb107-24"><a href="day-4.html#cb107-24"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb107-25"><a href="day-4.html#cb107-25"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(month_year)) {</span>
-<span id="cb107-26"><a href="day-4.html#cb107-26"></a>        p &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
-<span id="cb107-27"><a href="day-4.html#cb107-27"></a><span class="st">            </span><span class="kw">subset</span>(</span>
-<span id="cb107-28"><a href="day-4.html#cb107-28"></a>                day <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb107-29"><a href="day-4.html#cb107-29"></a><span class="st">                    </span>month <span class="op">==</span><span class="st"> </span>month_year<span class="op">$</span>month[i] <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb107-30"><a href="day-4.html#cb107-30"></a><span class="st">                    </span>year <span class="op">==</span><span class="st"> </span>month_year<span class="op">$</span>year[i]</span>
-<span id="cb107-31"><a href="day-4.html#cb107-31"></a>            ) <span class="op">%&gt;%</span></span>
-<span id="cb107-32"><a href="day-4.html#cb107-32"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">color =</span> z)) <span class="op">+</span></span>
-<span id="cb107-33"><a href="day-4.html#cb107-33"></a><span class="st">            </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb107-34"><a href="day-4.html#cb107-34"></a><span class="st">            </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb107-35"><a href="day-4.html#cb107-35"></a>                         <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
-<span id="cb107-36"><a href="day-4.html#cb107-36"></a><span class="st">            </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;inferno&quot;</span>, <span class="dt">limits =</span> zlim) <span class="op">+</span></span>
-<span id="cb107-37"><a href="day-4.html#cb107-37"></a><span class="st">            </span><span class="kw">theme</span>(</span>
-<span id="cb107-38"><a href="day-4.html#cb107-38"></a>                <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">2.5</span>))</span>
-<span id="cb107-39"><a href="day-4.html#cb107-39"></a>            ) <span class="op">+</span></span>
-<span id="cb107-40"><a href="day-4.html#cb107-40"></a><span class="st">            </span><span class="kw">ggtitle</span>(</span>
-<span id="cb107-41"><a href="day-4.html#cb107-41"></a>                <span class="kw">paste</span>(<span class="st">&quot;Tmax for the first day of month &quot;</span>, month_year<span class="op">$</span>month[i], </span>
-<span id="cb107-42"><a href="day-4.html#cb107-42"></a>                      <span class="st">&quot; in &quot;</span>, month_year<span class="op">$</span>year[i], <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb107-43"><a href="day-4.html#cb107-43"></a>            )</span>
-<span id="cb107-44"><a href="day-4.html#cb107-44"></a>        <span class="kw">print</span>(p)</span>
-<span id="cb107-45"><a href="day-4.html#cb107-45"></a>    }</span>
-<span id="cb107-46"><a href="day-4.html#cb107-46"></a>}</span>
-<span id="cb107-47"><a href="day-4.html#cb107-47"></a></span>
-<span id="cb107-48"><a href="day-4.html#cb107-48"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;NOAA_df_1990-animation.gif&quot;</span>))) {</span>
-<span id="cb107-49"><a href="day-4.html#cb107-49"></a>    </span>
-<span id="cb107-50"><a href="day-4.html#cb107-50"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
-<span id="cb107-51"><a href="day-4.html#cb107-51"></a>        <span class="kw">make_plot</span>(),</span>
-<span id="cb107-52"><a href="day-4.html#cb107-52"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;NOAA_df_1990-animation.gif&quot;</span>), </span>
-<span id="cb107-53"><a href="day-4.html#cb107-53"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb107-54"><a href="day-4.html#cb107-54"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
-<span id="cb107-55"><a href="day-4.html#cb107-55"></a>        <span class="dt">height =</span> <span class="dv">360</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
-<span id="cb107-56"><a href="day-4.html#cb107-56"></a>    )</span>
-<span id="cb107-57"><a href="day-4.html#cb107-57"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="day-4.html#cb108-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;NOAA_df_1990-animation.gif&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="day-4.html#cb108-1"></a><span class="co"># not sure why this is throwing an error...</span></span>
+<span id="cb108-2"><a href="day-4.html#cb108-2"></a></span>
+<span id="cb108-3"><a href="day-4.html#cb108-3"></a><span class="co"># see if this is a namespace issue</span></span>
+<span id="cb108-4"><a href="day-4.html#cb108-4"></a></span>
+<span id="cb108-5"><a href="day-4.html#cb108-5"></a><span class="co">## 48 unique months and years</span></span>
+<span id="cb108-6"><a href="day-4.html#cb108-6"></a>month_year &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
+<span id="cb108-7"><a href="day-4.html#cb108-7"></a><span class="st">    </span><span class="kw">filter</span>(day <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>id <span class="op">==</span><span class="st"> </span><span class="dv">3804</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb108-8"><a href="day-4.html#cb108-8"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(month, year)</span>
+<span id="cb108-9"><a href="day-4.html#cb108-9"></a></span>
+<span id="cb108-10"><a href="day-4.html#cb108-10"></a><span class="co">## limits of the temperature range</span></span>
+<span id="cb108-11"><a href="day-4.html#cb108-11"></a>zlim &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
+<span id="cb108-12"><a href="day-4.html#cb108-12"></a><span class="st">    </span><span class="kw">filter</span>(proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb108-13"><a href="day-4.html#cb108-13"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(z) <span class="op">%&gt;%</span></span>
+<span id="cb108-14"><a href="day-4.html#cb108-14"></a><span class="st">    </span><span class="kw">range</span>()</span>
+<span id="cb108-15"><a href="day-4.html#cb108-15"></a></span>
+<span id="cb108-16"><a href="day-4.html#cb108-16"></a><span class="co">## Only plot the states with data</span></span>
+<span id="cb108-17"><a href="day-4.html#cb108-17"></a>states &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>) </span>
+<span id="cb108-18"><a href="day-4.html#cb108-18"></a>states &lt;-<span class="st"> </span>states <span class="op">%&gt;%</span></span>
+<span id="cb108-19"><a href="day-4.html#cb108-19"></a><span class="st">    </span><span class="kw">subset</span>(<span class="op">!</span>(region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb108-20"><a href="day-4.html#cb108-20"></a>        <span class="st">&quot;washington&quot;</span>, <span class="st">&quot;oregon&quot;</span>, <span class="st">&quot;california&quot;</span>, <span class="st">&quot;nevada&quot;</span>, <span class="st">&quot;idaho&quot;</span>, <span class="st">&quot;utah&quot;</span>, </span>
+<span id="cb108-21"><a href="day-4.html#cb108-21"></a>        <span class="st">&quot;arizona&quot;</span>,<span class="st">&quot;montana&quot;</span>, <span class="st">&quot;wyoming&quot;</span>, <span class="st">&quot;colorado&quot;</span>, <span class="st">&quot;new mexico&quot;</span>))) </span>
+<span id="cb108-22"><a href="day-4.html#cb108-22"></a></span>
+<span id="cb108-23"><a href="day-4.html#cb108-23"></a><span class="co">## generate a plotting function</span></span>
+<span id="cb108-24"><a href="day-4.html#cb108-24"></a>make_plot &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb108-25"><a href="day-4.html#cb108-25"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(month_year)) {</span>
+<span id="cb108-26"><a href="day-4.html#cb108-26"></a>        p &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
+<span id="cb108-27"><a href="day-4.html#cb108-27"></a><span class="st">            </span><span class="kw">subset</span>(</span>
+<span id="cb108-28"><a href="day-4.html#cb108-28"></a>                day <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb108-29"><a href="day-4.html#cb108-29"></a><span class="st">                    </span>month <span class="op">==</span><span class="st"> </span>month_year<span class="op">$</span>month[i] <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb108-30"><a href="day-4.html#cb108-30"></a><span class="st">                    </span>year <span class="op">==</span><span class="st"> </span>month_year<span class="op">$</span>year[i]</span>
+<span id="cb108-31"><a href="day-4.html#cb108-31"></a>            ) <span class="op">%&gt;%</span></span>
+<span id="cb108-32"><a href="day-4.html#cb108-32"></a><span class="st">            </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">color =</span> z)) <span class="op">+</span></span>
+<span id="cb108-33"><a href="day-4.html#cb108-33"></a><span class="st">            </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb108-34"><a href="day-4.html#cb108-34"></a><span class="st">            </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb108-35"><a href="day-4.html#cb108-35"></a>                         <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
+<span id="cb108-36"><a href="day-4.html#cb108-36"></a><span class="st">            </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;inferno&quot;</span>, <span class="dt">limits =</span> zlim) <span class="op">+</span></span>
+<span id="cb108-37"><a href="day-4.html#cb108-37"></a><span class="st">            </span><span class="kw">theme</span>(</span>
+<span id="cb108-38"><a href="day-4.html#cb108-38"></a>                <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">2.5</span>))</span>
+<span id="cb108-39"><a href="day-4.html#cb108-39"></a>            ) <span class="op">+</span></span>
+<span id="cb108-40"><a href="day-4.html#cb108-40"></a><span class="st">            </span><span class="kw">ggtitle</span>(</span>
+<span id="cb108-41"><a href="day-4.html#cb108-41"></a>                <span class="kw">paste</span>(<span class="st">&quot;Tmax for the first day of month &quot;</span>, month_year<span class="op">$</span>month[i], </span>
+<span id="cb108-42"><a href="day-4.html#cb108-42"></a>                      <span class="st">&quot; in &quot;</span>, month_year<span class="op">$</span>year[i], <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb108-43"><a href="day-4.html#cb108-43"></a>            )</span>
+<span id="cb108-44"><a href="day-4.html#cb108-44"></a>        <span class="kw">print</span>(p)</span>
+<span id="cb108-45"><a href="day-4.html#cb108-45"></a>    }</span>
+<span id="cb108-46"><a href="day-4.html#cb108-46"></a>}</span>
+<span id="cb108-47"><a href="day-4.html#cb108-47"></a></span>
+<span id="cb108-48"><a href="day-4.html#cb108-48"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;NOAA_df_1990-animation.gif&quot;</span>))) {</span>
+<span id="cb108-49"><a href="day-4.html#cb108-49"></a>    </span>
+<span id="cb108-50"><a href="day-4.html#cb108-50"></a>    gifski<span class="op">::</span><span class="kw">save_gif</span>(</span>
+<span id="cb108-51"><a href="day-4.html#cb108-51"></a>        <span class="kw">make_plot</span>(),</span>
+<span id="cb108-52"><a href="day-4.html#cb108-52"></a>        <span class="dt">gif_file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;NOAA_df_1990-animation.gif&quot;</span>), </span>
+<span id="cb108-53"><a href="day-4.html#cb108-53"></a>        <span class="dt">progress =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb108-54"><a href="day-4.html#cb108-54"></a>        <span class="dt">delay =</span> <span class="fl">0.5</span>, </span>
+<span id="cb108-55"><a href="day-4.html#cb108-55"></a>        <span class="dt">height =</span> <span class="dv">360</span>, <span class="dt">width =</span> <span class="dv">640</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span></span>
+<span id="cb108-56"><a href="day-4.html#cb108-56"></a>    )</span>
+<span id="cb108-57"><a href="day-4.html#cb108-57"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="day-4.html#cb109-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;NOAA_df_1990-animation.gif&quot;</span>))</span></code></pre></div>
 </div>
 <div id="interactive-plotting-using-plotly" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Interactive plotting using <em>plotly</em></h3>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="day-4.html#cb109-1"></a><span class="co"># use the plotly library</span></span>
-<span id="cb109-2"><a href="day-4.html#cb109-2"></a></span>
-<span id="cb109-3"><a href="day-4.html#cb109-3"></a><span class="co">## limits of the temperature range</span></span>
-<span id="cb109-4"><a href="day-4.html#cb109-4"></a>zlim &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
-<span id="cb109-5"><a href="day-4.html#cb109-5"></a><span class="st">    </span><span class="kw">filter</span>(proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb109-6"><a href="day-4.html#cb109-6"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(z) <span class="op">%&gt;%</span></span>
-<span id="cb109-7"><a href="day-4.html#cb109-7"></a><span class="st">    </span><span class="kw">range</span>()</span>
-<span id="cb109-8"><a href="day-4.html#cb109-8"></a></span>
-<span id="cb109-9"><a href="day-4.html#cb109-9"></a><span class="co">## Plot Tmax for June 1991</span></span>
-<span id="cb109-10"><a href="day-4.html#cb109-10"></a>p &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
-<span id="cb109-11"><a href="day-4.html#cb109-11"></a><span class="st">    </span><span class="kw">filter</span>(</span>
-<span id="cb109-12"><a href="day-4.html#cb109-12"></a>        day <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb109-13"><a href="day-4.html#cb109-13"></a><span class="st">            </span>month <span class="op">==</span><span class="st"> &quot;6&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb109-14"><a href="day-4.html#cb109-14"></a><span class="st">            </span>year <span class="op">==</span><span class="st"> &quot;1991&quot;</span></span>
-<span id="cb109-15"><a href="day-4.html#cb109-15"></a>    ) <span class="op">%&gt;%</span></span>
-<span id="cb109-16"><a href="day-4.html#cb109-16"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">color =</span> z)) <span class="op">+</span></span>
-<span id="cb109-17"><a href="day-4.html#cb109-17"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb109-18"><a href="day-4.html#cb109-18"></a><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
-<span id="cb109-19"><a href="day-4.html#cb109-19"></a>                 <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
-<span id="cb109-20"><a href="day-4.html#cb109-20"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;inferno&quot;</span>, <span class="dt">limits =</span> zlim) <span class="op">+</span></span>
-<span id="cb109-21"><a href="day-4.html#cb109-21"></a><span class="st">    </span><span class="kw">theme</span>(</span>
-<span id="cb109-22"><a href="day-4.html#cb109-22"></a>        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">2.5</span>))</span>
-<span id="cb109-23"><a href="day-4.html#cb109-23"></a>    ) <span class="op">+</span></span>
-<span id="cb109-24"><a href="day-4.html#cb109-24"></a><span class="st">    </span><span class="kw">ggtitle</span>(</span>
-<span id="cb109-25"><a href="day-4.html#cb109-25"></a>        <span class="kw">paste</span>(<span class="st">&quot;Tmax for the first day of June, 1991&quot;</span>)</span>
-<span id="cb109-26"><a href="day-4.html#cb109-26"></a>    )</span>
-<span id="cb109-27"><a href="day-4.html#cb109-27"></a><span class="co">## Check if the ploty map has been produced. If so, use it, otherwise</span></span>
-<span id="cb109-28"><a href="day-4.html#cb109-28"></a><span class="co">## run the code and produce the plot</span></span>
-<span id="cb109-29"><a href="day-4.html#cb109-29"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;temp-june-1991.html&quot;</span>))) {</span>
-<span id="cb109-30"><a href="day-4.html#cb109-30"></a>    p_plotly &lt;-<span class="st"> </span><span class="kw">ggplotly</span>(p, <span class="dt">width =</span> <span class="dv">800</span>, <span class="dt">height =</span> <span class="dv">450</span>)</span>
-<span id="cb109-31"><a href="day-4.html#cb109-31"></a>    htmlwidgets<span class="op">::</span><span class="kw">saveWidget</span>(p_plotly, <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;temp-june-1991.html&quot;</span>))</span>
-<span id="cb109-32"><a href="day-4.html#cb109-32"></a>} <span class="cf">else</span> {</span>
-<span id="cb109-33"><a href="day-4.html#cb109-33"></a>    <span class="co"># htmlwidgets::saveWidget()    </span></span>
-<span id="cb109-34"><a href="day-4.html#cb109-34"></a>    htmltools<span class="op">::</span><span class="kw">includeHTML</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;temp-june-1991.html&quot;</span>))</span>
-<span id="cb109-35"><a href="day-4.html#cb109-35"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="day-4.html#cb110-1"></a><span class="co"># use the plotly library</span></span>
+<span id="cb110-2"><a href="day-4.html#cb110-2"></a></span>
+<span id="cb110-3"><a href="day-4.html#cb110-3"></a><span class="co">## limits of the temperature range</span></span>
+<span id="cb110-4"><a href="day-4.html#cb110-4"></a>zlim &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
+<span id="cb110-5"><a href="day-4.html#cb110-5"></a><span class="st">    </span><span class="kw">filter</span>(proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb110-6"><a href="day-4.html#cb110-6"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(z) <span class="op">%&gt;%</span></span>
+<span id="cb110-7"><a href="day-4.html#cb110-7"></a><span class="st">    </span><span class="kw">range</span>()</span>
+<span id="cb110-8"><a href="day-4.html#cb110-8"></a></span>
+<span id="cb110-9"><a href="day-4.html#cb110-9"></a><span class="co">## Plot Tmax for June 1991</span></span>
+<span id="cb110-10"><a href="day-4.html#cb110-10"></a>p &lt;-<span class="st"> </span>NOAA_df_<span class="dv">1990</span> <span class="op">%&gt;%</span></span>
+<span id="cb110-11"><a href="day-4.html#cb110-11"></a><span class="st">    </span><span class="kw">filter</span>(</span>
+<span id="cb110-12"><a href="day-4.html#cb110-12"></a>        day <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>proc <span class="op">==</span><span class="st"> &quot;Tmax&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb110-13"><a href="day-4.html#cb110-13"></a><span class="st">            </span>month <span class="op">==</span><span class="st"> &quot;6&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb110-14"><a href="day-4.html#cb110-14"></a><span class="st">            </span>year <span class="op">==</span><span class="st"> &quot;1991&quot;</span></span>
+<span id="cb110-15"><a href="day-4.html#cb110-15"></a>    ) <span class="op">%&gt;%</span></span>
+<span id="cb110-16"><a href="day-4.html#cb110-16"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat, <span class="dt">color =</span> z)) <span class="op">+</span></span>
+<span id="cb110-17"><a href="day-4.html#cb110-17"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb110-18"><a href="day-4.html#cb110-18"></a><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> states, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), </span>
+<span id="cb110-19"><a href="day-4.html#cb110-19"></a>                 <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
+<span id="cb110-20"><a href="day-4.html#cb110-20"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>(<span class="dt">option =</span> <span class="st">&quot;inferno&quot;</span>, <span class="dt">limits =</span> zlim) <span class="op">+</span></span>
+<span id="cb110-21"><a href="day-4.html#cb110-21"></a><span class="st">    </span><span class="kw">theme</span>(</span>
+<span id="cb110-22"><a href="day-4.html#cb110-22"></a>        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="fl">2.5</span>))</span>
+<span id="cb110-23"><a href="day-4.html#cb110-23"></a>    ) <span class="op">+</span></span>
+<span id="cb110-24"><a href="day-4.html#cb110-24"></a><span class="st">    </span><span class="kw">ggtitle</span>(</span>
+<span id="cb110-25"><a href="day-4.html#cb110-25"></a>        <span class="kw">paste</span>(<span class="st">&quot;Tmax for the first day of June, 1991&quot;</span>)</span>
+<span id="cb110-26"><a href="day-4.html#cb110-26"></a>    )</span>
+<span id="cb110-27"><a href="day-4.html#cb110-27"></a><span class="co">## Check if the ploty map has been produced. If so, use it, otherwise</span></span>
+<span id="cb110-28"><a href="day-4.html#cb110-28"></a><span class="co">## run the code and produce the plot</span></span>
+<span id="cb110-29"><a href="day-4.html#cb110-29"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;temp-june-1991.html&quot;</span>))) {</span>
+<span id="cb110-30"><a href="day-4.html#cb110-30"></a>    p_plotly &lt;-<span class="st"> </span><span class="kw">ggplotly</span>(p, <span class="dt">width =</span> <span class="dv">800</span>, <span class="dt">height =</span> <span class="dv">450</span>)</span>
+<span id="cb110-31"><a href="day-4.html#cb110-31"></a>    htmlwidgets<span class="op">::</span><span class="kw">saveWidget</span>(p_plotly, <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;temp-june-1991.html&quot;</span>))</span>
+<span id="cb110-32"><a href="day-4.html#cb110-32"></a>} <span class="cf">else</span> {</span>
+<span id="cb110-33"><a href="day-4.html#cb110-33"></a>    <span class="co"># htmlwidgets::saveWidget()    </span></span>
+<span id="cb110-34"><a href="day-4.html#cb110-34"></a>    htmltools<span class="op">::</span><span class="kw">includeHTML</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;images&quot;</span>, <span class="st">&quot;temp-june-1991.html&quot;</span>))</span>
+<span id="cb110-35"><a href="day-4.html#cb110-35"></a>}</span></code></pre></div>
 <!DOCTYPE html>
 <html>
 <head>

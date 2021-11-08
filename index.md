@@ -1,7 +1,7 @@
 --- 
 title: "Notes for STAT 5413 - Spatial Statistics"
 author: "John Tipton"
-date: 'Fall 2021 Semester. Last Modified: 2021-11-07'
+date: 'Fall 2021 Semester. Last Modified: 2021-11-08'
 output: pdf_document
 description: These are the lecture notes for STAT 5413 Spatial Statistics
 documentclass: book

@@ -419,15 +419,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="day-28" class="section level1">
 <h1><span class="header-section-number">Chapter28</span> Day 28</h1>
-<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb840-1"><a href="day-28.html#cb840-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb840-2"><a href="day-28.html#cb840-2"></a><span class="kw">library</span>(fields)</span>
-<span id="cb840-3"><a href="day-28.html#cb840-3"></a><span class="kw">library</span>(mvnfast)</span>
-<span id="cb840-4"><a href="day-28.html#cb840-4"></a><span class="kw">library</span>(patchwork)</span>
-<span id="cb840-5"><a href="day-28.html#cb840-5"></a><span class="kw">library</span>(rstan)</span>
-<span id="cb840-6"><a href="day-28.html#cb840-6"></a><span class="co">## use recommended rstan settings</span></span>
-<span id="cb840-7"><a href="day-28.html#cb840-7"></a><span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</span>
-<span id="cb840-8"><a href="day-28.html#cb840-8"></a><span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb840-9"><a href="day-28.html#cb840-9"></a><span class="kw">library</span>(bayesplot)</span></code></pre></div>
+<div class="sourceCode" id="cb841"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb841-1"><a href="day-28.html#cb841-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb841-2"><a href="day-28.html#cb841-2"></a><span class="kw">library</span>(fields)</span>
+<span id="cb841-3"><a href="day-28.html#cb841-3"></a><span class="kw">library</span>(mvnfast)</span>
+<span id="cb841-4"><a href="day-28.html#cb841-4"></a><span class="kw">library</span>(patchwork)</span>
+<span id="cb841-5"><a href="day-28.html#cb841-5"></a><span class="kw">library</span>(rstan)</span>
+<span id="cb841-6"><a href="day-28.html#cb841-6"></a><span class="co">## use recommended rstan settings</span></span>
+<span id="cb841-7"><a href="day-28.html#cb841-7"></a><span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</span>
+<span id="cb841-8"><a href="day-28.html#cb841-8"></a><span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb841-9"><a href="day-28.html#cb841-9"></a><span class="kw">library</span>(bayesplot)</span></code></pre></div>
 <div id="announcements-23" class="section level2">
 <h2><span class="header-section-number">28.1</span> Announcements</h2>
 </div>
@@ -445,24 +445,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="example-linear-regression-1" class="section level3">
 <h3><span class="header-section-number">28.2.1</span> Example: Linear regression</h3>
-<div class="sourceCode" id="cb841"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb841-1"><a href="day-28.html#cb841-1"></a><span class="kw">set.seed</span>(<span class="dv">444</span>)</span>
-<span id="cb841-2"><a href="day-28.html#cb841-2"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb841-3"><a href="day-28.html#cb841-3"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">runif</span>(n))</span>
-<span id="cb841-4"><a href="day-28.html#cb841-4"></a>beta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)</span>
-<span id="cb841-5"><a href="day-28.html#cb841-5"></a>sigma &lt;-<span class="st"> </span><span class="fl">0.25</span></span>
-<span id="cb841-6"><a href="day-28.html#cb841-6"></a>y &lt;-<span class="st"> </span><span class="kw">as.vector</span>(X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, sigma))</span>
-<span id="cb841-7"><a href="day-28.html#cb841-7"></a></span>
-<span id="cb841-8"><a href="day-28.html#cb841-8"></a><span class="kw">data.frame</span>(<span class="dt">y =</span> y, <span class="dt">x =</span> X[, <span class="dv">2</span>], <span class="dt">mu =</span> X <span class="op">%*%</span><span class="st"> </span>beta) <span class="op">%&gt;%</span></span>
-<span id="cb841-9"><a href="day-28.html#cb841-9"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></span>
-<span id="cb841-10"><a href="day-28.html#cb841-10"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb841-11"><a href="day-28.html#cb841-11"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> mu), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb842"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb842-1"><a href="day-28.html#cb842-1"></a><span class="kw">set.seed</span>(<span class="dv">444</span>)</span>
+<span id="cb842-2"><a href="day-28.html#cb842-2"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb842-3"><a href="day-28.html#cb842-3"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">runif</span>(n))</span>
+<span id="cb842-4"><a href="day-28.html#cb842-4"></a>beta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb842-5"><a href="day-28.html#cb842-5"></a>sigma &lt;-<span class="st"> </span><span class="fl">0.25</span></span>
+<span id="cb842-6"><a href="day-28.html#cb842-6"></a>y &lt;-<span class="st"> </span><span class="kw">as.vector</span>(X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, sigma))</span>
+<span id="cb842-7"><a href="day-28.html#cb842-7"></a></span>
+<span id="cb842-8"><a href="day-28.html#cb842-8"></a><span class="kw">data.frame</span>(<span class="dt">y =</span> y, <span class="dt">x =</span> X[, <span class="dv">2</span>], <span class="dt">mu =</span> X <span class="op">%*%</span><span class="st"> </span>beta) <span class="op">%&gt;%</span></span>
+<span id="cb842-9"><a href="day-28.html#cb842-9"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></span>
+<span id="cb842-10"><a href="day-28.html#cb842-10"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb842-11"><a href="day-28.html#cb842-11"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> mu), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <ul>
 <li><p>we need to define a stan model</p></li>
 <li><p>create a stan model in a folder named <code>stan_models</code> in the Rstudio project folder</p></li>
 <li><p>print the output of the model <code>linear-regression.stan</code></p></li>
 </ul>
-<div class="sourceCode" id="cb842"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb842-1"><a href="day-28.html#cb842-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb843"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb843-1"><a href="day-28.html#cb843-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>//
 // This Stan program defines a simple model, with a
 // vector of values &#39;y&#39; modeled as normally distributed
@@ -516,15 +516,15 @@ model {
 <li><p>What are the priors implied by this model on <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\sigma\)</span>?</p></li>
 <li><p>Fitting the model</p></li>
 </ul>
-<div class="sourceCode" id="cb844"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb844-1"><a href="day-28.html#cb844-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb844-2"><a href="day-28.html#cb844-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression.stan&quot;</span>),</span>
-<span id="cb844-3"><a href="day-28.html#cb844-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
-<span id="cb844-4"><a href="day-28.html#cb844-4"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
-<span id="cb844-5"><a href="day-28.html#cb844-5"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb845-1"><a href="day-28.html#cb845-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb845-2"><a href="day-28.html#cb845-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression.stan&quot;</span>),</span>
+<span id="cb845-3"><a href="day-28.html#cb845-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
+<span id="cb845-4"><a href="day-28.html#cb845-4"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
+<span id="cb845-5"><a href="day-28.html#cb845-5"></a>)</span></code></pre></div>
 <ul>
 <li>with priors</li>
 </ul>
-<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb845-1"><a href="day-28.html#cb845-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression-priors.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb846"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb846-1"><a href="day-28.html#cb846-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression-priors.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>//
 // This Stan program defines a simple model, with a
 // vector of values &#39;y&#39; modeled as normally distributed
@@ -576,16 +576,16 @@ model {
   y_rep ~ normal(mu, sigma);
 }
 // Note: the stan file must end in a blank (new) line</code></pre>
-<div class="sourceCode" id="cb847"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb847-1"><a href="day-28.html#cb847-1"></a>fit_prior &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb847-2"><a href="day-28.html#cb847-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression-priors.stan&quot;</span>),</span>
-<span id="cb847-3"><a href="day-28.html#cb847-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
-<span id="cb847-4"><a href="day-28.html#cb847-4"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
-<span id="cb847-5"><a href="day-28.html#cb847-5"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb848"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb848-1"><a href="day-28.html#cb848-1"></a>fit_prior &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb848-2"><a href="day-28.html#cb848-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression-priors.stan&quot;</span>),</span>
+<span id="cb848-3"><a href="day-28.html#cb848-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)),</span>
+<span id="cb848-4"><a href="day-28.html#cb848-4"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
+<span id="cb848-5"><a href="day-28.html#cb848-5"></a>)</span></code></pre></div>
 <ul>
 <li>examine the output from the MCMC fit</li>
 </ul>
-<div class="sourceCode" id="cb848"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb848-1"><a href="day-28.html#cb848-1"></a><span class="co">## only plot the regression parameters</span></span>
-<span id="cb848-2"><a href="day-28.html#cb848-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb849-1"><a href="day-28.html#cb849-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb849-2"><a href="day-28.html#cb849-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
 <pre><code>## Inference for Stan model: linear-regression.
 ## 4 chains, each with iter=1000; warmup=500; thin=1; 
 ## post-warmup draws per chain=500, total post-warmup draws=2000.
@@ -600,22 +600,22 @@ model {
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb850-1"><a href="day-28.html#cb850-1"></a><span class="co">## trace plots</span></span>
-<span id="cb850-2"><a href="day-28.html#cb850-2"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb851"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb851-1"><a href="day-28.html#cb851-1"></a><span class="co">## trace plots</span></span>
+<span id="cb851-2"><a href="day-28.html#cb851-2"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>, <span class="st">&quot;lp__&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/linear-model-plots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb851"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb851-1"><a href="day-28.html#cb851-1"></a><span class="co">## area plots of posterior</span></span>
-<span id="cb851-2"><a href="day-28.html#cb851-2"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb852-1"><a href="day-28.html#cb852-1"></a><span class="co">## area plots of posterior</span></span>
+<span id="cb852-2"><a href="day-28.html#cb852-2"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/linear-model-plots-2.png" width="672" /></p>
-<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb852-1"><a href="day-28.html#cb852-1"></a><span class="co">## acf plots</span></span>
-<span id="cb852-2"><a href="day-28.html#cb852-2"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb853-1"><a href="day-28.html#cb853-1"></a><span class="co">## acf plots</span></span>
+<span id="cb853-2"><a href="day-28.html#cb853-2"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/linear-model-plots-3.png" width="672" /></p>
-<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb853-1"><a href="day-28.html#cb853-1"></a><span class="co">## violin plots of posterior</span></span>
-<span id="cb853-2"><a href="day-28.html#cb853-2"></a><span class="kw">mcmc_violin</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb854-1"><a href="day-28.html#cb854-1"></a><span class="co">## violin plots of posterior</span></span>
+<span id="cb854-2"><a href="day-28.html#cb854-2"></a><span class="kw">mcmc_violin</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/linear-model-plots-4.png" width="672" /></p>
 <ul>
 <li>compare these estimates to the <code>lm</code> estimtes</li>
 </ul>
-<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb854-1"><a href="day-28.html#cb854-1"></a><span class="kw">summary</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>X <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb855"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb855-1"><a href="day-28.html#cb855-1"></a><span class="kw">summary</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>X <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ X - 1)
@@ -647,13 +647,13 @@ model {
 <ul>
 <li>Using the <code>bayesplot</code> package, we can explre the posterior predictive checks (ppcs) using a variety of functions</li>
 </ul>
-<div class="sourceCode" id="cb856"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb856-1"><a href="day-28.html#cb856-1"></a><span class="co">## extract the posterior predictive samples</span></span>
-<span id="cb856-2"><a href="day-28.html#cb856-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span>
-<span id="cb856-3"><a href="day-28.html#cb856-3"></a></span>
-<span id="cb856-4"><a href="day-28.html#cb856-4"></a><span class="co">## only plot for 25 randomly selected samples</span></span>
-<span id="cb856-5"><a href="day-28.html#cb856-5"></a>plot_idx &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dv">25</span>)</span>
-<span id="cb856-6"><a href="day-28.html#cb856-6"></a></span>
-<span id="cb856-7"><a href="day-28.html#cb856-7"></a><span class="kw">ppc_data</span>(y, y_rep)</span></code></pre></div>
+<div class="sourceCode" id="cb857"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb857-1"><a href="day-28.html#cb857-1"></a><span class="co">## extract the posterior predictive samples</span></span>
+<span id="cb857-2"><a href="day-28.html#cb857-2"></a>y_rep &lt;-<span class="st"> </span>rstan<span class="op">::</span><span class="kw">extract</span>(fit, <span class="dt">pars =</span> <span class="st">&quot;y_rep&quot;</span>)<span class="op">$</span>y_rep</span>
+<span id="cb857-3"><a href="day-28.html#cb857-3"></a></span>
+<span id="cb857-4"><a href="day-28.html#cb857-4"></a><span class="co">## only plot for 25 randomly selected samples</span></span>
+<span id="cb857-5"><a href="day-28.html#cb857-5"></a>plot_idx &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dv">25</span>)</span>
+<span id="cb857-6"><a href="day-28.html#cb857-6"></a></span>
+<span id="cb857-7"><a href="day-28.html#cb857-7"></a><span class="kw">ppc_data</span>(y, y_rep)</span></code></pre></div>
 <pre><code>## # A tibble: 2,001,000 × 6
 ##     y_id rep_id rep_label             is_y  is_y_label     value
 ##    &lt;int&gt;  &lt;int&gt; &lt;fct&gt;                 &lt;lgl&gt; &lt;fct&gt;          &lt;dbl&gt;
@@ -668,16 +668,16 @@ model {
 ##  9     1      9 italic(y)[rep] ( 9 )  FALSE italic(y)[rep]  3.40
 ## 10     1     10 italic(y)[rep] ( 10 ) FALSE italic(y)[rep]  3.62
 ## # … with 2,000,990 more rows</code></pre>
-<div class="sourceCode" id="cb858"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb858-1"><a href="day-28.html#cb858-1"></a><span class="kw">ppc_hist</span>(y, y_rep[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]) <span class="co">## only use a subset of rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb859-1"><a href="day-28.html#cb859-1"></a><span class="kw">ppc_hist</span>(y, y_rep[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]) <span class="co">## only use a subset of rows</span></span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="28-day-28_files/figure-html/ppc_hist-1.png" width="672" /></p>
-<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb860-1"><a href="day-28.html#cb860-1"></a><span class="kw">ppc_intervals</span>(y[plot_idx], y_rep[, plot_idx], <span class="dt">x =</span> X[, <span class="dv">2</span>][plot_idx])</span></code></pre></div>
+<div class="sourceCode" id="cb861"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb861-1"><a href="day-28.html#cb861-1"></a><span class="kw">ppc_intervals</span>(y[plot_idx], y_rep[, plot_idx], <span class="dt">x =</span> X[, <span class="dv">2</span>][plot_idx])</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/ppc_intervals-1.png" width="672" /></p>
-<div class="sourceCode" id="cb861"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb861-1"><a href="day-28.html#cb861-1"></a><span class="kw">ppc_ribbon</span>(y[plot_idx], y_rep[, plot_idx], <span class="dt">x =</span> X[, <span class="dv">2</span>][plot_idx])</span></code></pre></div>
+<div class="sourceCode" id="cb862"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb862-1"><a href="day-28.html#cb862-1"></a><span class="kw">ppc_ribbon</span>(y[plot_idx], y_rep[, plot_idx], <span class="dt">x =</span> X[, <span class="dv">2</span>][plot_idx])</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/ppc_ribbon-1.png" width="672" /></p>
-<div class="sourceCode" id="cb862"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb862-1"><a href="day-28.html#cb862-1"></a><span class="kw">ppc_dens_overlay</span>(y, y_rep)</span></code></pre></div>
+<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb863-1"><a href="day-28.html#cb863-1"></a><span class="kw">ppc_dens_overlay</span>(y, y_rep)</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/ppc_dens-1.png" width="672" /></p>
-<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb863-1"><a href="day-28.html#cb863-1"></a><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)</span></code></pre></div>
+<div class="sourceCode" id="cb864"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb864-1"><a href="day-28.html#cb864-1"></a><span class="kw">ppc_ecdf_overlay</span>(y, y_rep)</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/ppc_edcf-1.png" width="672" /></p>
 </div>
 <div id="optimization-in-stan" class="section level4">
@@ -689,19 +689,19 @@ model {
 <li>max penalized likelihood (<em>MLE</em>).</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb864"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb864-1"><a href="day-28.html#cb864-1"></a>model &lt;-<span class="st"> </span><span class="kw">stan_model</span>(</span>
-<span id="cb864-2"><a href="day-28.html#cb864-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression-priors.stan&quot;</span>)</span>
-<span id="cb864-3"><a href="day-28.html#cb864-3"></a>)</span>
-<span id="cb864-4"><a href="day-28.html#cb864-4"></a><span class="co"># currently this is crashing</span></span>
-<span id="cb864-5"><a href="day-28.html#cb864-5"></a><span class="co"># not sure why</span></span>
-<span id="cb864-6"><a href="day-28.html#cb864-6"></a>mle &lt;-<span class="st"> </span><span class="kw">optimizing</span>(model, <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)))</span>
-<span id="cb864-7"><a href="day-28.html#cb864-7"></a></span>
-<span id="cb864-8"><a href="day-28.html#cb864-8"></a><span class="kw">print</span>(mle<span class="op">$</span>par[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb865"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb865-1"><a href="day-28.html#cb865-1"></a>model &lt;-<span class="st"> </span><span class="kw">stan_model</span>(</span>
+<span id="cb865-2"><a href="day-28.html#cb865-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;linear-regression-priors.stan&quot;</span>)</span>
+<span id="cb865-3"><a href="day-28.html#cb865-3"></a>)</span>
+<span id="cb865-4"><a href="day-28.html#cb865-4"></a><span class="co"># currently this is crashing</span></span>
+<span id="cb865-5"><a href="day-28.html#cb865-5"></a><span class="co"># not sure why</span></span>
+<span id="cb865-6"><a href="day-28.html#cb865-6"></a>mle &lt;-<span class="st"> </span><span class="kw">optimizing</span>(model, <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X)))</span>
+<span id="cb865-7"><a href="day-28.html#cb865-7"></a></span>
+<span id="cb865-8"><a href="day-28.html#cb865-8"></a><span class="kw">print</span>(mle<span class="op">$</span>par[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="example-spatial-model-in-stan" class="section level3">
 <h3><span class="header-section-number">28.2.2</span> Example: Spatial model in stan</h3>
-<div class="sourceCode" id="cb865"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb865-1"><a href="day-28.html#cb865-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-regression.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb866-1"><a href="day-28.html#cb866-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-regression.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>//
 // This Stan program defines a simple model, with a
 // vector of values &#39;y&#39; modeled as normally distributed
@@ -781,23 +781,23 @@ model {
   y ~ multi_normal_cholesky(mu, L_Sigma);
 }
 // Note: the stan file must end in a blank (new) line</code></pre>
-<div class="sourceCode" id="cb867"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb867-1"><a href="day-28.html#cb867-1"></a><span class="co">## Make some data</span></span>
-<span id="cb867-2"><a href="day-28.html#cb867-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb867-3"><a href="day-28.html#cb867-3"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb867-4"><a href="day-28.html#cb867-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb867-5"><a href="day-28.html#cb867-5"></a></span>
-<span id="cb867-6"><a href="day-28.html#cb867-6"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
-<span id="cb867-7"><a href="day-28.html#cb867-7"></a></span>
-<span id="cb867-8"><a href="day-28.html#cb867-8"></a>beta &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb867-9"><a href="day-28.html#cb867-9"></a></span>
-<span id="cb867-10"><a href="day-28.html#cb867-10"></a>sigma2 &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb867-11"><a href="day-28.html#cb867-11"></a>tau2 &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb867-12"><a href="day-28.html#cb867-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span></span>
-<span id="cb867-13"><a href="day-28.html#cb867-13"></a></span>
-<span id="cb867-14"><a href="day-28.html#cb867-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
-<span id="cb867-15"><a href="day-28.html#cb867-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>D)</span>
-<span id="cb867-16"><a href="day-28.html#cb867-16"></a>eta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), tau2 <span class="op">*</span><span class="st"> </span>R))</span>
-<span id="cb867-17"><a href="day-28.html#cb867-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span>eta, <span class="kw">sqrt</span>(sigma2))</span></code></pre></div>
+<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="day-28.html#cb868-1"></a><span class="co">## Make some data</span></span>
+<span id="cb868-2"><a href="day-28.html#cb868-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb868-3"><a href="day-28.html#cb868-3"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb868-4"><a href="day-28.html#cb868-4"></a>coords &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb868-5"><a href="day-28.html#cb868-5"></a></span>
+<span id="cb868-6"><a href="day-28.html#cb868-6"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, <span class="kw">rnorm</span>(n))</span>
+<span id="cb868-7"><a href="day-28.html#cb868-7"></a></span>
+<span id="cb868-8"><a href="day-28.html#cb868-8"></a>beta &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb868-9"><a href="day-28.html#cb868-9"></a></span>
+<span id="cb868-10"><a href="day-28.html#cb868-10"></a>sigma2 &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb868-11"><a href="day-28.html#cb868-11"></a>tau2 &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb868-12"><a href="day-28.html#cb868-12"></a>phi &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb868-13"><a href="day-28.html#cb868-13"></a></span>
+<span id="cb868-14"><a href="day-28.html#cb868-14"></a>D &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">rdist</span>(coords))</span>
+<span id="cb868-15"><a href="day-28.html#cb868-15"></a>R &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>phi <span class="op">*</span><span class="st"> </span>D)</span>
+<span id="cb868-16"><a href="day-28.html#cb868-16"></a>eta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rmvn</span>(<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>,n), tau2 <span class="op">*</span><span class="st"> </span>R))</span>
+<span id="cb868-17"><a href="day-28.html#cb868-17"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, X <span class="op">%*%</span><span class="st"> </span>beta <span class="op">+</span><span class="st"> </span>eta, <span class="kw">sqrt</span>(sigma2))</span></code></pre></div>
 <ul>
 <li>Fit the stan model
 <ul>
@@ -806,11 +806,11 @@ model {
 <li>often can get by with much shorter MCMC chains (500-1000 samples – monitor the effective sample size)</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="day-28.html#cb868-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb868-2"><a href="day-28.html#cb868-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-regression.stan&quot;</span>),</span>
-<span id="cb868-3"><a href="day-28.html#cb868-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X), <span class="dt">coords =</span> coords),</span>
-<span id="cb868-4"><a href="day-28.html#cb868-4"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
-<span id="cb868-5"><a href="day-28.html#cb868-5"></a>) </span></code></pre></div>
+<div class="sourceCode" id="cb869"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb869-1"><a href="day-28.html#cb869-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb869-2"><a href="day-28.html#cb869-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;spatial-regression.stan&quot;</span>),</span>
+<span id="cb869-3"><a href="day-28.html#cb869-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X), <span class="dt">coords =</span> coords),</span>
+<span id="cb869-4"><a href="day-28.html#cb869-4"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
+<span id="cb869-5"><a href="day-28.html#cb869-5"></a>) </span></code></pre></div>
 <pre><code>## Warning: There were 17 divergent transitions after warmup. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 ## to find out why this is a problem and how to eliminate them.</code></pre>
@@ -818,8 +818,8 @@ model {
 <ul>
 <li>examine the output from the MCMC fit</li>
 </ul>
-<div class="sourceCode" id="cb871"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb871-1"><a href="day-28.html#cb871-1"></a><span class="co">## only plot the regression parameters</span></span>
-<span id="cb871-2"><a href="day-28.html#cb871-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb872"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb872-1"><a href="day-28.html#cb872-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb872-2"><a href="day-28.html#cb872-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <pre><code>## Inference for Stan model: spatial-regression.
 ## 4 chains, each with iter=1000; warmup=500; thin=1; 
 ## post-warmup draws per chain=500, total post-warmup draws=2000.
@@ -835,14 +835,14 @@ model {
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb873"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb873-1"><a href="day-28.html#cb873-1"></a><span class="co">## trace plots</span></span>
-<span id="cb873-2"><a href="day-28.html#cb873-2"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb874"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb874-1"><a href="day-28.html#cb874-1"></a><span class="co">## trace plots</span></span>
+<span id="cb874-2"><a href="day-28.html#cb874-2"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<div class="sourceCode" id="cb874"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb874-1"><a href="day-28.html#cb874-1"></a><span class="co">## area plots of posterior</span></span>
-<span id="cb874-2"><a href="day-28.html#cb874-2"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb875"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb875-1"><a href="day-28.html#cb875-1"></a><span class="co">## area plots of posterior</span></span>
+<span id="cb875-2"><a href="day-28.html#cb875-2"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
-<div class="sourceCode" id="cb875"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb875-1"><a href="day-28.html#cb875-1"></a><span class="co">## acf plots</span></span>
-<span id="cb875-2"><a href="day-28.html#cb875-2"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb876-1"><a href="day-28.html#cb876-1"></a><span class="co">## acf plots</span></span>
+<span id="cb876-2"><a href="day-28.html#cb876-2"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/unnamed-chunk-9-3.png" width="672" /></p>
 </div>
 <div id="example-predictive-process-model-in-stan" class="section level3">
@@ -850,7 +850,7 @@ model {
 <ul>
 <li>use the same data from the previous example</li>
 </ul>
-<div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb876-1"><a href="day-28.html#cb876-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;predictive-process-regression.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb877"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb877-1"><a href="day-28.html#cb877-1"></a><span class="kw">cat</span>(<span class="kw">read_lines</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;predictive-process-regression.stan&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>//
 // This Stan program defines a simple model, with a
 // vector of values &#39;y&#39; modeled as normally distributed
@@ -953,22 +953,22 @@ model {
 <li>often can get by with much shorter MCMC chains (500-1000 samples – monitor the effective sample size)</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb878"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb878-1"><a href="day-28.html#cb878-1"></a>n_knots &lt;-<span class="st"> </span><span class="dv">5</span><span class="op">^</span><span class="dv">2</span></span>
-<span id="cb878-2"><a href="day-28.html#cb878-2"></a>knots &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
-<span id="cb878-3"><a href="day-28.html#cb878-3"></a>    <span class="kw">seq</span>(<span class="kw">min</span>(coords[, <span class="dv">1</span>]), <span class="kw">max</span>(coords[, <span class="dv">1</span>]), <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots)),</span>
-<span id="cb878-4"><a href="day-28.html#cb878-4"></a>    <span class="kw">seq</span>(<span class="kw">min</span>(coords[, <span class="dv">2</span>]), <span class="kw">max</span>(coords[, <span class="dv">2</span>]), <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots))</span>
-<span id="cb878-5"><a href="day-28.html#cb878-5"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb879-1"><a href="day-28.html#cb879-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb879-2"><a href="day-28.html#cb879-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;predictive-process-regression.stan&quot;</span>),</span>
-<span id="cb879-3"><a href="day-28.html#cb879-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X), </span>
-<span id="cb879-4"><a href="day-28.html#cb879-4"></a>                <span class="dt">coords =</span> coords, <span class="dt">n_knots =</span> n_knots, <span class="dt">knots =</span> knots),</span>
-<span id="cb879-5"><a href="day-28.html#cb879-5"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
-<span id="cb879-6"><a href="day-28.html#cb879-6"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb879-1"><a href="day-28.html#cb879-1"></a>n_knots &lt;-<span class="st"> </span><span class="dv">5</span><span class="op">^</span><span class="dv">2</span></span>
+<span id="cb879-2"><a href="day-28.html#cb879-2"></a>knots &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</span>
+<span id="cb879-3"><a href="day-28.html#cb879-3"></a>    <span class="kw">seq</span>(<span class="kw">min</span>(coords[, <span class="dv">1</span>]), <span class="kw">max</span>(coords[, <span class="dv">1</span>]), <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots)),</span>
+<span id="cb879-4"><a href="day-28.html#cb879-4"></a>    <span class="kw">seq</span>(<span class="kw">min</span>(coords[, <span class="dv">2</span>]), <span class="kw">max</span>(coords[, <span class="dv">2</span>]), <span class="dt">length.out =</span> <span class="kw">sqrt</span>(n_knots))</span>
+<span id="cb879-5"><a href="day-28.html#cb879-5"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb880"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb880-1"><a href="day-28.html#cb880-1"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb880-2"><a href="day-28.html#cb880-2"></a>    <span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;stan_models&quot;</span>, <span class="st">&quot;predictive-process-regression.stan&quot;</span>),</span>
+<span id="cb880-3"><a href="day-28.html#cb880-3"></a>    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">n =</span> n, <span class="dt">X =</span> X, <span class="dt">p =</span> <span class="kw">ncol</span>(X), </span>
+<span id="cb880-4"><a href="day-28.html#cb880-4"></a>                <span class="dt">coords =</span> coords, <span class="dt">n_knots =</span> n_knots, <span class="dt">knots =</span> knots),</span>
+<span id="cb880-5"><a href="day-28.html#cb880-5"></a>    <span class="dt">iter =</span> <span class="dv">1000</span></span>
+<span id="cb880-6"><a href="day-28.html#cb880-6"></a>)</span></code></pre></div>
 <ul>
 <li>examine the output from the MCMC fit</li>
 </ul>
-<div class="sourceCode" id="cb880"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb880-1"><a href="day-28.html#cb880-1"></a><span class="co">## only plot the regression parameters</span></span>
-<span id="cb880-2"><a href="day-28.html#cb880-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb881"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb881-1"><a href="day-28.html#cb881-1"></a><span class="co">## only plot the regression parameters</span></span>
+<span id="cb881-2"><a href="day-28.html#cb881-2"></a><span class="kw">print</span>(fit, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <pre><code>## Inference for Stan model: predictive-process-regression.
 ## 4 chains, each with iter=1000; warmup=500; thin=1; 
 ## post-warmup draws per chain=500, total post-warmup draws=2000.
@@ -984,14 +984,14 @@ model {
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb882"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb882-1"><a href="day-28.html#cb882-1"></a><span class="co">## trace plots</span></span>
-<span id="cb882-2"><a href="day-28.html#cb882-2"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb883"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb883-1"><a href="day-28.html#cb883-1"></a><span class="co">## trace plots</span></span>
+<span id="cb883-2"><a href="day-28.html#cb883-2"></a><span class="kw">mcmc_trace</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<div class="sourceCode" id="cb883"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb883-1"><a href="day-28.html#cb883-1"></a><span class="co">## area plots of posterior</span></span>
-<span id="cb883-2"><a href="day-28.html#cb883-2"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb884-1"><a href="day-28.html#cb884-1"></a><span class="co">## area plots of posterior</span></span>
+<span id="cb884-2"><a href="day-28.html#cb884-2"></a><span class="kw">mcmc_areas</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
-<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb884-1"><a href="day-28.html#cb884-1"></a><span class="co">## acf plots</span></span>
-<span id="cb884-2"><a href="day-28.html#cb884-2"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb885"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb885-1"><a href="day-28.html#cb885-1"></a><span class="co">## acf plots</span></span>
+<span id="cb885-2"><a href="day-28.html#cb885-2"></a><span class="kw">mcmc_acf</span>(fit, <span class="dt">regex_pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;tau2&quot;</span>, <span class="st">&quot;phi&quot;</span>))</span></code></pre></div>
 <p><img src="28-day-28_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
 </div>
 </div>
