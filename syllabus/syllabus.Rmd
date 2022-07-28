@@ -1,0 +1,85 @@
+---
+title: |
+  | Course Syllabus for Spatial Statistics - STAT 5413 
+  | Spring 2020
+output: pdf_document
+---
+
+**Instructor:** John Tipton
+
+**Office:** SCEN 337
+
+**Office Hours:** 
+
+- TBD
+- TBD
+- TBD
+
+**Email:** jrtipton@uark.edu
+
+
+**Course Website:** https://sites.google.com/view/stat-5413-spring-2020/
+
+
+**Course Description:** Spatial statistics involves the analysis of data that are correlated in space and time. Because all data occur at some place at some time, all data are spatio-temporal. What makes spatial statistics different from other areas of statistics is the modeling of the correlation process in space (and time). In this course, students will learn about spatia data visualization, the theory that enables spatial model estimation, and how to apply spatial statistical models to modern, large datasets.
+
+
+**Prerequisites:** STAT 5413 Regression Analysis is a pre-requisite. Also, a strong knowledge of linear algebra and computing in the _R_ programming language is expected.
+
+**Reproducibility:** Reproducibility is a critical component of modern scientific research. To this end, all homeworks and projects are required to meet a minimum standard of reproducibility Hence, homework submissions will include submitting all files and data sufficient to reproduce the assignment/report. During the semester we will develop the necessary tools for reproducible research. Computation and homework will be submitted using the _R_ language through the use of _R Markdown_ documents.
+
+**Grading:** 
+
+- Assignments (50%): Includes homework, class participation, etc. Unexcused late homework will be discounted by 10% for each day late (up to a maximum of 5 days). Part of the homework grade will be based on participation in class discussion of research papers assigned by the instructor.
+
+- Midterm Project (25%): There will be one mid-term project that will be based on a spatial  dataset. Students will submit a short report (3-4 pages) based on the assignment that includes citations and will prepare students for writing a report for employment, a research thesis, and/or a dissertation.
+
+- Final Project (25%): There will be a final project using a dataset of the student's choosing. If time permits, Each student should expect to give a 5-10 minute presentation on their project at the end of the course. The final project will be evaluated by both the technical merit as well as the quality of the writing and presentation.
+
+**Topics:** 
+
+- Univariate spatial models and Kriging.
+- Geostatistical, areal, and point process models.
+- Multivariate spatial models.
+- Non-Gaussian data and hierarchical models.
+- Estimation and inference for spatial regression models.
+- Spatial basis functions and techniques for large data analyses.
+- Spatio-temporal data analyses
+
+**Textbook and software:** https://sites.google.com/view/stat-5413-spring-2020/resources
+
+**Schedule:**
+
+**Note that all dates below are APPROXIMATE**
+
+$^\star$ **Actual exam/project and HW due dates will be posted on the [COURSE WEBSITE](https://sites.google.com/view/stat-5413-spring-2020/)**
+
+| Week  |             Subject            |  Notes  |
+|:-----:|:-------------------------------|:--------:|
+|   1   | Spatial Data And Visualization                    | HW 1 Due$^\star$ |
+|   2   | Covariance Functions                              |          |
+|   3   | Covariance Functions                              | HW 2 Due$^\star$ |
+|   4   | Kriging and optimal spatial prediction            |          |
+|   5   | Spatial basis functions                           | HW 3 Due$^\star$ |
+|   6   | Scaling for large data and sparse representations | 
+|   7   | Multivariate spatial data                         | HW 4 Due$^\star$ |
+|   8   | Nonstationary spatial data                        | Project$^\star$ |
+|   9   | Non-Gaussian and heirarchical models              | HW 5 Due$^\star$ |
+|   10  | Spatio-temporal data                              | 
+|   11  | Spatio-temporal data                              | HW 6 Due$^\star$ |
+|   12  | Areal data and lattice processes                  | 
+|   13  | Areal data and lattice processes                  | HW 7 Due$^\star$ |
+|   14  | Spatial point process data                        |                  |
+|   15  | Spatial point process data                        | HW 8 Due$^\star$ |
+|   16  | Finals                                            | Final Project$^\star$ | 
+
+
+**Accommodations:** Under University policy and federal and state law, students with documented disabilities are entitled to reasonable accommodations to ensure the student has an equal opportunity to perform in class. If any member of the class has such a disability and needs special academic accommodations, please report to Center for Educational Access (CEA). Reasonable accommodations may be arranged after CEA has verified your disability. You must discuss your CEA paperwork, which will be received electronically, with your instructor as soon as possible. Do not hesitate to contact your instructor or the course coordinator if any assistance is needed in this process.
+
+
+**Academic Honesty Policy:** "As a core part of its mission, the University of Arkansas provides students with the opportunity to further their educational goals through programs of study and research in an environment that promotes freedom of inquiry and academic responsibility. Accomplishing this mission is only possible when intellectual honesty and individual integrity prevail. Each University of Arkansas student is required to be familiar with and abide by the university’s ‘Academic Integrity Policy' at honesty.uark.edu/policy. Students with questions about how these policies apply to a particular course or assignment should immediately contact their instructor."
+
+**Statement Regarding Note Selling and Distributing:** There are companies that will try to lure you into selling the notes you take in this class. Don't let these companies take advantage of you. Selling my notes to any commercial service I will consider a violation of my intellectual property rights and/or copyright law as well as a violation of the U of A's academic integrity policy. Continued enrollment in this class signifies intent to abide by the policy. Any violation will be reported to the Office of Academic Initiatives and Integrity.
+
+**Inclement Weather Policy:**
+In the event of inclement weather the instructor will make every effort to hold class. If you feel that your situation for attending class is too risky, then contact your instructor by email, if possible. If the university is officially closed, then class is canceled.
