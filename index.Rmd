@@ -17,6 +17,11 @@ biblio-style: apalike
 # try and resolve weird build issue
 # hrbrthemes::import_roboto_condensed()
 # extrafont::font_import(prompt = FALSE)
+
+# Build/install issues -- check for github PAT
+# devtools::github_pat()
+# Sys.unsetenv("GITHUB_PAT")
+# devtools::github_pat()
 ```
 
 # Preface {-}
